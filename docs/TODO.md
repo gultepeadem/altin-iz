@@ -408,12 +408,12 @@ Geçici iOS kimliği: Belirlenmedi
 
 ## Faz 2.1: Git deposunu başlatma
 
-- [ ] Proje kök klasöründe Git durumunu kontrol et.
-- [ ] `.gitignore` dosyasını incele.
-- [ ] `.env`, `.env.local` ve gizli dosyaların dışlandığını doğrula.
-- [ ] İlk çalışan sürümü Git'e ekle.
-- [ ] İlk commit kaydını oluştur.
-- [ ] Commit kimliğini `HANDOFF.md` içine yaz.
+- [x] Proje kök klasöründe Git durumunu kontrol et.
+- [x] `.gitignore` dosyasını incele.
+- [x] `.env`, `.env.local` ve gizli dosyaların dışlandığını doğrula.
+- [x] İlk çalışan sürümü Git'e ekle.
+- [x] İlk commit kaydını oluştur.
+- [x] Commit kimliğini `HANDOFF.md` içine yaz.
 - [ ] GitHub'da özel depo oluştur.
 - [ ] Yerel projeyi GitHub deposuna bağla.
 - [ ] Ana dalı gönder.

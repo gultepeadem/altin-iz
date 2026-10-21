@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.5 Taslak  
+**Belge sürümü:** 1.6 Taslak  
 **Son güncelleme:** 21.10.2026  
 **Proje aşaması:** Proje iskeleti (Faz 2)  
-**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu  
-**Son çalışma durumu:** Faz 2 Expo projesi oluşturuldu, bağımlılıklar kuruldu, tsc ve lint kontrolleri sıfır hatayla geçti; sıradaki görev Faz 2.1 (Git deposunu başlatma)
+**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve Git'e kaydedildi  
+**Son çalışma durumu:** Faz 2.1 yerel Git deposu başlatıldı, ilk commit (07c2c17) oluşturuldu; sıradaki görev Faz 2.2 (Proje belgelerini gerçek klasör yapısıyla doğrulama)
 
 ---
 
@@ -69,7 +69,7 @@ Faz 1 kapsamında bilgisayardaki geliştirme araçlarını tespit etmek, PowerSh
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 2 Expo TypeScript projesi (SDK 58.0.16, React Native 0.88.0, TypeScript 6.0.3, Expo Router 58.0.24) oluşturuldu, bağımlılıklar kuruldu, tsc ve lint testleri sıfır hatayla doğrulandı
+Faz 2.1 yerel Git deposu başlatıldı (main dalı); .gitignore ve gizlilik kuralları teyit edilerek ilk commit (07c2c17 - Initialize Expo TypeScript project) başarıyla oluşturuldu; KI-030 çözüldü
 ```
 
 ### Projenin mevcut aşaması
@@ -372,37 +372,37 @@ Projenin genel tanıtımını, mimari özetini, kapsamını ve başlangıç okum
 ### Proje klasörü
 
 ```text
-Henüz oluşturulmadı.
+C:\Users\Adem\Desktop\altin-iz
 ```
 
 ### Git deposu
 
 ```text
-Henüz oluşturulmadı.
+Başlatıldı (Yerel git deposu, main dalı)
 ```
 
 ### GitHub deposu
 
 ```text
-Henüz oluşturulmadı.
+Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu oluşturulması bekleniyor)
 ```
 
 ### Son commit
 
 ```text
-Yok. Gerçek commit kimliği henüz oluşmadı.
+07c2c17dbc4a1c60bfc605aea401df4f30173ec1 (Initialize Expo TypeScript project)
 ```
 
 ### Son çalışan commit
 
 ```text
-Yok. Uygulama kodu henüz oluşturulmadı.
+07c2c17dbc4a1c60bfc605aea401df4f30173ec1
 ```
 
 ### Aktif dal
 
 ```text
-Yok.
+main
 ```
 
 ### Migration durumu
@@ -591,22 +591,20 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 2.1: Git deposunu başlatma
+Faz 2.2: Proje belgelerini gerçek klasör yapısıyla doğrulama
 ```
 
-Bu görevde yerel Git deposu başlatılacak, `.gitignore` kuralları doğrulanacak, gizli `.env` dosyalarının dışlandığı teyit edilecek ve ilk çalışan sürüm commit olarak kaydedilecektir.
+Bu görevde `docs/` klasörü altındaki 14 belgenin ve `.github/copilot-instructions.md` dosyasının gerçek Expo SDK 58 klasör yapısıyla (`src/`, `assets/`, `scripts/`) uyumu teyit edilecek ve gerekirse `ARCHITECTURE.md` güncellenecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 2.1 şu koşullarda tamamlanmış sayılır:
+Faz 2.2 şu koşullarda tamamlanmış sayılır:
 
-- `git init` ile yerel Git deposu başlatıldı.
-- `.gitignore` dosyasında `.env` kuralları doğrulandı.
-- İlk çalışan Expo TypeScript iskeleti (`Initial commit / Initialize Expo project`) commit edildi.
-- Commit kimliği `HANDOFF.md` içine yazıldı.
-- `TODO.md` içindeki Faz 2.1 maddeleri güncellendi.
+- Belgelerin kök dizindeki konumu doğrulandı.
+- Gerçek Expo SDK 58 klasör yapısı (`src/app/`, `src/components/`, `src/constants/`, `src/hooks/`) `ARCHITECTURE.md` ile karşılaştırıldı.
+- `TODO.md` içindeki Faz 2.2 maddeleri güncellendi.
 
 ---
 
@@ -622,7 +620,7 @@ Faz 2.1 şu koşullarda tamamlanmış sayılır:
 - [x] Bilgisayardaki mevcut araçlar kontrol edildi (Faz 1).
 - [x] Geliştirme ortamı adımları tamamlandı (Faz 1.1 - Faz 1.5).
 - [x] Güncel Expo proje oluşturma yöntemi resmî belgelerden doğrulanıp uygulandı (Faz 2).
-- [ ] İlk çalışan proje oluşturulduğunda Git deposu başlatılmalı (Faz 2.1).
+- [x] İlk çalışan proje oluşturulduğunda Git deposu başlatılmalı (Faz 2.1: 07c2c17).
 
 ---
 
@@ -726,13 +724,14 @@ Aşama: Proje iskeleti (Faz 2)
 Kod: Expo Router TypeScript iskeleti oluşturuldu
 Expo projesi: Oluşturuldu (Expo SDK 58.0.16, TypeScript 6.0.3, React Native 0.88.0)
 Supabase projesi: Henüz yok
-Git deposu: Henüz yok
+Git deposu: Başlatıldı (İlk commit: 07c2c17, main dalı)
 Gerçek API hesabı: Henüz yok
 Gerçek kullanıcı verisi: Yok
 Hazırlanan başlangıç belgesi sayısı: 14
 Geliştirme ortamı (Bölüm 7): TAMAMLANDI
 Proje iskeleti (Faz 2): TAMAMLANDI (tsc ve lint 0 hata, Metro bundler doğrulandı)
-Sıradaki görev: Faz 2.1 — Git deposunu başlatma
+Git deposu (Faz 2.1): TAMAMLANDI (Commit 07c2c17, KI-030 çözüldü)
+Sıradaki görev: Faz 2.2 — Proje belgelerini gerçek klasör yapısıyla doğrulama
 ```
 
 En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri saklama süreleri, hesap silme telafisi ve hukuk uzmanı onaylı yasal metinlerdir.
@@ -741,13 +740,19 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 
 ## 27. Sürüm geçmişi
 
+### 1.6 Taslak - 21.10.2026
+- Faz 2.1 yerel Git deposu (`main` dalı) başlatıldı.
+- `.gitignore` ile `.env` dosyaları ve gizli anahtarlar dışlandı.
+- İlk çalışan sürüm commit edildi (`07c2c17dbc4a1c60bfc605aea401df4f30173ec1` - `Initialize Expo TypeScript project`).
+- `KI-030` çözüldü.
+- Sıradaki görev Faz 2.2 (Proje belgelerini gerçek klasör yapısıyla doğrulama) olarak güncellendi.
+
 ### 1.5 Taslak - 21.10.2026
 - Faz 2 Expo TypeScript projesi başarıyla oluşturuldu ve yapılandırıldı.
 - Paket sürümleri (SDK 58.0.16, React Native 0.88.0, Expo Router 58.0.24, TypeScript 6.0.3) kaydedildi.
 - `app.json`, `package.json` ve `.gitignore` Altın İz kimliğine uyarlandı.
 - `npx tsc --noEmit` ve `npm run lint` kontrolleri sıfır hatayla doğrulandı.
 - Metro Bundler başlatması test edildi.
-- Sıradaki görev Faz 2.1 (Git deposunu başlatma) olarak güncellendi.
 
 ### 1.4 Taslak - 21.10.2026
 - Faz 1 (Geliştirme araçları kontrolü) tamamlandı ve sonuçları devir kaydına işlendi.

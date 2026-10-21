@@ -69,6 +69,7 @@ Sürüm henüz yayımlanmamışsa:
 - Faz 1.4 Android test ortamı (Xiaomi Redmi Note 8 Pro / Android 11) için Expo Go uyumluluğu, Wi-Fi ve Tünel bağlantı yöntemleri, başarı kriterleri belirlendi; Android Studio kurulumunun bu aşamada gereksiz olduğu teyit edildi.
 - Faz 1.5 iOS test yöntemi ve kısıt planlaması tamamlandı; Windows kısıtları belgelendi, geliştirme süresince Expo Go + EAS Build stratejisi benimsendi, Apple Developer hesabının mağaza aşamasına (Faz 15) ertelenmesi teyit edildi. Geliştirme ortamı hazırlıkları (Faz 1 serisi) eksiksiz tamamlandı.
 - Faz 2 Expo TypeScript projesi oluşturuldu; Expo SDK (58.0.16), React Native (0.88.0), React (19.3.0), TypeScript (6.0.3), Expo Router (58.0.24) sürümleri kaydedildi. Proje yapılandırması (app.json, package.json, .gitignore) Altın İz kimliğine uyarlandı. `npx tsc --noEmit` ve `npm run lint` testleri sıfır hatayla geçti. Metro Bundler başlatması doğrulandı.
+- Faz 2.1 yerel Git deposu başlatıldı (`main` dalı); `.gitignore` kuralları ve gizlilik denetimleri doğrulanarak ilk çalışan sürüm commit edildi (`07c2c17` - `Initialize Expo TypeScript project`). KI-030 çözüldü.
 
 ### Fixed
 

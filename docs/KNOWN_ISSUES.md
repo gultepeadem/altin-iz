@@ -1254,36 +1254,22 @@ Yanlış beyan mağaza reddine veya yayımdan sonra politika sorununa yol açabi
 
 ## KI-030: Git deposu ve geri dönüş noktaları henüz yok
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Sürüm kontrolü  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Çözüm tarihi:** 21.10.2026
 
-### Açıklama
+### Çözüm
 
-Proje klasörü ve Git deposu henüz oluşturulmadı. Hazırlanan belgeler şu anda indirilebilir bağımsız dosyalardır.
+Proje kök dizininde yerel Git deposu (`main` dalı) başlatıldı. `.gitignore` yapılandırması doğrulandı, `.env` dosyaları korumaya alındı. Belgeler ve çalışan ilk Expo projesi eklenerek ilk güvenli commit (`07c2c17`) oluşturuldu.
 
-### Etki
+### Doğrulama
 
-- Değişiklik geçmişi henüz gerçek commitlerle izlenemiyor.
-- Yanlış değişiklikten otomatik geri dönüş noktası yok.
-- `HANDOFF.md` içine yazılabilecek commit kimliği bulunmuyor.
-
-### Geçici önlem
-
-- Her belge ayrı indirilebilir dosya olarak korunuyor.
-- Proje kurulunca bütün belgeler `docs` klasörüne yerleştirilecek.
-- Gerçek olmayan commit kimliği yazılmayacak.
-
-### Çözüm şartı
-
-- Expo proje klasörü oluşturulmalı.
-- Git deposu başlatılmalı.
-- `.gitignore` doğrulanmalı.
-- Belgeler projeye eklenmeli.
-- İlk güvenli commit oluşturulmalı.
-- GitHub özel deposuna gönderilmeli.
+- `git init -b main` çalıştırıldı.
+- `git status` ile yalnızca gerekli dosyaların takip edildiği, `node_modules` ve `.expo` gibi gereksiz dosyaların dışlandığı doğrulandı.
+- `07c2c17` hash'li `Initialize Expo TypeScript project` commit'i atıldı.
+- Commit kimliği `HANDOFF.md` içine yazıldı.
 
 ### İlgili belgeler
 
