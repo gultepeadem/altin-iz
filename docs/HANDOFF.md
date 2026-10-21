@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6 Taslak  
+**Belge sürümü:** 1.7 Taslak  
 **Son güncelleme:** 21.10.2026  
 **Proje aşaması:** Proje iskeleti (Faz 2)  
-**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve Git'e kaydedildi  
-**Son çalışma durumu:** Faz 2.1 yerel Git deposu başlatıldı, ilk commit (07c2c17) oluşturuldu; sıradaki görev Faz 2.2 (Proje belgelerini gerçek klasör yapısıyla doğrulama)
+**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı  
+**Son çalışma durumu:** Faz 2.2 başarıyla tamamlandı; 14 belge hedef konumlarında doğrulandı, Expo SDK 58 src/app/ yapısıyla eşitlendi. Sıradaki görev Faz 2.3 (Temel klasörlerin oluşturulması)
 
 ---
 
@@ -63,13 +63,13 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 1 kapsamında bilgisayardaki geliştirme araçlarını tespit etmek, PowerShell kısıtını gidermek ve Faz 1.1'e (VS Code doğrulama) geçmek
+Faz 2.2 kapsamında proje belgelerini gerçek Expo SDK 58 klasör yapısıyla doğrulamak, rotaları src/app/ ile eşitlemek ve sıradaki faza (Faz 2.3) hazırlamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 2.1 yerel Git deposu başlatıldı (main dalı); .gitignore ve gizlilik kuralları teyit edilerek ilk commit (07c2c17 - Initialize Expo TypeScript project) başarıyla oluşturuldu; KI-030 çözüldü
+Faz 2.2 tamamlandı: 14 proje belgesinin hedef klasörlerdeki varlığı doğrulandı; ARCHITECTURE.md, README.md, copilot-instructions.md, TODO.md ve PROJECT_CONTEXT.md belgeleri Expo SDK 58 dosya tabanlı yönlendirme yapısıyla (src/app/) eşitlendi; TODO.md Faz 2.2 adımları tamamlandı olarak işaretlendi
 ```
 
 ### Projenin mevcut aşaması
@@ -289,7 +289,7 @@ docs/DATA_RETENTION.md
 Yok
 ```
 
-Dosyalar henüz gerçek `altin-iz` proje klasörüne taşınmamıştır. Expo projesi ve Git deposu oluşturulduğunda belgeler hedef konumlarına yerleştirilecektir.
+14 başlangıç belgesi gerçek `altin-iz` proje klasörüne (`docs/`, `.github/` ve kök `README.md`) başarıyla yerleştirilmiş ve doğrulanmıştır.
 
 ---
 
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-07c2c17dbc4a1c60bfc605aea401df4f30173ec1 (Initialize Expo TypeScript project)
+94347de (docs: complete Faz 2.2 and align route paths with src/app)
 ```
 
 ### Son çalışan commit
 
 ```text
-07c2c17dbc4a1c60bfc605aea401df4f30173ec1
+94347de
 ```
 
 ### Aktif dal
@@ -591,20 +591,28 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 2.2: Proje belgelerini gerçek klasör yapısıyla doğrulama
+Faz 2.3: Temel klasörlerin oluşturulması
 ```
 
-Bu görevde `docs/` klasörü altındaki 14 belgenin ve `.github/copilot-instructions.md` dosyasının gerçek Expo SDK 58 klasör yapısıyla (`src/`, `assets/`, `scripts/`) uyumu teyit edilecek ve gerekirse `ARCHITECTURE.md` güncellenecektir.
+Bu görevde `ARCHITECTURE.md` mimarisinde tanımlanan ancak varsayılan Expo şablonunda henüz bulunmayan temel klasörler oluşturulacaktır:
+- `src/domain/`
+- `src/lib/`
+- `src/models/`
+- `src/providers/`
+- `src/services/`
+- `src/theme/`
+- `src/utils/`
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 2.2 şu koşullarda tamamlanmış sayılır:
+Faz 2.3 şu koşullarda tamamlanmış sayılır:
 
-- Belgelerin kök dizindeki konumu doğrulandı.
-- Gerçek Expo SDK 58 klasör yapısı (`src/app/`, `src/components/`, `src/constants/`, `src/hooks/`) `ARCHITECTURE.md` ile karşılaştırıldı.
-- `TODO.md` içindeki Faz 2.2 maddeleri güncellendi.
+- Belirtilen temel klasörler `src/` altında oluşturulmalı.
+- Gereksiz veya boş dosya kalabalığı yapılmamalı.
+- `npx tsc --noEmit` ve `npm run lint` testleri hatasız tamamlanmalı.
+- `docs/TODO.md` içindeki Faz 2.3 maddeleri güncellenmeli.
 
 ---
 

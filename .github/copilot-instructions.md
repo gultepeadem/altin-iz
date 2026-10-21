@@ -246,7 +246,7 @@ Hedef yapı `ARCHITECTURE.md` ile uyumlu olmalıdır.
 Ana sorumluluklar:
 
 ```text
-app/                 → Expo Router ekranları ve rotalar
+src/app/             → Expo Router ekranları ve rotalar
 src/components/      → Ortak görsel bileşenler
 src/constants/       → Sabitler ve ortak metinler
 src/domain/          → Saf iş kuralları ve hesaplamalar
@@ -348,9 +348,9 @@ export type PriceStatus = 'live' | 'stale' | 'partial' | 'unavailable';
 Planlanan rota grupları:
 
 ```text
-app/(public)/
-app/(protected)/
-app/(protected)/(tabs)/
+src/app/(public)/
+src/app/(protected)/
+src/app/(protected)/(tabs)/
 ```
 
 Kurallar:

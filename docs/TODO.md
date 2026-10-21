@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2 Taslak  
-**Son güncelleme:** 19.10.2026  
-**Proje aşaması:** Planlama ve dokümantasyon  
-**Kodlama durumu:** Henüz başlanmadı
+**Belge sürümü:** 1.3 Taslak  
+**Son güncelleme:** 21.10.2026  
+**Proje aşaması:** Proje iskeleti (Faz 2)  
+**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı
 
 ---
 
@@ -429,22 +429,22 @@ Initialize Expo TypeScript project
 
 ## Faz 2.2: Proje belgelerini gerçek klasöre yerleştirme
 
-- [ ] Proje kökünde `docs` klasörünü oluştur.
-- [ ] `PROJECT_CONTEXT.md` dosyasını yerleştir.
-- [ ] `ARCHITECTURE.md` dosyasını yerleştir.
-- [ ] `DATABASE.md` dosyasını yerleştir.
-- [ ] `API.md` dosyasını yerleştir.
-- [ ] `DECISIONS.md` dosyasını yerleştir.
-- [ ] `TODO.md` dosyasını yerleştir.
-- [ ] `CHANGELOG.md` dosyasını yerleştir.
-- [ ] `KNOWN_ISSUES.md` dosyasını yerleştir.
-- [ ] `HANDOFF.md` dosyasını yerleştir.
-- [ ] `SECURITY.md` dosyasını yerleştir.
-- [ ] `PRIVACY.md` dosyasını yerleştir.
-- [ ] `DATA_RETENTION.md` dosyasını yerleştir.
-- [ ] `.github/copilot-instructions.md` dosyasını yerleştir.
-- [ ] Gerçek Expo klasör yapısıyla `ARCHITECTURE.md` taslağını karşılaştır.
-- [ ] Gerekli farklılıkları belgelere işle.
+- [x] Proje kökünde `docs` klasörünü oluştur.
+- [x] `PROJECT_CONTEXT.md` dosyasını yerleştir.
+- [x] `ARCHITECTURE.md` dosyasını yerleştir.
+- [x] `DATABASE.md` dosyasını yerleştir.
+- [x] `API.md` dosyasını yerleştir.
+- [x] `DECISIONS.md` dosyasını yerleştir.
+- [x] `TODO.md` dosyasını yerleştir.
+- [x] `CHANGELOG.md` dosyasını yerleştir.
+- [x] `KNOWN_ISSUES.md` dosyasını yerleştir.
+- [x] `HANDOFF.md` dosyasını yerleştir.
+- [x] `SECURITY.md` dosyasını yerleştir.
+- [x] `PRIVACY.md` dosyasını yerleştir.
+- [x] `DATA_RETENTION.md` dosyasını yerleştir.
+- [x] `.github/copilot-instructions.md` dosyasını yerleştir.
+- [x] Gerçek Expo klasör yapısıyla `ARCHITECTURE.md` taslağını karşılaştır.
+- [x] Gerekli farklılıkları belgelere işle.
 
 ---
 
@@ -526,7 +526,7 @@ Initialize Expo TypeScript project
 
 ## Faz 3.2: Expo Router rota iskeleti
 
-- [ ] Kök `app/_layout.tsx` dosyasını incele.
+- [ ] Kök `src/app/_layout.tsx` dosyasını incele.
 - [ ] Public rota grubunu oluştur.
 - [ ] Protected rota grubunu oluştur.
 - [ ] Tabs rota grubunu oluştur.

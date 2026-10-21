@@ -4,7 +4,7 @@
 
 Altın İz, kullanıcıların güncel altın alış ve satış fiyatlarını görüntüleyebileceği, satın alma veya bozdurma hesabı yapabileceği ve kişisel altın portföyünü takip edebileceği Android ve iOS uyumlu bir mobil uygulama projesidir.
 
-> Proje şu anda planlama ve dokümantasyon aşamasındadır. Expo uygulaması, Supabase projesi ve Git deposu henüz oluşturulmamıştır. Bu README dosyasındaki kurulum komutları, gerçek proje oluşturulduktan ve güncel resmî dokümantasyonla doğrulandıktan sonra eklenecektir.
+> Proje şu anda proje iskeleti (Faz 2) aşamasındadır. Expo uygulaması ve yerel Git deposu oluşturulmuş; belgeler gerçek klasör yapısıyla eşitlenmiştir. Supabase projesi henüz oluşturulmamıştır.
 
 ---
 
@@ -15,7 +15,7 @@ Proje aşaması: Proje iskeleti (Faz 2)
 Uygulama kodu: Varsayılan Expo Router iskeleti oluşturuldu
 Expo projesi: Oluşturuldu (Expo SDK 58, TypeScript)
 Supabase projesi: Henüz oluşturulmadı
-Git deposu: Henüz oluşturulmadı
+Git deposu: Başlatıldı (Yerel repo / main dalı)
 Gerçek fiyat API hesabı: Henüz oluşturulmadı
 Android testi: Hazır (Expo Go)
 iOS testi: Planlandı (EAS Build / Expo Go)
@@ -340,13 +340,12 @@ altin-iz/
 ├── .github/
 │   └── copilot-instructions.md
 │
-├── app/
-│   ├── _layout.tsx
-│   ├── index.tsx
-│   ├── (public)/
-│   └── (protected)/
-│
 ├── src/
+│   ├── app/
+│   │   ├── _layout.tsx
+│   │   ├── index.tsx
+│   │   ├── (public)/
+│   │   └── (protected)/
 │   ├── components/
 │   ├── constants/
 │   ├── domain/

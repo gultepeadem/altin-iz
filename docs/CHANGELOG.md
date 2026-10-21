@@ -2,9 +2,9 @@
 
 **Belge adı:** `CHANGELOG.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3 Taslak  
-**Son güncelleme:** 19.10.2026  
-**Proje aşaması:** Planlama ve dokümantasyon  
+**Belge sürümü:** 1.4 Taslak  
+**Son güncelleme:** 21.10.2026  
+**Proje aşaması:** Proje iskeleti (Faz 2)  
 **Uygulama sürümü:** Henüz oluşturulmadı
 
 ---
@@ -53,6 +53,20 @@ Sürüm henüz yayımlanmamışsa:
 ## [Unreleased]
 
 - Henüz yayımlanmamış yeni uygulama değişikliği bulunmuyor.
+
+---
+
+## [0.0.0-planning.7] - 21.10.2026
+
+### Added
+
+- Faz 2.2 kapsamında 14 başlangıç belgesinin proje kökü, `docs/` ve `.github/` altındaki varlığı ve tamlığı doğrulandı.
+
+### Changed
+
+- Expo SDK 58'in dosya tabanlı yönlendirme yapısı (`src/app/`) doğrulanarak `ARCHITECTURE.md`, `README.md`, `.github/copilot-instructions.md`, `TODO.md` ve `PROJECT_CONTEXT.md` içindeki tüm rota referansları `src/app/` yapısıyla eşitlendi.
+- `TODO.md` içinde Faz 2.2 adımları tamamlandı (`[x]`) olarak işaretlendi.
+- `HANDOFF.md` güncel durum ve sıradaki görev (Faz 2.3) ile eşitlendi.
 
 ---
 

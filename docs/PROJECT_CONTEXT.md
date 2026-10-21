@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 19.10.2026 
-**Proje durumu:** Planlama ve dokümantasyon  
-**Kodlama durumu:** Henüz başlanmadı
+**Belge sürümü:** 1.2 Taslak  
+**Son güncelleme:** 21.10.2026 
+**Proje durumu:** Proje iskeleti (Faz 2)  
+**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-14 başlangıç belgesinin dört aşamalı çapraz denetimi ve tutarlılık düzeltmeleri tamamlanmıştır.
+Faz 2 proje iskeleti oluşturma, yerel Git deposu başlatma ve Faz 2.2 kapsamında 14 belgenin gerçek klasör konumlarında doğrulanması tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-14 başlangıç belgesinin dört aşamalı çapraz denetimden geçirilmesi, şema/RLS/API/kapsam/görev sırası tutarsızlıklarının giderilmesi ve geliştirme öncesi belge paketinin eşitlenmesi
+Faz 2.2 kapsamında 14 belgenin proje kökü, docs/ ve .github/ klasörlerindeki varlığı doğrulandı; Expo SDK 58 src/app/ rota yapısı ARCHITECTURE.md, README.md, copilot-instructions.md ve TODO.md belgelerine işlenerek tam uyum sağlandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Planlama ve dokümantasyon aşamasından geliştirme ortamı hazırlığına geçiş
+Faz 2.2 (Belge yerleşimi ve doğrulama) tamamlandı; Faz 2.3 (Temel klasörlerin oluşturulması) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Planlama ve dokümantasyon aşamasından geliştirme ortamı hazırlığına ge�
 Sıradaki teknik görev:
 
 ```text
-Bilgisayardaki mevcut geliştirme araçlarını kontrol etmek
+Faz 2.3: Temel klasörlerin oluşturulması
 ```
 
-Bu görevde işletim sistemi, disk alanı, Visual Studio Code, Node.js, npm, Git, GitHub, Expo ve Supabase hesap durumları yalnızca kontrol edilecektir. Güncel gereksinimler doğrulanmadan kurulum yapılmayacaktır.
+Bu görevde ARCHITECTURE.md mimarisine uygun olarak eksik olan domain, lib, models, providers, services, theme, utils klasörleri src/ altında oluşturulacak ve TypeScript/linter doğrulaması yapılacaktır.
 
 ---
 

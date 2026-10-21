@@ -2,9 +2,9 @@
 
 **Belge adı:** `ARCHITECTURE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 0.2 Taslak  
-**Son güncelleme:** 19.10.2026
-**Durum:** Taslak, Expo projesi oluşturulup bağımlılıklar doğrulandıktan sonra güncellenecek  
+**Belge sürümü:** 0.3 Taslak  
+**Son güncelleme:** 21.10.2026
+**Durum:** Expo SDK 58 klasör yapısıyla (`src/app/`) eşitlendi ve doğrulandı  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -190,54 +190,54 @@ altin-iz/
 ├── .github/
 │   └── copilot-instructions.md
 │
-├── app/
-│   ├── _layout.tsx
-│   ├── index.tsx
-│   ├── +not-found.tsx
-│   │
-│   ├── (public)/
-│   │   ├── _layout.tsx
-│   │   ├── welcome.tsx
-│   │   ├── sign-in.tsx
-│   │   ├── sign-up.tsx
-│   │   ├── verify-email.tsx
-│   │   ├── forgot-password.tsx
-│   │   └── reset-password.tsx
-│   │
-│   ├── (protected)/
-│   │   ├── _layout.tsx
-│   │   │
-│   │   ├── (tabs)/
-│   │   │   ├── _layout.tsx
-│   │   │   ├── index.tsx
-│   │   │   ├── prices.tsx
-│   │   │   ├── calculator.tsx
-│   │   │   ├── portfolio.tsx
-│   │   │   └── settings.tsx
-│   │   │
-│   │   ├── gold/
-│   │   │   └── [productId].tsx
-│   │   │
-│   │   ├── portfolio/
-│   │   │   ├── add.tsx
-│   │   │   ├── [entryId].tsx
-│   │   │   └── [entryId]/edit.tsx
-│   │   │
-│   │   ├── account/
-│   │   │   ├── index.tsx
-│   │   │   └── delete.tsx
-│   │   │
-│   │   ├── legal/
-│   │   │   ├── index.tsx
-│   │   │   └── [documentType].tsx
-│   │   │
-│   │   ├── about.tsx
-│   │   └── support.tsx
-│   │
-│   ├── account-status.tsx
-│   └── auth-callback.tsx
-│
 ├── src/
+│   ├── app/
+│   │   ├── _layout.tsx
+│   │   ├── index.tsx
+│   │   ├── +not-found.tsx
+│   │   │
+│   │   ├── (public)/
+│   │   │   ├── _layout.tsx
+│   │   │   ├── welcome.tsx
+│   │   │   ├── sign-in.tsx
+│   │   │   ├── sign-up.tsx
+│   │   │   ├── verify-email.tsx
+│   │   │   ├── forgot-password.tsx
+│   │   │   └── reset-password.tsx
+│   │   │
+│   │   ├── (protected)/
+│   │   │   ├── _layout.tsx
+│   │   │   │
+│   │   │   ├── (tabs)/
+│   │   │   │   ├── _layout.tsx
+│   │   │   │   ├── index.tsx
+│   │   │   │   ├── prices.tsx
+│   │   │   │   ├── calculator.tsx
+│   │   │   │   ├── portfolio.tsx
+│   │   │   │   └── settings.tsx
+│   │   │   │
+│   │   │   ├── gold/
+│   │   │   │   └── [productId].tsx
+│   │   │   │
+│   │   │   ├── portfolio/
+│   │   │   │   ├── add.tsx
+│   │   │   │   ├── [entryId].tsx
+│   │   │   │   └── [entryId]/edit.tsx
+│   │   │   │
+│   │   │   ├── account/
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── delete.tsx
+│   │   │   │
+│   │   │   ├── legal/
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── [documentType].tsx
+│   │   │   │
+│   │   │   ├── about.tsx
+│   │   │   └── support.tsx
+│   │   │
+│   │   ├── account-status.tsx
+│   │   └── auth-callback.tsx
+│   │
 │   ├── components/
 │   │   ├── common/
 │   │   ├── feedback/
@@ -354,7 +354,7 @@ Bu yapı başlangıç taslağıdır. Expo projesinin oluşturduğu gerçek dosya
 
 ## 6. Klasörlerin görevleri
 
-### `app/`
+### `src/app/`
 
 Expo Router rota dosyalarını içerir. Bu klasördeki her ekran uygulamanın gezinme yapısının bir parçasıdır.
 
@@ -486,7 +486,7 @@ Uygulama simgesi, açılış görseli ve gerekli statik dosyaları içerir.
 ### 7.1. Kök rota
 
 ```text
-app/_layout.tsx
+src/app/_layout.tsx
 ```
 
 Görevleri:
@@ -502,7 +502,7 @@ Bu dosyada ekranlara özel iş mantığı bulunmamalıdır.
 ### 7.2. Başlangıç yönlendirmesi
 
 ```text
-app/index.tsx
+src/app/index.tsx
 ```
 
 Görevleri:
@@ -519,7 +519,7 @@ Hesap deletion_pending veya disabled → /account-status
 ### 7.3. Public rota grubu
 
 ```text
-app/(public)/
+src/app/(public)/
 ```
 
 Giriş yapmadan erişilebilecek ekranları içerir:
@@ -536,7 +536,7 @@ Geçerli ve aktif oturumu bulunan kullanıcı bu ekranlarda kalmamalı, korunan 
 ### 7.4. Protected rota grubu
 
 ```text
-app/(protected)/
+src/app/(protected)/
 ```
 
 Yalnızca geçerli oturumu ve erişime uygun hesap durumu olan kullanıcılara açıktır.
@@ -552,7 +552,7 @@ Koruma şartları:
 ### 7.5. Alt menü rota grubu
 
 ```text
-app/(protected)/(tabs)/
+src/app/(protected)/(tabs)/
 ```
 
 Beş ana ekran:
@@ -568,7 +568,7 @@ settings.tsx   → Ayarlar
 ### 7.6. Dinamik altın detayı
 
 ```text
-app/(protected)/gold/[productId].tsx
+src/app/(protected)/gold/[productId].tsx
 ```
 
 Kurallar:
@@ -581,9 +581,9 @@ Kurallar:
 ### 7.7. Portföy rotaları
 
 ```text
-app/(protected)/portfolio/add.tsx
-app/(protected)/portfolio/[entryId].tsx
-app/(protected)/portfolio/[entryId]/edit.tsx
+src/app/(protected)/portfolio/add.tsx
+src/app/(protected)/portfolio/[entryId].tsx
+src/app/(protected)/portfolio/[entryId]/edit.tsx
 ```
 
 Kurallar:
@@ -596,7 +596,7 @@ Kurallar:
 ### 7.8. Auth callback rotası
 
 ```text
-app/auth-callback.tsx
+src/app/auth-callback.tsx
 ```
 
 Aşağıdaki bağlantılardan geri dönüşü yönetebilir:
@@ -610,7 +610,7 @@ Android ve iOS derin bağlantı davranışı ayrı test edilmelidir.
 ### 7.9. Bulunamadı ekranı
 
 ```text
-app/+not-found.tsx
+src/app/+not-found.tsx
 ```
 
 Kullanıcıya teknik rota bilgisi yerine anlaşılır yönlendirme gösterir.
