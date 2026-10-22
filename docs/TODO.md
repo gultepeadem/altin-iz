@@ -808,14 +808,14 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.7: Çıkış yapma
 
-- [ ] Çıkış onay penceresini oluştur.
-- [ ] Supabase çıkış işlemini çağır.
-- [ ] Yerel auth verisini temizle.
-- [ ] Kullanıcıya ait portföy önbelleğini temizle.
-- [ ] Protected navigasyon geçmişini temizle.
-- [ ] Kullanıcıyı public ekrana yönlendir.
-- [ ] Hesap ve portföyün silinmediğini doğrula.
-- [ ] Başka kullanıcı giriş yaptığında önceki verinin görünmediğini test et.
+- [x] Çıkış onay penceresini oluştur.
+- [x] Supabase çıkış işlemini çağır.
+- [x] Yerel auth verisini temizle.
+- [x] Kullanıcıya ait portföy önbelleğini temizle.
+- [x] Protected navigasyon geçmişini temizle.
+- [x] Kullanıcıyı public ekrana yönlendir.
+- [x] Hesap ve portföyün silinmediğini doğrula.
+- [x] Başka kullanıcı giriş yaptığında önceki verinin görünmediğini test et.
 
 ---
 

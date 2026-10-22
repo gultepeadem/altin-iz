@@ -11,6 +11,7 @@
  */
 
 import type { AuthChangeEvent, Session, Subscription, User } from '@supabase/supabase-js';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { supabase } from '@/lib/supabase';
 import type {
   AuthSuccessResult,
@@ -82,7 +83,7 @@ export const authService = {
   },
 
   /**
-   * Aktif oturumu sonlandırır.
+   * Aktif oturumu sonlandırır ve yerel kullanıcı önbelleklerini temizler.
    */
   async signOut(): Promise<void> {
     try {
@@ -92,6 +93,19 @@ export const authService = {
       }
     } catch (error) {
       throw normalizeError(error);
+    } finally {
+      // Güvenlik Kuralı: Çıkışta kullanıcıya ait yerel önbellek ve portföy verileri silinir
+      try {
+        const allKeys = await AsyncStorage.getAllKeys();
+        const userCacheKeys = allKeys.filter(
+          (k) => k.startsWith('portfolio_') || k.startsWith('cache_') || k.startsWith('user_')
+        );
+        if (userCacheKeys.length > 0) {
+          await AsyncStorage.multiRemove(userCacheKeys);
+        }
+      } catch {
+        // Önbellek silme hatası çıkış akışını engellememelidir
+      }
     }
   },
 

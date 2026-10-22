@@ -591,23 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5.7: Çıkış yapma
+Faz 6: Fiyat sağlayıcısı eşleştirmeleri
 ```
 
-Bu görevde çıkış onay penceresi / uyarısı, Supabase oturumunu kapatma (`authService.signOut`), yerel cihaz oturum ve hassas kullanıcı önbelleğini temizleme ve korunan navigasyon geçmişini güvenle sıfırlayarak giriş/karşılama ekranına yönlendirme uygulanacaktır.
+Bu görevde `price_sources` tablosuna development fiyat sağlayıcısı tanımı yapılacak, `price_source_product_mappings` tablosunda doğrulanmış ürünler (`gold_products`) ile sağlayıcı sembolleri eşleştirilecek; eski/yeni tarihli ürün ayrımı, devre dışı eşleştirme testleri ve bilinmeyen sembol korumaları kodlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5.7 şu koşullarda tamamlanmış sayılır:
+Faz 6 şu koşullarda tamamlanmış sayılır:
 
-- Çıkış işlemi öncesinde kullanıcıya onay penceresi (Alert / Modal) sunulmalı.
-- `authService.signOut()` başarıyla çağrılmalı.
-- `AuthProvider` oturum durumu `unauthenticated` olarak güncellenmeli.
-- Yerel hassas kullanıcı verisi ve önbelleği temizlenmeli.
-- Kullanıcı `/(public)/welcome` veya `/(public)/sign-in` rotasına yönlendirilip geri tuşuyla korunan alana dönmesi engellenmeli.
-- `docs/TODO.md` içindeki Faz 5.7 maddeleri güncellenmeli.
+- `price_sources` tablosuna development sağlayıcı kaydı eklenmeli.
+- Doğrulanmış ürün sembol eşleştirmeleri `price_source_product_mappings` tablosuna eklenmeli.
+- Belirsiz / koşullu ürünlerin (Cumhuriyet / Ata, 18 ayar) eşleştirilmediği teyit edilmeli.
+- Bilinmeyen sembolün veritabanında sahte ürün üretmediği test edilmeli.
+- Devre dışı eşleştirmenin fiyat üretmediği doğrulanmalı.
+- `docs/TODO.md` içindeki Faz 6 maddeleri güncellenmeli.
 
 ---
 
@@ -638,7 +638,8 @@ Faz 5.7 şu koşullarda tamamlanmış sayılır:
 - [x] Kayıt ekranı (sign-up), istemci doğrulamaları ve yasal bağlantılar uygulandı (Faz 5.3: 0388e7a).
 - [x] E-posta doğrulama akışı, hız sınırı (cooldown) ve auth-callback derin bağlantıları uygulandı (Faz 5.4: 6765aa0).
 - [x] Giriş ekranı (sign-in), hesap durumu yönlendirmeleri ve hata maskelemesi uygulandı (Faz 5.5: 02b85da).
-- [x] Şifre sıfırlama ekranları, kurtarma oturumu ve şifre güncelleme uygulandı (Faz 5.6).
+- [x] Şifre sıfırlama ekranları, kurtarma oturumu ve şifre güncelleme uygulandı (Faz 5.6: 681a2d7).
+- [x] Çıkış onay penceresi, oturum ve önbellek temizleme, korunan alan koruması uygulandı (Faz 5.7).
 
 ---
 

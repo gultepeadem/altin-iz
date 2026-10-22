@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.25] - 22.10.2026
+
+### Added
+
+- Faz 5.7 Çıkış yapma tamamlandı:
+  - `src/services/authService.ts` servisine çıkış sırasında kullanıcıya özel yerel portföy ve önbellek anahtarlarını silen önbellek temizleme (`AsyncStorage.multiRemove`) mekanizması entegre edildi.
+  - `src/app/(protected)/(tabs)/settings.tsx` ekranı güncellendi; native platformlarda `Alert.alert`, web/yedek ortamda modal onay penceresi eklendi.
+  - Onay sonrası `authService.signOut` ve `AuthProvider.signOut` çağrılarak yerel auth durumu `unauthenticated` olarak sıfırlandı.
+  - Korunan navigasyon geçmişi `router.replace('/(public)/welcome')` ile temizlenerek geri tuşuyla veya hareketle korunan alana dönülmesi engellendi.
+  - Çıkış sonrasında kullanıcının veritabanındaki hesap ve portföy verilerinin silinmediği, başka kullanıcı girdiğinde RLS kuralları uyarınca önceki kullanıcının verilerinin asla görünmediği (0 satır) canlı testlerle (6/6) kanıtlandı.
+  - **Bölüm 11 (Kullanıcı Hesabı Geliştirmesi: Faz 5 - Faz 5.7)** eksiksiz tamamlandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.7 ve Bölüm 11 tamamlandı olarak işaretlendi; sıradaki ana bölüm Bölüm 12 (Fiyat Sistemi) ve teknik görev Faz 6 (Fiyat sağlayıcısı eşleştirmeleri) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.24] - 22.10.2026
 
 ### Added

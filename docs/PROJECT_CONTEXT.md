@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 5.6 (Şifre sıfırlama) tamamlandı; Faz 5.7 (Çıkış yapma) aşamasına geçiş
+Faz 5.7 (Çıkış yapma) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 5.6 (Şifre sıfırlama) tamamlandı; Faz 5.7 (Çıkış yapma) aşamasına 
 Sıradaki teknik görev:
 
 ```text
-Faz 5.7: Çıkış yapma
+Faz 6: Fiyat sağlayıcısı eşleştirmeleri
 ```
 
-Bu görevde çıkış onay penceresi / uyarısı, Supabase oturumunu kapatma (`authService.signOut`), yerel cihaz oturum ve hassas kullanıcı önbelleğini temizleme ve korunan navigasyon geçmişini güvenle sıfırlayarak giriş/karşılama ekranına yönlendirme uygulanacaktır.
+Bu görevde `price_sources` tablosuna development fiyat sağlayıcısı tanımı yapılacak, `price_source_product_mappings` tablosunda doğrulanmış ürünler (`gold_products`) ile sağlayıcı sembolleri eşleştirilecek; eski/yeni tarihli ürün ayrımı, devre dışı eşleştirme testleri ve bilinmeyen sembol korumaları kodlanacaktır.
 
 ---
 
