@@ -1344,18 +1344,18 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 14: Birim testleri
 
-- [ ] Para dönüştürme testleri.
-- [ ] Para biçimlendirme testleri.
-- [ ] Miktar doğrulama testleri.
-- [ ] Alış tarihi doğrulama testleri.
-- [ ] Satın alma hesaplama testleri.
-- [ ] Bozdurma hesaplama testleri.
-- [ ] Kâr-zarar testleri.
-- [ ] Yüzde testleri.
-- [ ] Kısmi toplam testleri.
-- [ ] Hata dönüştürme testleri.
-- [ ] Ürün etkinlik kuralları testleri.
-- [ ] Eski fiyat belirleme testleri.
+- [x] Para dönüştürme testleri.
+- [x] Para biçimlendirme testleri.
+- [x] Miktar doğrulama testleri.
+- [x] Alış tarihi doğrulama testleri.
+- [x] Satın alma hesaplama testleri.
+- [x] Bozdurma hesaplama testleri.
+- [x] Kâr-zarar testleri.
+- [x] Yüzde testleri.
+- [x] Kısmi toplam testleri.
+- [x] Hata dönüştürme testleri.
+- [x] Ürün etkinlik kuralları testleri.
+- [x] Eski fiyat belirleme testleri.
 
 ---
 

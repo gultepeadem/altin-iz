@@ -56,6 +56,32 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.55] - 22.10.2026
+
+### Added
+
+- Bölüm 20: Test aşaması — Faz 14: Birim testleri tamamlandı:
+  - `supabase/tests/test-faz14-unit-tests.ts`: 12 ana başlık ve 93 ayrıntılı iddia (assertion) içeren kapsamlı birim test paketi yazıldı ve başarıyla çalıştırıldı:
+    1. Para dönüştürme testleri (`toMinorUnits`, `fromMinorUnits`, `parseMoneyInputToMinor`, `isSafeMoney`).
+    2. Para biçimlendirme testleri (`formatMoney` - Türkçe para formatı, sıfır durumu ve ADR-013 null güvenliği).
+    3. Miktar doğrulama testleri (`parseQuantity`, `validateQuantity` - gram için azami 3 ondalık, adet için tamsayı kuralları).
+    4. Alış tarihi doğrulama testleri (`parseDateInputToISO`, `isFutureDate`, `formatDate` - Türkçe ve ISO formatları, gelecek tarih engeli).
+    5. Satın alma hesaplama testleri (`calculatePurchaseEstimate` - Miktar × Satış Fiyatı, ADR-013 eksik fiyat null koruması).
+    6. Bozdurma hesaplama testleri (`calculateRedemptionEstimate` - Miktar × Alış Fiyatı, eksik fiyat koruması).
+    7. Kâr-zarar testleri (`calculateEntryValuation` - kâr, zarar, başabaş ve fiyat yokken unavailable durumları).
+    8. Yüzde testleri (`calculatePercentageChange`, `formatPercent` - 4 basamak yuvarlama, sıfıra bölme koruması).
+    9. Kısmi toplam testleri (`calculatePortfolioSummary` - ADR-013 uyarınca eksik fiyatlı kaydın maliyetinin kârı düşürmemesi, `isPartial`, `matchedCostMinor`).
+    10. Hata dönüştürme testleri (`normalizeError`, `isAppError` - ağ ve veritabanı hatalarının güvenli Türkçe mesaja dönüştürülmesi).
+    11. Ürün etkinlik kuralları testleri (`is_active` ve `is_display` filtreleme güvencesi).
+    12. Eski fiyat belirleme testleri (15 dakikalık bayatlık eşiği ve portföy `isStale` bayrağı tespiti).
+
+### Changed
+
+- `docs/TODO.md`: Faz 14 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 20: Test aşaması — Faz 14.1 (Entegrasyon testleri) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.48 / 1.43 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.54] - 22.10.2026
 
 ### Added

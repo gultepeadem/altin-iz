@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.47 Taslak  
+**Belge sürümü:** 1.48 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi TAMAMLANDI - Bölüm 20: Test aşaması - Faz 14 (Birim testleri) sıradaki  
-**Kodlama durumu:** docs/PRIVACY.md veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, Google Play Data Safety ve Apple App Privacy tabloları kesinleştirildi; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 13.1 ve Bölüm 19 başarıyla tamamlandı; toplanan veriler envanterlendi, izin minimizasyonu sağlandı, harici analitik/takipçi olmadığı doğrulandı, Google Play ve App Store gizlilik beyan matrisleri oluşturuldu. Sıradaki görev Bölüm 20: Test aşaması - Faz 14 (Birim testleri)
+**Proje aşaması:** Bölüm 20: Test aşaması - Faz 14 (Birim testleri) TAMAMLANDI - Faz 14.1 (Entegrasyon testleri) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz14-unit-tests.ts 12 ana başlık ve 93/93 iddia ile çalıştırıldı; tüm matematik, doğrulama ve biçimlendirme kuralları doğrulandı  
+**Son çalışma durumu:** Faz 14 başarıyla tamamlandı; para dönüştürme, para biçimlendirme, miktar doğrulama, tarih kontrolü, satın alma/bozdurma tahminleri, kâr-zarar, yüzde, ADR-013 kısmi portföy toplamları, hata normalizasyonu, ürün etkinliği ve eski fiyat kuralları test edildi. Sıradaki görev Bölüm 20: Test aşaması - Faz 14.1 (Entegrasyon testleri)
 
 ---
 
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.48 Taslak - 22.10.2026
+- Bölüm 20: Test aşaması — Faz 14: Birim testleri tamamlandı.
+- `supabase/tests/test-faz14-unit-tests.ts` oluşturuldu; 12 ana fonksiyonel başlıkta 93 iddia (assertion) ile tüm birim seviyesi etki alanı fonksiyonları ve yardımcı araçlar doğrulandı.
+- Para dönüştürme (`toMinorUnits`, `fromMinorUnits`, `parseMoneyInputToMinor`), para biçimlendirme (`formatMoney`), miktar doğrulama (`parseQuantity`, `validateQuantity`), tarih kontrolü (`parseDateInputToISO`, `isFutureDate`, `formatDate`), satın alma ve bozdurma tahminleri (`calculatePurchaseEstimate`, `calculateRedemptionEstimate`), kâr-zarar ve yüzdelik oran (`calculateEntryValuation`, `calculatePercentageChange`, `formatPercent`), ADR-013 kısmi portföy konsolidasyonu (`calculatePortfolioSummary`), hata dönüştürme (`normalizeError`), ürün etkinlik filtrelemesi ve eski fiyat tespit eşikleri test edildi (93/93 başarılı).
+- Sıradaki görev Bölüm 20: Test aşaması — Faz 14.1 (Entegrasyon testleri) olarak güncellendi.
 
 ### 1.47 Taslak - 22.10.2026
 - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1: Gizlilik incelemesi tamamlandı (Bölüm 19 %100 tamamlandı).
