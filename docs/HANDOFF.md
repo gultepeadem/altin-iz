@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.35 Taslak  
+**Belge sürümü:** 1.36 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 15 (Ana Sayfa) - Faz 9 tamamlandı, Faz 9.1 (Ana Sayfa arayüzü) sıradaki  
-**Kodlama durumu:** home.ts ve homeService.ts GRAM_GOLD, QUARTER_GOLD_NEW, OUNCE_GOLD eşleştirmesi, portföy özeti, zaman tespiti ve konsolide durum yönetimiyle (fresh/stale/partial/unavailable) tamamlandı  
-**Son çalışma durumu:** Faz 9 başarıyla tamamlandı; öne çıkan altın ürünleri, canlı fiyat eşleştirmeleri, portföy izolasyonu, zaman tespiti ve konsolide piyasa/portföy durumları 10/10 test ile onaylandı. Sıradaki görev Faz 9.1 (Ana Sayfa arayüzü)
+**Proje aşaması:** Bölüm 15 (Ana Sayfa) TAMAMLANDI - Bölüm 16 (Ayarlar) Faz 10 sıradaki  
+**Kodlama durumu:** tabs/index.tsx canlı homeService entegrasyonu, karşılama alanı, son fiyat zamanı, Gram/Yeni Çeyrek/Ons kartları, portföy özeti, durum şeritleri (ADR-013/014) ve pull-to-refresh ile tamamlandı  
+**Son çalışma durumu:** Faz 9.1 başarıyla tamamlandı; Bölüm 15 (Ana Sayfa) eksiksiz bitirildi, canlı karşılama alanı, öne çıkan fiyat kartları, portföy özeti, durum banner'ları ve navigasyon 10/10 test ile onaylandı. Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Ayarlar ekranı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Bölüm 15 (Ana Sayfa) kapsamında Faz 9 Ana Sayfa veri modelini; GRAM_GOLD, QUARTER_GOLD_NEW ve OUNCE_GOLD ürünlerinin öncelikli canlı fiyatlarının getirilmesi, kullanıcının portföy özetiyle birleştirilmesi, en son fiyat zamanının tespiti ve tam, kısmi, eski ve kullanılamıyor durumlarının konsolide edilmesi ve 10/10 test ile doğrulanması
+Bölüm 15 (Ana Sayfa) kapsamında Faz 9.1 Ana Sayfa arayüzünü; src/app/(protected)/(tabs)/index.tsx ekranını canlı homeService servisiyle bağlamak, dinamik karşılama alanı, son fiyat zamanı şeridi, Gram Altın, Yeni Tarihli Çeyrek Altın ve Ons Altın kartları, portföy özet kartı, durum banner'ları (ADR-013/014), hızlı işlem butonları ve pull-to-refresh desteğiyle hayata geçirmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 9 tamamlandı: src/models/home.ts ve src/services/homeService.ts modelleri ve servisi oluşturuldu; öne çıkan fiyatlar, portföy özeti, son zaman tespiti ve durum konsolidasyonları 10/10 otomatik test ile doğrulandı
+Faz 9.1 tamamlandı: src/app/(protected)/(tabs)/index.tsx ekranı canlı servis, karşılama alanı, öne çıkan fiyat kartları, portföy özeti, durum şeritleri ve pull-to-refresh ile kodlandı; 10/10 otomatik test ile doğrulandı. Bölüm 15 (Ana Sayfa) eksiksiz tamamlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 15 - Ana Sayfa (Faz 9.1 sıradaki)
+Bölüm 16 - Ayarlar ve kullanıcı tercihleri (Faz 10 sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.36 Taslak - 22.10.2026
+- Bölüm 15 Ana Sayfa - Faz 9.1 Ana Sayfa arayüzü tamamlandı (Bölüm 15: Ana Sayfa başarıyla sonuçlandırıldı).
+- `tabs/index.tsx` ekranı canlı `homeService.getHomeData()` servisiyle entegre edildi, karşılama alanı, son fiyat zamanı şeridi, Gram/Yeni Çeyrek/Ons kartları, portföy özeti, durum şeritleri (ADR-013/014), hızlı aksiyonlar, useFocusEffect ve pull-to-refresh uygulandı.
+- `supabase/tests/test-faz9-1-home-screen.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Ayarlar ekranı) olarak güncellendi.
 
 ### 1.35 Taslak - 22.10.2026
 - Bölüm 15 Ana Sayfa - Faz 9 Ana Sayfa veri modeli tamamlandı.

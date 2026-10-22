@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.30 Taslak  
+**Belge sürümü:** 1.31 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 15 (Ana Sayfa) - Faz 9 tamamlandı, Faz 9.1 (Ana Sayfa arayüzü) sıradaki  
-**Kodlama durumu:** home.ts ve homeService.ts GRAM_GOLD, QUARTER_GOLD_NEW, OUNCE_GOLD eşleştirmesi, portföy özeti, zaman tespiti ve konsolide durum yönetimiyle (fresh/stale/partial/unavailable) tamamlandı
+**Proje durumu:** Bölüm 15 (Ana Sayfa) TAMAMLANDI - Bölüm 16 (Ayarlar) Faz 10 sıradaki  
+**Kodlama durumu:** tabs/index.tsx canlı homeService entegrasyonu, karşılama alanı, son fiyat zamanı, Gram/Yeni Çeyrek/Ons kartları, portföy özeti, durum şeritleri (ADR-013/014) ve pull-to-refresh ile tamamlandı
 
 ---
 

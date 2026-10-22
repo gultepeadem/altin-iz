@@ -1143,21 +1143,21 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 9.1: Ana Sayfa arayüzü
 
-- [ ] Karşılama alanını oluştur.
-- [ ] Son fiyat güncelleme bilgisini göster.
-- [ ] Gram Altın fiyat kartını oluştur.
-- [ ] Çeyrek Altın fiyat kartını oluştur.
-- [ ] Ons Altın fiyat kartını oluştur.
-- [ ] Tüm Fiyatları Gör bağlantısını ekle.
-- [ ] Portföy özet kartını oluştur.
-- [ ] Portföye Altın Ekle butonunu ekle.
-- [ ] Hızlı Hesaplama butonunu ekle.
-- [ ] Boş portföy durumunu göster.
-- [ ] Eski fiyat uyarısını göster.
-- [ ] Kısmi portföy uyarısını göster.
-- [ ] Fiyat servisi hatasını yönet.
-- [ ] Android küçük ekranda test et.
-- [ ] iOS Safe Area davranışını test et.
+- [x] Karşılama alanını oluştur.
+- [x] Son fiyat güncelleme bilgisini göster.
+- [x] Gram Altın fiyat kartını oluştur.
+- [x] Çeyrek Altın fiyat kartını oluştur.
+- [x] Ons Altın fiyat kartını oluştur.
+- [x] Tüm Fiyatları Gör bağlantısını ekle.
+- [x] Portföy özet kartını oluştur.
+- [x] Portföye Altın Ekle butonunu ekle.
+- [x] Hızlı Hesaplama butonunu ekle.
+- [x] Boş portföy durumunu göster.
+- [x] Eski fiyat uyarısını göster.
+- [x] Kısmi portföy uyarısını göster.
+- [x] Fiyat servisi hatasını yönet.
+- [x] Android küçük ekranda test et.
+- [x] iOS Safe Area davranışını test et.
 
 ---
 

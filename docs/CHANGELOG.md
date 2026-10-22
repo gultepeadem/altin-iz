@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.43] - 22.10.2026
+
+### Added
+
+- Bölüm 15 Ana Sayfa - Faz 9.1 Ana Sayfa arayüzü tamamlandı (Bölüm 15: Ana Sayfa başarıyla tamamlandı):
+  - `src/app/(protected)/(tabs)/index.tsx`: Sahte veriler kaldırılarak canlı `homeService.getHomeData()` servisine bağlandı:
+    - Karşılama Alanı: Saate göre dinamik selamlama ("Günaydın" / "İyi günler" / "İyi akşamlar") ve kullanıcı adını/e-postasını çözümleyen başlık eklendi.
+    - Son Fiyat Güncelleme Şeridi: `formatDateTime(lastPriceTime)` ile piyasa fiyatlarının en son ne zaman güncellendiği gösterildi.
+    - Öne Çıkan Fiyat Kartları: Gram Altın (`GRAM_GOLD`), Çeyrek Altın (`QUARTER_GOLD_NEW` - Yeni Tarihli) ve Ons Altın (`OUNCE_GOLD` - USD/oz) canlı alış/satış fiyatları ve günlük değişim rozetleriyle listelendi; kartlara dokunulduğunda ilgili ürün detayına (`/(protected)/gold/[productId]`) yönlendirildi.
+    - Sıfır TL Engeli (ADR-013): Fiyatı olmayan kartlarda asla `0,00 TL` gösterilmeyip "Fiyat Yok" metni sunuldu.
+    - Portföy Özet Kartı: Toplam tahmini bozdurma değeri (ADR-010), ödenen maliyet, kâr/zarar tutarı ve rozeti; tıklandığında Portföyüm sekmesine (`/(protected)/(tabs)/portfolio`) yönlendirme eklendi.
+    - Hızlı Aksiyonlar: `+ Altın Ekle` ve `Hesapla` butonları ile `Tümünü Gör →` (Fiyatlar sekmesi) bağlantısı bağlandı.
+    - Durum Şeritleri: ADR-013 kısmi fiyat/portföy durumunda `PartialDataBanner`, ADR-014 eski fiyat durumunda `StaleDataBanner` gösterildi.
+    - Çekip Yenileme (Pull-to-refresh) ve sekmeye dönüşte otomatik tazeleme (`useFocusEffect`) sağlandı.
+  - `supabase/tests/test-faz9-1-home-screen.ts`: 10/10 senaryoyu kapsayan karşılama metni, son zaman formatı, Gram kartı, Yeni Çeyrek kartı, Ons kartı, portföy özeti, hızlı buton rotaları, ADR-013 kısmi durum, ADR-014 eski fiyat ve 0 TL göstermeme kuralını doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Bölüm 15 (Ana Sayfa) ve Faz 9.1 tamamlandı olarak işaretlendi; sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Ayarlar ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.42] - 22.10.2026
 
 ### Added
