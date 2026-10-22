@@ -85,7 +85,7 @@ export default function PortfolioScreen() {
   // İlk yükleme esnasında yükleme göstergesi
   if (loading && items.length === 0) {
     return (
-      <ScreenContainer scrollable={false}>
+      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
         <LoadingState message="Portföyünüz yükleniyor..." fullScreen />
       </ScreenContainer>
     );
@@ -94,7 +94,7 @@ export default function PortfolioScreen() {
   // Hata durumu ve henüz liste yüklenmemişse
   if (error && items.length === 0) {
     return (
-      <ScreenContainer scrollable={false}>
+      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
         <ErrorState
           title="Portföy Yüklenemedi"
           message={error}
@@ -107,7 +107,7 @@ export default function PortfolioScreen() {
   // Portföy tamamen boş ise
   if (!loading && items.length === 0) {
     return (
-      <ScreenContainer scrollable={false}>
+      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
         <ScrollView
           contentContainerStyle={styles.emptyScroll}
           refreshControl={
@@ -406,7 +406,7 @@ export default function PortfolioScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false}>
+    <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
       <FlatList
         data={items}
         renderItem={renderItem}

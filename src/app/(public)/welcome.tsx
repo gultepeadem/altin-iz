@@ -15,7 +15,7 @@ export default function WelcomeScreen() {
   const { theme } = useTheme();
 
   return (
-    <ScreenContainer style={styles.container}>
+    <ScreenContainer style={styles.container} edges={['top', 'bottom', 'left', 'right']}>
       <View style={styles.heroSection}>
         <Text style={styles.logoEmoji}>🪙</Text>
         <Text
@@ -67,7 +67,8 @@ export default function WelcomeScreen() {
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'space-between',
-    paddingVertical: 32,
+    paddingTop: 24,
+    paddingBottom: 16,
   },
   heroSection: {
     flex: 1,

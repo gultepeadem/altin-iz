@@ -239,7 +239,7 @@ export default function CalculatorScreen() {
 
   if (loading && products.length === 0) {
     return (
-      <ScreenContainer scrollable={false} withPadding={true}>
+      <ScreenContainer scrollable={false} withPadding={true} edges={['top', 'left', 'right']}>
         <LoadingState message="Hesaplama sistemi yükleniyor..." />
       </ScreenContainer>
     );
@@ -247,7 +247,7 @@ export default function CalculatorScreen() {
 
   if (error && products.length === 0) {
     return (
-      <ScreenContainer scrollable={false} withPadding={true}>
+      <ScreenContainer scrollable={false} withPadding={true} edges={['top', 'left', 'right']}>
         <ErrorState
           title="Hesaplama Başlatılamadı"
           message={error}
@@ -259,7 +259,7 @@ export default function CalculatorScreen() {
   }
 
   return (
-    <ScreenContainer scrollable={true} withPadding={true} keyboardAvoiding={true}>
+    <ScreenContainer scrollable={true} withPadding={true} keyboardAvoiding={true} edges={['top', 'left', 'right']}>
       <View style={styles.container}>
         {/* İşlem Türü Seçimi (Satın Alacağım / Bozduracağım - ADR-011) */}
         <View

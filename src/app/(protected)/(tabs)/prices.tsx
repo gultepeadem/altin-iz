@@ -516,7 +516,7 @@ export default function PricesScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false} withPadding={true}>
+    <ScreenContainer scrollable={false} withPadding={true} edges={['top', 'left', 'right']}>
       {loading && !refreshing && items.length === 0 ? (
         <LoadingState message="Canlı altın fiyatları yükleniyor..." fullScreen={false} />
       ) : error && items.length === 0 ? (

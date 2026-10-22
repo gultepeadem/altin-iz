@@ -79,7 +79,7 @@ export default function HomeScreen() {
   // İlk yükleme esnasında gösterge
   if (loading && !homeData) {
     return (
-      <ScreenContainer scrollable={false}>
+      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
         <LoadingState message="Piyasa ve portföy verileri yükleniyor..." fullScreen />
       </ScreenContainer>
     );
@@ -88,7 +88,7 @@ export default function HomeScreen() {
   // Hata durumu ve henüz veri yüklenmemişse
   if (error && !homeData) {
     return (
-      <ScreenContainer scrollable={false}>
+      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
         <ErrorState
           title="Veriler Alınamadı"
           message={error}
@@ -245,7 +245,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false}>
+    <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         refreshControl={

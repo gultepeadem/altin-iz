@@ -108,7 +108,7 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={true} withPadding={true}>
+    <ScreenContainer scrollable={true} withPadding={true} edges={['top', 'left', 'right']}>
       {/* Kullanıcı Profil Kartı */}
       <View
         style={[

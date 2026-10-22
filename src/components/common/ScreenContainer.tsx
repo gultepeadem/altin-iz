@@ -44,7 +44,7 @@ export function ScreenContainer({
   keyboardAvoiding = Platform.OS === 'ios',
   style,
   contentContainerStyle,
-  edges = ['top', 'left', 'right'],
+  edges = ['top', 'bottom', 'left', 'right'],
   refreshControl,
 }: ScreenContainerProps) {
   const { theme } = useTheme();
