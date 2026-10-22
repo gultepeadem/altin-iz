@@ -450,20 +450,20 @@ Initialize Expo TypeScript project
 
 ## Faz 2.3: Temel klasörlerin oluşturulması
 
-- [ ] `src/components` klasörünü oluştur.
-- [ ] `src/constants` klasörünü oluştur.
-- [ ] `src/domain` klasörünü oluştur.
-- [ ] `src/hooks` klasörünü oluştur.
-- [ ] `src/lib` klasörünü oluştur.
-- [ ] `src/models` klasörünü oluştur.
-- [ ] `src/providers` klasörünü oluştur.
-- [ ] `src/services` klasörünü oluştur.
-- [ ] `src/theme` klasörünü oluştur.
-- [ ] `src/utils` klasörünü oluştur.
-- [ ] Yalnızca gerekli alt klasörleri oluştur.
-- [ ] Boş klasörler için gereksiz dosyalar ekleme.
-- [ ] TypeScript yol takma adı gerekip gerekmediğini değerlendir.
-- [ ] Klasör yapısını `ARCHITECTURE.md` ile doğrula.
+- [x] `src/components` klasörünü oluştur.
+- [x] `src/constants` klasörünü oluştur.
+- [x] `src/domain` klasörünü oluştur.
+- [x] `src/hooks` klasörünü oluştur.
+- [x] `src/lib` klasörünü oluştur.
+- [x] `src/models` klasörünü oluştur.
+- [x] `src/providers` klasörünü oluştur.
+- [x] `src/services` klasörünü oluştur.
+- [x] `src/theme` klasörünü oluştur.
+- [x] `src/utils` klasörünü oluştur.
+- [x] Yalnızca gerekli alt klasörleri oluştur.
+- [x] Boş klasörler için gereksiz dosyalar ekleme.
+- [x] TypeScript yol takma adı gerekip gerekmediğini değerlendir.
+- [x] Klasör yapısını `ARCHITECTURE.md` ile doğrula.
 
 ---
 

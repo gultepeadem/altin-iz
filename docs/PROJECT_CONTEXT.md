@@ -1106,13 +1106,13 @@ Faz 2 proje iskeleti oluşturma, yerel Git deposu başlatma ve Faz 2.2 kapsamın
 Son tamamlanan ana iş:
 
 ```text
-Faz 2.2 kapsamında 14 belgenin proje kökü, docs/ ve .github/ klasörlerindeki varlığı doğrulandı; Expo SDK 58 src/app/ rota yapısı ARCHITECTURE.md, README.md, copilot-instructions.md ve TODO.md belgelerine işlenerek tam uyum sağlandı.
+Faz 2.3 kapsamında ARCHITECTURE.md mimarisine uygun olarak eksik 7 temel src/ klasörü oluşturuldu; mevcut 4 klasörle birlikte 11 klasörlü src/ yapısı tamamlandı ve doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 2.2 (Belge yerleşimi ve doğrulama) tamamlandı; Faz 2.3 (Temel klasörlerin oluşturulması) aşamasına geçiş
+Faz 2.3 (Temel klasörlerin oluşturulması) tamamlandı; Faz 2.4 (Ortam dosyaları) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 2.2 (Belge yerleşimi ve doğrulama) tamamlandı; Faz 2.3 (Temel klasörleri
 Sıradaki teknik görev:
 
 ```text
-Faz 2.3: Temel klasörlerin oluşturulması
+Faz 2.4: Ortam dosyaları
 ```
 
-Bu görevde ARCHITECTURE.md mimarisine uygun olarak eksik olan domain, lib, models, providers, services, theme, utils klasörleri src/ altında oluşturulacak ve TypeScript/linter doğrulaması yapılacaktır.
+Bu görevde `.env.example` dosyası oluşturulacak, geliştirme ortamı için `.env.local` hazırlanacak ve eksik ortam değişkeni güvenli hata davranışı planlanacaktır.
 
 ---
 

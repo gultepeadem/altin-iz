@@ -61,6 +61,7 @@ Sürüm henüz yayımlanmamışsa:
 ### Added
 
 - Faz 2.2 kapsamında 14 başlangıç belgesinin proje kökü, `docs/` ve `.github/` altındaki varlığı ve tamlığı doğrulandı.
+- Faz 2.3 kapsamında `ARCHITECTURE.md` mimarisine uygun olarak eksik 7 temel klasör oluşturuldu: `src/domain/`, `src/lib/`, `src/models/`, `src/providers/`, `src/services/`, `src/theme/`, `src/utils/`. Mevcut 4 klasör (`src/app/`, `src/components/`, `src/constants/`, `src/hooks/`) zaten şablondan geldiği doğrulandı. TypeScript yol takma adı (`@/*` → `./src/*`) zaten mevcut olduğu teyit edildi.
 
 ### Changed
 

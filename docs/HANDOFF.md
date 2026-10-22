@@ -6,7 +6,7 @@
 **Son güncelleme:** 21.10.2026  
 **Proje aşaması:** Proje iskeleti (Faz 2)  
 **Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı  
-**Son çalışma durumu:** Faz 2.2 başarıyla tamamlandı; 14 belge hedef konumlarında doğrulandı, Expo SDK 58 src/app/ yapısıyla eşitlendi. Sıradaki görev Faz 2.3 (Temel klasörlerin oluşturulması)
+**Son çalışma durumu:** Faz 2.3 başarıyla tamamlandı; ARCHITECTURE.md mimarisindeki 11 temel src/ klasörünün tamamı mevcut. Sıradaki görev Faz 2.4 (Ortam dosyaları)
 
 ---
 
@@ -63,13 +63,13 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 2.2 kapsamında proje belgelerini gerçek Expo SDK 58 klasör yapısıyla doğrulamak, rotaları src/app/ ile eşitlemek ve sıradaki faza (Faz 2.3) hazırlamak
+Faz 2.3 kapsamında ARCHITECTURE.md mimarisinde tanımlanan temel src/ klasörlerini oluşturmak ve yapıyı doğrulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 2.2 tamamlandı: 14 proje belgesinin hedef klasörlerdeki varlığı doğrulandı; ARCHITECTURE.md, README.md, copilot-instructions.md, TODO.md ve PROJECT_CONTEXT.md belgeleri Expo SDK 58 dosya tabanlı yönlendirme yapısıyla (src/app/) eşitlendi; TODO.md Faz 2.2 adımları tamamlandı olarak işaretlendi
+Faz 2.3 tamamlandı: Eksik 7 klasör (domain, lib, models, providers, services, theme, utils) oluşturuldu; mevcut 4 klasör (app, components, constants, hooks) teyit edildi; ARCHITECTURE.md ile %100 uyum doğrulandı; TypeScript yol takma adı mevcut olarak teyit edildi
 ```
 
 ### Projenin mevcut aşaması
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-94347de (docs: complete Faz 2.2 and align route paths with src/app)
+4da17fb (scaffold: create core src/ directories per ARCHITECTURE.md (Faz 2.3))
 ```
 
 ### Son çalışan commit
 
 ```text
-94347de
+4da17fb
 ```
 
 ### Aktif dal
@@ -591,28 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 2.3: Temel klasörlerin oluşturulması
+Faz 2.4: Ortam dosyaları
 ```
 
-Bu görevde `ARCHITECTURE.md` mimarisinde tanımlanan ancak varsayılan Expo şablonunda henüz bulunmayan temel klasörler oluşturulacaktır:
-- `src/domain/`
-- `src/lib/`
-- `src/models/`
-- `src/providers/`
-- `src/services/`
-- `src/theme/`
-- `src/utils/`
+Bu görevde `.env.example` dosyası oluşturulacak ve geliştirme ortamı için `.env.local` dosyası hazırlanacaktır. Ortam değişkenleri: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `EXPO_PUBLIC_APP_ENV`.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 2.3 şu koşullarda tamamlanmış sayılır:
+Faz 2.4 şu koşullarda tamamlanmış sayılır:
 
-- Belirtilen temel klasörler `src/` altında oluşturulmalı.
-- Gereksiz veya boş dosya kalabalığı yapılmamalı.
-- `npx tsc --noEmit` ve `npm run lint` testleri hatasız tamamlanmalı.
-- `docs/TODO.md` içindeki Faz 2.3 maddeleri güncellenmeli.
+- `.env.example` dosyası oluşturulmuş ve gerçek anahtar içermemeli.
+- `.env.local` dosyası oluşturulmuş ve `.gitignore` tarafından dışlanmalı.
+- Eksik ortam değişkenleri için güvenli hata davranışı planlanmalı.
+- `TODO.md` içindeki Faz 2.4 maddeleri güncellenmeli.
 
 ---
 
