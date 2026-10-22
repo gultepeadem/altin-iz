@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.52] - 22.10.2026
+
+### Added
+
+- Bölüm 18: Hesap ve veri silme — Faz 12.2: Hesap silme ekranı tamamlandı (Bölüm 18 %100 tamamlandı):
+  - `src/services/authService.ts`: `deleteAccount` metodu eklendi; `delete-account` Edge Function çağrısını yürütür, hata durumunu normalize eder ve başarılı olduğunda yerel oturumu/önbellekleri (`signOut`) temizler.
+  - `src/app/(protected)/account/delete.tsx`:
+    - Silinecek verileri listeleyen (portföy, profil, tercihler, oturum) kart tasarımı eklendi.
+    - Kırmızı belirgin geri alınamazlık panosu (`theme.colors.loss`) oluşturuldu.
+    - Şifre ile yeniden kimlik doğrulama alanı (`PasswordField`) bağlandı.
+    - İki aşamalı son onay adımı (`Alert.alert` destructive diyalog) eklendi.
+    - Silme sürerken ekranı kilitleme (`isSubmitting` durumunda buton pasifleştirme ve yükleniyor animasyonu) sağlandı.
+    - Başarılı işlemde karşılama ekranına (`/(public)/welcome`) yönlendirme, başarısızlıkta ise kullanıcıyı ekranda tutup hata bildirme ve tekrar deneme desteği kodlandı.
+  - `supabase/tests/test-faz12-2-account-delete-screen.ts`: 10/10 senaryoyla silinecek veriler listesi, geri alınamazlık uyarısı, boş şifre engeli, destructive onay adımı, ekran kilitleme, başarıda oturum kapatma ve yönlendirme, başarısızlıkta ekranda tutma, tekrar deneme davranışı, authService entegrasyonu ve mobil platform uyumunu doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 12.2 maddeleri `[x]` olarak işaretlendi; Bölüm 18 tamamlandı, sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13 (Güvenlik incelemesi) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.45 / 1.40 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.51] - 22.10.2026
 
 ### Added

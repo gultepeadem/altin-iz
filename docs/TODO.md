@@ -1286,17 +1286,17 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 12.2: Hesap silme ekranı
 
-- [ ] Silinecek verileri listele.
-- [ ] İşlemin geri alınamayacağını belirt.
-- [ ] Yeniden doğrulama alanını oluştur.
-- [ ] Son onay adımını oluştur.
-- [ ] İşlem sürerken ekranı güvenli şekilde kilitle.
-- [ ] Başarıdan sonra yerel oturumu temizle.
-- [ ] Başarıdan sonra public ekrana yönlendir.
-- [ ] Başarısızlıkta hesabı silinmiş gibi gösterme.
-- [ ] Tekrar deneme davranışını ekle.
-- [ ] Android'de test et.
-- [ ] iOS'ta test et.
+- [x] Silinecek verileri listele.
+- [x] İşlemin geri alınamayacağını belirt.
+- [x] Yeniden doğrulama alanını oluştur.
+- [x] Son onay adımını oluştur.
+- [x] İşlem sürerken ekranı güvenli şekilde kilitle.
+- [x] Başarıdan sonra yerel oturumu temizle.
+- [x] Başarıdan sonra public ekrana yönlendir.
+- [x] Başarısızlıkta hesabı silinmiş gibi gösterme.
+- [x] Tekrar deneme davranışını ekle.
+- [x] Android'de test et.
+- [x] iOS'ta test et.
 
 ---
 

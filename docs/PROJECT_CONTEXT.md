@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.39 Taslak  
+**Belge sürümü:** 1.40 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 18: Hesap ve veri silme - Faz 12.1 (delete-account Edge Function) TAMAMLANDI - Faz 12.2 (Hesap silme ekranı) sıradaki  
-**Kodlama durumu:** supabase/functions/delete-account Edge Function (index, types, service, sanitizer) hazırlandı; ADR-033 silme boru hattı ve parola doğrulaması bağlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 18: Hesap ve veri silme TAMAMLANDI - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) sıradaki  
+**Kodlama durumu:** account/delete.tsx onay ekranı, authService.deleteAccount metodu ve iki aşamalı silme akışı bağlandı; 10/10 test başarılı
 
 ---
 
@@ -1262,6 +1262,14 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.40 Taslak - 22.10.2026
+
+- Bölüm 18: Hesap ve veri silme — Faz 12.2: Hesap silme ekranı tamamlandı (Bölüm 18 %100 tamamlandı).
+- `src/services/authService.ts` dosyasına `deleteAccount` metodu eklendi (`delete-account` Edge Function çağrısı ve `signOut` entegrasyonu).
+- `src/app/(protected)/account/delete.tsx` ekranı silinecek veriler listesi, geri alınamaz kırmızı uyarı panosu, şifre ile yeniden kimlik doğrulama, iki aşamalı `Alert.alert` destructive onayı, ekran kilitleme, güvenli oturum sonlandırma ve hata kurtarma yetenekleriyle tamamlandı.
+- `supabase/tests/test-faz12-2-account-delete-screen.ts` test paketi oluşturuldu (10/10 test başarılı).
+- Sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13 (Güvenlik incelemesi) olarak güncellendi.
 
 ### 1.39 Taslak - 22.10.2026
 

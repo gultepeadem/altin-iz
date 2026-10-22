@@ -258,4 +258,33 @@ export const authService = {
   ): { data: { subscription: Subscription } } {
     return supabase.auth.onAuthStateChange(callback);
   },
+
+  /**
+   * Kullanıcı hesabını ve tüm ilişkili verilerini kalıcı olarak siler (Faz 12.1 Edge Function).
+   * ADR-033 uyarınca yeniden kimlik doğrulama parolası zorunludur.
+   * Silme başarılı olduğunda yerel oturum ve önbellekler temizlenir.
+   */
+  async deleteAccount(params: { password: string; reason?: string }): Promise<void> {
+    try {
+      const { data, error } = await supabase.functions.invoke('delete-account', {
+        body: {
+          password: params.password,
+          reason: params.reason,
+        },
+      });
+
+      if (error) {
+        throw normalizeError(error);
+      }
+
+      if (data && !data.success) {
+        throw normalizeError(data.error || { message: data.message });
+      }
+
+      // Başarılı silme sonrası cihazdaki yerel oturumu ve önbelleği tamamen temizle
+      await this.signOut();
+    } catch (err) {
+      throw normalizeError(err);
+    }
+  },
 };
