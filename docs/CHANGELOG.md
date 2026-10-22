@@ -56,6 +56,25 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.20] - 22.10.2026
+
+### Added
+
+- Faz 5.2 AuthProvider tamamlandı:
+  - `src/models/profile.ts` oluşturuldu; `AccountStatus` (`active`, `deletion_pending`, `disabled`) ve `UserProfile` tipleri tanımlandı.
+  - `src/providers/AuthProvider.tsx` oluşturuldu; oturum durumları (`loading`, `unauthenticated`, `unverified`, `active`, `deletion_pending`, `disabled`), `onAuthStateChange` aboneliği, profil sorgulama ve güvenli `signOut` fonksiyonları merkezi bağlamda birleştirildi.
+  - Provider temizleme (`subscription.unsubscribe()`) yaşam döngüsü eksiksiz uygulandı.
+  - `src/hooks/useAuth.ts` ve `src/providers/index.ts` oluşturuldu.
+  - `src/app/_layout.tsx` kök düzenine `AuthProvider` entegre edildi.
+  - `src/app/index.tsx` güncellenerek oturum yüklenirken (`loading`) tema renklerine uygun yüklenme göstergesi sunuldu; kesin oturum durumu çözümlendikten sonra tek yönlendirme yapılarak sonsuz yönlendirme döngüsü kesin olarak engellendi.
+  - Birim ve sonsuz döngü testleri (6/6) başarıyla doğrulandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.2 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.3 (Kayıt ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.19] - 22.10.2026
 
 ### Added

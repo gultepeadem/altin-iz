@@ -731,16 +731,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.2: AuthProvider
 
-- [ ] `AuthProvider.tsx` oluştur.
-- [ ] Oturum yükleniyor durumunu ekle.
-- [ ] Oturum yok durumunu ekle.
-- [ ] Doğrulanmamış kullanıcı durumunu ekle.
-- [ ] Aktif kullanıcı durumunu ekle.
-- [ ] `deletion_pending` durumunu ekle.
-- [ ] `disabled` durumunu ekle.
-- [ ] Auth olay dinleyicisini ekle.
-- [ ] Provider temizleme işlemini ekle.
-- [ ] Sonsuz yönlendirme döngüsü testini yap.
+- [x] `AuthProvider.tsx` oluştur.
+- [x] Oturum yükleniyor durumunu ekle.
+- [x] Oturum yok durumunu ekle.
+- [x] Doğrulanmamış kullanıcı durumunu ekle.
+- [x] Aktif kullanıcı durumunu ekle.
+- [x] `deletion_pending` durumunu ekle.
+- [x] `disabled` durumunu ekle.
+- [x] Auth olay dinleyicisini ekle.
+- [x] Provider temizleme işlemini ekle.
+- [x] Sonsuz yönlendirme döngüsü testini yap.
 
 ---
 

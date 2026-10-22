@@ -591,22 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5.2: AuthProvider
+Faz 5.3: Kayıt ekranı
 ```
 
-Bu görevde `src/providers/AuthProvider.tsx` oluşturularak kullanıcı oturum durumları (`loading`, `unauthenticated`, `unverified`, `active`, `deletion_pending`, `disabled`), oturum dinleyicisi (`onAuthStateChange`) ve oturum temizleme mekanizmaları kodlanacaktır.
+Bu görevde `src/app/(public)/register.tsx` kayıt ekranı kodlanacak; e-posta, şifre ve şifre tekrar alanları, şifre göster/gizle seçeneği, istemci doğrulama kontrolleri, yasal belge bağlantıları, yüklenme ve çift gönderim engeli uygulanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5.2 şu koşullarda tamamlanmış sayılır:
+Faz 5.3 şu koşullarda tamamlanmış sayılır:
 
-- `src/providers/AuthProvider.tsx` dosyası oluşturulmalı.
-- Oturum durumları (`loading`, `unauthenticated`, `unverified`, `active`, `deletion_pending`, `disabled`) eksiksiz tanımlanmalı.
-- Auth olay dinleyicisi ve temizleme (`unsubscribe`) fonksiyonu eklenmeli.
-- Sonsuz yönlendirme döngüsüne girmemesi doğrulanmalı.
-- `docs/TODO.md` içindeki Faz 5.2 maddeleri güncellenmeli.
+- `src/app/(public)/register.tsx` ekranı eksiksiz kodlanmalı.
+- E-posta, şifre ve şifre tekrar alanları ile şifre göster/gizle düğmesi eklenmeli.
+- İstemci tarafı doğrulama (e-posta formatı, şifre politikası ve eşleşme kontrolü) eklenmeli.
+- Çift gönderimi engelleyen yüklenme durumu uygulanmalı.
+- Başarılı kayıt sonrası kullanıcı e-posta doğrulama ekranına yönlendirilmeli.
+- `docs/TODO.md` içindeki Faz 5.3 maddeleri güncellenmeli.
 
 ---
 
@@ -632,7 +633,8 @@ Faz 5.2 şu koşullarda tamamlanmış sayılır:
 - [x] RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı (Faz 4.4: b5f736c).
 - [x] İki kullanıcılı RLS güvenlik testleri %100 başarıyla tamamlandı (Faz 4.5: 33b59c2).
 - [x] Supabase JS istemcisi, ortam değişkenleri ve oturum adaptörü kuruldu (Faz 5: e1de8c1).
-- [x] Kimlik doğrulama servisleri, modeller ve hata normalizasyonu tamamlandı (Faz 5.1).
+- [x] Kimlik doğrulama servisleri, modeller ve hata normalizasyonu tamamlandı (Faz 5.1: efbd308).
+- [x] AuthProvider, oturum yaşam döngüsü ve sonsuz döngü koruması uygulandı (Faz 5.2).
 
 ---
 
