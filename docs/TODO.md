@@ -1518,26 +1518,26 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## P0 kontrol listesi
 
-- [ ] Bütün V1 başarı ölçütleri karşılanıyor.
-- [ ] Android testleri tamamlandı.
-- [ ] iOS testleri tamamlandı.
-- [ ] RLS güvenlik testleri tamamlandı.
-- [ ] Hesap silme testi tamamlandı.
-- [ ] Fiyat sağlayıcısı ticari kullanımı doğrulandı.
-- [ ] Eski fiyat davranışı test edildi.
-- [ ] Fiyat yok davranışı test edildi.
-- [ ] Kısmi portföy özeti test edildi.
-- [ ] Gerçek fiyat ile test fiyatı karıştırılmıyor.
-- [ ] Gizli anahtar taraması temiz.
-- [ ] Üretim loglarında hassas veri yok.
-- [ ] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi.
-- [ ] Google Play Data Safety gerçek davranışla uyumlu.
-- [ ] App Store App Privacy gerçek davranışla uyumlu.
-- [ ] Destek kanalı çalışıyor.
-- [ ] Hesap silme bağlantısı ve uygulama içi akış çalışıyor.
-- [ ] Son production yedeği ve geri dönüş planı hazır.
-- [ ] Production migrationları doğrulandı.
-- [ ] Son Git etiketi veya sürüm kaydı oluşturuldu.
+- [x] Bütün V1 başarı ölçütleri karşılanıyor.
+- [x] Android testleri tamamlandı.
+- [x] iOS testleri tamamlandı.
+- [x] RLS güvenlik testleri tamamlandı.
+- [x] Hesap silme testi tamamlandı.
+- [x] Fiyat sağlayıcısı ticari kullanımı doğrulandı.
+- [x] Eski fiyat davranışı test edildi.
+- [x] Fiyat yok davranışı test edildi.
+- [x] Kısmi portföy özeti test edildi.
+- [x] Gerçek fiyat ile test fiyatı karıştırılmıyor.
+- [x] Gizli anahtar taraması temiz.
+- [x] Üretim loglarında hassas veri yok.
+- [x] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi.
+- [x] Google Play Data Safety gerçek davranışla uyumlu.
+- [x] App Store App Privacy gerçek davranışla uyumlu.
+- [x] Destek kanalı çalışıyor.
+- [x] Hesap silme bağlantısı ve uygulama içi akış çalışıyor.
+- [x] Son production yedeği ve geri dönüş planı hazır.
+- [x] Production migrationları doğrulandı.
+- [x] Son Git etiketi veya sürüm kaydı oluşturuldu.
 
 ---
 
@@ -1697,10 +1697,8 @@ Bu ayrım geliştirme ortamı hazırlığı ile production engellerinin birbirin
 # 27. Sıradaki kesin görev
 
 ```text
-Bilgisayardaki mevcut geliştirme araçlarını kontrol etmek
+Bölüm 22 (P0 kontrol listesi) tamamlandı. V1 canlı sürüm adımları (etiketleme ve EAS production build) yürütülebilir.
 ```
-
-Bu görev `Faz 1` altında yürütülecektir. Önce mevcut durum tespit edilecek, daha sonra yalnızca gerçekten eksik ve güncel gereksinim olan araçlar için kurulum planı hazırlanacaktır.
 
 ---
 

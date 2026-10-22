@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.52 Taslak  
+**Belge sürümü:** 1.53 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 21: Mağaza hazırlığı TAMAMLANDI (%100) — Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-4-app-store-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; APP_STORE_SETUP.md konsol kılavuzu, App Privacy beyanları, Kural 5.1.1(v) hesap silme açıklaması, TestFlight adımları ve denetçi demo hesabı doğrulandı
+**Proje durumu:** Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) TAMAMLANDI (%100) — V1 Canlı Sürüm (v1.0.0-rc1)  
+**Kodlama durumu:** supabase/tests/test-faz22-p0-checklist.ts 20 senaryo ve 20/20 iddia ile çalıştırıldı; RELEASE_RUNBOOK.md operasyonel rehberi, 7 migration zinciri, PITR/rollback ve mağaza uyumu eksiksiz doğrulandı
 
 ---
 
@@ -1262,6 +1262,14 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.53 Taslak - 22.10.2026
+
+- Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) tamamlandı (%100).
+- `supabase/tests/test-faz22-p0-checklist.ts` 20 senaryolu P0 denetim testi yazıldı ve 20/20 başarıyla geçti; V1 başarı hedefleri, Android/iOS testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekranı, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, ADR-013 asla 0 TL dönmeme kuralı, kısmi portföy özeti, test ve canlı fiyat ayrımı, gizli anahtar taraması, log maskeleme ve debug susturma, 6 yasal belge türü ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, web hesap silme URL'si, operasyonel yedekleme/rollback rehberi, 7 adet sıralı migration ve v1.0.0 sürüm bilgileri doğrulandı.
+- `docs/RELEASE_RUNBOOK.md` operasyonel rehberi oluşturuldu; migration uygulama, Supabase PITR ve `pg_dump` bağımsız yedekleme, acil EAS Update OTA dağıtımı, konsol sürüm durdurma ve geri alma (rollback) prosedürleri belgelendi.
+- `src/app/(protected)/support.tsx` dosyasında iletişim e-posta adresi `destek@altiniz.app` olarak eşitlendi.
+- `docs/TODO.md` Bölüm 22 altındaki 20 P0 kontrol listesi maddesi tamamlandı olarak işaretlendi.
 
 ### 1.52 Taslak - 22.10.2026
 

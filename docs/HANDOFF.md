@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.57 Taslak  
+**Belge sürümü:** 1.58 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 21: Mağaza hazırlığı TAMAMLANDI (%100) — Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-4-app-store-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; APP_STORE_SETUP.md konsol kılavuzu, App Privacy beyanları, Kural 5.1.1(v) hesap silme açıklaması, TestFlight adımları ve denetçi demo hesabı doğrulandı  
-**Son çalışma durumu:** Faz 15.4 başarıyla tamamlandı; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, 4+), App Privacy (sıfır reklam takibi, kullanıcıyla ilişkili veriler), Kural 5.1.1(v) uygulama içi hesap silme inceleme açıklaması (`account/delete.tsx`), gizlilik bağlantısı, EAS production IPA derleme ve TestFlight grupları, 6.7 inç/6.5 inç ekran görüntüleri, App Review inceleme notları, hazır demo denetçi hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`) ve Guideline 3.1.1/3.1.5 politika çözümleri 11 test ile onaylandı. Bölüm 21 (Mağaza hazırlığı) %100 tamamlandı. Sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi)
+**Proje aşaması:** Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) TAMAMLANDI (%100) — V1 Canlı Sürüm Aşaması (v1.0.0-rc1)  
+**Kodlama durumu:** supabase/tests/test-faz22-p0-checklist.ts 20 senaryo ve 20/20 iddia ile çalıştırıldı; RELEASE_RUNBOOK.md yayınlama kılavuzu, 7 migration doğrulaması, yedekleme/PITR/rollback, destek e-postası ve mağaza uyumu onaylandı  
+**Son çalışma durumu:** Bölüm 22 (P0 kontrol listesi) başarıyla tamamlandı; V1 başarı ölçütleri, Android/iOS platform testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekranı, fiyat soyutlaması ve 15 dk bayatlık eşiği, 0 TL dönmeme (ADR-013), kısmi portföy özeti, gizli anahtar taraması, log maskeleme, KVKK ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, hesap silme web URL'si, yedekleme/rollback planı (RELEASE_RUNBOOK.md), 7 sıralı migration ve v1.0.0 sürüm bilgileri 20 test ile onaylandı. V1 gereksinimleri eksiksiz karşılandı.
 
 ---
 
@@ -767,6 +767,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.58 Taslak - 22.10.2026
+- Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) %100 tamamlandı.
+- `supabase/tests/test-faz22-p0-checklist.ts` test paketi yazılarak 20/20 iddia ile başarıyla doğrulandı; V1 başarı ölçütleri, Android ve iOS platform testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekran akışı, fiyat sağlayıcı soyutlaması ve 15 dk bayatlık eşiği, 0 TL dönmeme kuralı (ADR-013), kısmi portföy özeti, test ve gerçek fiyat ayrımı, mobil kaynak kodlarında gizli anahtar taraması, log maskeleme ve canlıda debug susturması, 6 temel yasal belge ve rıza ayrılığı, Google Play Data Safety, App Store App Privacy, destek kanalı, hesap silme bağlantısı, son production yedeği ve geri dönüş planı, 7 adet sıralı migration ve v1.0.0 sürüm bilgileri onaylandı.
+- `docs/RELEASE_RUNBOOK.md` operasyonel kılavuzu oluşturuldu; migration uygulama adımları, bağımsız `pg_dump` ve Supabase PITR yedekleme, EAS Update OTA yama ve mağaza konsollarında sürüm durdurma/geri alma (rollback) prosedürleri belgelendi.
+- `src/app/(protected)/support.tsx` dosyasında iletişim e-postası `destek@altiniz.app` olarak eşitlendi.
+- `docs/TODO.md` Bölüm 22 P0 kontrol listesi maddeleri (20 madde) tamamlandı olarak işaretlendi.
 
 ### 1.57 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı).

@@ -56,6 +56,16 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.65] - 22.10.2026
+
+- **Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (P0 Kontrol Listesi):**
+  - **P0 Kontrol Doğrulama Paketi:** `supabase/tests/test-faz22-p0-checklist.ts` altında 20 kritik yayımlama kriterini (V1 hedefleri, Android/iOS testleri, RLS, hesap silme, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, 0 TL dönmeme ADR-013, kısmi portföy özeti, test/gerçek fiyat ayrımı, gizli anahtar taraması, log maskeleme, KVKK ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, hesap silme URL, yedekleme/rollback, 7 migration doğrulaması, v1.0.0 sürüm bilgileri) denetleyen test paketi yazıldı ve 20/20 başarıyla geçti.
+  - **Canlıya Çıkış ve Geri Dönüş Kılavuzu:** `docs/RELEASE_RUNBOOK.md` belgesi oluşturuldu; 7 adet sıralı migration uygulama adımı, Supabase PITR ve bağımsız `pg_dump` yedekleme yönergeleri, JS hatalarında acil EAS Update OTA dağıtımı, mağaza konsollarında (Play Console / App Store Connect) aşamalı dağıtımı durdurma ve Edge Function geri alma prosedürleri belgelendi.
+  - **Destek E-postası Eşitlemesi:** `src/app/(protected)/support.tsx` dosyasında yer alan iletişim e-posta adresi mağaza vitrin metinleri ve yasal belgelerle uyumlu olarak `destek@altiniz.app` olarak eşitlendi.
+  - **TODO Senkronizasyonu:** `docs/TODO.md` Bölüm 22 altındaki 20 P0 kontrol listesi maddesi tamamlandı olarak işaretlendi.
+
+---
+
 ## [0.0.0-planning.64] - 22.10.2026
 
 ### Added

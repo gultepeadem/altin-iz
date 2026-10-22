@@ -27,7 +27,7 @@ export default function SupportScreen() {
             Destek E-posta Adresi
           </Text>
           <Text style={[styles.contactValue, { color: theme.colors.primary }]}>
-            destek@altiniz.com
+            destek@altiniz.app
           </Text>
         </View>
 
