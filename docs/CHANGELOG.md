@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.21] - 22.10.2026
+
+### Added
+
+- Faz 5.3 Kayıt ekranı tamamlandı:
+  - `src/app/(public)/sign-up.tsx` baştan sona işlevsel hâle getirildi; e-posta, şifre ve şifre tekrar alanları, şifreyi göster/gizle butonları, istemci tarafı format ve eşleşme doğrulaması eklendi.
+  - Çift gönderimi engelleyen yüklenme (`isSubmitting`) mekanizması ve genel hata mesajı bandı entegre edildi.
+  - Kullanım Koşulları ve Gizlilik Politikası (KVKK) için modal üzerinden formdan ayrılmadan incelenebilen yasal bilgilendirme bağlantıları eklendi.
+  - Başarılı kayıt sonrasında e-posta parametresi ile birlikte güvenli biçimde `/(public)/verify-email` rotasına yönlendirme akışı bağlandı.
+  - `src/app/(public)/verify-email.tsx` güncellenerek kayıt olan kullanıcının e-posta adresini görüntüleme ve doğrulama e-postasını tekrar gönderme (`resendVerificationEmail`) altyapısı hazırlandı.
+  - İstemci doğrulama mantığı için 5/5 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.3 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.4 (E-posta doğrulama) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.20] - 22.10.2026
 
 ### Added

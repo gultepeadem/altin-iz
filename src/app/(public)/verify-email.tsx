@@ -2,17 +2,40 @@
  * Altın İz — E-posta Doğrulama Ekranı (verify-email)
  */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import { router } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
 import { SecondaryButton } from '@/components/common/SecondaryButton';
 import { useTheme } from '@/hooks/useTheme';
+import { authService } from '@/services/authService';
+import { normalizeError } from '@/utils/normalizeError';
 
 export default function VerifyEmailScreen() {
   const { theme } = useTheme();
+  const { email } = useLocalSearchParams<{ email?: string }>();
+
+  const [isResending, setIsResending] = useState(false);
+  const [resendStatus, setResendStatus] = useState<string | null>(null);
+
+  const handleResend = async () => {
+    if (!email || isResending) return;
+
+    setIsResending(true);
+    setResendStatus(null);
+
+    try {
+      await authService.resendVerificationEmail({ email });
+      setResendStatus('Doğrulama bağlantısı e-posta adresinize tekrar gönderildi.');
+    } catch (err) {
+      const appErr = normalizeError(err);
+      setResendStatus(appErr.userMessage);
+    } finally {
+      setIsResending(false);
+    }
+  };
 
   return (
     <ScreenContainer style={styles.container}>
@@ -39,8 +62,22 @@ export default function VerifyEmailScreen() {
             },
           ]}
         >
-          Kayıt işlemini tamamlamak için e-posta adresinize gönderdiğimiz doğrulama bağlantısına tıklayın.
+          Kayıt işlemini tamamlamak için{' '}
+          {email ? (
+            <Text style={{ fontWeight: '700', color: theme.colors.textPrimary }}>
+              {email}{' '}
+            </Text>
+          ) : (
+            'e-posta '
+          )}
+          adresinize gönderdiğimiz doğrulama bağlantısına tıklayın.
         </Text>
+
+        {resendStatus ? (
+          <Text style={[styles.statusMessage, { color: theme.colors.primary }]}>
+            {resendStatus}
+          </Text>
+        ) : null}
 
         <PrimaryButton
           title="Doğruladım, Giriş Yap"
@@ -48,11 +85,14 @@ export default function VerifyEmailScreen() {
           style={styles.button}
         />
 
-        <SecondaryButton
-          title="Doğrulama E-postasını Tekrar Gönder"
-          onPress={() => {}}
-          style={styles.resendButton}
-        />
+        {email ? (
+          <SecondaryButton
+            title={isResending ? 'Gönderiliyor...' : 'Doğrulama E-postasını Tekrar Gönder'}
+            onPress={handleResend}
+            disabled={isResending}
+            style={styles.resendButton}
+          />
+        ) : null}
       </View>
     </ScreenContainer>
   );
@@ -77,9 +117,16 @@ const styles = StyleSheet.create({
   },
   message: {
     textAlign: 'center',
-    marginBottom: 28,
+    marginBottom: 24,
     maxWidth: 320,
     lineHeight: 22,
+  },
+  statusMessage: {
+    textAlign: 'center',
+    marginBottom: 16,
+    fontSize: 13,
+    lineHeight: 18,
+    fontWeight: '500',
   },
   button: {
     width: '100%',

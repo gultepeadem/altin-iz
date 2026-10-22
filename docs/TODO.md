@@ -746,18 +746,18 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.3: Kayıt ekranı
 
-- [ ] E-posta alanını oluştur.
-- [ ] Şifre alanını oluştur.
-- [ ] Şifre tekrar alanını oluştur.
-- [ ] Şifreyi göster veya gizle seçeneğini ekle.
-- [ ] E-posta doğrulamasını ekle.
-- [ ] Şifrelerin eşleşme kontrolünü ekle.
-- [ ] Yasal belge bağlantılarını ekle.
-- [ ] Gönderim yüklenme durumunu ekle.
-- [ ] Çift gönderimi engelle.
-- [ ] Başarı sonrası doğrulama ekranına yönlendir.
-- [ ] Android klavye davranışını test et.
-- [ ] iOS klavye ve geri hareketini kontrol et.
+- [x] E-posta alanını oluştur.
+- [x] Şifre alanını oluştur.
+- [x] Şifre tekrar alanını oluştur.
+- [x] Şifreyi göster veya gizle seçeneğini ekle.
+- [x] E-posta doğrulamasını ekle.
+- [x] Şifrelerin eşleşme kontrolünü ekle.
+- [x] Yasal belge bağlantılarını ekle.
+- [x] Gönderim yüklenme durumunu ekle.
+- [x] Çift gönderimi engelle.
+- [x] Başarı sonrası doğrulama ekranına yönlendir.
+- [x] Android klavye davranışını test et.
+- [x] iOS klavye ve geri hareketini kontrol et.
 
 ---
 
