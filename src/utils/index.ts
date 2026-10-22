@@ -3,3 +3,4 @@
  */
 
 export * from './normalizeError';
+export * from './formatters';

@@ -56,6 +56,27 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.30] - 22.10.2026
+
+### Added
+
+- Faz 6.4 Güncel fiyat okuma servisi tamamlandı:
+  - `src/models/goldProduct.ts`: Altın ürün modeli (`GoldProduct`, `GoldProductCategory`, `MeasurementUnit`, `mapRowToGoldProduct`) oluşturuldu.
+  - `src/models/goldPrice.ts`: Altın fiyat modeli (`GoldPrice`, `PriceFreshnessStatus`, `ProductWithPrice`, `determinePriceStatus`, `mapRowToGoldPrice`) oluşturuldu.
+  - `src/utils/formatters.ts`: Fiyat, para birimi, yüzdelik oran ve tarih formatlayıcı yardımcıları (`formatMoney`, `formatPercent`, `formatDateTime`) eklendi.
+  - `src/services/goldProductService.ts`: Aktif ürünleri (`getActiveProducts`), fiyat gösterimine açık ürünleri (`getPriceDisplayProducts`), portföye açık ürünleri (`getPortfolioProducts`) ve hesaplamaya açık ürünleri (`getCalculatorProducts`) getiren istemci servisi yazıldı.
+  - `src/services/goldPriceService.ts`: RLS uyumlu en son geçerli fiyatları (`getLatestPrices`), tek ürün fiyatını (`getLatestPriceForProduct`) ve ürün-fiyat birleşimini (`getProductsWithPrices`) getiren istemci servisi yazıldı.
+  - Fiyat tazelik durumları (`live`, `stale`, `partial`, `unavailable`) modellendi.
+  - Fiyat bulunamayan durumlar için `null` dönülmesi (0 TL kabul edilmemesi, ADR-013) ve hiçbir zaman başka ürün fiyatının yedek olarak bağlanmaması kuralı uygulandı.
+  - `supabase/tests/test-faz6-4-price-service.ts`: Canlı veritabanı sorguları ve tüm iş kurallarını kapsayan 10/10 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `src/models/index.ts`, `src/services/index.ts` ve `src/utils/index.ts` dosyalarına yeni modeller, servisler ve formatlayıcılar eklendi.
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6.4 tamamlandı olarak işaretlendi; sıradaki görev Faz 6.5 (Fiyatlar ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.29] - 22.10.2026
 
 ### Added

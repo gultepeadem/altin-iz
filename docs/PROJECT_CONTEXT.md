@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.17 Taslak  
+**Belge sürümü:** 1.18 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Fiyat sistemi (Faz 6.3 tamamlandı, Faz 6.4 sıradaki)  
-**Kodlama durumu:** Fiyat zamanlayıcısı, çakışma kilidi, kota izleme ve yetkili tetikleyici tamamlandı
+**Proje durumu:** Fiyat sistemi (Faz 6.4 tamamlandı, Faz 6.5 sıradaki)  
+**Kodlama durumu:** Güncel fiyat ve ürün okuma servisleri, formatlayıcılar ve tazelik durumları tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 6.3 (Fiyat zamanlayıcısı) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.4 aşamasına geçiş
+Faz 6.4 (Güncel fiyat okuma servisi) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.5 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 6.3 (Fiyat zamanlayıcısı) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6
 Sıradaki teknik görev:
 
 ```text
-Faz 6.4: Güncel fiyat okuma servisi
+Faz 6.5: Fiyatlar ekranı
 ```
 
-Bu görevde istemci uygulaması için `src/services/goldProductService.ts` ve `src/services/goldPriceService.ts` servisleri oluşturulacak, aktif ürün listesi ve en son geçerli fiyatları getiren metotlar yazılacak, alış ve satış fiyatları ile kaynak zamanı ayrı modellenecek ve `live` durumu üretilecektir.
+Bu görevde `src/app/(protected)/(tabs)/prices.tsx` ekranı kodlanacak; ekran başlığı, son güncelleme bilgisi, ürün arama alanı, sıralama kontrolleri (varsayılan, isme göre, fiyata göre artan/azalan), fiyat kartları, alış/satış etiketleri, tazelik rozetleri (`live`, `stale`, `partial`, `unavailable`) ve aşağı çekip yenileme (pull-to-refresh) entegre edilecektir.
 
 ---
 

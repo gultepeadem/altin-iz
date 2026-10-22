@@ -886,18 +886,18 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6.4: Güncel fiyat okuma servisi
 
-- [ ] `goldProductService.ts` oluştur.
-- [ ] `goldPriceService.ts` oluştur.
-- [ ] Aktif ürün listesini getir.
-- [ ] En son geçerli fiyatı getir.
-- [ ] Alış ve satış fiyatını ayrı modelle.
-- [ ] Kaynak fiyat zamanı ile çekilme zamanını ayrı modelle.
-- [ ] `live` durumunu üret.
-- [ ] `stale` durumunu üret.
-- [ ] `partial` durumunu üret.
-- [ ] `unavailable` durumunu üret.
-- [ ] Fiyat yoksa `null` kullandığını doğrula.
-- [ ] Başka ürün fiyatını yedek kullanmadığını doğrula.
+- [x] `goldProductService.ts` oluştur.
+- [x] `goldPriceService.ts` oluştur.
+- [x] Aktif ürün listesini getir.
+- [x] En son geçerli fiyatı getir.
+- [x] Alış ve satış fiyatını ayrı modelle.
+- [x] Kaynak fiyat zamanı ile çekilme zamanını ayrı modelle.
+- [x] `live` durumunu üret.
+- [x] `stale` durumunu üret.
+- [x] `partial` durumunu üret.
+- [x] `unavailable` durumunu üret.
+- [x] Fiyat yoksa `null` kullandığını doğrula.
+- [x] Başka ürün fiyatını yedek kullanmadığını doğrula.
 
 ---
 

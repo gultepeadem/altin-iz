@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.22 Taslak  
+**Belge sürümü:** 1.23 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Fiyat sistemi (Faz 6.3 tamamlandı, Faz 6.4 sıradaki)  
-**Kodlama durumu:** Fiyat zamanlayıcısı, çakışma kilidi, kota koruması ve yetkili tetikleme motoru tamamlandı  
-**Son çalışma durumu:** Faz 6.3 başarıyla tamamlandı; scheduler.ts modülü oluşturuldu ve 7/7 doğrulama testi geçti. Sıradaki görev Faz 6.4 (Güncel fiyat okuma servisi)
+**Proje aşaması:** Fiyat sistemi (Faz 6.4 tamamlandı, Faz 6.5 sıradaki)  
+**Kodlama durumu:** goldProductService.ts, goldPriceService.ts, fiyat modelleri ve formatlayıcılar tamamlandı  
+**Son çalışma durumu:** Faz 6.4 başarıyla tamamlandı; modeller ve servisler oluşturuldu, 10/10 doğrulama testi geçti. Sıradaki görev Faz 6.5 (Fiyatlar ekranı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 6.3 kapsamında otomatik fiyat zamanlayıcısının development ortamında güvenle kapalı tutulması, yetkili manuel fiyat tetikleme motorunun kurulması, ücretsiz harici API kotasını izleme ve koruma mekanizmasının oluşturulması, eşzamanlı görevlerin çakışmasını önleyen kilit (concurrency lock) yapısının uygulanması, aynı veri için yinelenen kayıt üretiminin engellenmesi ve zamanlayıcı hatalarının güvenle loglanması
+Faz 6.4 kapsamında mobil istemci için goldProductService.ts ve goldPriceService.ts servislerini oluşturmak, aktif ürün listesini ve en son geçerli fiyatları getiren metotları kodlamak, alış ve satış fiyatları ile kaynak ve çekilme zamanlarını ayrı modellemek, fiyat tazeliğine göre live, stale, partial ve unavailable durumlarını üretmek, formatlayıcı yardımcıları eklemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 6.3 tamamlandı: scheduler.ts modülü kodlandı; 7/7 senaryoyu kapsayan otomatik testler (kapalı zamanlayıcı, manuel tetikleme, eşzamanlı kilit koruması, bayat kilit temizleme, kota izleme, değişmeyen veri filtreleme ve güvenli hata kaydı) başarıyla geçti
+Faz 6.4 tamamlandı: goldProduct.ts, goldPrice.ts modelleri, formatters.ts araçları ve goldProductService.ts, goldPriceService.ts servisleri kodlandı; 10/10 senaryoyu kapsayan otomatik testler (canlı aktif ürünler, fiyat gösterimine açık filtreleme, alış/satış ayrımı, zaman ayrımı, live/stale/partial/unavailable durumları, fiyat izolasyonu ve formatlayıcılar) başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 12 - Fiyat sistemi (Faz 6.4 hazırlığı)
+Bölüm 12 - Fiyat sistemi (Faz 6.5 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,23 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6.4: Güncel fiyat okuma servisi
+Faz 6.5: Fiyatlar ekranı
 ```
 
-Bu görevde istemci uygulaması için `src/services/goldProductService.ts` ve `src/services/goldPriceService.ts` servisleri oluşturulacak, aktif ürün listesi ve en son geçerli fiyatları getiren metotlar yazılacak, alış ve satış fiyatları ile kaynak zamanı ayrı modellenecek ve `live` durumu üretilecektir.
+Bu görevde `src/app/(protected)/(tabs)/prices.tsx` ekranı kodlanacak; ekran başlığı, son güncelleme bilgisi, ürün arama alanı, sıralama kontrolleri (varsayılan, isme göre, fiyata göre artan/azalan), fiyat kartları, alış/satış etiketleri, tazelik rozetleri (`live`, `stale`, `partial`, `unavailable`) ve aşağı çekip yenileme (pull-to-refresh) entegre edilecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6.4 şu koşullarda tamamlanmış sayılır:
+Faz 6.5 şu koşullarda tamamlanmış sayılır:
 
-- `goldProductService.ts` ve `goldPriceService.ts` oluşturulmalı.
-- Aktif altın ürünleri listesi getirilip modellenmeli.
-- Her ürün için en son geçerli fiyat kaydı RLS kurallarına uygun okunmalı.
-- Alış ve satış fiyatları ile zaman damgaları ayrı ayrı modellenmeli.
-- Verinin güncelliğine göre `live` durumu üretilmeli.
-- `docs/TODO.md` içindeki Faz 6.4 maddeleri güncellenmeli.
+- `src/app/(protected)/(tabs)/prices.tsx` ekranı tasarım sistemi bileşenleriyle kodlanmalı.
+- Son güncelleme zamanı ve durum rozetleri gösterilmeli.
+- Arama ve sıralama filtreleri çalışmalı.
+- Fiyat kartlarında alış ve satış fiyatları açıkça ayrılmalı.
+- Aşağı çekerek yenileme (pull-to-refresh) çalışmalı.
+- `docs/TODO.md` içindeki Faz 6.5 maddeleri güncellenmeli.
 
 ---
 
@@ -643,7 +643,8 @@ Faz 6.4 şu koşullarda tamamlanmış sayılır:
 - [x] Fiyat sağlayıcısı sembol eşleştirmeleri ve güvenlik testleri tamamlandı (Faz 6: 6431225).
 - [x] Fiyat çekme Edge Function, zaman aşımı ve hata yönetimi tamamlandı (Faz 6.1: d46aaf1).
 - [x] Fiyat verisi doğrulama, kuruşa çevrim ve RLS filtreleme testleri tamamlandı (Faz 6.2: 502ea6c).
-- [x] Fiyat zamanlayıcısı, çakışma kilidi ve kota koruması tamamlandı (Faz 6.3).
+- [x] Fiyat zamanlayıcısı, çakışma kilidi ve kota koruması tamamlandı (Faz 6.3: 4f55e31).
+- [x] Güncel fiyat okuma servisleri, modelleri ve durum hesaplamaları tamamlandı (Faz 6.4).
 
 ---
 
