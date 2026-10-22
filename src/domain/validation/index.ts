@@ -4,3 +4,4 @@
  */
 
 export * from './quantityValidation';
+export * from './portfolioValidation';

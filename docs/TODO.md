@@ -1022,25 +1022,25 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8.1: Portföye altın ekleme formu
 
-- [ ] Yalnızca `portfolio_enabled` ürünleri listele.
-- [ ] Altın türü alanını oluştur.
-- [ ] Miktar alanını oluştur.
-- [ ] Birimi otomatik göster.
-- [ ] Alış tarihi alanını oluştur.
-- [ ] Ödenen toplam tutar alanını oluştur.
-- [ ] Alış yeri alanını oluştur.
-- [ ] Not alanını oluştur.
-- [ ] İşçilik dâhil seçeneğini oluştur.
-- [ ] Gelecek tarihi engelle.
-- [ ] Sıfır ve negatif miktarı engelle.
-- [ ] Sıfır ve negatif tutarı engelle.
-- [ ] Alış yerini 100 karakterle sınırla.
-- [ ] Notu 500 karakterle sınırla.
-- [ ] Form gönderilirken butonu devre dışı bırak.
-- [ ] Çift kayıt oluşturmayı engelle.
-- [ ] Başarı sonrası kayıt detayına yönlendir.
-- [ ] Hata sonrası girilen verileri koru.
-- [ ] Kaydedilmemiş değişiklik uyarısını değerlendir.
+- [x] Yalnızca `portfolio_enabled` ürünleri listele.
+- [x] Altın türü alanını oluştur.
+- [x] Miktar alanını oluştur.
+- [x] Birimi otomatik göster.
+- [x] Alış tarihi alanını oluştur.
+- [x] Ödenen toplam tutar alanını oluştur.
+- [x] Alış yeri alanını oluştur.
+- [x] Not alanını oluştur.
+- [x] İşçilik dâhil seçeneğini oluştur.
+- [x] Gelecek tarihi engelle.
+- [x] Sıfır ve negatif miktarı engelle.
+- [x] Sıfır ve negatif tutarı engelle.
+- [x] Alış yerini 100 karakterle sınırla.
+- [x] Notu 500 karakterle sınırla.
+- [x] Form gönderilirken butonu devre dışı bırak.
+- [x] Çift kayıt oluşturmayı engelle.
+- [x] Başarı sonrası kayıt detayına yönlendir.
+- [x] Hata sonrası girilen verileri koru.
+- [x] Kaydedilmemiş değişiklik uyarısını değerlendir.
 
 ---
 

@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.28 Taslak  
+**Belge sürümü:** 1.29 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8 tamamlandı, Faz 8.1 (Portföye altın ekleme formu) sıradaki  
-**Kodlama durumu:** portfolioService.ts (CRUD, sıralama, oturum izolasyonu, değerleme entegrasyonu, ADR-013 kısmi portföy desteği) ve modelleri tamamlandı  
-**Son çalışma durumu:** Faz 8 başarıyla tamamlandı; CRUD, sıralama kuralları, user_id güvenlik izolasyonu ve ADR-013 kısmi portföy doğrulaması 10/10 test ile onaylandı. Sıradaki görev Faz 8.1 (Portföye altın ekleme formu)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.1 tamamlandı, Faz 8.2 (Portföy kaydı detay ekranı) sıradaki  
+**Kodlama durumu:** portfolio/add.tsx canlı Supabase ürünleri, modal seçici, miktar kontrolleri, bugünden ileri tarihi engelleyen alış tarihi, kuruş bazlı tutar, metin sınırları ve çift kayıt korumasıyla tamamlandı  
+**Son çalışma durumu:** Faz 8.1 başarıyla tamamlandı; form kontrolleri, dinamik birim, tarih/tutar doğrulamaları ve portföy ekleme akışı 10/10 test ile onaylandı. Sıradaki görev Faz 8.2 (Portföy kaydı detay ekranı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8 kapsamında portfolioService.ts ve ilişkili modelleri (PortfolioEntry, CreatePortfolioEntryInput, UpdatePortfolioEntryInput, PortfolioEntryWithValuation) oluşturmak, kullanıcının portföy kayıtlarını listeleme, detay getirme, oluşturma, güncelleme ve silme (CRUD) işlemlerini kodlamak, sıralama kurallarını (purchase_date DESC, created_at DESC) sağlamak, kullanıcı kimliğini form girdisinden soyutlayarak güvenli auth oturumundan atamak, Supabase hatalarını ortak AppError modeline dönüştürmek ve fiyatı olmayan kayıtların kaybolmadığını (ADR-013 kısmi portföy) doğrulamak
+Faz 8.1 kapsamında src/app/(protected)/portfolio/add.tsx ekranını sahte verilerden arındırarak; yalnızca portfolio_enabled aktif altınları listeleyen ürün seçici modalı, dinamik birim etiketi (Adet/Gram), miktar doğrulamaları (tam sayı, max 3 ondalık), bugünden ileri tarihi engelleyen alış tarihi alanı, kuruş bazlı toplam ödenen tutar alanı, alış yeri (100 krk) ve not (500 krk) sınırları, işçilik dâhil seçeneği ve çift kaydı önleyen gönderim mekanizmasıyla eksiksiz geliştirmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8 tamamlandı: portfolioService.ts ve src/models/portfolio.ts eksiksiz oluşturuldu; CRUD, sıralama, güvenlik oturumu izolasyonu ve ADR-013 kısmi portföy doğrulaması 10/10 otomatik test ile doğrulandı
+Faz 8.1 tamamlandı: src/app/(protected)/portfolio/add.tsx ve src/domain/validation/portfolioValidation.ts geliştirildi; form kontrolleri, dinamik birimler, tarih ve tutar doğrulamaları, modal ürün seçici ve çift tıklama koruması 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8.1 sıradaki)
+Bölüm 14 - Portföy sistemi (Faz 8.2 sıradaki)
 ```
 
 ### Uygulama kodu durumu

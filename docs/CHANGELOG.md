@@ -56,6 +56,31 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.36] - 22.10.2026
+
+### Added
+
+- Faz 8.1 Portföye altın ekleme formu tamamlandı:
+  - `src/domain/validation/portfolioValidation.ts`: Portföy form doğrulayıcıları geliştirildi (`parseDateInputToISO`: GG.AA.YYYY ve YYYY-MM-DD ayrıştırması; `isFutureDate`: gelecek tarih engeli; `parseMoneyInputToMinor`: Türkçe virgül ve nokta destekli kuruş dönüşümü).
+  - `src/domain/validation/index.ts`: Portföy doğrulama modülü dışa aktarıldı.
+  - `src/app/(protected)/portfolio/add.tsx`: Canlı Supabase ürünleriyle (`goldProductService.getPortfolioProducts()`) ve `portfolioService.createEntry()` ile entegre edildi.
+    - Yalnızca `portfolio_enabled = true` aktif altın türlerini listeleyen modal ve Türkçe arama çubuğu eklendi.
+    - Seçilen ürüne göre dinamik birim etiketi (`Adet`, `Gram`) ve klavye türü (`number-pad`, `decimal-pad`) bağlandı.
+    - Miktar girişinde adetli ürün için kesirli sayı engeli, gramlı ürün için azami 3 ondalık basamak kuralı uygulandı.
+    - Alış tarihi alanı bugünden sonraki gelecek tarihleri engeller şekilde sınırlandı (`purchase_date <= CURRENT_DATE`).
+    - Ödenen toplam tutar alanı sıfır ve negatif girişleri engelleyerek kuruş cinsinden tamsayıya dönüştürüldü.
+    - Alış yeri (azami 100 karakter) ve not alanı (azami 500 karakter) sınırlandırıldı ve anlık karakter sayaçları eklendi.
+    - İşçilik dâhil alanı için 3 durumlu seçenek grubu (`Dâhil`, `Hariç`, `Belirtilmedi`) eklendi.
+    - Form gönderilirken buton devre dışı bırakılarak (`disabled`) ve `submittingRef` kilidiyle çift kayıt oluşturulması engellendi.
+    - Başarılı işlem sonrası kullanıcıyı portföy sekmesine yönlendirme akışı bağlandı.
+  - `supabase/tests/test-faz8-1-portfolio-add.ts`: 10/10 senaryoyu kapsayan tarih ayrıştırma, gelecek tarih engeli, para ayrıştırma, miktar kontrolleri, metin sınırları, işçilik seçenekleri, çift tıklama koruması ve RLS oturum izolasyonunu doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 8.1 tamamlandı olarak işaretlendi; sıradaki görev Faz 8.2 (Portföy kaydı detay ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.35] - 22.10.2026
 
 ### Added

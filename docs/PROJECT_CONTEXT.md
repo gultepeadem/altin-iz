@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.23 Taslak  
+**Belge sürümü:** 1.24 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8 tamamlandı, Faz 8.1 (Portföye altın ekleme formu) sıradaki  
-**Kodlama durumu:** portfolioService.ts (CRUD, sıralama, oturum izolasyonu, değerleme entegrasyonu, ADR-013 kısmi portföy desteği) ve modelleri tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.1 tamamlandı, Faz 8.2 (Portföy kaydı detay ekranı) sıradaki  
+**Kodlama durumu:** portfolio/add.tsx canlı Supabase ürünleri, modal seçici, miktar kontrolleri, bugünden ileri tarihi engelleyen alış tarihi, kuruş bazlı tutar, metin sınırları ve çift kayıt korumasıyla tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 8 (Portföy servisi) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.1 (Portföye altın ekleme formu) aşamasına geçiş
+Faz 8.1 (Portföye altın ekleme formu) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.2 (Portföy kaydı detay ekranı) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 8 (Portföy servisi) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.1 (P
 Sıradaki teknik görev:
 
 ```text
-Faz 8.1: Portföye altın ekleme formu
+Faz 8.2: Portföy kaydı detay ekranı
 ```
 
-Bu görevde `src/app/(protected)/portfolio/add.tsx` ekranı kodlanacak; yalnızca `portfolio_enabled` aktif ürünlerin listelenmesi, miktar ve dinamik birim etiketi, alış tarihi (gelecek tarih engeli), ödenen toplam tutar, alış yeri ve not sınırları, çift kayıt engelleme ve form gönderimi geliştirilecektir.
+Bu görevde `src/app/(protected)/portfolio/[entryId].tsx` ekranı kodlanacak; seçilen portföy kaydının detayları, miktar ve birimi, alış tarihi, ödenen toplam tutarı, varsa alış yeri ve notu, işçilik durumu, kullanılan güncel alış fiyatı, tahmini güncel bozdurma değeri, tahmini kâr-zararı, getiri yüzdesi, tazelik durumu ve düzenleme/silme aksiyon butonları geliştirilecektir.
 
 ---
 
