@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.55 Taslak  
+**Belge sürümü:** 1.56 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15.2 (Mağaza metinleri) TAMAMLANDI — Faz 15.3 (Google Play hazırlığı) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-2-store-metadata.ts 10 senaryo ve 10/10 iddia ile çalıştırıldı; STORE_LISTING.md vitrin metinleri, kısa/uzun açıklamalar, ASO anahtar kelimeleri, sorumluluk reddi, yasal URL'ler, destek e-postası ve yaş sınıflandırması doğrulandı  
-**Son çalışma durumu:** Faz 15.2 başarıyla tamamlandı; kısa açıklamalar (Google Play: 76/80 kar., App Store: 29/30 kar.), uzun açıklama (özellikler, Kapalıçarşı canlı fiyatlar, makas analizi, hesaplama, portföy kâr/zararı, sıfır izleme gizliliği, çift tema), ASO anahtar kelimeleri (96/100 kar.), SPK sorumluluk reddi metni, destek e-postası (destek@altiniz.app), yasal URL'ler (gizlilik, kullanım koşulları, hesap silme), kategori (Finans) ve yaş derecelendirmesi (4+ / PEGI 3) 10 test ile onaylandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.3 (Google Play hazırlığı)
+**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15.3 (Google Play hazırlığı) TAMAMLANDI — Faz 15.4 (App Store hazırlığı) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-3-google-play-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; GOOGLE_PLAY_SETUP.md konsol kılavuzu, 20 tester/14 gün kuralı, Data Safety yanıtları, hesap silme web URL ve denetçi test hesabı doğrulandı  
+**Son çalışma durumu:** Faz 15.3 başarıyla tamamlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 2024+ kişisel hesap kapalı test zorunluluğu (20 test kullanıcısı / 14 gün), Data Safety formu (TLS şifreleme, toplanan veriler, 0 paylaşılan veri), zorunlu hesap silme web URL'si (`https://altiniz.app/hesap-silme`) ve uygulama içi silme (`account/delete.tsx`), gizlilik bağlantısı, denetçi uygulama erişim talimatları (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mağaza politikası uyarı çözümleri 11 test ile onaylandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.4 (App Store hazırlığı)
 
 ---
 
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.56 Taslak - 22.10.2026
+- Bölüm 21: Mağaza hazırlığı — Faz 15.3: Google Play hazırlığı tamamlandı.
+- `docs/GOOGLE_PLAY_SETUP.md` konsol rehberi hazırlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 20 tester / 14 gün kapalı test kuralı, Data Safety formu soru-cevap matrisi, zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi silme akışı, denetçi erişim talimatları ve test hesabı (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mali hizmetler politika uyarıları belgelendi.
+- `supabase/tests/test-faz15-3-google-play-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.4 (App Store hazırlığı) olarak güncellendi.
 
 ### 1.55 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.2: Mağaza metinleri tamamlandı.

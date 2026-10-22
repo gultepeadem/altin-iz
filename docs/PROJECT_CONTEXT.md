@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.50 Taslak  
+**Belge sürümü:** 1.51 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15.2 (Mağaza metinleri) TAMAMLANDI — Faz 15.3 (Google Play hazırlığı) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-2-store-metadata.ts 10 senaryo ve 10/10 iddia ile çalıştırıldı; STORE_LISTING.md vitrin metinleri, kısa/uzun açıklamalar, ASO anahtar kelimeleri, sorumluluk reddi, yasal URL'ler, destek e-postası ve yaş sınıflandırması doğrulandı
+**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15.3 (Google Play hazırlığı) TAMAMLANDI — Faz 15.4 (App Store hazırlığı) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-3-google-play-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; GOOGLE_PLAY_SETUP.md konsol kılavuzu, 20 tester/14 gün kuralı, Data Safety yanıtları, hesap silme web URL ve denetçi test hesabı doğrulandı
 
 ---
 
@@ -1262,6 +1262,13 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.51 Taslak - 22.10.2026
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.3: Google Play hazırlığı tamamlandı.
+- `docs/GOOGLE_PLAY_SETUP.md` konsol rehberi hazırlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 20 tester / 14 gün kapalı test kuralı, Data Safety formu soru-cevap matrisi, zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi silme akışı, denetçi erişim talimatları ve test hesabı (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mali hizmetler politika uyarıları belgelendi.
+- `supabase/tests/test-faz15-3-google-play-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.4 (App Store hazırlığı) olarak güncellendi.
 
 ### 1.50 Taslak - 22.10.2026
 

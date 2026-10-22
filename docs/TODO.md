@@ -1484,17 +1484,17 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 15.3: Google Play hazırlığı
 
-- [ ] Google Play geliştirici hesabını hazırla.
-- [ ] Uygulama kaydını oluştur.
-- [ ] Kapalı test gereksinimlerini doğrula.
-- [ ] Data Safety formunu doldur.
-- [ ] Hesap silme bilgisini ekle.
-- [ ] Gizlilik politikası bağlantısını ekle.
-- [ ] Uygulama erişim talimatlarını hazırla.
-- [ ] Test hesabı gerekiyorsa güvenli test hesabı oluştur.
-- [ ] İç test sürümünü yükle.
-- [ ] Kapalı test sürümünü yükle.
-- [ ] Mağaza uyarılarını çöz.
+- [x] Google Play geliştirici hesabını hazırla.
+- [x] Uygulama kaydını oluştur.
+- [x] Kapalı test gereksinimlerini doğrula.
+- [x] Data Safety formunu doldur.
+- [x] Hesap silme bilgisini ekle.
+- [x] Gizlilik politikası bağlantısını ekle.
+- [x] Uygulama erişim talimatlarını hazırla.
+- [x] Test hesabı gerekiyorsa güvenli test hesabı oluştur.
+- [x] İç test sürümünü yükle.
+- [x] Kapalı test sürümünü yükle.
+- [x] Mağaza uyarılarını çöz.
 
 ---
 

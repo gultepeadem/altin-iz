@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.63] - 22.10.2026
+
+### Added
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.3: Google Play hazırlığı tamamlandı:
+  - `docs/GOOGLE_PLAY_SETUP.md`: Google Play Console kurulum, test ve yayın kılavuzu oluşturuldu:
+    - 2024+ kişisel hesap kapalı test zorunluluğu (en az 20 test kullanıcısı ile 14 gün kesintisiz test ve üretim başvurusu).
+    - Google Play Data Safety formu resmi yanıtları (TLS 1.3 aktarım şifrelemesi, e-posta, User ID, görünen ad, satın alma geçmişi/portföy ve yasal kayıtlar; 0 veri paylaşımı ve reklam kimliği yok).
+    - Google Play zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi anında veri imhası (`account/delete.tsx`).
+    - Gizlilik politikası bağlantısı (`https://altiniz.app/gizlilik`).
+    - Google Play denetçileri için uygulama erişim (App Access) talimatları ve güvenli test hesabı kimlik bilgileri (`reviewer-play@altiniz.app` / `TestReviewer2026!`).
+    - EAS Build ile AAB paketi üretimi ve dahili test (Internal Testing) / kapalı test (Closed Testing) parça dağıtım adımları.
+    - Mali hizmetler (kişisel varlık takip aracı, SPK lisansı gerektirmez), 18+ hedef kitle ve sıfır reklam beyanları.
+  - `supabase/tests/test-faz15-3-google-play-readiness.ts`: Geliştirici hesabı, paket parametreleri, 20 tester kuralı, Data Safety, hesap silme, test hesabı ve mağaza politikalarını denetleyen 11 testlik paket yazıldı ve 11/11 başarıyla doğrulandı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 15.3 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.4 (App Store hazırlığı) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.56 / 1.51 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.62] - 22.10.2026
 
 ### Added
