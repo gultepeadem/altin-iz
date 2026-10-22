@@ -56,6 +56,25 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.27] - 22.10.2026
+
+### Added
+
+- Faz 6.1 Fiyat çekme Edge Function tamamlandı:
+  - `supabase/functions/fetch-gold-prices/types.ts`: Tip tanımları, hata sınıfları (`PriceApiError`, `PriceApiErrorCode`), istek yapılandırması ve yanıt modelleri oluşturuldu.
+  - `supabase/functions/fetch-gold-prices/sanitizer.ts`: Loglarda ve hata nesnelerinde API anahtarını güvenli maskeleyen (`maskSecret`), açık metin anahtarları temizleyen (`sanitizeLog`) ve güvenli loglama yapan yardımcılar eklendi.
+  - `supabase/functions/fetch-gold-prices/config.ts`: `GOLD_PRICE_API_KEY`, `GOLD_PRICE_API_BASE_URL`, `GOLD_PRICE_SOURCE_CODE`, `FETCH_TIMEOUT_MS`, `MAX_RETRIES` ve `RETRY_DELAY_MS` ortam değişkenlerini güvenli okuyan yapılandırma modülü kodlandı.
+  - `supabase/functions/fetch-gold-prices/fetcher.ts`: Dış kaynaktan fiyat çeken servis yazıldı; `AbortController` tabanlı zaman aşımı mekanizması (8000 ms), HTTP 401 (yetkisiz), HTTP 403 (yasak), HTTP 429 (kota aşımı) durumlarında tekrar denemeden derhal güvenli hata üretimi; HTTP 500-504 ve ağ bağlantı hatalarında sınırlı tekrar deneme (retry) döngüsü kodlandı.
+  - `supabase/functions/fetch-gold-prices/index.ts`: Supabase Edge Function Deno HTTP giriş noktası oluşturuldu; CORS başlıkları ve yetkisiz çağrıları engelleyen `isAuthorized` güvenlik kontrolü uygulandı.
+  - `supabase/tests/test-faz6-1-edge-function.ts`: Ortam değişkenleri, başarılı çekim, 401/403/429 non-retryable hataları, 503 retry döngüsü, timeout iptali, log anahtar maskeleme ve HTTP yetki kontrolünü kapsayan 9/9 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `tsconfig.json` yapılandırmasına `"allowImportingTsExtensions": true` eklendi; Edge Function Deno uyumlu `.ts` uzantılı modüllerin yerel TypeScript denetiminde sıfır hatayla derlenmesi sağlandı.
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6.1 tamamlandı olarak işaretlendi; sıradaki görev Faz 6.2 (Fiyat doğrulama) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.26] - 22.10.2026
 
 ### Added

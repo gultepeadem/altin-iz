@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.14 Taslak  
+**Belge sürümü:** 1.15 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Fiyat sistemi (Faz 6 tamamlandı, Faz 6.1 sıradaki)  
-**Kodlama durumu:** Fiyat sağlayıcı sembol eşleştirmeleri, eski/yeni tarihli ayrımı ve veri bütünlüğü kuralları uygulandı
+**Proje durumu:** Fiyat sistemi (Faz 6.1 tamamlandı, Faz 6.2 sıradaki)  
+**Kodlama durumu:** Fiyat çekme Edge Function, zaman aşımı (8s), hata ve kota yönetimi (401, 403, 429, 500-504) ve API anahtarı maskelemesi tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 6 (Fiyat sağlayıcısı eşleştirmeleri) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.1 aşamasına geçiş
+Faz 6.1 (Fiyat çekme Edge Function) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.2 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 6 (Fiyat sağlayıcısı eşleştirmeleri) tamamlandı; Bölüm 12 (Fiyat Si
 Sıradaki teknik görev:
 
 ```text
-Faz 6.1: Fiyat çekme Edge Function
+Faz 6.2: Fiyat doğrulama
 ```
 
-Bu görevde `supabase/functions/fetch-gold-prices` Edge Function'ı oluşturulacak, sunucu ortam değişkenleri ve API sırları tanımlanacak, istek zaman aşımı, sağlayıcı API çağrısı, 401/403/500 hata yönetimi ve ham yanıt doğrulama adımları kodlanacaktır.
+Bu görevde dış sağlayıcıdan dönen ham fiyat verisinin JSON yapısı, liste formatı, sembol varlığı ve eşleşme durumu, alış/satış fiyatlarının sayısal pozitifliği, para birimi (TRY/USD) ve ürün birimi doğrulaması, zaman damgası kontrolleri, TL kuruşa güvenli çevrim ve `price_fetch_runs` tablosuna durum (`success`, `partial`, `failed`) kaydı kodlanacaktır.
 
 ---
 

@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.19 Taslak  
+**Belge sürümü:** 1.20 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Fiyat sistemi (Faz 6 tamamlandı, Faz 6.1 sıradaki)  
-**Kodlama durumu:** Fiyat sağlayıcı sembol eşleştirmeleri, eski/yeni tarihli ayrımı ve veri bütünlüğü kuralları uygulandı  
-**Son çalışma durumu:** Faz 6 başarıyla tamamlandı; price_source_product_mappings tablosuna 22 eşleştirme tanımlandı, SELECT RLS politikası eklendi ve 7 doğrulama testi geçti. Sıradaki görev Faz 6.1 (Fiyat çekme Edge Function)
+**Proje aşaması:** Fiyat sistemi (Faz 6.1 tamamlandı, Faz 6.2 sıradaki)  
+**Kodlama durumu:** Fiyat çekme Edge Function, zaman aşımı (8s), hata ve kota yönetimi (401, 403, 429, 500-504) ve API anahtarı maskelemesi tamamlandı  
+**Son çalışma durumu:** Faz 6.1 başarıyla tamamlandı; supabase/functions/fetch-gold-prices modülleri oluşturuldu ve 9/9 doğrulama testi geçti. Sıradaki görev Faz 6.2 (Fiyat doğrulama)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 6 kapsamında development fiyat sağlayıcısı (ALTIN_API) sembol eşleştirmelerini (price_source_product_mappings) yapılandırmak, eski/yeni tarihli ürün ayrımını sağlamak ve veri bütünlüğü koruma kurallarını doğrulamak
+Faz 6.1 kapsamında supabase/functions/fetch-gold-prices Edge Function'ını oluşturmak, ortam değişkenleri ve API secret yönetimini sağlamak, istek zaman aşımı, HTTP 401/403/429/5xx hata yönetimi, sınırlı tekrar deneme döngüsü ve API anahtarı maskelemesini kodlamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 6 tamamlandı: 20 aktif + 2 test/pasif eşleştirme tanımlandı, SELECT RLS politikası uygulandı, 7/7 doğrulama testi (25 ürün kataloğu, 10 sikke eşleştirmesi, Cumhuriyet/Ata ayrımı, sahte ürün oluşumunun engellenmesi, pasif eşleştirme izolasyonu) başarıyla geçti
+Faz 6.1 tamamlandı: types.ts, sanitizer.ts, config.ts, fetcher.ts ve index.ts modülleri kodlandı; 9/9 senaryoyu kapsayan otomatik testler (başarılı çekim, 401, 403, 429, 503 retry, timeout, maskeleme, yetki denetimi) başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 12 - Fiyat sistemi (Faz 6.1 hazırlığı)
+Bölüm 12 - Fiyat sistemi (Faz 6.2 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,23 +591,24 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6.1: Fiyat çekme Edge Function
+Faz 6.2: Fiyat doğrulama
 ```
 
-Bu görevde `supabase/functions/fetch-gold-prices` Edge Function'ı oluşturulacak, sunucu ortam değişkenleri ve API sırları tanımlanacak, istek zaman aşımı, sağlayıcı API çağrısı, 401/403/500 hata yönetimi ve ham yanıt doğrulama adımları kodlanacaktır.
+Bu görevde dış sağlayıcıdan dönen ham fiyat verisinin JSON yapısı, liste formatı, sembol varlığı ve eşleşme durumu, alış/satış fiyatlarının sayısal pozitifliği, para birimi (TRY/USD) ve ürün birimi doğrulaması, zaman damgası kontrolleri, TL kuruşa güvenli çevrim ve `price_fetch_runs` tablosuna durum (`success`, `partial`, `failed`) kaydı kodlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6.1 şu koşullarda tamamlanmış sayılır:
+Faz 6.2 şu koşullarda tamamlanmış sayılır:
 
-- `supabase/functions/fetch-gold-prices` dizini ve ana kod dosyası oluşturulmalı.
-- Sunucu ortam değişkenleri ve API secret tanımları yapılmalı.
-- İstek zaman aşımı (timeout) mekanizması eklenmeli.
-- Sağlayıcı API çağrısı ve HTTP 401, 403, 500 hata yönetimleri kodlanmalı.
-- Yanıt veri yapısı doğrulanmalı ve ham yanıt ayrıştırılmalı.
-- `docs/TODO.md` içindeki Faz 6.1 maddeleri güncellenmeli.
+- Dış sağlayıcı yanıtı için şema ve tip doğrulaması yazılmalı.
+- Sembolü eşleşmeyen, boş veya geçersiz olan fiyatların reddedildiği doğrulanmalı.
+- Negatif veya sıfır fiyatların reddedildiği test edilmeli.
+- Zaman damgasının makul sınırda olduğu ve aşırı gelecek tarihlerin elendiği test edilmeli.
+- Ondalıklı TL değerinin kuruşa (tam sayı) güvenle çevrildiği doğrulanmalı.
+- `price_fetch_runs` tablosuna işlenen sayaçların ve durumların (`success`, `partial`, `failed`) testleri yapılmalı.
+- `docs/TODO.md` içindeki Faz 6.2 maddeleri güncellenmeli.
 
 ---
 
@@ -640,7 +641,8 @@ Faz 6.1 şu koşullarda tamamlanmış sayılır:
 - [x] Giriş ekranı (sign-in), hesap durumu yönlendirmeleri ve hata maskelemesi uygulandı (Faz 5.5: 02b85da).
 - [x] Şifre sıfırlama ekranları, kurtarma oturumu ve şifre güncelleme uygulandı (Faz 5.6: 681a2d7).
 - [x] Çıkış onay penceresi, oturum ve önbellek temizleme, korunan alan koruması uygulandı (Faz 5.7: 7411378).
-- [x] Fiyat sağlayıcısı sembol eşleştirmeleri ve güvenlik testleri tamamlandı (Faz 6).
+- [x] Fiyat sağlayıcısı sembol eşleştirmeleri ve güvenlik testleri tamamlandı (Faz 6: 6431225).
+- [x] Fiyat çekme Edge Function, zaman aşımı ve hata yönetimi tamamlandı (Faz 6.1).
 
 ---
 

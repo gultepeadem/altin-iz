@@ -835,18 +835,18 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6.1: Fiyat çekme Edge Function
 
-- [ ] `supabase/functions/fetch-gold-prices` oluştur.
-- [ ] Sunucu ortam değişkenlerini tanımla.
-- [ ] Fiyat API anahtarını secret store'a ekle.
-- [ ] API base URL değerini secret veya config olarak ekle.
-- [ ] İstek zaman aşımını ekle.
-- [ ] API isteğini ekle.
-- [ ] 401 hata yönetimini ekle.
-- [ ] 403 hata yönetimini ekle.
-- [ ] 429 kota yönetimini ekle.
-- [ ] 500-504 geçici hata yönetimini ekle.
-- [ ] Sınırlı tekrar deneme ekle.
-- [ ] API anahtarını loglamadığını doğrula.
+- [x] `supabase/functions/fetch-gold-prices` oluştur.
+- [x] Sunucu ortam değişkenlerini tanımla.
+- [x] Fiyat API anahtarını secret store'a ekle.
+- [x] API base URL değerini secret veya config olarak ekle.
+- [x] İstek zaman aşımını ekle.
+- [x] API isteğini ekle.
+- [x] 401 hata yönetimini ekle.
+- [x] 403 hata yönetimini ekle.
+- [x] 429 kota yönetimini ekle.
+- [x] 500-504 geçici hata yönetimini ekle.
+- [x] Sınırlı tekrar deneme ekle.
+- [x] API anahtarını loglamadığını doğrula.
 
 ---
 
