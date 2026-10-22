@@ -56,6 +56,25 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.40] - 22.10.2026
+
+### Added
+
+- Faz 8.5 Portföy özet hesaplaması tamamlandı:
+  - `src/domain/calculations/portfolioSummary.ts`:
+    - `PortfolioSummaryResult` modeline `staleEntries: number` alanı eklendi (ADR-014).
+    - `calculatePortfolioSummary` fonksiyonunda eski fiyatla hesaplanan kayıtlar (`item.isStale`) sayılarak `staleEntries` içine işlendi.
+    - Kısmi portföy izolasyonu (ADR-013): Fiyatı olmayan kayıtların maliyetinin kâr/zararı yapay olarak zarara uğratması engellendi; net kâr-zarar yalnızca fiyatı bulunan kayıtların eşleşen maliyeti (`matchedCostMinor`) üzerinden hesaplandı.
+    - Fiyatı olmayan kayıt sayısı (`unpricedEntries`), fiyatı olan kayıt sayısı (`pricedEntries`) ve genel durum flag'leri (`hasMissingPrice`, `isPartial`, `isStale`) eksiksiz doğrulandı.
+    - Sıfıra bölme ve boş portföy senaryolarında `NaN` veya yapay getiri oluşması engellendi.
+  - `supabase/tests/test-faz8-5-portfolio-summary.ts`: 10/10 senaryoyu kapsayan fiyat eşleştirme, tekil değerleme, tekil kâr/zarar, toplam ödenen tutar, tam portföy özeti, kısmi portföy özeti (ADR-013), eksik ve eski fiyat sayımları (ADR-014), yanıltıcı yüzde koruması ve tekil yüzdelerin toplanmadığı ağırlıklı portföy getiri kanıtını doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 8.5 tamamlandı olarak işaretlendi; sıradaki görev Faz 8.6 (Portföyüm ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.39] - 22.10.2026
 
 ### Added

@@ -1095,16 +1095,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8.5: Portföy özet hesaplaması
 
-- [ ] Portföy kayıtlarını fiyatlarla eşleştir.
-- [ ] Her kaydın tahmini değerini hesapla.
-- [ ] Her kaydın kâr-zararını hesapla.
-- [ ] Toplam ödenen tutarı hesapla.
-- [ ] Tam portföy özetini hesapla.
-- [ ] Kısmi portföy özetini hesapla.
-- [ ] Fiyatı olmayan kayıt sayısını göster.
-- [ ] Eski fiyatla hesaplanan kayıt sayısını değerlendir.
-- [ ] Yanıltıcı toplam yüzde göstermeyi engelle.
-- [ ] Bütün kayıtların yüzdesini toplamadığını test et.
+- [x] Portföy kayıtlarını fiyatlarla eşleştir.
+- [x] Her kaydın tahmini değerini hesapla.
+- [x] Her kaydın kâr-zararını hesapla.
+- [x] Toplam ödenen tutarı hesapla.
+- [x] Tam portföy özetini hesapla.
+- [x] Kısmi portföy özetini hesapla.
+- [x] Fiyatı olmayan kayıt sayısını göster.
+- [x] Eski fiyatla hesaplanan kayıt sayısını değerlendir.
+- [x] Yanıltıcı toplam yüzde göstermeyi engelle.
+- [x] Bütün kayıtların yüzdesini toplamadığını test et.
 
 ---
 

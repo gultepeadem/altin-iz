@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.32 Taslak  
+**Belge sürümü:** 1.33 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.4 tamamlandı, Faz 8.5 (Portföy özet hesaplaması) sıradaki  
-**Kodlama durumu:** portfolio/[entryId].tsx silme onay penceresi, silinecek kayıt özeti, geri alınamazlık ve V1 satış geçmişi uyarısı, vazgeç koruması, işlem kilidi, hata izolasyonu ve portföy sekmesine yönlendirme ile tamamlandı  
-**Son çalışma durumu:** Faz 8.4 başarıyla tamamlandı; silme onay penceresi, kayıt özeti kartı, V1 kuralları, vazgeç güvenliği, hata izolasyonu ve RLS koruması 10/10 test ile onaylandı. Sıradaki görev Faz 8.5 (Portföy özet hesaplaması)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.5 tamamlandı, Faz 8.6 (Portföyüm ekranı) sıradaki  
+**Kodlama durumu:** portfolioSummary.ts eski fiyat sayımı (staleEntries), kısmi portföy izolasyonu (ADR-013), eksik ve eski fiyat tespiti (ADR-014), yanıltıcı yüzde koruması ve ağırlıklı getiri formülüyle tamamlandı  
+**Son çalışma durumu:** Faz 8.5 başarıyla tamamlandı; tam/kısmi portföy değerlemesi, eksik fiyat izolasyonu, eski fiyat sayımı, sıfıra bölme güvenliği ve ağırlıklı getiri hesabı 10/10 test ile onaylandı. Sıradaki görev Faz 8.6 (Portföyüm ekranı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8.4 kapsamında src/app/(protected)/portfolio/[entryId].tsx silme akışını zenginleştirerek; iki aşamalı onay modalı, silinecek kaydın kısa özeti, işlemin geri alınamazlığı uyarısı, V1 sürümünde satış geçmişi oluşturmadığı ve kaydı tamamen kaldırdığı uyarısı, güvenli vazgeç aksiyonu, işlem kilidi (isDeleting), hata anında kaydı ekranda tutma ve başarılı silmede portföy sekmesine yönlendirme akışını hayata geçirmek
+Faz 8.5 kapsamında src/domain/calculations/portfolioSummary.ts hesaplama motorunu; portföy kayıtlarının fiyatlarla eşleştirilmesi, tekil kayıt değerleme ve kâr-zarar hesabı, toplam ödenen tutar, tam portföy özeti, kısmi portföy özeti (ADR-013), eksik ve eski fiyat sayımları (ADR-014), yanıltıcı yüzde koruması ve tekil yüzdelerin toplanmadığı ağırlıklı portföy getiri oranının hesaplanması ve 10/10 test ile doğrulanması
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8.4 tamamlandı: src/app/(protected)/portfolio/[entryId].tsx silme onay penceresi, kayıt özeti kartı, V1 kuralları, vazgeç güvenliği, işlem kilidi, hata izolasyonu ve RLS koruması ile kodlandı; 10/10 otomatik test ile doğrulandı
+Faz 8.5 tamamlandı: src/domain/calculations/portfolioSummary.ts modeline staleEntries alanı eklendi, kısmi portföy izolasyonu, eski fiyat sayımı, sıfıra bölme koruması ve ağırlıklı getiri hesabı kodlandı; 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8.5 sıradaki)
+Bölüm 14 - Portföy sistemi (Faz 8.6 sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.33 Taslak - 22.10.2026
+- Faz 8.5 Portföy özet hesaplaması tamamlandı.
+- `portfolioSummary.ts` modeline `staleEntries` eklendi, kısmi portföy kâr-zarar izolasyonu (ADR-013), eski fiyat sayımı (ADR-014), sıfıra bölme güvenliği ve ağırlıklı getiri hesabı doğrulandı.
+- `supabase/tests/test-faz8-5-portfolio-summary.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Faz 8.6 (Portföyüm ekranı) olarak güncellendi.
 
 ### 1.32 Taslak - 22.10.2026
 - Faz 8.4 Portföy kaydı silme tamamlandı.

@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.27 Taslak  
+**Belge sürümü:** 1.28 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.4 tamamlandı, Faz 8.5 (Portföy özet hesaplaması) sıradaki  
-**Kodlama durumu:** portfolio/[entryId].tsx silme onay penceresi, silinecek kayıt özeti, geri alınamazlık ve V1 satış geçmişi uyarısı, vazgeç koruması, işlem kilidi, hata izolasyonu ve portföy sekmesine yönlendirme ile tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.5 tamamlandı, Faz 8.6 (Portföyüm ekranı) sıradaki  
+**Kodlama durumu:** portfolioSummary.ts eski fiyat sayımı (staleEntries), kısmi portföy izolasyonu (ADR-013), eksik ve eski fiyat tespiti (ADR-014), yanıltıcı yüzde koruması ve ağırlıklı getiri formülüyle tamamlandı
 
 ---
 

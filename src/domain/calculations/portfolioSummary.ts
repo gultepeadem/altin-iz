@@ -61,6 +61,8 @@ export interface PortfolioSummaryResult {
   isPartial: boolean;
   /** Fiyatı 15 dakikadan eski en az bir kayıt var mı? (ADR-014) */
   isStale: boolean;
+  /** Eski fiyatla hesaplanan kayıt sayısı (ADR-014) */
+  staleEntries: number;
 
   /** Toplam kayıt sayısı */
   totalEntries: number;
@@ -82,6 +84,7 @@ export function calculatePortfolioSummary(
 
   let pricedEntries = 0;
   let unpricedEntries = 0;
+  let staleEntries = 0;
   let isStale = false;
 
   for (const item of items) {
@@ -102,6 +105,7 @@ export function calculatePortfolioSummary(
 
       if (item.isStale) {
         isStale = true;
+        staleEntries++;
       }
     } else {
       unpricedEntries++;
@@ -127,6 +131,7 @@ export function calculatePortfolioSummary(
       hasMissingPrice,
       isPartial,
       isStale: false,
+      staleEntries: 0,
       totalEntries,
       pricedEntries,
       unpricedEntries,
@@ -153,6 +158,7 @@ export function calculatePortfolioSummary(
     hasMissingPrice,
     isPartial,
     isStale,
+    staleEntries,
     totalEntries,
     pricedEntries,
     unpricedEntries,
