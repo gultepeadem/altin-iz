@@ -56,6 +56,27 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.19] - 22.10.2026
+
+### Added
+
+- Faz 5.1 Auth servisleri tamamlandı:
+  - `src/models/errors.ts` oluşturuldu; standart `AppError` ({ code, userMessage, retryable, requestId, cause }) ve `AuthErrorCode` tipleri tanımlandı.
+  - `src/models/auth.ts` oluşturuldu; `SignUpCredentials`, `SignInCredentials`, `ResetPasswordParams`, `ResendVerificationParams` ve `AuthSuccessResult` tipleri güvenli parametre yönetimi için tanımlandı.
+  - `src/models/index.ts` oluşturularak modeller dışa aktarıldı.
+  - `src/utils/normalizeError.ts` oluşturuldu; Supabase Auth, ağ ve JavaScript hatalarını kullanıcı dostu, güvenli Türkçe mesajlara dönüştüren yapı kuruldu.
+  - Güvenlik kontrolleri: Hatalı girişlerde ve şifre sıfırlama isteklerinde e-posta hesabı varlığını gereksiz ifşa etmeyen genel mesajlar sağlandı; hiçbir şifre veya kimlik belirtecinin loglanmadığı doğrulandı.
+  - `src/utils/index.ts` oluşturuldu.
+  - `src/services/authService.ts` oluşturuldu; `signUp`, `signInWithPassword`, `signOut`, `getSession`, `getUser`, `resendVerificationEmail`, `resetPasswordForEmail` ve `onAuthStateChange` fonksiyonları eksiksiz uygulandı.
+  - `src/services/index.ts` oluşturularak servisler dışa aktarıldı.
+  - Canlı Supabase bağlantısı ve 6/6 birim/güvenlik testi başarıyla doğrulandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.1 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.2 (AuthProvider) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.18] - 22.10.2026
 
 ### Added

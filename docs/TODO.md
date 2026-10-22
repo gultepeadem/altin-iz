@@ -716,16 +716,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.1: Auth servisleri
 
-- [ ] `authService.ts` oluştur.
-- [ ] Hesap oluşturma işlemini ekle.
-- [ ] Giriş işlemini ekle.
-- [ ] Çıkış işlemini ekle.
-- [ ] Oturum okuma işlemini ekle.
-- [ ] E-posta doğrulamasını tekrar gönderme işlemini ekle.
-- [ ] Şifre sıfırlama bağlantısı gönderme işlemini ekle.
-- [ ] Auth hatalarını ortak hata biçimine dönüştür.
-- [ ] Şifreyi loglamadığını doğrula.
-- [ ] E-posta hesabı varlığını gereksiz ifşa etmediğini doğrula.
+- [x] `authService.ts` oluştur.
+- [x] Hesap oluşturma işlemini ekle.
+- [x] Giriş işlemini ekle.
+- [x] Çıkış işlemini ekle.
+- [x] Oturum okuma işlemini ekle.
+- [x] E-posta doğrulamasını tekrar gönderme işlemini ekle.
+- [x] Şifre sıfırlama bağlantısı gönderme işlemini ekle.
+- [x] Auth hatalarını ortak hata biçimine dönüştür.
+- [x] Şifreyi loglamadığını doğrula.
+- [x] E-posta hesabı varlığını gereksiz ifşa etmediğini doğrula.
 
 ---
 

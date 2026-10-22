@@ -591,21 +591,22 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5.1: Auth servisleri
+Faz 5.2: AuthProvider
 ```
 
-Bu görevde `src/services/authService.ts` dosyası oluşturularak kayıt olma, giriş yapma, çıkış yapma, mevcut oturumu okuma, e-posta doğrulamasını tekrar gönderme ve şifre sıfırlama işlemlerinin servis fonksiyonları kodlanacaktır.
+Bu görevde `src/providers/AuthProvider.tsx` oluşturularak kullanıcı oturum durumları (`loading`, `unauthenticated`, `unverified`, `active`, `deletion_pending`, `disabled`), oturum dinleyicisi (`onAuthStateChange`) ve oturum temizleme mekanizmaları kodlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5.1 şu koşullarda tamamlanmış sayılır:
+Faz 5.2 şu koşullarda tamamlanmış sayılır:
 
-- `src/services/authService.ts` dosyası oluşturulmalı.
-- Kayıt, giriş, çıkış, oturum kontrolü, e-posta doğrulama ve şifre sıfırlama fonksiyonları yazılmalı.
-- Hata yönetiminde `normalizeError` kullanılmalı; kullanıcıya anlaşılır Türkçe mesajlar dönmeli.
-- `docs/TODO.md` içindeki Faz 5.1 maddeleri güncellenmeli.
+- `src/providers/AuthProvider.tsx` dosyası oluşturulmalı.
+- Oturum durumları (`loading`, `unauthenticated`, `unverified`, `active`, `deletion_pending`, `disabled`) eksiksiz tanımlanmalı.
+- Auth olay dinleyicisi ve temizleme (`unsubscribe`) fonksiyonu eklenmeli.
+- Sonsuz yönlendirme döngüsüne girmemesi doğrulanmalı.
+- `docs/TODO.md` içindeki Faz 5.2 maddeleri güncellenmeli.
 
 ---
 
@@ -630,7 +631,8 @@ Faz 5.1 şu koşullarda tamamlanmış sayılır:
 - [x] Başlangıç ürün kataloğu ve test verileri seed edildi (Faz 4.3: 89af81b).
 - [x] RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı (Faz 4.4: b5f736c).
 - [x] İki kullanıcılı RLS güvenlik testleri %100 başarıyla tamamlandı (Faz 4.5: 33b59c2).
-- [x] Supabase JS istemcisi, ortam değişkenleri ve oturum adaptörü kuruldu (Faz 5).
+- [x] Supabase JS istemcisi, ortam değişkenleri ve oturum adaptörü kuruldu (Faz 5: e1de8c1).
+- [x] Kimlik doğrulama servisleri, modeller ve hata normalizasyonu tamamlandı (Faz 5.1).
 
 ---
 

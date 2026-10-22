@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 5 (Supabase istemcisi) tamamlandı; Faz 5.1 (Auth servisleri) aşamasına geçiş
+Faz 5.1 (Auth servisleri) tamamlandı; Faz 5.2 (AuthProvider) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 5 (Supabase istemcisi) tamamlandı; Faz 5.1 (Auth servisleri) aşamasına ge
 Sıradaki teknik görev:
 
 ```text
-Faz 5.1: Auth servisleri
+Faz 5.2: AuthProvider
 ```
 
-Bu görevde `src/services/authService.ts` dosyası oluşturularak kayıt olma, giriş yapma, çıkış yapma, mevcut oturumu okuma, e-posta doğrulamasını tekrar gönderme ve şifre sıfırlama işlemlerinin servis fonksiyonları kodlanacaktır.
+Bu görevde `src/providers/AuthProvider.tsx` oluşturularak kullanıcı oturum durumları (`loading`, `unauthenticated`, `unverified`, `active`, `deletion_pending`, `disabled`), oturum dinleyicisi (`onAuthStateChange`) ve oturum temizleme mekanizmaları kodlanacaktır.
 
 ---
 
