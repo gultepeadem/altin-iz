@@ -769,11 +769,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ## 27. Sürüm geçmişi
 
 ### 1.58 Taslak - 22.10.2026
-- Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) %100 tamamlandı.
+- Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) %100 tamamlandı ve V1 Sürüm Adayı `v1.0.0-rc1` etiketi oluşturularak GitHub'a gönderildi.
 - `supabase/tests/test-faz22-p0-checklist.ts` test paketi yazılarak 20/20 iddia ile başarıyla doğrulandı; V1 başarı ölçütleri, Android ve iOS platform testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekran akışı, fiyat sağlayıcı soyutlaması ve 15 dk bayatlık eşiği, 0 TL dönmeme kuralı (ADR-013), kısmi portföy özeti, test ve gerçek fiyat ayrımı, mobil kaynak kodlarında gizli anahtar taraması, log maskeleme ve canlıda debug susturması, 6 temel yasal belge ve rıza ayrılığı, Google Play Data Safety, App Store App Privacy, destek kanalı, hesap silme bağlantısı, son production yedeği ve geri dönüş planı, 7 adet sıralı migration ve v1.0.0 sürüm bilgileri onaylandı.
 - `docs/RELEASE_RUNBOOK.md` operasyonel kılavuzu oluşturuldu; migration uygulama adımları, bağımsız `pg_dump` ve Supabase PITR yedekleme, EAS Update OTA yama ve mağaza konsollarında sürüm durdurma/geri alma (rollback) prosedürleri belgelendi.
 - `src/app/(protected)/support.tsx` dosyasında iletişim e-postası `destek@altiniz.app` olarak eşitlendi.
 - `docs/TODO.md` Bölüm 22 P0 kontrol listesi maddeleri (20 madde) tamamlandı olarak işaretlendi.
+- Git üzerinde resmi sürüm adayı etiketi `v1.0.0-rc1` oluşturuldu ve GitHub uzak deposuna push edildi.
 
 ### 1.57 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı).

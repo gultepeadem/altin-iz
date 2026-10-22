@@ -1265,11 +1265,12 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 
 ### 1.53 Taslak - 22.10.2026
 
-- Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) tamamlandı (%100).
+- Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) tamamlandı (%100) ve V1 Sürüm Adayı `v1.0.0-rc1` etiketi oluşturularak GitHub'a aktarıldı.
 - `supabase/tests/test-faz22-p0-checklist.ts` 20 senaryolu P0 denetim testi yazıldı ve 20/20 başarıyla geçti; V1 başarı hedefleri, Android/iOS testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekranı, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, ADR-013 asla 0 TL dönmeme kuralı, kısmi portföy özeti, test ve canlı fiyat ayrımı, gizli anahtar taraması, log maskeleme ve debug susturma, 6 yasal belge türü ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, web hesap silme URL'si, operasyonel yedekleme/rollback rehberi, 7 adet sıralı migration ve v1.0.0 sürüm bilgileri doğrulandı.
 - `docs/RELEASE_RUNBOOK.md` operasyonel rehberi oluşturuldu; migration uygulama, Supabase PITR ve `pg_dump` bağımsız yedekleme, acil EAS Update OTA dağıtımı, konsol sürüm durdurma ve geri alma (rollback) prosedürleri belgelendi.
 - `src/app/(protected)/support.tsx` dosyasında iletişim e-posta adresi `destek@altiniz.app` olarak eşitlendi.
 - `docs/TODO.md` Bölüm 22 altındaki 20 P0 kontrol listesi maddesi tamamlandı olarak işaretlendi.
+- Git üzerinde resmi `v1.0.0-rc1` etiketi oluşturularak GitHub uzak deposuna push edildi.
 
 ### 1.52 Taslak - 22.10.2026
 

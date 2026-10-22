@@ -56,6 +56,15 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [1.0.0-rc1] - 22.10.2026
+
+- **Altın İz V1 Sürüm Adayı (Release Candidate 1):**
+  - **Git Etiketi:** `v1.0.0-rc1` oluşturuldu ve GitHub uzak deposuna (`origin`) aktarıldı.
+  - **V1 Kapsam Bütünlüğü:** Faz 1 ile Faz 15.4 arasındaki tüm mobil ve backend aşamaları, veritabanı şeması ve RLS politikaları, mağaza varlıkları (Google Play ve App Store), gizlilik ve veri güvenliği beyanları, 20 maddelik P0 yayımlama öncesi doğrulama paketi ve `docs/RELEASE_RUNBOOK.md` operasyonel rehberi kilitlendi.
+  - **Canlıya Dağıtım Hazırlığı:** Uygulama kimliği `com.altiniz.app`, Android `versionCode: 1`, iOS `buildNumber: "1"` olarak EAS Build (Android AAB & iOS IPA) ve mağaza incelemelerine sunulmaya hazır hale getirildi.
+
+---
+
 ## [0.0.0-planning.65] - 22.10.2026
 
 - **Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (P0 Kontrol Listesi):**
