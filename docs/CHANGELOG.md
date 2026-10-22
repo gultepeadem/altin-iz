@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.37] - 22.10.2026
+
+### Added
+
+- Faz 8.2 Portföy kaydı detay ekranı tamamlandı:
+  - `src/utils/formatters.ts`: `formatDate` (tarihi standart GG.AA.YYYY formatına çevirici) ve `formatQuantity` (sayısal miktarı azami 3 ondalıkla yerel biçimlendirici) fonksiyonları eklendi.
+  - `src/app/(protected)/portfolio/[entryId].tsx`: Canlı Supabase kaydı ve güncel fiyat verileriyle entegre edildi.
+    - `portfolioService.getEntryById(entryId)` ile kayıt detayları çekildi; yetkisiz veya bulunamayan ID sorgularında güvenli hata mesajı sunuldu (API.md Bölüm 16.3).
+    - `goldPriceService.getLatestPriceForProduct(entry.productId)` ile ürünün son canlı fiyatı okundu.
+    - `calculateEntryValuation` ile kayıt bazlı tahmini güncel bozdurma değeri (Miktar × Güncel Alış Fiyatı), kâr/zarar tutarı ve yüzdesi hesaplandı (ADR-010 & ADR-032).
+    - ADR-013 Kuralı: Fiyatı bulunamayan ürünlerde asla `0 TL` üretilmeyerek tahmini değer ve kâr/zarar `Hesaplanamıyor` olarak gösterildi; açıklayıcı uyarı şeridi eklendi.
+    - ADR-014 Kuralı: Fiyat 15 dakikadan eskiyse `StaleDataBanner` şeridi gösterildi.
+    - Detay tablosunda altın türü, kısa ad rozeti, miktar ve birim (`Adet`/`Gram`), alış tarihi, ödenen toplam tutar, kullanılan birim alış fiyatı, fiyat zamanı, varsa alış yeri ve not alanı ile işçilik durumu (`Dâhil`/`Hariç`/`Belirtilmedi`) sunuldu.
+    - Düzenleme butonu dinamik ID ile `/(protected)/portfolio/[entryId]/edit` rotasına bağlandı.
+    - Silme butonu, kullanıcıdan son onay alan çapraz platform onay modalı (`Modal`), işlem esnasında `isDeleting` butonu kilitleme ve `portfolioService.deleteEntry()` servisiyle entegre edildi.
+  - `supabase/tests/test-faz8-2-portfolio-detail.ts`: 10/10 senaryoyu kapsayan biçimlendirici testleri, değerleme hesaplaması, ADR-013 fiyatsız kayıt güvenliği, ADR-014 eski fiyat uyarısı, detay alanı kontrolleri ve rota uyumluluğunu doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 8.2 tamamlandı olarak işaretlendi; sıradaki görev Faz 8.3 (Portföy kaydı düzenleme) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.36] - 22.10.2026
 
 ### Added

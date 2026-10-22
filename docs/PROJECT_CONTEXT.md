@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.24 Taslak  
+**Belge sürümü:** 1.25 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.1 tamamlandı, Faz 8.2 (Portföy kaydı detay ekranı) sıradaki  
-**Kodlama durumu:** portfolio/add.tsx canlı Supabase ürünleri, modal seçici, miktar kontrolleri, bugünden ileri tarihi engelleyen alış tarihi, kuruş bazlı tutar, metin sınırları ve çift kayıt korumasıyla tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.2 tamamlandı, Faz 8.3 (Portföy kaydı düzenleme) sıradaki  
+**Kodlama durumu:** portfolio/[entryId].tsx canlı Supabase kaydı ve ürün fiyatıyla, değerleme, kâr-zarar, eski fiyat uyarısı, detay tablosu ve onaylı silme aksiyonuyla tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 8.1 (Portföye altın ekleme formu) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.2 (Portföy kaydı detay ekranı) aşamasına geçiş
+Faz 8.2 (Portföy kaydı detay ekranı) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.3 (Portföy kaydı düzenleme) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 8.1 (Portföye altın ekleme formu) tamamlandı; Bölüm 14 (Portföy sistem
 Sıradaki teknik görev:
 
 ```text
-Faz 8.2: Portföy kaydı detay ekranı
+Faz 8.3: Portföy kaydı düzenleme
 ```
 
-Bu görevde `src/app/(protected)/portfolio/[entryId].tsx` ekranı kodlanacak; seçilen portföy kaydının detayları, miktar ve birimi, alış tarihi, ödenen toplam tutarı, varsa alış yeri ve notu, işçilik durumu, kullanılan güncel alış fiyatı, tahmini güncel bozdurma değeri, tahmini kâr-zararı, getiri yüzdesi, tazelik durumu ve düzenleme/silme aksiyon butonları geliştirilecektir.
+Bu görevde `src/app/(protected)/portfolio/[entryId]/edit.tsx` ekranı kodlanacak; mevcut kayıt verilerinin forma doldurulması, değiştirilebilir alanların sınırlandırılması (`id`, `user_id`, `created_at` dokunulmazlığı), form doğrulama kontrollerinin tekrar kullanımı, başarı sonrası detay ve portföy ekranlarının yenilenmesi geliştirilecektir.
 
 ---
 

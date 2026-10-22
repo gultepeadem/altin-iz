@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.29 Taslak  
+**Belge sürümü:** 1.30 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.1 tamamlandı, Faz 8.2 (Portföy kaydı detay ekranı) sıradaki  
-**Kodlama durumu:** portfolio/add.tsx canlı Supabase ürünleri, modal seçici, miktar kontrolleri, bugünden ileri tarihi engelleyen alış tarihi, kuruş bazlı tutar, metin sınırları ve çift kayıt korumasıyla tamamlandı  
-**Son çalışma durumu:** Faz 8.1 başarıyla tamamlandı; form kontrolleri, dinamik birim, tarih/tutar doğrulamaları ve portföy ekleme akışı 10/10 test ile onaylandı. Sıradaki görev Faz 8.2 (Portföy kaydı detay ekranı)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.2 tamamlandı, Faz 8.3 (Portföy kaydı düzenleme) sıradaki  
+**Kodlama durumu:** portfolio/[entryId].tsx canlı Supabase kaydı ve ürün fiyatıyla, değerleme, kâr-zarar, eski fiyat uyarısı, detay tablosu ve onaylı silme aksiyonuyla tamamlandı  
+**Son çalışma durumu:** Faz 8.2 başarıyla tamamlandı; kayıt detayı, canlı değerleme, ADR-010/ADR-013/ADR-014 uyumluluğu ve onaylı silme mekanizması 10/10 test ile onaylandı. Sıradaki görev Faz 8.3 (Portföy kaydı düzenleme)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8.1 kapsamında src/app/(protected)/portfolio/add.tsx ekranını sahte verilerden arındırarak; yalnızca portfolio_enabled aktif altınları listeleyen ürün seçici modalı, dinamik birim etiketi (Adet/Gram), miktar doğrulamaları (tam sayı, max 3 ondalık), bugünden ileri tarihi engelleyen alış tarihi alanı, kuruş bazlı toplam ödenen tutar alanı, alış yeri (100 krk) ve not (500 krk) sınırları, işçilik dâhil seçeneği ve çift kaydı önleyen gönderim mekanizmasıyla eksiksiz geliştirmek
+Faz 8.2 kapsamında src/app/(protected)/portfolio/[entryId].tsx ekranını sahte verilerden arındırarak; entryId parametresine göre kullanıcının gerçek portföy kaydını ve ürünün güncel canlı alış fiyatını çekmek, tahmini güncel bozdurma değerini ve kâr/zararını (ADR-010 & ADR-032) hesaplayıp sunmak, eski fiyat veya eksik fiyat uyarılarını (ADR-013 & ADR-014) göstermek, düzenleme (/(protected)/portfolio/[entryId]/edit) ve güvenli onaylı silme aksiyonlarını bağlamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8.1 tamamlandı: src/app/(protected)/portfolio/add.tsx ve src/domain/validation/portfolioValidation.ts geliştirildi; form kontrolleri, dinamik birimler, tarih ve tutar doğrulamaları, modal ürün seçici ve çift tıklama koruması 10/10 otomatik test ile doğrulandı
+Faz 8.2 tamamlandı: src/app/(protected)/portfolio/[entryId].tsx canlı kayıt ve fiyat verileriyle kodlandı; ADR-010 değerleme, kâr-zarar, ADR-013 fiyatsız kayıt güvenliği, ADR-014 eski fiyat uyarısı, detay alanları ve onaylı silme modalı 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8.2 sıradaki)
+Bölüm 14 - Portföy sistemi (Faz 8.3 sıradaki)
 ```
 
 ### Uygulama kodu durumu

@@ -1046,22 +1046,22 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8.2: Portföy kaydı detay ekranı
 
-- [ ] Altın türünü göster.
-- [ ] Miktarı ve birimi göster.
-- [ ] Alış tarihini göster.
-- [ ] Ödenen toplam tutarı göster.
-- [ ] Alış yerini varsa göster.
-- [ ] Notu varsa göster.
-- [ ] İşçilik bilgisini göster.
-- [ ] Kullanılan güncel alış fiyatını göster.
-- [ ] Tahmini güncel bozdurma değerini göster.
-- [ ] Tahmini kâr veya zararı göster.
-- [ ] Değişim yüzdesini göster.
-- [ ] Son fiyat zamanını göster.
-- [ ] Fiyat yoksa hesaplanamıyor durumunu göster.
-- [ ] Eski fiyat uyarısını göster.
-- [ ] Düzenle butonunu ekle.
-- [ ] Sil butonunu ekle.
+- [x] Altın türünü göster.
+- [x] Miktarı ve birimi göster.
+- [x] Alış tarihini göster.
+- [x] Ödenen toplam tutarı göster.
+- [x] Alış yerini varsa göster.
+- [x] Notu varsa göster.
+- [x] İşçilik bilgisini göster.
+- [x] Kullanılan güncel alış fiyatını göster.
+- [x] Tahmini güncel bozdurma değerini göster.
+- [x] Tahmini kâr veya zararı göster.
+- [x] Değişim yüzdesini göster.
+- [x] Son fiyat zamanını göster.
+- [x] Fiyat yoksa hesaplanamıyor durumunu göster.
+- [x] Eski fiyat uyarısını göster.
+- [x] Düzenle butonunu ekle.
+- [x] Sil butonunu ekle.
 
 ---
 

@@ -59,3 +59,39 @@ export function formatDateTime(isoDateString?: string | null): string {
     minute: '2-digit',
   });
 }
+
+/**
+ * YYYY-MM-DD veya ISO tarih metnini Türkçe standart GG.AA.YYYY formatına dönüştürür.
+ * Örnek: "2026-08-20" -> "20.08.2026"
+ */
+export function formatDate(dateString?: string | null): string {
+  if (!dateString) return '-';
+
+  const match = dateString.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if (match) {
+    return `${match[3]}.${match[2]}.${match[1]}`;
+  }
+
+  const date = new Date(dateString);
+  if (isNaN(date.getTime())) return '-';
+
+  return date.toLocaleDateString('tr-TR', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  });
+}
+
+/**
+ * Sayısal miktarı Türkçe standart formatta biçimlendirir.
+ * Örnek: 4 -> "4", 1.25 -> "1,25"
+ */
+export function formatQuantity(quantity: number | null | undefined): string {
+  if (quantity === null || quantity === undefined || isNaN(quantity)) {
+    return '-';
+  }
+  return quantity.toLocaleString('tr-TR', {
+    maximumFractionDigits: 3,
+  });
+}
+
