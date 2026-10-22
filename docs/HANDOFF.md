@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.16 Taslak  
+**Belge sürümü:** 1.17 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.4 tamamlandı, Faz 4.5 sıradaki)  
-**Kodlama durumu:** RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı  
-**Son çalışma durumu:** Faz 4.4 başarıyla tamamlandı; 12 tabloda RLS etkinleştirildi, handle_new_user ve kolon koruma tetikleyicileri eklendi, ürün ve fiyatlar güvenle salt-okunur açıldı. Sıradaki görev Faz 4.5 (RLS güvenlik testleri)
+**Proje aşaması:** Bölüm 10 (Supabase development altyapısı) tamamlandı; Bölüm 11 (Faz 5: Supabase istemcisi) sıradaki  
+**Kodlama durumu:** RLS politikaları ve güvenlik testleri (16 senaryo) başarıyla doğrulandı  
+**Son çalışma durumu:** Faz 4.5 başarıyla tamamlandı; Test Kullanıcısı A ve B ile 16 adet RLS güvenlik ve yetki testi çalıştırıldı, %100 geçti. Sıradaki görev Faz 5 (Supabase JS SDK ve istemci kurulumu)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 4.4 kapsamında 12 tablonun Row Level Security (RLS) politikalarını, handle_new_user tetikleyicisini ve BEFORE UPDATE kolon koruma kurallarını uygulamak
+Faz 4.5 kapsamında iki bağımsız test kullanıcısı (A ve B) üzerinden RLS çapraz erişim, kolon koruma ve yetkilendirme testlerini çalıştırmak ve belgelemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 4.4 tamamlandı: 20261022000006_rls_and_security_policies.sql migration'ı uygulandı, kullanıcı verisi izolasyonu ve ortak tablo salt-okunur erişimi API testleriyle doğrulandı
+Faz 4.5 tamamlandı: Test Kullanıcısı A ve B üzerinden 16 adet RLS testi çalıştırıldı; çift yönlü kullanıcı veri izolasyonu, kolon koruma kuralları ve salt-okunur fiyat kuralları %100 başarıyla doğrulandı; Bölüm 10 eksiksiz tamamlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Supabase development altyapısı (Faz 4.5 hazırlığı)
+Bölüm 11 - Kullanıcı hesabı geliştirmesi (Faz 5 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-cc3949c (feat(database): implement RLS policies, user triggers, and security functions (Faz 4.4))
+e6ecf5f (test(database): verify RLS policies and document security suite results (Faz 4.5))
 ```
 
 ### Son çalışan commit
 
 ```text
-cc3949c
+e6ecf5f
 ```
 
 ### Aktif dal
@@ -591,21 +591,22 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 4.5: RLS güvenlik testleri
+Faz 5: Supabase istemcisi
 ```
 
-Bu görevde iki farklı test kullanıcısı (Test Kullanıcısı A ve Test Kullanıcısı B) üzerinden çapraz erişim testleri gerçekleştirilecek; A'nın B'nin portföyünü okuyamadığı/değiştiremediği, normal kullanıcının ürün veya fiyat yazamadığı test komutlarıyla teyit edilecek ve güvenlik test sonuçları belgelenecektir.
+Bu görevde Expo SDK 58 için en güncel `@supabase/supabase-js` paketi ve güvenli oturum saklama altyapısı kurulacak; `src/lib/environment.ts` ve `src/lib/supabase.ts` dosyaları oluşturularak mobil uygulamanın Supabase bağlantısı başlatılacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 4.5 şu koşullarda tamamlanmış sayılır:
+Faz 5 şu koşullarda tamamlanmış sayılır:
 
-- Test Kullanıcısı A ve B oluşturulup yetkisiz çapraz erişim senaryoları çalıştırılmalı.
-- Bütün yetkisiz işlemler (okuma, ekleme, güncelleme, silme) veritabanı RLS seviyesinde 401/403/boş sonuç ile reddedilmeli.
-- Test sonuçları `SECURITY.md` ve `HANDOFF.md` dosyalarına işlenmeli.
-- `docs/TODO.md` içindeki Faz 4.5 maddeleri güncellenmeli.
+- `@supabase/supabase-js` paketi Expo uyumlu sürümle kurulmalı.
+- Güvenli mobil oturum saklama adaptörü (AsyncStorage veya SecureStore kararı) yapılandırılmalı.
+- `src/lib/environment.ts` ortam değişkenlerini doğrulamalı; eksik değişken durumunda anlaşılır hata üretmeli.
+- `src/lib/supabase.ts` tek bir istemci örneği (singleton) dışa aktarmalı.
+- `docs/TODO.md` içindeki Faz 5 maddeleri güncellenmeli.
 
 ---
 
@@ -628,7 +629,8 @@ Faz 4.5 şu koşullarda tamamlanmış sayılır:
 - [x] Supabase yerel proje yapısı kuruldu (Faz 4.1: f0b0232).
 - [x] Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (Faz 4.2: a871164).
 - [x] Başlangıç ürün kataloğu ve test verileri seed edildi (Faz 4.3: 89af81b).
-- [x] RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı (Faz 4.4).
+- [x] RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı (Faz 4.4: b5f736c).
+- [x] İki kullanıcılı RLS güvenlik testleri %100 başarıyla tamamlandı (Faz 4.5).
 
 ---
 

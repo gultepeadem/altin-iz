@@ -56,6 +56,27 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.17] - 22.10.2026
+
+### Added
+
+- Faz 4.5 RLS Güvenlik Testleri tamamlandı:
+  - İki test kullanıcısı (`user_a@test.com` ve `user_b@test.com`) üzerinden 16 adet RLS ve yetkilendirme testi başarıyla çalıştırıldı.
+  - `handle_new_user` tetikleyicisinin profil ve tercihleri eksiksiz oluşturduğu doğrulandı.
+  - A ve B kullanıcıları arasında çift yönlü portföy ve profil izolasyonu (0 satır) kanıtlandı.
+  - Başkası adına portföy ekleme, güncelleme ve silme denemeleri (HTTP 403) engellendi.
+  - Normal kullanıcıların fiyat eklemesi, ürün güncellemesi veya eşleştirme değiştirmesi engellendi.
+  - `user_legal_events` tablosuna doğrudan INSERT engellendi; güvenli `record_user_legal_event` RPC çağrısı doğrulandı.
+  - Profil `user_id` ve `account_status` kolon koruma kuralları test edilerek teyit edildi.
+  - Test sonuçları `SECURITY.md` (Bölüm 9.1) ve devir belgelerine işlendi.
+
+### Changed
+
+- Bölüm 10 (Supabase Development Altyapısı - Faz 4'ten Faz 4.5'e kadar) eksiksiz tamamlandı. Sıradaki ana bölüm Bölüm 11 (Kullanıcı Hesabı Geliştirmesi - Faz 5: Supabase İstemcisi) olarak belirlendi.
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellendi.
+
+---
+
 ## [0.0.0-planning.16] - 22.10.2026
 
 ### Added

@@ -456,6 +456,29 @@ Zorunlu testler:
 
 Test yalnızca mobil arayüzden yapılmamalıdır. Doğrudan istemci veya test sorgusuyla yetkisiz istek denenmelidir.
 
+### 9.1. Faz 4.5 İki Kullanıcılı Doğrulama Raporu (22.10.2026)
+
+Tüm RLS çapraz testleri iki aktif hesap (`user_a@test.com` ve `user_b@test.com`) ile REST API üzerinden çalıştırılmış ve eksiksiz doğrulanmıştır:
+
+| Test Senaryosu | Beklenen Sonuç | Gerçekleşen Sonuç | Durum |
+| :--- | :--- | :--- | :--- |
+| `handle_new_user` Tetikleyicisi | Profil (`active`) ve Tercih (`system/tr/TRY`) otomatik oluşmalı | Profil ve tercihler otomatik oluşturuldu | ✅ GEÇTİ |
+| User A Portföy Ekleme | Kendi adına portföy kaydı ekleyebilmeli | Başarıyla eklendi (HTTP 201) | ✅ GEÇTİ |
+| User B Portföy Ekleme | Kendi adına portföy kaydı ekleyebilmeli | Başarıyla eklendi (HTTP 201) | ✅ GEÇTİ |
+| A -> B Portföyünü Okuma | B'nin portföy kaydı A'ya dönmemeli | 0 satır döndü (tam izolasyon) | ✅ GEÇTİ |
+| A -> B Profilini Okuma | B'nin profili A'ya dönmemeli | 0 satır döndü (tam izolasyon) | ✅ GEÇTİ |
+| A -> B Adına Portföy Ekleme | Sahte `user_id` ile ekleme engellenmeli | HTTP 403 ile reddedildi | ✅ GEÇTİ |
+| A -> B Portföyünü Güncelleme | B'nin portföyü değişmemeli | Miktar değişmedi, korundu | ✅ GEÇTİ |
+| A -> B Portföyünü Silme | B'nin kaydı silinmemeli | Kayıt silinmedi, korundu | ✅ GEÇTİ |
+| B -> A Portföyünü Okuma (Ters) | A'nın kaydı B'ye dönmemeli | 0 satır döndü (simetrik izolasyon) | ✅ GEÇTİ |
+| Normal Kullanıcı Fiyat Ekleme | `gold_prices` tablosuna yazma engellenmeli | HTTP 403 ile reddedildi | ✅ GEÇTİ |
+| Normal Kullanıcı Ürün Değiştirme | `gold_products` tablosu değiştirilememeli | Ürün adı korundu | ✅ GEÇTİ |
+| Normal Kullanıcı Eşleştirme Değiştirme | `price_source_product_mappings` yazımı engellenmeli | HTTP 403 ile reddedildi | ✅ GEÇTİ |
+| Doğrudan `user_legal_events` Yazımı | İstemciden doğrudan INSERT engellenmeli | HTTP 403 ile reddedildi | ✅ GEÇTİ |
+| Güvenli RPC Yasal Olay Kaydı | `record_user_legal_event` ile append-only kayıt | Event ID üretildi (HTTP 200) | ✅ GEÇTİ |
+| Profil `user_id` Değiştirme | Tetikleyici `user_id` değişimini engellemeli | HTTP 400 ile engellendi | ✅ GEÇTİ |
+| Profil `account_status` Değiştirme | Tetikleyici durum değişimini engellemeli | HTTP 400 ile engellendi | ✅ GEÇTİ |
+
 ---
 
 ## 10. Veritabanı güvenliği

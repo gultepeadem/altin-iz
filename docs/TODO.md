@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.12 Taslak  
+**Belge sürümü:** 1.13 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.4 tamamlandı, Faz 4.5 sıradaki)  
-**Kodlama durumu:** RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı
+**Proje aşaması:** Bölüm 10 (Supabase development altyapısı) tamamlandı; Bölüm 11 (Supabase JS SDK ve oturum yönetimi - Faz 5) sıradaki  
+**Kodlama durumu:** RLS politikaları ve güvenlik testleri (16 senaryo) başarıyla doğrulandı
 
 ---
 
@@ -670,21 +670,21 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 4.5: RLS güvenlik testleri
 
-- [ ] Test Kullanıcısı A oluştur.
-- [ ] Test Kullanıcısı B oluştur.
-- [ ] A için portföy kaydı oluştur.
-- [ ] B için portföy kaydı oluştur.
-- [ ] A, B'nin kaydını okuyamıyor testi.
-- [ ] A, B adına kayıt oluşturamıyor testi.
-- [ ] A, B'nin kaydını güncelleyemiyor testi.
-- [ ] A, B'nin kaydını silemiyor testi.
-- [ ] B için ters yönlü aynı testleri yap.
-- [ ] Normal kullanıcı fiyat yazamıyor testi.
-- [ ] Normal kullanıcı ürün değiştiremiyor testi.
-- [ ] Normal kullanıcı eşleştirme değiştiremiyor testi.
-- [ ] Normal kullanıcı `user_legal_events` tablosuna doğrudan `INSERT`, `UPDATE` ve `DELETE` yapamıyor testi.
-- [ ] Yasal olay kaydında sahte `document_version` veya `event_at` gönderildiğinde sunucu değerlerinin kullanıldığı testi.
-- [ ] Test sonuçlarını `SECURITY.md` ve `HANDOFF.md` içine yaz.
+- [x] Test Kullanıcısı A oluştur.
+- [x] Test Kullanıcısı B oluştur.
+- [x] A için portföy kaydı oluştur.
+- [x] B için portföy kaydı oluştur.
+- [x] A, B'nin kaydını okuyamıyor testi.
+- [x] A, B adına kayıt oluşturamıyor testi.
+- [x] A, B'nin kaydını güncelleyemiyor testi.
+- [x] A, B'nin kaydını silemiyor testi.
+- [x] B için ters yönlü aynı testleri yap.
+- [x] Normal kullanıcı fiyat yazamıyor testi.
+- [x] Normal kullanıcı ürün değiştiremiyor testi.
+- [x] Normal kullanıcı eşleştirme değiştiremiyor testi.
+- [x] Normal kullanıcı `user_legal_events` tablosuna doğrudan `INSERT`, `UPDATE` ve `DELETE` yapamıyor testi.
+- [x] Yasal olay kaydında sahte `document_version` veya `event_at` gönderildiğinde sunucu değerlerinin kullanıldığı testi.
+- [x] Test sonuçlarını `SECURITY.md` ve `HANDOFF.md` içine yaz.
 
 ### Tamamlanma şartı
 

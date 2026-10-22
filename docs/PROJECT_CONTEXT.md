@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.11 Taslak  
+**Belge sürümü:** 1.12 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Supabase development altyapısı (Faz 4.4 tamamlandı, Faz 4.5 sıradaki)  
-**Kodlama durumu:** RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı
+**Proje durumu:** Bölüm 10 (Supabase development altyapısı) tamamlandı; Bölüm 11 (Supabase JS SDK ve oturum yönetimi - Faz 5) sıradaki  
+**Kodlama durumu:** RLS politikaları ve güvenlik testleri (16 senaryo) başarıyla doğrulandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.4 (RLS politikaları) adımı başarıyla tamamlanmıştır.
+Bölüm 10 kapsamındaki Supabase Development Altyapısı (Faz 4, Faz 4.1, Faz 4.2, Faz 4.3, Faz 4.4 ve Faz 4.5) eksiksiz tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 4.4 tamamlandı: 12 tablonun tamamında RLS etkinleştirildi; handle_new_user tetikleyicisi, BEFORE UPDATE kolon koruma kuralları ve DATABASE.md Bölüm 14 erişim matrisiyle birebir uyumlu politikalar development veritabanına uygulandı; anon okuma ve yazma koruması doğrulandı.
+Faz 4.5 tamamlandı: Test Kullanıcısı A ve B üzerinden 16 adet RLS güvenlik ve yetki testi çalıştırıldı; kullanıcılar arası çift yönlü portföy ve profil izolasyonu, sahte veri engeli, kolon koruması ve salt-okunur fiyat kuralları %100 başarıyla kanıtlandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 4.4 (RLS politikaları) tamamlandı; Faz 4.5 (RLS güvenlik testleri) aşamasına geçiş
+Bölüm 10 (Supabase Development Altyapısı) tamamlandı; Bölüm 11 (Kullanıcı Hesabı Geliştirmesi - Faz 5: Supabase İstemcisi) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 4.4 (RLS politikaları) tamamlandı; Faz 4.5 (RLS güvenlik testleri) aşama
 Sıradaki teknik görev:
 
 ```text
-Faz 4.5: RLS güvenlik testleri
+Faz 5: Supabase istemcisi
 ```
 
-Bu görevde iki farklı test kullanıcısı (Test Kullanıcısı A ve Test Kullanıcısı B) üzerinden çapraz erişim testleri gerçekleştirilecek; A'nın B'nin portföyünü okuyamadığı/değiştiremediği, normal kullanıcının ürün veya fiyat yazamadığı test komutlarıyla teyit edilecek ve güvenlik test sonuçları belgelenecektir.
+Bu görevde Expo SDK 58 için en güncel `@supabase/supabase-js` paketi ve güvenli oturum saklama altyapısı kurulacak; `src/lib/environment.ts` ve `src/lib/supabase.ts` dosyaları oluşturularak mobil uygulamanın Supabase bağlantısı başlatılacaktır.
 
 ---
 
