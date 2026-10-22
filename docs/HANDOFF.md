@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.9 Taslak  
+**Belge sürümü:** 1.10 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3 tamamlandı, Faz 3.1 sıradaki)  
-**Kodlama durumu:** Tema sistemi altyapısı ve ThemeProvider hazırlandı  
-**Son çalışma durumu:** Faz 3 başarıyla tamamlandı; açık/koyu tema, boşluk ve tipografi sistemleri, ThemeProvider ve useTheme kancası oluşturuldu. Sıradaki görev Faz 3.1 (Ortak temel bileşenler)
+**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3.1 tamamlandı, Faz 3.2 sıradaki)  
+**Kodlama durumu:** Ortak temel bileşenler (ScreenContainer, butonlar, formlar, geri bildirim) hazırlandı  
+**Son çalışma durumu:** Faz 3.1 başarıyla tamamlandı; ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri oluşturuldu. Sıradaki görev Faz 3.2 (Expo Router rota iskeleti)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 3 kapsamında tema altyapısını (açık/koyu renk paletleri, boşluk, tipografi, ThemeProvider) kurmak ve kök navigasyona bağlamak
+Faz 3.1 kapsamında ortak temel arayüz bileşenlerini (ScreenContainer, butonlar, form alanları, geri bildirim ekranları) oluşturmak ve erişilebilirlik standartlarını sağlamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 3 tamamlandı: lightTheme.ts, darkTheme.ts, spacing.ts, typography.ts, ThemeProvider.tsx ve useTheme.ts oluşturuldu; light/dark/system tema desteği ve kök layout entegrasyonu sağlandı
+Faz 3.1 tamamlandı: ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri asgari 48dp dokunma alanı ve ekran okuyucu uyumuyla oluşturuldu; barrel export dosyaları bağlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Tasarım sistemi ve rota iskeleti (Faz 3.1 hazırlığı)
+Tasarım sistemi ve rota iskeleti (Faz 3.2 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-247daf7 (feat(theme): implement design system theme and ThemeProvider (Faz 3))
+0d1bf1c (feat(components): implement core common, form, and feedback components (Faz 3.1))
 ```
 
 ### Son çalışan commit
 
 ```text
-247daf7
+0d1bf1c
 ```
 
 ### Aktif dal
@@ -591,21 +591,22 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 3.1: Ortak temel bileşenler
+Faz 3.2: Expo Router rota iskeleti
 ```
 
-Bu görevde ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri oluşturulacaktır.
+Bu görevde public rotalar (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), protected rotalar (tabs: index, prices, calculator, portfolio, settings), dinamik ürün detayı, portföy işlem rotaları ve +not-found ekranları oluşturulacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 3.1 şu koşullarda tamamlanmış sayılır:
+Faz 3.2 şu koşullarda tamamlanmış sayılır:
 
-- Belirtilen temel arayüz bileşenleri `src/components/` altında oluşturulmalı.
-- Bileşenler tema renklerini ve boşluk değerlerini dinamik olarak kullanmalı.
+- Belirtilen Expo Router rota dosyaları `src/app/` altında oluşturulmalı.
+- Rotalar temel ekran bileşenlerini ve tema sistemini kullanmalı.
+- Alt menü (tabs) geçişleri hatasız çalışmalı.
 - `npx tsc --noEmit` ve `npm run lint` testleri hatasız tamamlanmalı.
-- `docs/TODO.md` içindeki Faz 3.1 maddeleri güncellenmeli.
+- `docs/TODO.md` içindeki Faz 3.2 maddeleri güncellenmeli.
 
 ---
 

@@ -56,6 +56,30 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.10] - 22.10.2026
+
+### Added
+
+- Faz 3.1 Ortak Temel Bileşenler tamamlandı:
+  - `src/components/common/ScreenContainer.tsx`: SafeAreaView, dinamik arka plan ve ScrollView / KeyboardAvoidingView desteği sunan temel ekran kapsayıcısı oluşturuldu.
+  - `src/components/common/PrimaryButton.tsx`: Asgari 48dp dokunma alanına, yüklenme (spinner) ve devre dışı durumlarına sahip ana eylem butonu oluşturuldu.
+  - `src/components/common/SecondaryButton.tsx`: Çerçeveli ikincil eylem butonu oluşturuldu.
+  - `src/components/common/DangerButton.tsx`: Yıkıcı işlemler için tehlike butonu oluşturuldu.
+  - `src/components/forms/TextField.tsx`: Odaklanma, hata, etiket ve ipucu desteği sunan form metin giriş alanı oluşturuldu.
+  - `src/components/forms/PasswordField.tsx`: 44x44dp şifre göster/gizle butonuna sahip güvenli şifre alanı oluşturuldu.
+  - `src/components/feedback/LoadingState.tsx`: Tam ekran veya bileşen düzeyinde yüklenme durumu göstergesi oluşturuldu.
+  - `src/components/feedback/EmptyState.tsx`: Boş portföy ve arama sonuçlarında kullanıcıyı eyleme yönlendiren boş durum bileşeni oluşturuldu.
+  - `src/components/feedback/ErrorState.tsx`: Tekrar dene butonu içeren görsel hata ekranı oluşturuldu.
+  - `src/components/feedback/StaleDataBanner.tsx`: Eski fiyat durumunda kullanıcıyı bilgilendiren uyarı şeridi oluşturuldu.
+  - `src/components/feedback/PartialDataBanner.tsx`: Fiyatı bulunamayan kayıtlarda toplamın kısmi olduğunu belirten uyarı şeridi oluşturuldu.
+  - `src/components/index.ts`: Modül dışa aktarımları düzenlendi.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 3.1 tamamlandı olarak işaretlendi; sıradaki görev Faz 3.2 (Expo Router rota iskeleti) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.9] - 22.10.2026
 
 ### Added

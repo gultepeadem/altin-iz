@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.4 Taslak  
+**Belge sürümü:** 1.5 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Tasarım sistemi ve rota iskeleti (Faz 3 tamamlandı, Faz 3.1 sıradaki)  
-**Kodlama durumu:** Tema sistemi altyapısı ve ThemeProvider hazırlandı
+**Proje durumu:** Tasarım sistemi ve rota iskeleti (Faz 3.1 tamamlandı, Faz 3.2 sıradaki)  
+**Kodlama durumu:** Ortak temel bileşenler (ScreenContainer, butonlar, formlar, geri bildirim) hazırlandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 9 kapsamındaki Tasarım Sistemi ve Rota İskeleti çalışmalarına başlanmış, Faz 3 (Tema altyapısı) tamamlanmıştır.
+Bölüm 9 kapsamındaki Tasarım Sistemi ve Rota İskeleti çalışmalarında Faz 3.1 (Ortak temel bileşenler) tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 3 tamamlandı: Açık ve koyu tema renk paletleri, 4px/8px boşluk sistemi, tipografi sistemi, TypeScript modelleri ve merkezi ThemeProvider oluşturuldu; kök _layout.tsx entegrasyonu sağlandı.
+Faz 3.1 tamamlandı: ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri asgari dokunma alanı ve erişilebilirlik standartlarına uygun olarak oluşturuldu.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 3 (Tema altyapısı) tamamlandı; Faz 3.1 (Ortak temel bileşenler) aşamasına geçiş
+Faz 3.1 (Ortak temel bileşenler) tamamlandı; Faz 3.2 (Expo Router rota iskeleti) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 3 (Tema altyapısı) tamamlandı; Faz 3.1 (Ortak temel bileşenler) aşamas�
 Sıradaki teknik görev:
 
 ```text
-Faz 3.1: Ortak temel bileşenler
+Faz 3.2: Expo Router rota iskeleti
 ```
 
-Bu görevde ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri oluşturulacaktır.
+Bu görevde public rotalar (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), protected rotalar (tabs: index, prices, calculator, portfolio, settings), dinamik ürün detayı, portföy işlem rotaları ve +not-found ekranları oluşturulacaktır.
 
 ---
 

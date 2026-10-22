@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.5 Taslak  
+**Belge sürümü:** 1.6 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3 tamamlandı, Faz 3.1 sıradaki)  
-**Kodlama durumu:** Tema sistemi altyapısı ve ThemeProvider hazırlandı
+**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3.1 tamamlandı, Faz 3.2 sıradaki)  
+**Kodlama durumu:** Ortak temel bileşenler (ScreenContainer, butonlar, form alanları, geri bildirim ekranları) hazırlandı
 
 ---
 
@@ -500,21 +500,21 @@ Initialize Expo TypeScript project
 
 ## Faz 3.1: Ortak temel bileşenler
 
-- [ ] `ScreenContainer` oluştur.
-- [ ] `PrimaryButton` oluştur.
-- [ ] `SecondaryButton` oluştur.
-- [ ] `DangerButton` oluştur.
-- [ ] `TextField` oluştur.
-- [ ] `PasswordField` oluştur.
-- [ ] `LoadingState` oluştur.
-- [ ] `EmptyState` oluştur.
-- [ ] `ErrorState` oluştur.
-- [ ] `StaleDataBanner` oluştur.
-- [ ] `PartialDataBanner` oluştur.
-- [ ] Bileşenleri Android'de test et.
-- [ ] Bileşenlerin iOS etkisini kontrol et.
-- [ ] Dokunma alanlarının yeterli olduğunu kontrol et.
-- [ ] Ekran okuyucu etiketlerini ekle.
+- [x] `ScreenContainer` oluştur.
+- [x] `PrimaryButton` oluştur.
+- [x] `SecondaryButton` oluştur.
+- [x] `DangerButton` oluştur.
+- [x] `TextField` oluştur.
+- [x] `PasswordField` oluştur.
+- [x] `LoadingState` oluştur.
+- [x] `EmptyState` oluştur.
+- [x] `ErrorState` oluştur.
+- [x] `StaleDataBanner` oluştur.
+- [x] `PartialDataBanner` oluştur.
+- [x] Bileşenleri Android'de test et.
+- [x] Bileşenlerin iOS etkisini kontrol et.
+- [x] Dokunma alanlarının yeterli olduğunu kontrol et.
+- [x] Ekran okuyucu etiketlerini ekle.
 
 ### Tamamlanma şartı
 
