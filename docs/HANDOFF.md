@@ -591,23 +591,22 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5.5: Giriş ekranı
+Faz 5.6: Şifre sıfırlama
 ```
 
-Bu görevde `src/app/(public)/sign-in.tsx` giriş ekranı kodlanacak; e-posta ve şifre giriş alanları, şifre gizle/göster seçeneği, genel hatalı giriş mesajı (kullanıcı varlığını ifşa etmeyen), doğrulanmamış kullanıcı durumunda yönlendirme, hesap durumu kontrolü ve başarılı girişte ana sayfaya yönlendirme uygulanacaktır.
+Bu görevde `src/app/(public)/forgot-password.tsx` (Şifremi Unuttum) ve `src/app/(public)/reset-password.tsx` (Yeni Şifre Belirleme) ekranları kodlanacak; güvenli genel sonuç mesajı, e-posta gönderme, reset callback akışı, şifre politikası gösterimi, süresi dolmuş bağlantı yönetimi ve başarı sonrası giriş ekranına yönlendirme uygulanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5.5 şu koşullarda tamamlanmış sayılır:
+Faz 5.6 şu koşullarda tamamlanmış sayılır:
 
-- `src/app/(public)/sign-in.tsx` ekranı eksiksiz kodlanmalı.
-- E-posta ve şifre alanları ile şifre göster/gizle düğmesi eklenmeli.
-- Hatalı girişlerde e-posta varlığını gereksiz ifşa etmeyen genel mesaj gösterilmeli.
-- Doğrulanmamış hesapta `verify-email`, askıya alınmış veya silinme bekleyen hesapta `account-status` yönlendirmesi yapılmalı.
-- Başarılı girişte `/(protected)/(tabs)` ana sayfasına yönlendirilmeli.
-- `docs/TODO.md` içindeki Faz 5.5 maddeleri güncellenmeli.
+- `forgot-password.tsx` ekranında kullanıcı varlığını ifşa etmeyen genel mesajla şifre sıfırlama e-postası tetiklenmeli.
+- `reset-password.tsx` ekranında yeni şifre ve şifre tekrar alanları ile şifre politikası kontrolü uygulanmalı.
+- Süresi dolmuş veya geçersiz bağlantıda güvenli hata sunulmalı.
+- Başarılı şifre güncellemesi sonrası kullanıcı bilgilendirilip `sign-in` ekranına yönlendirilmeli.
+- `docs/TODO.md` içindeki Faz 5.6 maddeleri güncellenmeli.
 
 ---
 
@@ -636,7 +635,8 @@ Faz 5.5 şu koşullarda tamamlanmış sayılır:
 - [x] Kimlik doğrulama servisleri, modeller ve hata normalizasyonu tamamlandı (Faz 5.1: efbd308).
 - [x] AuthProvider, oturum yaşam döngüsü ve sonsuz döngü koruması uygulandı (Faz 5.2: 54814ab).
 - [x] Kayıt ekranı (sign-up), istemci doğrulamaları ve yasal bağlantılar uygulandı (Faz 5.3: 0388e7a).
-- [x] E-posta doğrulama akışı, hız sınırı (cooldown) ve auth-callback derin bağlantıları uygulandı (Faz 5.4).
+- [x] E-posta doğrulama akışı, hız sınırı (cooldown) ve auth-callback derin bağlantıları uygulandı (Faz 5.4: 6765aa0).
+- [x] Giriş ekranı (sign-in), hesap durumu yönlendirmeleri ve hata maskelemesi uygulandı (Faz 5.5).
 
 ---
 

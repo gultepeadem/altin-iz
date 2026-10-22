@@ -778,16 +778,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.5: Giriş ekranı
 
-- [ ] E-posta alanını oluştur.
-- [ ] Şifre alanını oluştur.
-- [ ] Şifreyi göster veya gizle seçeneğini ekle.
-- [ ] Giriş butonunu ekle.
-- [ ] Şifremi Unuttum bağlantısını ekle.
-- [ ] Hesap Oluştur bağlantısını ekle.
-- [ ] Genel hatalı giriş mesajını ekle.
-- [ ] Doğrulanmamış kullanıcı yönlendirmesini ekle.
-- [ ] Hesap durumu kontrolünü ekle.
-- [ ] Başarılı giriş sonrası Ana Sayfaya yönlendir.
+- [x] E-posta alanını oluştur.
+- [x] Şifre alanını oluştur.
+- [x] Şifreyi göster veya gizle seçeneğini ekle.
+- [x] Giriş butonunu ekle.
+- [x] Şifremi Unuttum bağlantısını ekle.
+- [x] Hesap Oluştur bağlantısını ekle.
+- [x] Genel hatalı giriş mesajını ekle.
+- [x] Doğrulanmamış kullanıcı yönlendirmesini ekle.
+- [x] Hesap durumu kontrolünü ekle.
+- [x] Başarılı giriş sonrası Ana Sayfaya yönlendir.
 
 ---
 

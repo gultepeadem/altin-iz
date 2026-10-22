@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 5.4 (E-posta doğrulama) tamamlandı; Faz 5.5 (Giriş ekranı) aşamasına geçiş
+Faz 5.5 (Giriş ekranı) tamamlandı; Faz 5.6 (Şifre sıfırlama) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 5.4 (E-posta doğrulama) tamamlandı; Faz 5.5 (Giriş ekranı) aşamasına g
 Sıradaki teknik görev:
 
 ```text
-Faz 5.5: Giriş ekranı
+Faz 5.6: Şifre sıfırlama
 ```
 
-Bu görevde `src/app/(public)/sign-in.tsx` giriş ekranı kodlanacak; e-posta ve şifre giriş alanları, şifre gizle/göster seçeneği, genel hatalı giriş mesajı (kullanıcı varlığını ifşa etmeyen), doğrulanmamış kullanıcı durumunda yönlendirme, hesap durumu kontrolü ve başarılı girişte ana sayfaya yönlendirme uygulanacaktır.
+Bu görevde `src/app/(public)/forgot-password.tsx` (Şifremi Unuttum) ve `src/app/(public)/reset-password.tsx` (Yeni Şifre Belirleme) ekranları kodlanacak; güvenli genel sonuç mesajı, e-posta gönderme, reset callback akışı, şifre politikasının gösterimi, süresi dolmuş bağlantı yönetimi ve başarı sonrası giriş ekranına yönlendirme uygulanacaktır.
 
 ---
 

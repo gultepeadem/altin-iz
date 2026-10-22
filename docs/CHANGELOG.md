@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.23] - 22.10.2026
+
+### Added
+
+- Faz 5.5 Giriş ekranı tamamlandı:
+  - `src/app/(public)/sign-in.tsx` eksiksiz kodlandı; e-posta ve şifre giriş alanları, `PasswordField` ile şifre göster/gizle düğmesi, istemci tarafı format doğrulama kontrolleri bağlandı.
+  - Güvenlik standardı: Hatalı girişlerde e-posta hesabının mevcudiyetini ifşa etmeyen genel mesaj (`"E-posta adresi veya şifre hatalı."`) `normalizeError` üzerinden güvenle gösterildi; hiçbir şifre loglanmadı.
+  - Şifremi Unuttum (`/(public)/forgot-password`) ve Hesap Oluştur (`/(public)/sign-up`) bağlantıları eklendi.
+  - Çift gönderimi engelleyen yüklenme (`isSubmitting`) durumu uygulandı.
+  - Durum yönlendirmeleri uygulandı: Doğrulanmamış hesapta `verify-email`, askıya alınmış veya silinme bekleyen hesapta `account-status`, aktif hesapta `/(protected)/(tabs)` rotasına tek yönlendirme yapıldı.
+  - Giriş akışı, yönlendirmeler ve hata maskelemeyi doğrulayan 6/6 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.5 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.6 (Şifre sıfırlama) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.22] - 22.10.2026
 
 ### Added
