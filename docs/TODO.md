@@ -979,27 +979,27 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 7.1: Hesaplama ekranı
 
-- [ ] Altın türü seçicisini oluştur.
-- [ ] Yalnızca `calculator_enabled` ürünleri göster.
-- [ ] Miktar alanını oluştur.
-- [ ] Ürüne göre adet veya gram etiketini otomatik göster.
-- [ ] Satın Alacağım seçeneğini ekle.
-- [ ] Bozduracağım seçeneğini ekle.
-- [ ] Hesapla butonunu ekle.
-- [ ] Sonucu temizle butonunu ekle.
-- [ ] Kullanılan fiyat türünü göster.
-- [ ] Kullanılan birim fiyatı göster.
-- [ ] Tahmini toplamı göster.
-- [ ] Son fiyat zamanını göster.
-- [ ] Eski fiyat uyarısını göster.
-- [ ] Finansal bilgilendirmeyi göster.
-- [ ] Portföye Ekle butonunu ekle.
-- [ ] Fiyat yokken hesaplamayı engelle.
-- [ ] Adetli üründe kesirli girişi engelle.
-- [ ] Gramlı üründe üçten fazla ondalığı engelle.
-- [ ] Türkçe virgül ve nokta giriş davranışını test et.
-- [ ] Android sayısal klavyeyi test et.
-- [ ] iOS sayısal klavyeyi test et.
+- [x] Altın türü seçicisini oluştur.
+- [x] Yalnızca `calculator_enabled` ürünleri göster.
+- [x] Miktar alanını oluştur.
+- [x] Ürüne göre adet veya gram etiketini otomatik göster.
+- [x] Satın Alacağım seçeneğini ekle.
+- [x] Bozduracağım seçeneğini ekle.
+- [x] Hesapla butonunu ekle.
+- [x] Sonucu temizle butonunu ekle.
+- [x] Kullanılan fiyat türünü göster.
+- [x] Kullanılan birim fiyatı göster.
+- [x] Tahmini toplamı göster.
+- [x] Son fiyat zamanını göster.
+- [x] Eski fiyat uyarısını göster.
+- [x] Finansal bilgilendirmeyi göster.
+- [x] Portföye Ekle butonunu ekle.
+- [x] Fiyat yokken hesaplamayı engelle.
+- [x] Adetli üründe kesirli girişi engelle.
+- [x] Gramlı üründe üçten fazla ondalığı engelle.
+- [x] Türkçe virgül ve nokta giriş davranışını test et.
+- [x] Android sayısal klavyeyi test et.
+- [x] iOS sayısal klavyeyi test et.
 
 ---
 

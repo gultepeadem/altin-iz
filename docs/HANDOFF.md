@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.26 Taslak  
+**Belge sürümü:** 1.27 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 13 - Hesaplama sistemi (Faz 7 tamamlandı, Faz 7.1 sıradaki)  
-**Kodlama durumu:** src/domain/calculations (money, valuation, percentage, portfolioSummary) ve src/domain/validation (quantityValidation) tamamlandı  
-**Son çalışma durumu:** Faz 7 başarıyla tamamlandı; para modeli, değerleme, kâr-zarar, kısmi portföy ve miktar doğrulamaları kodlandı, 12/12 birim testi geçti. Sıradaki görev Faz 7.1 (Hesaplama ekranı)
+**Proje aşaması:** Bölüm 13 (Hesaplama sistemi) tamamlandı, Bölüm 14 - Faz 8 (Portföy sistemi) sıradaki  
+**Kodlama durumu:** calculator.tsx canlı Supabase ürün ve fiyatları, modal seçici, miktar doğrulamaları, mod seçimi, sonuç kartı ve bilgilendirme ile tamamlandı  
+**Son çalışma durumu:** Faz 7.1 başarıyla tamamlandı; hesaplama ekranı, girdi kontrolleri ve ADR-011/ADR-013 kuralları uygulandı, 9/9 doğrulama testi geçti. Sıradaki görev Faz 8 (Portföy servisi)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 7 kapsamında hesaplama etki alanı modüllerini kurmak, para modelini (kuruş/minor) ve güvenli sayı sınırlarını kesinleştirmek, harici kütüphane gereksinimini ADR-032 olarak kararlaştırmak, satın alma/bozdurma tahminlerini, kâr-zararı, sıfıra bölme korumalı yüzdeyi, kısmi portföy toplamını ve gram/adet miktar doğrulamalarını kodlamak
+Faz 7.1 kapsamında calculator.tsx ekranını sahte verilerden arındırarak goldProductService ve goldPriceService ile gerçek Supabase verilerine bağlamak, altın türü seçici modalını kurmak, dinamik miktar etiketlerini (Adet/Gram/Ons) bağlamak, miktar doğrulamalarını (tam sayı, 3 ondalık) uygulamak, Satın Alacağım / Bozduracağım modlarını ve birim fiyatı göstermek, hesaplama ve temizleme aksiyonlarını kodlamak, portföye ekle kısayolunu ve finansal bilgilendirmeyi eklemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 7 tamamlandı: src/domain/calculations (money.ts, valuation.ts, percentage.ts, portfolioSummary.ts) ve src/domain/validation (quantityValidation.ts) kodlandı; ADR-032 kaydedildi; 12/12 otomatik birim test başarıyla geçti
+Faz 7.1 tamamlandı: calculator.tsx canlı servis entegrasyonu, ürün seçici modalı, miktar kontrolleri, mod seçimi ve sonuç kartı ile kodlandı; 9/9 otomatik test başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 13 - Hesaplama sistemi (Faz 7.1 hazırlığı)
+Bölüm 14 - Portföy sistemi (Faz 8 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,24 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 7.1: Hesaplama ekranı
+Faz 8: Portföy servisi
 ```
 
-Bu görevde `src/app/(protected)/(tabs)/calculator.tsx` ekranı kodlanacak; altın türü seçicisi (`calculator_enabled` ürünleri), miktar alanı, ürüne göre adet/gram etiketlerinin dinamik gösterimi, Satın Alacağım / Bozduracağım seçenekleri, Hesapla butonu, sonucu temizle butonu, kullanılan fiyat türü ("Satış Fiyatı" / "Alış Fiyatı"), son güncelleme zamanı, güncellik durumu ve finansal bilgilendirme metni entegre edilecektir.
+Bu görevde `src/services/portfolioService.ts` servisi kodlanacak; kullanıcının portföy kayıtlarını listeleme, tek kayıt detayı getirme, yeni kayıt oluşturma, kayıt güncelleme, kayıt silme, sıralama, RLS ile kullanıcı kimliğini oturumdan alma ve hata normalizasyonu fonksiyonları geliştirilecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 7.1 şu koşullarda tamamlanmış sayılır:
+Faz 8 şu koşullarda tamamlanmış sayılır:
 
-- `src/app/(protected)/(tabs)/calculator.tsx` ekranı tasarım sistemi bileşenleriyle kodlanmalı.
-- Yalnızca hesaplamaya açık ürünler (`calculator_enabled = true`) seçilebilmeli.
-- Ürün seçildiğinde miktar etiketi (Adet veya Gram) otomatik değişmeli.
-- Satın alırken satış fiyatı, bozdururken alış fiyatı kullanılmalı (ADR-011).
-- Hesaplanan tutar portföye gerçek maliyet olarak otomatik yazılmamalı.
-- Fiyat yoksa hesaplama engellenmeli ve güvenli uyarı verilmeli (ADR-013).
-- `docs/TODO.md` içindeki Faz 7.1 maddeleri güncellenmeli.
+- `src/services/portfolioService.ts` modülü mimari standartlara uygun kodlanmalı.
+- Kullanıcı kimliği serbest formdan değil `authService.getCurrentUser()` veya RLS oturumundan alınmalı.
+- Miktar pozitif, maliyet pozitif ve alış tarihi gelecekte olmamalı.
+- Fiyatı olmayan kayıtların listelemede kaybolmadığı doğrulanmalı.
+- CRUD işlemleri ve RLS güvenlik testleri %100 başarıyla geçmeli.
+- `docs/TODO.md` içindeki Faz 8 maddeleri güncellenmeli.
 
 ---
 
@@ -648,7 +647,8 @@ Faz 7.1 şu koşullarda tamamlanmış sayılır:
 - [x] Güncel fiyat okuma servisleri, modelleri ve durum hesaplamaları tamamlandı (Faz 6.4: 09bcaeb).
 - [x] Fiyatlar ekranı, arama, sıralama, kartlar, uyarı şeritleri ve çek-yenile tamamlandı (Faz 6.5: d575f9f).
 - [x] Altın detay ekranı, dinamik doğrulama, günün değerleri, durum rozetleri ve butonlar tamamlandı (Faz 6.6: 289f0be).
-- [x] Hesaplama etki alanı fonksiyonları, para yuvarlama, kâr-zarar, kısmi portföy ve miktar doğrulamaları tamamlandı (Faz 7).
+- [x] Hesaplama etki alanı fonksiyonları, para yuvarlama, kâr-zarar, kısmi portföy ve miktar doğrulamaları tamamlandı (Faz 7: a3c555e).
+- [x] Hesaplama ekranı, ürün seçici, miktar kontrolleri, işlem modları ve portföy kısayolu tamamlandı (Faz 7.1).
 
 ---
 

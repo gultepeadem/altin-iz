@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.34] - 22.10.2026
+
+### Added
+
+- Faz 7.1 Hesaplama ekranı tamamlandı (Bölüm 13 - Hesaplama sistemi tamamlandı):
+  - `src/app/(protected)/(tabs)/calculator.tsx`: Canlı Supabase ürün ve fiyat verileriyle (`goldProductService.getCalculatorProducts()`, `goldPriceService.getLatestPrices()`) ve etki alanı fonksiyonlarıyla tam entegre edildi.
+  - Altın türü seçici modalı (yalnızca `calculator_enabled = true` ürünleri) ve anlık arama desteği eklendi; harici sayfalardan gelen `productId` parametresi otomatik seçilme desteği sağlandı.
+  - Seçili ürünün ölçü birimine göre miktar alanı etiketi (`Adet`, `Gram`, `Ons`) ve klavye türü (`number-pad`, `decimal-pad`) dinamik olarak bağlandı.
+  - Girdi doğrulama kontrolleri (adet için tam sayı zorunluluğu, gram için azami 3 ondalık basamak sınırı, sıfır ve negatif girişi engelleme) uygulandı.
+  - "Satın Alacağım" (Satış Fiyatı) ve "Bozduracağım" (Alış Fiyatı) işlem modu seçimi (ADR-011) ve kullanılan birim fiyatın gösterimi eklendi.
+  - Fiyatı bulunamayan ürünlerde hesaplama engellendi ve ADR-013 kuralı uyarınca asla `0 TL` hesaplanmaması sağlandı.
+  - Fiyat 15 dakikadan eskiyse `StaleDataBanner` uyarı şeridi gösterildi (ADR-014).
+  - Hesaplama sonucu net formatlanarak sunuldu; satın alma modunda portföye ekleme kısayolu ve bilgilendirme notu eklendi.
+  - Zorunlu finansal bilgilendirme metni (serbest piyasa gösterge fiyatı uyarısı) eklendi.
+  - `supabase/tests/test-faz7-1-calculator-screen.ts`: 9/9 senaryoyu kapsayan miktar ayrıştırma, tam sayı ve ondalık kontrolleri, alım/satım modu fiyat seçimleri, ADR-013 kuralı ve canlı veritabanı ürün testi başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 7.1 ve Bölüm 13 (Hesaplama sistemi) tamamlandı olarak işaretlendi; sıradaki görev Bölüm 14 - Faz 8 (Portföy servisi) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.33] - 22.10.2026
 
 ### Added

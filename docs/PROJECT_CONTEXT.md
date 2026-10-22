@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.21 Taslak  
+**Belge sürümü:** 1.22 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 13 - Hesaplama sistemi (Faz 7 tamamlandı, Faz 7.1 sıradaki)  
-**Kodlama durumu:** src/domain/calculations ve src/domain/validation modülleri tamamlandı; ADR-032 kaydedildi
+**Proje durumu:** Bölüm 13 (Hesaplama sistemi) tamamlandı, Bölüm 14 - Faz 8 (Portföy sistemi) sıradaki  
+**Kodlama durumu:** calculator.tsx canlı Supabase ürün ve fiyatları, modal seçici, miktar kontrolleri ve işlem modları ile tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 7 (Hesaplama etki alanı fonksiyonları) tamamlandı; Bölüm 13 (Hesaplama Sistemi) - Faz 7.1 aşamasına geçiş
+Faz 7.1 (Hesaplama ekranı) ve Bölüm 13 (Hesaplama sistemi) tamamlandı; Bölüm 14 (Portföy Sistemi) - Faz 8 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 7 (Hesaplama etki alanı fonksiyonları) tamamlandı; Bölüm 13 (Hesaplama 
 Sıradaki teknik görev:
 
 ```text
-Faz 7.1: Hesaplama ekranı
+Faz 8: Portföy servisi
 ```
 
-Bu görevde `src/app/(protected)/(tabs)/calculator.tsx` ekranı kodlanacak; altın türü seçicisi (`calculator_enabled` ürünleri), miktar alanı, ürüne göre adet/gram etiketlerinin dinamik gösterimi, Satın Alacağım / Bozduracağım seçenekleri, Hesapla butonu, sonucu temizle butonu, kullanılan fiyat türü ("Satış Fiyatı" / "Alış Fiyatı"), son güncelleme zamanı, güncellik durumu ve finansal bilgilendirme metni entegre edilecektir.
+Bu görevde `src/services/portfolioService.ts` servisi kodlanacak; kullanıcının portföy kayıtlarını listeleme, tek kayıt detayı getirme, yeni kayıt oluşturma, kayıt güncelleme, kayıt silme, sıralama, RLS ile kullanıcı kimliğini oturumdan alma ve hata normalizasyonu fonksiyonları geliştirilecektir.
 
 ---
 
