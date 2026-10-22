@@ -384,19 +384,19 @@ Başlatıldı (Yerel git deposu, main dalı)
 ### GitHub deposu
 
 ```text
-Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu oluşturulması bekleniyor)
+Bağlandı ve eşitlendi: https://github.com/gultepeadem/altin-iz (main dalı)
 ```
 
 ### Son commit
 
 ```text
-65ae722 (feat(client): setup Supabase JS client, environment validation, and AsyncStorage session adapter (Faz 5))
+18a43a5 (test(security): add comprehensive multi-tenant user isolation and RLS test suite (Faz 14.4))
 ```
 
 ### Son çalışan commit
 
 ```text
-65ae722
+18a43a5
 ```
 
 ### Aktif dal
