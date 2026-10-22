@@ -1,44 +1,129 @@
 /**
- * Altın İz — E-posta Doğrulama Ekranı (verify-email)
+ * Altın İz — E-posta Doğrulama Ekranı (app/(public)/verify-email.tsx)
+ * 
+ * Faz 5.4 Kapsamı:
+ * - E-posta doğrulama bilgilendirme arayüzü
+ * - Tekrar gönderme butonu ve 60 saniyelik hız sınırı (cooldown / rate limit) koruması
+ * - Doğrulama durumunu kontrol etme / yenileme butonu
+ * - Süresi dolmuş veya hatalı durumlarda bilgilendirme
  */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
 import { SecondaryButton } from '@/components/common/SecondaryButton';
+import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
 import { authService } from '@/services/authService';
 import { normalizeError } from '@/utils/normalizeError';
 
+const COOLDOWN_SECONDS = 60;
+
 export default function VerifyEmailScreen() {
   const { theme } = useTheme();
   const { email } = useLocalSearchParams<{ email?: string }>();
+  const { refreshProfile } = useAuth();
 
   const [isResending, setIsResending] = useState(false);
-  const [resendStatus, setResendStatus] = useState<string | null>(null);
+  const [isCheckingStatus, setIsCheckingStatus] = useState(false);
+  const [cooldown, setCooldown] = useState(0);
+  const [statusMessage, setStatusMessage] = useState<{
+    type: 'success' | 'info' | 'error';
+    text: string;
+  } | null>(null);
 
+  // Geri sayım (cooldown) sayacı
+  useEffect(() => {
+    if (cooldown <= 0) return;
+
+    const timer = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [cooldown]);
+
+  /**
+   * Doğrulama e-postasını tekrar gönderme işlemi (Hız sınırı korumalı)
+   */
   const handleResend = async () => {
-    if (!email || isResending) return;
+    if (!email || isResending || cooldown > 0) return;
 
     setIsResending(true);
-    setResendStatus(null);
+    setStatusMessage(null);
 
     try {
       await authService.resendVerificationEmail({ email });
-      setResendStatus('Doğrulama bağlantısı e-posta adresinize tekrar gönderildi.');
+      setCooldown(COOLDOWN_SECONDS);
+      setStatusMessage({
+        type: 'success',
+        text: 'Doğrulama bağlantısı e-posta adresinize tekrar gönderildi. Lütfen gelen kutunuzu (ve spam klasörünü) kontrol edin.',
+      });
     } catch (err) {
       const appErr = normalizeError(err);
-      setResendStatus(appErr.userMessage);
+      setStatusMessage({
+        type: 'error',
+        text: appErr.userMessage,
+      });
     } finally {
       setIsResending(false);
     }
   };
 
+  /**
+   * Kullanıcının doğrulama durumunu sunucudan sorgular
+   */
+  const handleCheckStatus = async () => {
+    if (isCheckingStatus) return;
+
+    setIsCheckingStatus(true);
+    setStatusMessage(null);
+
+    try {
+      const user = await authService.getUser();
+      if (user && user.email_confirmed_at) {
+        setStatusMessage({
+          type: 'success',
+          text: 'E-posta adresiniz başarıyla doğrulandı! Yönlendiriliyorsunuz...',
+        });
+        await refreshProfile();
+        setTimeout(() => {
+          router.replace('/(protected)/(tabs)');
+        }, 1200);
+      } else {
+        setStatusMessage({
+          type: 'info',
+          text: 'E-posta adresiniz henüz doğrulanmamış görünüyor. Lütfen gelen kutunuzdaki bağlantıya tıkladıktan sonra tekrar kontrol edin.',
+        });
+      }
+    } catch {
+      setStatusMessage({
+        type: 'info',
+        text: 'Bağlantı henüz algılanmadı. Lütfen e-postanızı onaylayıp tekrar deneyin veya giriş yapın.',
+      });
+    } finally {
+      setIsCheckingStatus(false);
+    }
+  };
+
+  const getStatusColor = () => {
+    if (!statusMessage) return theme.colors.textSecondary;
+    if (statusMessage.type === 'success') return theme.colors.profit;
+    if (statusMessage.type === 'error') return theme.colors.loss;
+    return theme.colors.primary;
+  };
+
   return (
-    <ScreenContainer style={styles.container}>
+    <ScreenContainer scrollable={true} contentContainerStyle={styles.container}>
       <View style={styles.content}>
         <Text style={styles.emoji}>✉️</Text>
         <Text
@@ -73,26 +158,58 @@ export default function VerifyEmailScreen() {
           adresinize gönderdiğimiz doğrulama bağlantısına tıklayın.
         </Text>
 
-        {resendStatus ? (
-          <Text style={[styles.statusMessage, { color: theme.colors.primary }]}>
-            {resendStatus}
-          </Text>
+        {statusMessage ? (
+          <View
+            style={[
+              styles.statusBanner,
+              {
+                backgroundColor: theme.colors.card,
+                borderColor: getStatusColor(),
+              },
+            ]}
+            accessible={true}
+            accessibilityRole="alert"
+          >
+            <Text style={[styles.statusText, { color: getStatusColor() }]}>
+              {statusMessage.text}
+            </Text>
+          </View>
         ) : null}
 
+        {/* 1. Doğrulama Durumunu Kontrol Et / Yenile */}
         <PrimaryButton
-          title="Doğruladım, Giriş Yap"
-          onPress={() => router.replace('/(public)/sign-in')}
-          style={styles.button}
+          title={isCheckingStatus ? 'Kontrol Ediliyor...' : 'Doğrulama Durumunu Kontrol Et'}
+          onPress={handleCheckStatus}
+          loading={isCheckingStatus}
+          disabled={isCheckingStatus}
+          style={styles.actionButton}
+          accessibilityLabel="Doğrulama Durumunu Kontrol Et"
         />
 
+        {/* 2. Tekrar Gönderme Butonu (Hız Sınırı Korumalı) */}
         {email ? (
           <SecondaryButton
-            title={isResending ? 'Gönderiliyor...' : 'Doğrulama E-postasını Tekrar Gönder'}
+            title={
+              cooldown > 0
+                ? `Tekrar göndermek için bekleyin (${cooldown}s)`
+                : isResending
+                ? 'Gönderiliyor...'
+                : 'Doğrulama E-postasını Tekrar Gönder'
+            }
             onPress={handleResend}
-            disabled={isResending}
-            style={styles.resendButton}
+            disabled={isResending || cooldown > 0}
+            style={styles.actionButton}
+            accessibilityLabel="Doğrulama E-postasını Tekrar Gönder"
           />
         ) : null}
+
+        {/* 3. Giriş Ekranına Git */}
+        <SecondaryButton
+          title="Giriş Ekranına Dön"
+          onPress={() => router.replace('/(public)/sign-in')}
+          style={styles.backButton}
+          accessibilityLabel="Giriş Ekranına Dön"
+        />
       </View>
     </ScreenContainer>
   );
@@ -100,12 +217,16 @@ export default function VerifyEmailScreen() {
 
 const styles = StyleSheet.create({
   container: {
+    flexGrow: 1,
     justifyContent: 'center',
     alignItems: 'center',
+    paddingVertical: 24,
   },
   content: {
+    width: '100%',
+    maxWidth: 380,
     alignItems: 'center',
-    padding: 24,
+    paddingHorizontal: 16,
   },
   emoji: {
     fontSize: 56,
@@ -118,23 +239,27 @@ const styles = StyleSheet.create({
   message: {
     textAlign: 'center',
     marginBottom: 24,
-    maxWidth: 320,
     lineHeight: 22,
   },
-  statusMessage: {
+  statusBanner: {
+    width: '100%',
+    padding: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 20,
+  },
+  statusText: {
+    fontSize: 14,
+    lineHeight: 20,
     textAlign: 'center',
-    marginBottom: 16,
-    fontSize: 13,
-    lineHeight: 18,
     fontWeight: '500',
   },
-  button: {
+  actionButton: {
     width: '100%',
-    maxWidth: 280,
     marginBottom: 12,
   },
-  resendButton: {
+  backButton: {
     width: '100%',
-    maxWidth: 280,
+    marginTop: 4,
   },
 });

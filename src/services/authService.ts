@@ -173,6 +173,48 @@ export const authService = {
   },
 
   /**
+   * Derin bağlantıdan (deep link) gelen auth kodunu oturuma dönüştürür (PKCE akışı).
+   *
+   * @param code Supabase Auth doğrulama kodu
+   * @returns Kullanıcı ve oturum nesnesi
+   */
+  async exchangeCodeForSession(code: string): Promise<AuthSuccessResult> {
+    try {
+      const { data, error } = await supabase.auth.exchangeCodeForSession(code);
+      if (error) {
+        throw normalizeError(error);
+      }
+      return {
+        user: data.user,
+        session: data.session,
+      };
+    } catch (error) {
+      throw normalizeError(error);
+    }
+  },
+
+  /**
+   * Belirteçler (access_token, refresh_token) üzerinden oturum kurar.
+   *
+   * @param tokens Erişim ve yenileme belirteçleri
+   * @returns Kullanıcı ve oturum nesnesi
+   */
+  async setSession(tokens: { access_token: string; refresh_token: string }): Promise<AuthSuccessResult> {
+    try {
+      const { data, error } = await supabase.auth.setSession(tokens);
+      if (error) {
+        throw normalizeError(error);
+      }
+      return {
+        user: data.user,
+        session: data.session,
+      };
+    } catch (error) {
+      throw normalizeError(error);
+    }
+  },
+
+  /**
    * Kimlik doğrulama durumu değişikliklerini dinleyen abonelik oluşturur.
    *
    * @param callback Olay tetiklendiğinde çağrılacak geri çağırma fonksiyonu

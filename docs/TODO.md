@@ -763,16 +763,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.4: E-posta doğrulama
 
-- [ ] E-posta doğrulama ekranını oluştur.
-- [ ] Tekrar gönderme butonunu ekle.
-- [ ] Tekrar gönderme hız sınırı davranışını ekle.
-- [ ] Doğrulama durumunu yenileme butonunu ekle.
-- [ ] Auth callback rotasını oluştur.
-- [ ] Android derin bağlantısını yapılandır.
-- [ ] iOS derin bağlantısını yapılandır.
-- [ ] Süresi dolmuş bağlantıyı test et.
-- [ ] Başarılı doğrulamayı test et.
-- [ ] Başarısız doğrulamayı test et.
+- [x] E-posta doğrulama ekranını oluştur.
+- [x] Tekrar gönderme butonunu ekle.
+- [x] Tekrar gönderme hız sınırı davranışını ekle.
+- [x] Doğrulama durumunu yenileme butonunu ekle.
+- [x] Auth callback rotasını oluştur.
+- [x] Android derin bağlantısını yapılandır.
+- [x] iOS derin bağlantısını yapılandır.
+- [x] Süresi dolmuş bağlantıyı test et.
+- [x] Başarılı doğrulamayı test et.
+- [x] Başarısız doğrulamayı test et.
 
 ---
 

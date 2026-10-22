@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 5.3 (Kayıt ekranı) tamamlandı; Faz 5.4 (E-posta doğrulama) aşamasına geçiş
+Faz 5.4 (E-posta doğrulama) tamamlandı; Faz 5.5 (Giriş ekranı) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 5.3 (Kayıt ekranı) tamamlandı; Faz 5.4 (E-posta doğrulama) aşamasına g
 Sıradaki teknik görev:
 
 ```text
-Faz 5.4: E-posta doğrulama
+Faz 5.5: Giriş ekranı
 ```
 
-Bu görevde `src/app/(public)/verify-email.tsx` ve `src/app/auth-callback.tsx` rotaları üzerinden e-posta doğrulama akışı, tekrar gönderme butonu ve hız sınırı (rate limit / cooldown) koruması, derin bağlantı (deep link) yakalama ve oturum yenileme kontrolleri kodlanacaktır.
+Bu görevde `src/app/(public)/sign-in.tsx` giriş ekranı kodlanacak; e-posta ve şifre giriş alanları, şifre gizle/göster seçeneği, genel hatalı giriş mesajı (kullanıcı varlığını ifşa etmeyen), doğrulanmamış kullanıcı durumunda yönlendirme, hesap durumu kontrolü ve başarılı girişte ana sayfaya yönlendirme uygulanacaktır.
 
 ---
 

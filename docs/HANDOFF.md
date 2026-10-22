@@ -591,21 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5.4: E-posta doğrulama
+Faz 5.5: Giriş ekranı
 ```
 
-Bu görevde `src/app/(public)/verify-email.tsx` ve `src/app/auth-callback.tsx` rotaları üzerinden e-posta doğrulama akışı, tekrar gönderme butonu ve hız sınırı (rate limit / cooldown) koruması, derin bağlantı (deep link) yakalama ve oturum yenileme kontrolleri kodlanacaktır.
+Bu görevde `src/app/(public)/sign-in.tsx` giriş ekranı kodlanacak; e-posta ve şifre giriş alanları, şifre gizle/göster seçeneği, genel hatalı giriş mesajı (kullanıcı varlığını ifşa etmeyen), doğrulanmamış kullanıcı durumunda yönlendirme, hesap durumu kontrolü ve başarılı girişte ana sayfaya yönlendirme uygulanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5.4 şu koşullarda tamamlanmış sayılır:
+Faz 5.5 şu koşullarda tamamlanmış sayılır:
 
-- `verify-email.tsx` üzerinde tekrar gönderme butonu ve geri sayım / hız sınırı mekanizması çalışmalı.
-- `auth-callback.tsx` gelen e-posta doğrulama bağlantılarını (`access_token` / `refresh_token` veya PKCE kodu) işlemeli.
-- Başarılı doğrulamada kullanıcı ana sayfaya veya aktif oturuma yönlendirilmeli; süresi dolmuş veya hatalı bağlantıda anlaşılır Türkçe hata verilmelidir.
-- `docs/TODO.md` içindeki Faz 5.4 maddeleri güncellenmeli.
+- `src/app/(public)/sign-in.tsx` ekranı eksiksiz kodlanmalı.
+- E-posta ve şifre alanları ile şifre göster/gizle düğmesi eklenmeli.
+- Hatalı girişlerde e-posta varlığını gereksiz ifşa etmeyen genel mesaj gösterilmeli.
+- Doğrulanmamış hesapta `verify-email`, askıya alınmış veya silinme bekleyen hesapta `account-status` yönlendirmesi yapılmalı.
+- Başarılı girişte `/(protected)/(tabs)` ana sayfasına yönlendirilmeli.
+- `docs/TODO.md` içindeki Faz 5.5 maddeleri güncellenmeli.
 
 ---
 
@@ -633,7 +635,8 @@ Faz 5.4 şu koşullarda tamamlanmış sayılır:
 - [x] Supabase JS istemcisi, ortam değişkenleri ve oturum adaptörü kuruldu (Faz 5: e1de8c1).
 - [x] Kimlik doğrulama servisleri, modeller ve hata normalizasyonu tamamlandı (Faz 5.1: efbd308).
 - [x] AuthProvider, oturum yaşam döngüsü ve sonsuz döngü koruması uygulandı (Faz 5.2: 54814ab).
-- [x] Kayıt ekranı (sign-up), istemci doğrulamaları ve yasal bağlantılar uygulandı (Faz 5.3).
+- [x] Kayıt ekranı (sign-up), istemci doğrulamaları ve yasal bağlantılar uygulandı (Faz 5.3: 0388e7a).
+- [x] E-posta doğrulama akışı, hız sınırı (cooldown) ve auth-callback derin bağlantıları uygulandı (Faz 5.4).
 
 ---
 

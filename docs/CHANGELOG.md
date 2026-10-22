@@ -56,6 +56,23 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.22] - 22.10.2026
+
+### Added
+
+- Faz 5.4 E-posta doğrulama tamamlandı:
+  - `app.json` dosyasına Android (`package: "com.altiniz.app"`) ve iOS (`bundleIdentifier: "com.altiniz.app"`) kimlikleri tanımlandı; `altiniz://` şeması üzerinden derin bağlantı (deep link) altyapısı yapılandırıldı.
+  - `src/services/authService.ts` servisine `exchangeCodeForSession` (PKCE akışı) ve `setSession` (belirteç oturumu) metotları eklendi.
+  - `src/app/(public)/verify-email.tsx` güncellendi; 60 saniyelik hız sınırı (cooldown / rate limit) sayacı, tekrar gönderme butonu ve `handleCheckStatus` doğrulama durumu sorgulama/yenileme butonu eklendi.
+  - `src/app/auth-callback.tsx` rotası tam işlevsel hâle getirildi; süresi dolmuş bağlantılarda (`otp_expired`) anlaşılır Türkçe hata sunumu ve aksiyon butonları (`verify-email` veya `sign-in`), başarılı doğrulamada `type` parametresine göre `reset-password` veya `tabs` yönlendirmesi sağlandı.
+  - Derin bağlantı, hız sınırı, süresi dolmuş bağlantı ve başarılı oturum kurma durumlarını kapsayan 6/6 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.4 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.5 (Giriş ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.21] - 22.10.2026
 
 ### Added
