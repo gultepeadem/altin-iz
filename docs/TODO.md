@@ -926,20 +926,20 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6.6: Altın detay ekranı
 
-- [ ] Dinamik `productId` doğrulamasını ekle.
-- [ ] Ürün adını göster.
-- [ ] Alış fiyatını göster.
-- [ ] Satış fiyatını göster.
-- [ ] Günlük değişimi varsa göster.
-- [ ] Günün düşük ve yüksek değerini varsa göster.
-- [ ] Son fiyat zamanını göster.
-- [ ] Fiyat kaynağını göster.
-- [ ] Güncellik durumunu göster.
-- [ ] Hesapla butonunu ekle.
-- [ ] Portföye Ekle butonunu ekle.
-- [ ] Finansal bilgilendirmeyi ekle.
-- [ ] Portföye kapalı üründe ekleme butonunu gösterme veya açıklayıcı devre dışı durum kullan.
-- [ ] Fiyat yoksa güvenli hata durumunu göster.
+- [x] Dinamik `productId` doğrulamasını ekle.
+- [x] Ürün adını göster.
+- [x] Alış fiyatını göster.
+- [x] Satış fiyatını göster.
+- [x] Günlük değişimi varsa göster.
+- [x] Günün düşük ve yüksek değerini varsa göster.
+- [x] Son fiyat zamanını göster.
+- [x] Fiyat kaynağını göster.
+- [x] Güncellik durumunu göster.
+- [x] Hesapla butonunu ekle.
+- [x] Portföye Ekle butonunu ekle.
+- [x] Finansal bilgilendirmeyi ekle.
+- [x] Portföye kapalı üründe ekleme butonunu gösterme veya açıklayıcı devre dışı durum kullan.
+- [x] Fiyat yoksa güvenli hata durumunu göster.
 
 ---
 

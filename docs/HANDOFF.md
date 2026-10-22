@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.24 Taslak  
+**Belge sürümü:** 1.25 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Fiyat sistemi (Faz 6.5 tamamlandı, Faz 6.6 sıradaki)  
-**Kodlama durumu:** prices.tsx canlı Supabase fiyatları, arama, 4 yönlü sıralama, uyarı şeritleri ve çek-yenile ile tamamlandı  
-**Son çalışma durumu:** Faz 6.5 başarıyla tamamlandı; arayüz, arama, sıralama ve ADR-013 kuralı uygulandı, 10/10 doğrulama testi geçti. Sıradaki görev Faz 6.6 (Altın detay ekranı)
+**Proje aşaması:** Bölüm 12 (Fiyat sistemi) tamamlandı, Bölüm 13 - Faz 7 (Hesaplama sistemi) sıradaki  
+**Kodlama durumu:** gold/[productId].tsx dinamik doğrulama, canlı Supabase fiyatları, günün düşük/yüksek değerleri, durum rozetleri, portföy/hesaplama butonları ve finansal bilgilendirme ile tamamlandı  
+**Son çalışma durumu:** Faz 6.6 başarıyla tamamlandı; detay ekranı, aksiyonlar ve ADR-013 kuralı uygulandı, 9/9 doğrulama testi geçti. Sıradaki görev Faz 7 (Hesaplama etki alanı fonksiyonları)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 6.5 kapsamında prices.tsx ekranını sahte verilerden arındırarak goldPriceService ile gerçek Supabase verilerine bağlamak, ekran başlığı, son güncelleme zamanı, arama alanı, 4 yönlü sıralama (varsayılan, isim A-Z, satış artan/azalan), fiyat kartları, alış/satış etiketleri, günlük değişim rozetleri, ADR-013 sıfır TL engellemesi, eski/kısmi veri uyarı şeritleri ve çek-yenile işlevlerini kodlamak
+Faz 6.6 kapsamında gold/[productId].tsx ekranını sahte verilerden arındırarak goldProductService ve goldPriceService ile gerçek Supabase verilerine bağlamak, dinamik productId doğrulamasını eklemek, alış/satış fiyatlarını göstermek, günün düşük/yüksek değerlerini göstermek, son fiyat zamanı ve kaynağını eklemek, tazelik durumu rozetini ve uyarı şeritlerini entegre etmek, portföye ekle (yetki kontrollü) ve hesapla butonlarını bağlamak, zorunlu finansal bilgilendirmeyi eklemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 6.5 tamamlandı: prices.tsx canlı servis entegrasyonu, arama, sıralama, kartlar, uyarı şeritleri ve çek-yenile ile kodlandı; 10/10 otomatik test başarıyla geçti
+Faz 6.6 tamamlandı: gold/[productId].tsx canlı servis entegrasyonu, dinamik doğrulama, günün değerleri, durum rozetleri, yetki kontrollü aksiyon butonları ve finansal bilgilendirme ile kodlandı; 9/9 otomatik test başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 12 - Fiyat sistemi (Faz 6.6 hazırlığı)
+Bölüm 13 - Hesaplama sistemi (Faz 7 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,24 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6.6: Altın detay ekranı
+Faz 7: Hesaplama etki alanı fonksiyonları
 ```
 
-Bu görevde `src/app/(protected)/gold/[productId].tsx` ekranı kodlanacak; dinamik `productId` doğrulaması, ürün adı, alış ve satış fiyatları, varsa günlük değişim, günün düşük ve yüksek değerleri, son fiyat zamanı, fiyat kaynağı, güncellik durumu rozeti, Hesapla butonu, Portföye Ekle butonu ve finansal bilgilendirme metni entegre edilecektir.
+Bu görevde para modeli kesinleştirilecek, JavaScript güvenli tam sayı sınırları (BigInt vs Number) değerlendirilecek, ondalıklı hesaplama kütüphanesi gerekip gerekmediğine karar verilerek `DECISIONS.md` içine yazılacak; ardından `calculatorDomain.ts` etki alanı modülünde satın alma tahmini ve bozdurma tahmini fonksiyonları kodlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6.6 şu koşullarda tamamlanmış sayılır:
+Faz 7 şu koşullarda tamamlanmış sayılır:
 
-- `src/app/(protected)/gold/[productId].tsx` ekranı tasarım sistemi bileşenleriyle kodlanmalı.
-- Geçersiz veya bulunamayan ürün kimliklerinde anlaşılır hata/boş durum ekranı sunulmalı.
-- Alış ve satış fiyatları net olarak ayrıştırılmalı, fiyatı olmayan üründe 0 TL gösterilmemeli.
-- Varsa günün en düşük ve en yüksek fiyatları gösterilmeli.
-- Hesapla ve Portföye Ekle butonları ilgili akışlara yönlendirmeli.
-- Yasal/finansal bilgilendirme uyarısı yer almalı.
-- `docs/TODO.md` içindeki Faz 6.6 maddeleri güncellenmeli.
+- Para ve kuruş (`_minor`) birim dönüşüm standartları kesinleştirilmeli.
+- Güvenli tam sayı sınırları ve hassasiyet kararı `DECISIONS.md` içine yazılmalı.
+- Satın alma tahmini (miktar × satış fiyatı) ve bozdurma tahmini (miktar × alış fiyatı) fonksiyonları kodlanmalı.
+- Fiyat bulunamadığında asla 0 TL dönülmemeli, hata/null fırlatılmalı (ADR-013).
+- Birim testleri %100 başarıyla geçmeli.
+- `docs/TODO.md` içindeki Faz 7 maddeleri güncellenmeli.
 
 ---
 
@@ -646,7 +645,8 @@ Faz 6.6 şu koşullarda tamamlanmış sayılır:
 - [x] Fiyat verisi doğrulama, kuruşa çevrim ve RLS filtreleme testleri tamamlandı (Faz 6.2: 502ea6c).
 - [x] Fiyat zamanlayıcısı, çakışma kilidi ve kota koruması tamamlandı (Faz 6.3: 4f55e31).
 - [x] Güncel fiyat okuma servisleri, modelleri ve durum hesaplamaları tamamlandı (Faz 6.4: 09bcaeb).
-- [x] Fiyatlar ekranı, arama, sıralama, kartlar, uyarı şeritleri ve çek-yenile tamamlandı (Faz 6.5).
+- [x] Fiyatlar ekranı, arama, sıralama, kartlar, uyarı şeritleri ve çek-yenile tamamlandı (Faz 6.5: d575f9f).
+- [x] Altın detay ekranı, dinamik doğrulama, günün değerleri, durum rozetleri ve butonlar tamamlandı (Faz 6.6).
 
 ---
 

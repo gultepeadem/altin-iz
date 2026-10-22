@@ -56,6 +56,30 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.32] - 22.10.2026
+
+### Added
+
+- Faz 6.6 Altın detay ekranı tamamlandı (Bölüm 12 - Fiyat sistemi tamamlandı):
+  - `src/app/(protected)/gold/[productId].tsx`: Sahte statik verilerden arındırılarak `goldProductService.getProductById(productId)` ve `goldPriceService.getLatestPriceForProduct(productId)` ile canlı Supabase verilerine bağlandı.
+  - Dinamik `productId` doğrulandı; geçersiz veya bulunamayan ürünlerde kullanıcı dostu `ErrorState` ve fiyat listesine dönüş butonu sağlandı.
+  - Alış (Bozdurma) ve Satış (Satın Alma) fiyatları net etiketlerle ayrıştırıldı; ADR-013 kuralı uyarınca fiyatı olmayan ürünlerde asla `0 TL` gösterilmemesi (`-` ve bilgilendirme kartı) güvenceye alındı.
+  - Günlük değişim oranı yalnızca geçerli veri varsa renklendirilerek (`▲ +%0,52` veya `▼ -%0,20`) gösterildi.
+  - Günün en düşük ve en yüksek fiyat aralığı (`dayLowMinor`, `dayHighMinor`) mevcut olduğunda gösterildi.
+  - Son fiyat zamanı Türkçe formatta (`formatDateTime`) ve veri kaynağı ("Serbest Piyasa") açıkça belirtildi.
+  - Tazelik durumu rozeti (`live`, `stale`, `partial`, `unavailable`) ve eski/kısmi veri uyarı şeritleri (`StaleDataBanner`, `PartialDataBanner`) entegre edildi.
+  - "Portföye Ekle" butonu bağlandı; portföye kapalı ürünlerde (`portfolioEnabled: false`) açıklayıcı devre dışı durum ve bilgilendirme metni gösterildi.
+  - "Hesapla" butonu bağlandı; ürün kimliğiyle birlikte hesaplama sekmesine yönlendirme sağlandı.
+  - Zorunlu yasal ve finansal bilgilendirme metni (gösterge piyasa fiyatı uyarısı) eklendi.
+  - Sayfayı aşağı çekerek yenileme (pull-to-refresh) ve hata durumunda "Yeniden Dene" butonu kuruldu.
+  - `supabase/tests/test-faz6-6-gold-detail.ts`: 9/9 senaryoyu kapsayan parametre doğrulama, ADR-013 sıfır TL engellemesi, yetkilendirmeler ve canlı veritabanı test paketi başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6.6 ve Bölüm 12 (Fiyat sistemi) tamamlandı olarak işaretlendi; sıradaki görev Bölüm 13 - Faz 7 (Hesaplama etki alanı fonksiyonları) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.31] - 22.10.2026
 
 ### Added
