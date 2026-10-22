@@ -1235,16 +1235,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 11.2: Kullanıcı yasal olayları
 
-- [ ] Yasal olay kaydı için güvenli PostgreSQL RPC veya `record-legal-event` Edge Function oluştur.
-- [ ] `legalService.ts` oluştur ve doğrudan tablo yazımı yerine güvenli sunucu işlemini çağır.
-- [ ] Belge sunumu olayını kaydet.
-- [ ] Belge görüntüleme olayını gereklilik varsa kaydet.
-- [ ] Kullanım koşulları kabulünün hukuki gereksinimini doğrula.
-- [ ] Açık rıza varsa kabul olayını ayrı kaydet.
-- [ ] Açık rıza reddini ayrı kaydet.
-- [ ] Açık rıza geri çekmeyi ayrı kaydet.
-- [ ] Aydınlatmayı açık rıza onayına dönüştürme.
-- [ ] Kullanıcının başka kullanıcı adına olay oluşturamadığını test et.
+- [x] Yasal olay kaydı için güvenli PostgreSQL RPC veya `record-legal-event` Edge Function oluştur.
+- [x] `legalService.ts` oluştur ve doğrudan tablo yazımı yerine güvenli sunucu işlemini çağır.
+- [x] Belge sunumu olayını kaydet.
+- [x] Belge görüntüleme olayını gereklilik varsa kaydet.
+- [x] Kullanım koşulları kabulünün hukuki gereksinimini doğrula.
+- [x] Açık rıza varsa kabul olayını ayrı kaydet.
+- [x] Açık rıza reddini ayrı kaydet.
+- [x] Açık rıza geri çekmeyi ayrı kaydet.
+- [x] Aydınlatmayı açık rıza onayına dönüştürme.
+- [x] Kullanıcının başka kullanıcı adına olay oluşturamadığını test et.
 
 ---
 

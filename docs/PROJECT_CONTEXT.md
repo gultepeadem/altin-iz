@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.36 Taslak  
+**Belge sürümü:** 1.37 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları) TAMAMLANDI - Faz 11.2 (Kullanıcı yasal olayları) sıradaki  
-**Kodlama durumu:** legal/index ve legal/[documentType] ekranları canlı legalService ile bağlandı; SHA-256 bütünlük doğrulaması, sürüm etiketleri ve pull-to-refresh eklendi; 10/10 test başarılı
+**Proje durumu:** Bölüm 17: Yasal belgeler ve gizlilik TAMAMLANDI - Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) sıradaki  
+**Kodlama durumu:** legalService.ts yasal olay kayıt fonksiyonları (presented, viewed, accepted, declined, withdrawn) ve KVKK md. 10 aydınlatma-açık rıza ayrım kontrolüyle bağlandı; 10/10 test başarılı
 
 ---
 
@@ -1262,6 +1262,13 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.37 Taslak - 22.10.2026
+
+- Bölüm 17 Yasal belgeler ve gizlilik - Faz 11.2 Kullanıcı yasal olayları tamamlandı (Bölüm 17 %100 tamamlandı).
+- `legalService.ts` kullanıcı yasal olay metotları (presented, viewed, accepted, declined, withdrawn, getUserLegalEvents) ve `validateConsentSeparation` doğrulayıcısı ile genişletildi.
+- `supabase/tests/test-faz11-2-legal-events.ts` 10/10 test ile doğrulandı.
+- Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) olarak güncellendi.
 
 ### 1.36 Taslak - 22.10.2026
 

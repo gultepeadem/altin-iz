@@ -19,9 +19,12 @@ import {
   type LegalDocumentType,
   type LegalEventType,
   type LegalEventSource,
+  type UserLegalEvent,
   mapRowToLegalDocument,
+  mapRowToUserLegalEvent,
   computeContentHash,
   isValidDocumentType,
+  validateConsentSeparation,
   FALLBACK_LEGAL_DOCUMENTS,
 } from '../models/legal.ts';
 import { normalizeError } from '../utils/normalizeError.ts';
@@ -131,13 +134,24 @@ export const legalService = {
   /**
    * Kullanıcının belge görüntüleme, kabul veya ret olayını güvenli biçimde kaydeder.
    * Supabase RPC record_user_legal_event fonksiyonunu kullanır.
+   * Doğrudan tablo yazımı yerine güvenli SECURITY DEFINER fonksiyonunu çalıştırır.
    */
   async recordLegalEvent(params: {
     documentId: string;
     eventType: LegalEventType;
     source: LegalEventSource;
     appVersion?: string;
+    documentType?: LegalDocumentType;
   }): Promise<string | null> {
+    // Belge türü belirtilmişse KVKK aydınlatma-açık rıza ayrımı doğrulanır
+    if (params.documentType) {
+      const validation = validateConsentSeparation(params.documentType, params.eventType);
+      if (!validation.isValid) {
+        console.warn(`[legalService] Hukuki kural ihlali engellendi: ${validation.error}`);
+        return null;
+      }
+    }
+
     try {
       const { data, error } = await supabase.rpc('record_user_legal_event', {
         p_document_id: params.documentId,
@@ -152,6 +166,156 @@ export const legalService = {
       }
 
       return data as string;
+    } catch {
+      return null;
+    }
+  },
+
+  /**
+   * Belge sunumu (kullanıcıya ekranda/modalda gösterilme) olayını kaydeder.
+   */
+  async recordDocumentPresented(params: {
+    documentId: string;
+    source: LegalEventSource;
+    documentType?: LegalDocumentType;
+    appVersion?: string;
+  }): Promise<string | null> {
+    return this.recordLegalEvent({
+      documentId: params.documentId,
+      eventType: 'presented',
+      source: params.source,
+      documentType: params.documentType,
+      appVersion: params.appVersion,
+    });
+  },
+
+  /**
+   * Belge görüntüleme (kullanıcının detay ekranını açıp okuması) olayını kaydeder.
+   */
+  async recordDocumentViewed(params: {
+    documentId: string;
+    source: LegalEventSource;
+    documentType?: LegalDocumentType;
+    appVersion?: string;
+  }): Promise<string | null> {
+    return this.recordLegalEvent({
+      documentId: params.documentId,
+      eventType: 'viewed',
+      source: params.source,
+      documentType: params.documentType,
+      appVersion: params.appVersion,
+    });
+  },
+
+  /**
+   * Kullanım koşulları kabul olayını kaydeder.
+   * Sözleşmenin kurulması (KVKK md. 5/2-c) hukuki dayanağını oluşturur.
+   */
+  async recordTermsAccepted(params: {
+    documentId: string;
+    source: LegalEventSource;
+    appVersion?: string;
+  }): Promise<string | null> {
+    return this.recordLegalEvent({
+      documentId: params.documentId,
+      eventType: 'accepted',
+      source: params.source,
+      documentType: 'terms_of_use',
+      appVersion: params.appVersion,
+    });
+  },
+
+  /**
+   * Açık rıza metninin kabul olayını ayrı olarak kaydeder.
+   * Aydınlatma metninden bağımsız, özgür iradeli rıza kaydıdır.
+   */
+  async recordExplicitConsentAccepted(params: {
+    documentId: string;
+    source: LegalEventSource;
+    appVersion?: string;
+  }): Promise<string | null> {
+    return this.recordLegalEvent({
+      documentId: params.documentId,
+      eventType: 'accepted',
+      source: params.source,
+      documentType: 'explicit_consent',
+      appVersion: params.appVersion,
+    });
+  },
+
+  /**
+   * Açık rıza reddi olayını kaydeder.
+   */
+  async recordExplicitConsentDeclined(params: {
+    documentId: string;
+    source: LegalEventSource;
+    appVersion?: string;
+  }): Promise<string | null> {
+    return this.recordLegalEvent({
+      documentId: params.documentId,
+      eventType: 'declined',
+      source: params.source,
+      documentType: 'explicit_consent',
+      appVersion: params.appVersion,
+    });
+  },
+
+  /**
+   * Önceden verilmiş açık rızanın geri çekilmesi olayını kaydeder.
+   */
+  async recordExplicitConsentWithdrawn(params: {
+    documentId: string;
+    source: LegalEventSource;
+    appVersion?: string;
+  }): Promise<string | null> {
+    return this.recordLegalEvent({
+      documentId: params.documentId,
+      eventType: 'withdrawn',
+      source: params.source,
+      documentType: 'explicit_consent',
+      appVersion: params.appVersion,
+    });
+  },
+
+  /**
+   * Oturum açmış kullanıcının yasal olay geçmişini getirir.
+   * RLS user_legal_events_select_own kuralıyla yalnızca kendi kayıtları döner.
+   */
+  async getUserLegalEvents(): Promise<UserLegalEvent[]> {
+    try {
+      const { data, error } = await supabase
+        .from('user_legal_events')
+        .select('*')
+        .order('event_at', { ascending: false });
+
+      if (error) {
+        throw normalizeError(error);
+      }
+
+      return data ? data.map(mapRowToUserLegalEvent) : [];
+    } catch {
+      return [];
+    }
+  },
+
+  /**
+   * Kullanıcının belirli bir belge kimliği için en son kaydettiği yasal olayı getirir.
+   */
+  async getUserLatestEventForDocument(documentId: string): Promise<UserLegalEvent | null> {
+    try {
+      const { data, error } = await supabase
+        .from('user_legal_events')
+        .select('*')
+        .eq('document_id', documentId)
+        .order('event_at', { ascending: false })
+        .limit(1)
+        .maybeSingle();
+
+      if (error) {
+        throw normalizeError(error);
+      }
+
+      return data ? mapRowToUserLegalEvent(data) : null;
     } catch {
       return null;
     }

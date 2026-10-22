@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.41 Taslak  
+**Belge sürümü:** 1.42 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları) TAMAMLANDI - Faz 11.2 (Kullanıcı yasal olayları) sıradaki  
-**Kodlama durumu:** legal/index ve legal/[documentType] ekranları canlı legalService ile bağlandı; SHA-256 bütünlük doğrulaması, sürüm etiketleri ve pull-to-refresh eklendi; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 11.1 başarıyla tamamlandı; yasal belge listesi ve detay ekranları oluşturuldu; KVKK, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve Finansal Bilgilendirme metinleri canlı/şablon ayrımı ve SHA-256 bütünlük kontrolüyle kullanıcılara sunuldu. Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.2 (Kullanıcı yasal olayları)
+**Proje aşaması:** Bölüm 17: Yasal belgeler ve gizlilik TAMAMLANDI - Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) sıradaki  
+**Kodlama durumu:** legalService.ts yasal olay metotları (presented, viewed, accepted, declined, withdrawn, getUserLegalEvents) ve validateConsentSeparation doğrulayıcısı hazırlandı; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 11.2 ve Bölüm 17 başarıyla tamamlandı; kullanıcı yasal olay kayıtları güvenli RPC (record_user_legal_event) üzerinden append-only bağlandı; KVKK aydınlatma metnini rıza onayına dönüştürmeme ilkesi ve auth.uid() kullanıcı izolasyonu doğrulandı. Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı)
 
 ---
 
@@ -767,6 +767,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.42 Taslak - 22.10.2026
+- Bölüm 17 Yasal belgeler ve gizlilik - Faz 11.2 Kullanıcı yasal olayları tamamlandı (Bölüm 17: Yasal belgeler ve gizlilik %100 tamamlandı).
+- `src/models/legal.ts` genişletildi; `LEGAL_EVENT_TYPES`, `LEGAL_EVENT_SOURCES`, `ALLOWED_DOCUMENT_EVENTS`, `mapRowToUserLegalEvent` ve KVKK md. 10 uyarınca aydınlatma metnini onay kutusuna dönüştürmeyi engelleyen `validateConsentSeparation` doğrulayıcısı kodlandı.
+- `src/services/legalService.ts` genişletildi; `recordDocumentPresented`, `recordDocumentViewed`, `recordTermsAccepted`, `recordExplicitConsentAccepted`, `recordExplicitConsentDeclined`, `recordExplicitConsentWithdrawn`, `getUserLegalEvents` ve `getUserLatestEventForDocument` metotları güvenli PostgreSQL RPC fonksiyonu (`record_user_legal_event`) entegrasyonuyla bağlandı.
+- `supabase/tests/test-faz11-2-legal-events.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) olarak güncellendi.
 
 ### 1.41 Taslak - 22.10.2026
 - Bölüm 17 Yasal belgeler ve gizlilik - Faz 11.1 Yasal belge ekranları tamamlandı.

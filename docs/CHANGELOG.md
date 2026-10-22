@@ -56,6 +56,34 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.49] - 22.10.2026
+
+### Added
+
+- Bölüm 17: Yasal belgeler ve gizlilik — Faz 11.2: Kullanıcı yasal olayları tamamlandı (Bölüm 17 %100 tamamlandı):
+  - `src/models/legal.ts`:
+    - `LEGAL_EVENT_TYPES` ('presented', 'viewed', 'accepted', 'declined', 'withdrawn') ve `LEGAL_EVENT_SOURCES` ('registration', 'settings', 'document_update', 'account_deletion') sabitleri eklendi.
+    - `ALLOWED_DOCUMENT_EVENTS`: Hukuki ilkelere ve KVKK mevzuatına uygun belge-olay eşleştirme matrisi tanımlandı.
+    - `validateConsentSeparation`: KVKK md. 10 gereği Aydınlatma Metninin açık rıza onayına veya onay kutusuna dönüştürülmesini engelleyen doğrulayıcı kodlandı.
+    - `mapRowToUserLegalEvent`: Veritabanı yasal olay satırlarını modele dönüştüren yardımcı eklendi.
+  - `src/services/legalService.ts`:
+    - `recordDocumentPresented`: Belge sunumu (kullanıcıya ekranda/modalda gösterilme) olayını kaydeder.
+    - `recordDocumentViewed`: Belge görüntüleme (kullanıcının detay ekranını açıp incelemesi) olayını kaydeder.
+    - `recordTermsAccepted`: Kullanım koşulları kabul olayını sözleşmenin kurulması (KVKK md. 5/2-c) dayanağıyla kaydeder.
+    - `recordExplicitConsentAccepted`: Açık rıza kabul olayını aydınlatma metninden bağımsız olarak ayrı kaydeder.
+    - `recordExplicitConsentDeclined`: Açık rıza reddi olayını kaydeder.
+    - `recordExplicitConsentWithdrawn`: Açık rızanın geri çekilmesi olayını kaydeder.
+    - `getUserLegalEvents`: Oturum açmış kullanıcının yasal olay geçmişini RLS ile güvenli şekilde getirir.
+    - `getUserLatestEventForDocument`: Kullanıcının belirli bir belge kimliği için en son olayını sorgular.
+  - `supabase/tests/test-faz11-2-legal-events.ts`: 10/10 senaryoyla olay türleri, doğrudan tablo yazımı engeli (RLS), belge sunumu ve görüntüleme olayları, kullanım koşulları kabulü, açık rıza kabul/ret/geri çekme döngüsü, KVKK aydınlatma ve rıza ayrım kuralı ile `record_user_legal_event` RPC fonksiyonunun `auth.uid()` izolasyonunu (kullanıcının başkası adına olay oluşturamaması) doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 11.2 maddeleri `[x]` olarak işaretlendi; Bölüm 17 tamamlandı, sıradaki görev Bölüm 18: Hesap ve veri silme — Faz 12 (Hesap silme teknik tasarımı) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.42 / 1.37 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.48] - 22.10.2026
 
 ### Added

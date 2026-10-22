@@ -55,11 +55,47 @@ export type LegalEventType =
   | 'declined'
   | 'withdrawn';
 
+export const LEGAL_EVENT_TYPES: readonly LegalEventType[] = [
+  'presented',
+  'viewed',
+  'accepted',
+  'declined',
+  'withdrawn',
+] as const;
+
 export type LegalEventSource =
   | 'registration'
   | 'settings'
   | 'document_update'
   | 'account_deletion';
+
+export const LEGAL_EVENT_SOURCES: readonly LegalEventSource[] = [
+  'registration',
+  'settings',
+  'document_update',
+  'account_deletion',
+] as const;
+
+/**
+ * KVKK ve Hukuki İlkelere Uygun Belge-Olay Eşleşme Tablosu
+ * Referans: docs/PRIVACY.md Bölüm 26 & docs/TODO.md Faz 11.2
+ *
+ * Hukuki Kurallar:
+ * 1. Aydınlatma Metni (kvkk_notice): Tek taraflı yasal bilgilendirme yükümlülüğüdür (KVKK m. 10).
+ *    Onay veya ret kutusuna dönüştürülemez (Aydınlatmayı açık rıza onayına dönüştürme yasağı).
+ *    Yalnızca 'presented' (sunuldu) veya 'viewed' (görüntülendi) olabilir.
+ * 2. Gizlilik Politikası, Veri Saklama ve Finansal Sorumluluk Reddi: Bilgilendirici metinlerdir.
+ * 3. Kullanım Koşulları (terms_of_use): Sözleşme akdi gereği 'accepted' (kabul edildi) olabilir.
+ * 4. Açık Rıza Metni (explicit_consent): İsteğe bağlıdır; 'accepted', 'declined' ve 'withdrawn' olabilir.
+ */
+export const ALLOWED_DOCUMENT_EVENTS: Record<LegalDocumentType, readonly LegalEventType[]> = {
+  kvkk_notice: ['presented', 'viewed'],
+  privacy_policy: ['presented', 'viewed'],
+  terms_of_use: ['presented', 'viewed', 'accepted'],
+  data_retention: ['presented', 'viewed'],
+  financial_disclaimer: ['presented', 'viewed'],
+  explicit_consent: ['presented', 'viewed', 'accepted', 'declined', 'withdrawn'],
+};
 
 export interface UserLegalEvent {
   id: string;
@@ -78,6 +114,70 @@ export function isValidDocumentType(type: unknown): type is LegalDocumentType {
     typeof type === 'string' &&
     (LEGAL_DOCUMENT_TYPES as readonly string[]).includes(type)
   );
+}
+
+export function isValidEventType(type: unknown): type is LegalEventType {
+  return (
+    typeof type === 'string' &&
+    (LEGAL_EVENT_TYPES as readonly string[]).includes(type as LegalEventType)
+  );
+}
+
+export function isValidEventSource(source: unknown): source is LegalEventSource {
+  return (
+    typeof source === 'string' &&
+    (LEGAL_EVENT_SOURCES as readonly string[]).includes(source as LegalEventSource)
+  );
+}
+
+/**
+ * KVKK md. 10 uyarınca Aydınlatma Metninin Açık Rızaya dönüştürülmesini engelleyen
+ * ve olay-belge türü uyumunu denetleyen hukuki doğrulama fonksiyonu.
+ */
+export function validateConsentSeparation(
+  documentType: LegalDocumentType,
+  eventType: LegalEventType
+): { isValid: boolean; error?: string } {
+  // 1. Kural: Aydınlatma metni asla onay veya ret alamaz (KVKK md. 10 vs md. 5/6 ayrımı)
+  if (documentType === 'kvkk_notice' && (eventType === 'accepted' || eventType === 'declined' || eventType === 'withdrawn')) {
+    return {
+      isValid: false,
+      error: 'KVKK Aydınlatma Metni tek taraflı bir bilgilendirme yükümlülüğüdür; açık rıza onayına veya onay kutusuna dönüştürülemez (KVKK m. 10).',
+    };
+  }
+
+  // 2. Kural: Rıza geri çekme ve ret yalnızca Açık Rıza metninde geçerlidir
+  if (documentType !== 'explicit_consent' && (eventType === 'declined' || eventType === 'withdrawn')) {
+    return {
+      isValid: false,
+      error: 'Rıza reddi veya geri çekme olayı yalnızca Açık Rıza Metni (explicit_consent) için uygulanabilir.',
+    };
+  }
+
+  // 3. Kural: İzin verilen olay türleri kontrolü
+  const allowed = ALLOWED_DOCUMENT_EVENTS[documentType];
+  if (!allowed || !allowed.includes(eventType)) {
+    return {
+      isValid: false,
+      error: `'${documentType}' belge türü için '${eventType}' yasal olayı hukuken geçersizdir.`,
+    };
+  }
+
+  return { isValid: true };
+}
+
+export function mapRowToUserLegalEvent(row: any): UserLegalEvent {
+  return {
+    id: row.id,
+    userId: row.user_id ?? null,
+    documentId: row.document_id,
+    eventType: (row.event_type as LegalEventType) || 'viewed',
+    eventAt: row.event_at,
+    documentVersion: row.document_version,
+    source: (row.source as LegalEventSource) || 'settings',
+    appVersion: row.app_version ?? null,
+    createdAt: row.created_at,
+  };
 }
 
 export function mapRowToLegalDocument(row: any): LegalDocument {
