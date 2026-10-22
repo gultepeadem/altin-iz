@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.36 Taslak  
+**Belge sürümü:** 1.37 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 15 (Ana Sayfa) TAMAMLANDI - Bölüm 16 (Ayarlar) Faz 10 sıradaki  
-**Kodlama durumu:** tabs/index.tsx canlı homeService entegrasyonu, karşılama alanı, son fiyat zamanı, Gram/Yeni Çeyrek/Ons kartları, portföy özeti, durum şeritleri (ADR-013/014) ve pull-to-refresh ile tamamlandı  
-**Son çalışma durumu:** Faz 9.1 başarıyla tamamlandı; Bölüm 15 (Ana Sayfa) eksiksiz bitirildi, canlı karşılama alanı, öne çıkan fiyat kartları, portföy özeti, durum banner'ları ve navigasyon 10/10 test ile onaylandı. Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Ayarlar ekranı)
+**Proje aşaması:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Tema tercihi) TAMAMLANDI - Faz 10.1 (Ayarlar ekranı) sıradaki  
+**Kodlama durumu:** preferencesService.ts oluşturuldu, ThemeProvider açılışta yerel tema okuma ve arka plan DB senkronizasyonuna bağlandı, 10/10 test başarılı  
+**Son çalışma durumu:** Faz 10 başarıyla tamamlandı; preferencesService ve ThemeProvider yerel ve uzak tema tercihini ADR-004 doğrultusunda yönetiyor, 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Bölüm 15 (Ana Sayfa) kapsamında Faz 9.1 Ana Sayfa arayüzünü; src/app/(protected)/(tabs)/index.tsx ekranını canlı homeService servisiyle bağlamak, dinamik karşılama alanı, son fiyat zamanı şeridi, Gram Altın, Yeni Tarihli Çeyrek Altın ve Ons Altın kartları, portföy özet kartı, durum banner'ları (ADR-013/014), hızlı işlem butonları ve pull-to-refresh desteğiyle hayata geçirmek
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamında Faz 10 Tema tercihi altyapısını; src/models/preferences.ts ve src/services/preferencesService.ts oluşturarak yerel depolama (AsyncStorage) ve Supabase user_preferences tablosu senkronizasyonunu sağlamak, ThemeProvider ile entegre ederek açılışta tercihi yüklemek ve anında uygulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 9.1 tamamlandı: src/app/(protected)/(tabs)/index.tsx ekranı canlı servis, karşılama alanı, öne çıkan fiyat kartları, portföy özeti, durum şeritleri ve pull-to-refresh ile kodlandı; 10/10 otomatik test ile doğrulandı. Bölüm 15 (Ana Sayfa) eksiksiz tamamlandı
+Faz 10 tamamlandı: preferencesService.ts oluşturuldu, yerel depolama ve Supabase senkronizasyonu sağlandı, ThemeProvider açılışta tercih yükleme ve arka plan senkronizasyonuyla donatıldı; 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 16 - Ayarlar ve kullanıcı tercihleri (Faz 10 sıradaki)
+Bölüm 16 - Ayarlar ve kullanıcı tercihleri (Faz 10.1: Ayarlar ekranı sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.37 Taslak - 22.10.2026
+- Bölüm 16 Ayarlar ve kullanıcı tercihleri - Faz 10 Tema tercihi tamamlandı.
+- `src/models/preferences.ts` ve `src/services/preferencesService.ts` oluşturuldu; tema tercihleri (light, dark, system) yerel depolama ve Supabase user_preferences tablosuyla iki yönlü senkronize edildi.
+- `src/providers/ThemeProvider.tsx` güncellenerek açılışta yerel tercihin anında yüklenmesi ve seçim yapıldığında arka planda DB senkronizasyonu sağlandı.
+- `supabase/tests/test-faz10-preferences-service.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı) olarak güncellendi.
 
 ### 1.36 Taslak - 22.10.2026
 - Bölüm 15 Ana Sayfa - Faz 9.1 Ana Sayfa arayüzü tamamlandı (Bölüm 15: Ana Sayfa başarıyla sonuçlandırıldı).

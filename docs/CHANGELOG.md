@@ -56,6 +56,36 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.44] - 22.10.2026
+
+### Added
+
+- Bölüm 16: Ayarlar ve kullanıcı tercihleri — Faz 10: Tema tercihi tamamlandı:
+  - `src/models/preferences.ts`:
+    - `UserPreferences` arayüzü (`userId`, `theme`, `languageCode`, `currencyCode`, `createdAt`, `updatedAt`).
+    - `THEME_PREFERENCE_STORAGE_KEY` ('altiniz_theme_preference') sabiti.
+    - `VALID_THEMES` (['light', 'dark', 'system']) tanımları.
+    - `isValidTheme` doğrulayıcı fonksiyonu.
+    - `mapRowToUserPreferences` veritabanı satırı dönüştürücüsü (güvenli fallback kurallarıyla: theme -> 'system', language -> 'tr', currency -> 'TRY').
+  - `src/services/preferencesService.ts`:
+    - `getStoredThemePreference`: Yerel depolamadan (AsyncStorage) kayıtlı tema tercihini anında okur (yoksa 'system' döner).
+    - `setStoredThemePreference`: Tercihi yerel depolamaya kaydeder (çevrimdışı ve anında görsel geri bildirim).
+    - `getUserPreferences`: Supabase'den aktif kullanıcının `user_preferences` satırını çeker; henüz satır yoksa varsayılan kayıt oluşturur (DATABASE.md 17.1).
+    - `updateThemePreference`: Tercihi anında yerel depolamaya kaydeder; kullanıcı oturum açmışsa veritabanındaki `user_preferences` tablosunu RLS ve trigger korumasıyla günceller.
+    - `syncPreferencesOnLogin`: Kullanıcı oturum açtığında yerel ve uzak tercihleri senkronize eder.
+  - `src/providers/ThemeProvider.tsx`:
+    - Uygulama açılışında `preferencesService.getStoredThemePreference()` çağrısıyla kullanıcının son tercihi anında yüklenir ve görsel parıldama engellenir.
+    - `handleSetPreference` ile tema seçimi yapıldığında hem yerel state anında güncellenir hem de arka planda kalıcı depolama ve veritabanı senkronizasyonu çalıştırılır.
+  - `src/services/index.ts`: `homeService` ve `preferencesService` dışa aktarımı sağlandı.
+  - `supabase/tests/test-faz10-preferences-service.ts`: 10/10 senaryoyu kapsayan tema modelleri, yerel depolama yaşam döngüsü, isValidTheme doğrulaması, ADR-004 tema çözümleme mantığı, canlı Supabase `user_preferences` tablosu erişimi, kolon koruma ve RLS tetikleyicisi, giriş anı senkronizasyonu ve AppError normalizasyonunu doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 10 (Tema tercihi) maddeleri tamamlandı (`[x]`) olarak işaretlendi; sıradaki görev Faz 10.1 (Ayarlar ekranı) olarak belirlendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 10 tamamlandı olarak kaydedildi.
+
+---
+
 ## [0.0.0-planning.43] - 22.10.2026
 
 ### Added

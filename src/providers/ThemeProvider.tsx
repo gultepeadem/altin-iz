@@ -6,7 +6,7 @@
  * React Navigation / Expo Router temasıyla entegre çalışır.
  */
 
-import React, { createContext, useContext, useMemo, useState } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { useColorScheme as useRNColorScheme } from 'react-native';
 import {
   DarkTheme as NavDarkTheme,
@@ -17,6 +17,7 @@ import {
 import { darkTheme } from '@/theme/darkTheme';
 import { lightTheme } from '@/theme/lightTheme';
 import { ResolvedColorScheme, Theme, ThemeContextValue, ThemePreference } from '@/theme/types';
+import { preferencesService } from '@/services/preferencesService';
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
@@ -31,6 +32,28 @@ export function ThemeProvider({
 }: ThemeProviderProps) {
   const systemScheme = useRNColorScheme();
   const [preference, setPreference] = useState<ThemePreference>(initialPreference);
+
+  // Uygulama açılışında kayıtlı kullanıcı tercihini yükle
+  useEffect(() => {
+    let isMounted = true;
+    preferencesService.getStoredThemePreference().then((stored) => {
+      if (isMounted && stored) {
+        setPreference(stored);
+      }
+    });
+
+    return () => {
+      isMounted = false;
+    };
+  }, []);
+
+  // Tercihi anında uygula ve arka planda hem yerel depolamaya hem Supabase'e kaydet
+  const handleSetPreference = useCallback((newPref: ThemePreference) => {
+    setPreference(newPref);
+    preferencesService.updateThemePreference(newPref).catch(() => {
+      // Arka plan senkronizasyonu hatası durumunda yerel durum korunur
+    });
+  }, []);
 
   // Tercihe veya cihaz sistem temasına göre etkin temayı çözümler
   const resolvedScheme: ResolvedColorScheme = useMemo(() => {
@@ -69,9 +92,9 @@ export function ThemeProvider({
       isDark: activeTheme.isDark,
       preference,
       resolvedScheme,
-      setPreference,
+      setPreference: handleSetPreference,
     };
-  }, [activeTheme, preference, resolvedScheme]);
+  }, [activeTheme, preference, resolvedScheme, handleSetPreference]);
 
   return (
     <ThemeContext.Provider value={contextValue}>

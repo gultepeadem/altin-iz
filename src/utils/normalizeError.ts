@@ -11,7 +11,7 @@
  */
 
 import { AuthError } from '@supabase/supabase-js';
-import type { AppError } from '@/models/errors';
+import type { AppError } from '../models/errors.ts';
 
 /**
  * Bilinen bir nesnenin AppError olup olmadığını kontrol eder.

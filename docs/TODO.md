@@ -1165,15 +1165,15 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 10: Tema tercihi
 
-- [ ] `preferencesService.ts` oluştur.
-- [ ] Kullanıcı tercihlerini getir.
-- [ ] Tema tercihini güncelle.
-- [ ] Açık tema seçeneğini ekle.
-- [ ] Koyu tema seçeneğini ekle.
-- [ ] Sistem teması seçeneğini ekle.
-- [ ] Seçimi anında uygula.
-- [ ] Seçimi Supabase'e kaydet.
-- [ ] Uygulama tekrar açıldığında tercihi yükle.
+- [x] `preferencesService.ts` oluştur.
+- [x] Kullanıcı tercihlerini getir.
+- [x] Tema tercihini güncelle.
+- [x] Açık tema seçeneğini ekle.
+- [x] Koyu tema seçeneğini ekle.
+- [x] Sistem teması seçeneğini ekle.
+- [x] Seçimi anında uygula.
+- [x] Seçimi Supabase'e kaydet.
+- [x] Uygulama tekrar açıldığında tercihi yükle.
 
 ---
 

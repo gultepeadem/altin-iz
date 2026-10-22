@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.31 Taslak  
+**Belge sürümü:** 1.32 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 15 (Ana Sayfa) TAMAMLANDI - Bölüm 16 (Ayarlar) Faz 10 sıradaki  
-**Kodlama durumu:** tabs/index.tsx canlı homeService entegrasyonu, karşılama alanı, son fiyat zamanı, Gram/Yeni Çeyrek/Ons kartları, portföy özeti, durum şeritleri (ADR-013/014) ve pull-to-refresh ile tamamlandı
+**Proje durumu:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Tema tercihi) TAMAMLANDI - Faz 10.1 (Ayarlar ekranı) sıradaki  
+**Kodlama durumu:** preferencesService.ts oluşturuldu, ThemeProvider yerel/uzak tema yükleme ve arka plan DB senkronizasyonuna bağlandı; 10/10 test başarılı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 11 (Kullanıcı Hesabı Geliştirmesi) kapsamındaki Faz 5 (Supabase istemcisi) adımı başarıyla tamamlanmıştır.
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamındaki Faz 10 (Tema tercihi) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-async-storage/async-storage kuruldu; src/lib/environment.ts (katı doğrulama), src/lib/supabase.ts (singleton istemci ve oturum saklama adaptörü) ve src/lib/index.ts oluşturuldu; canlı veritabanı sorgusu test edildi.
+Faz 10 tamamlandı: preferencesService.ts oluşturuldu, ThemeProvider açılışta tercih yükleme ve anında uygulama (ADR-004) ile bağlandı, yerel depolama ve Supabase user_preferences tablosu senkronizasyonu sağlandı; 10/10 otomatik test ile doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 8.3 (Portföy kaydı düzenleme) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.4 (Portföy kaydı silme) aşamasına geçiş
+Faz 10 (Tema tercihi) tamamlandı; Bölüm 16 (Ayarlar ve kullanıcı tercihleri) - Faz 10.1 (Ayarlar ekranı) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 8.3 (Portföy kaydı düzenleme) tamamlandı; Bölüm 14 (Portföy sistemi) 
 Sıradaki teknik görev:
 
 ```text
-Faz 8.4: Portföy kaydı silme
+Faz 10.1: Ayarlar ekranı
 ```
 
-Bu görevde silme onay penceresinin detaylandırılması, silinecek kaydın kısa özeti, işlemin geri alınamayacağı ve V1'de satış geçmişi oluşturmadığı uyarısı, silme işlemi sonrası Portföyüm sekmesine yönlendirme, başarısızlıkta kaydın görünür kalması ve portföy toplamlarının yenilenmesi geliştirilecektir.
+Bu görevde src/app/(protected)/(tabs)/settings.tsx ekranında Hesap Bilgileri bölümü, Görünüm (Tema seçimi: Açık / Koyu / Sistem), Yasal ve Gizlilik bölümü, Uygulama Hakkında bilgileri ve Çıkış Yap / Hesap Silme bağlantıları geliştirilecektir.
 
 ---
 

@@ -2,13 +2,13 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { createClient } from '@supabase/supabase-js';
 import { Platform } from 'react-native';
 
-import { env } from './environment';
+import { env } from './environment.ts';
 
 /**
  * Sunucu (Node SSR / Prerender) ortamında window olmadığı için no-op bellek depolayıcı.
  * Tarayıcı ve mobil native (iOS/Android) ortamında standart AsyncStorage kullanılır.
  */
-const safeStorage =
+export const safeStorage =
   Platform.OS === 'web' && typeof window === 'undefined'
     ? {
         getItem: () => Promise.resolve(null),
