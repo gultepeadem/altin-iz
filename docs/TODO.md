@@ -1455,15 +1455,15 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 15.1: Görsel mağaza varlıkları
 
-- [ ] Son uygulama logosunu tasarla.
-- [ ] Android adaptive icon oluştur.
-- [ ] iOS icon setini oluştur.
-- [ ] Splash screen görselini oluştur.
-- [ ] Açık ve koyu arka planda logoyu test et.
-- [ ] Google Play ekran görüntülerini hazırla.
-- [ ] App Store ekran görüntülerini hazırla.
-- [ ] Görsellerde gerçek kullanıcı verisi kullanma.
-- [ ] Görsellerde yanıltıcı fiyat veya kazanç iddiası kullanma.
+- [x] Son uygulama logosunu tasarla.
+- [x] Android adaptive icon oluştur.
+- [x] iOS icon setini oluştur.
+- [x] Splash screen görselini oluştur.
+- [x] Açık ve koyu arka planda logoyu test et.
+- [x] Google Play ekran görüntülerini hazırla.
+- [x] App Store ekran görüntülerini hazırla.
+- [x] Görsellerde gerçek kullanıcı verisi kullanma.
+- [x] Görsellerde yanıltıcı fiyat veya kazanç iddiası kullanma.
 
 ---
 

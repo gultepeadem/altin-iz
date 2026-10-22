@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.48 Taslak  
+**Belge sürümü:** 1.49 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme) TAMAMLANDI — Faz 15.1 (Görsel mağaza varlıkları) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-identity-and-versioning.ts 7 senaryo ve 7/7 iddia ile çalıştırıldı; app.json (name, slug, bundleIdentifier, package, version, versionCode, buildNumber) ve eas.json (development, preview, production) profilleri doğrulandı
+**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15.1 (Görsel mağaza varlıkları) TAMAMLANDI — Faz 15.2 (Mağaza metinleri) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-1-store-assets.ts 9 senaryo ve 9/9 iddia ile çalıştırıldı; STORE_ASSETS.md kılavuzu, app.json (#121212 zemin ve splash), 1024x1024 ikon, adaptive icon katmanları ve Zero PII / finansal dürüstlük kuralları doğrulandı
 
 ---
 
@@ -1262,6 +1262,17 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.49 Taslak - 22.10.2026
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı.
+- `docs/STORE_ASSETS.md` kılavuzu oluşturuldu; kurumsal renkler, WCAG AA kontrast kuralları, ikon çözünürlükleri, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u ve Zero PII / yanıltıcı kazanç vaatlerini yasaklayan kurallar belgelendi.
+- `app.json`:
+  - `android.adaptiveIcon.backgroundColor` `#121212` kurumsal koyu zemin rengiyle güncellendi.
+  - `expo-splash-screen` `backgroundColor` `#121212` olarak güncellendi.
+  - `ios.icon` değeri `./assets/images/icon.png` ile kilitlendi.
+- `supabase/tests/test-faz15-1-store-assets.ts` test paketi yazılarak 9/9 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.2 (Mağaza metinleri) olarak güncellendi.
 
 ### 1.48 Taslak - 22.10.2026
 

@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.53 Taslak  
+**Belge sürümü:** 1.54 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme) TAMAMLANDI — Faz 15.1 (Görsel mağaza varlıkları) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-identity-and-versioning.ts 7 senaryo ve 7/7 iddia ile çalıştırıldı; app.json (name, slug, bundleIdentifier, package, version, versionCode, buildNumber) ve eas.json (development, preview, production) profilleri doğrulandı  
-**Son çalışma durumu:** Faz 15 başarıyla tamamlandı; uygulama adı ('Altın İz'), Android paket kimliği ('com.altiniz.app', versionCode: 1), iOS bundle identifier ('com.altiniz.app', buildNumber: '1'), SemVer sürüm ('1.0.0') kilitlendi; EAS Build profilleri (development, preview APK, production AAB/App Store) oluşturuldu. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.1 (Görsel mağaza varlıkları)
+**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15.1 (Görsel mağaza varlıkları) TAMAMLANDI — Faz 15.2 (Mağaza metinleri) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-1-store-assets.ts 9 senaryo ve 9/9 iddia ile çalıştırıldı; STORE_ASSETS.md kılavuzu, app.json (#121212 zemin ve splash), 1024x1024 ikon, adaptive icon katmanları ve Zero PII / finansal dürüstlük kuralları doğrulandı  
+**Son çalışma durumu:** Faz 15.1 başarıyla tamamlandı; uygulama logosu (1024x1024 PNG), Android adaptive icon katmanları (foreground, background, monochrome), iOS ikonu, splash screen (#121212 arka plan), WCAG AA kontrast testleri, Google Play (1080x2400) ve App Store (1290x2796) 5 ekranlı vitrin storyboard'u ve yasal uyumluluk kuralları 9 test ile onaylandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.2 (Mağaza metinleri)
 
 ---
 
@@ -767,6 +767,16 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.54 Taslak - 22.10.2026
+- Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı.
+- `docs/STORE_ASSETS.md` kılavuzu oluşturuldu; kurumsal renkler, WCAG AA kontrast kuralları, ikon çözünürlükleri, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u ve Zero PII / yanıltıcı kazanç vaatlerini yasaklayan kurallar belgelendi.
+- `app.json`:
+  - `android.adaptiveIcon.backgroundColor` `#121212` kurumsal koyu zemin rengiyle güncellendi.
+  - `expo-splash-screen` `backgroundColor` `#121212` olarak güncellendi.
+  - `ios.icon` değeri `./assets/images/icon.png` ile kilitlendi.
+- `supabase/tests/test-faz15-1-store-assets.ts` test paketi yazılarak 9/9 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.2 (Mağaza metinleri) olarak güncellendi.
 
 ### 1.53 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15: Uygulama kimliği ve sürümleme tamamlandı.

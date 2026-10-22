@@ -56,6 +56,25 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.61] - 22.10.2026
+
+### Added
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı:
+  - `docs/STORE_ASSETS.md`: Kurumsal renk paleti (`#D4AF37`, `#121212`, `#FFFFFF`), WCAG AA kontrast kuralları, ikon çözünürlük matrisi, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u, Zero PII (kişisel veri kullanmama) ve finansal yanıltıcı kazanç vaatlerini yasaklayan ilkeleri içeren kapsamlı kılavuz oluşturuldu.
+  - `app.json`:
+    - `android.adaptiveIcon.backgroundColor` kurumsal koyu zemin rengi olan `#121212` olarak ayarlandı.
+    - `expo-splash-screen` eklentisindeki `backgroundColor` `#121212` olarak güncellendi.
+    - `ios.icon` değeri `./assets/images/icon.png` (1024×1024 px PNG) ile kilitlendi.
+  - `supabase/tests/test-faz15-1-store-assets.ts`: Uygulama logosu, Android adaptive icon katmanları (foreground, background, monochrome), iOS ikonu, splash screen, kontrast kuralları, ekran görüntüsü storyboard'ları ve yasal uyumluluk ilkelerini denetleyen 9 testlik paket yazıldı ve 9/9 başarıyla doğrulandı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 15.1 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.2 (Mağaza metinleri) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.54 / 1.49 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.60] - 22.10.2026
 
 ### Added
