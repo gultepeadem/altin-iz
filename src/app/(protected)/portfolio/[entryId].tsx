@@ -373,7 +373,7 @@ export default function PortfolioEntryDetailScreen() {
         onPress={() => setShowDeleteModal(true)}
       />
 
-      {/* 5. Silme Onay Modalı */}
+      {/* 5. Silme Onay Modalı (Faz 8.4) */}
       <Modal
         visible={showDeleteModal}
         transparent={true}
@@ -384,13 +384,52 @@ export default function PortfolioEntryDetailScreen() {
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
-            <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>
+            <Text style={[styles.modalTitle, { color: theme.colors.loss }]}>
               Altın Kaydını Sil
             </Text>
-            <Text style={[styles.modalMessage, { color: theme.colors.textSecondary }]}>
-              {`"${entry.product?.name}" kaydını portföyünüzden silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`}
-            </Text>
 
+            {/* Silinecek Kaydın Kısa Özeti */}
+            <View style={[styles.deleteSummaryBox, { backgroundColor: isDark ? '#1F1F1F' : '#F9FAFB', borderColor: theme.colors.border }]}>
+              <View style={styles.summaryRow}>
+                <Text style={[styles.summaryLabel, { color: theme.colors.textSecondary }]}>Altın Türü:</Text>
+                <Text style={[styles.summaryValue, { color: theme.colors.textPrimary }]}>
+                  {entry.product?.name || 'Altın Kaydı'}
+                </Text>
+              </View>
+
+              <View style={styles.summaryRow}>
+                <Text style={[styles.summaryLabel, { color: theme.colors.textSecondary }]}>Miktar:</Text>
+                <Text style={[styles.summaryValue, { color: theme.colors.textPrimary }]}>
+                  {formatQuantity(entry.quantity)} {unitLabel}
+                </Text>
+              </View>
+
+              <View style={styles.summaryRow}>
+                <Text style={[styles.summaryLabel, { color: theme.colors.textSecondary }]}>Alış Tarihi:</Text>
+                <Text style={[styles.summaryValue, { color: theme.colors.textPrimary }]}>
+                  {formatDate(entry.purchaseDate)}
+                </Text>
+              </View>
+
+              <View style={[styles.summaryRow, styles.lastSummaryRow]}>
+                <Text style={[styles.summaryLabel, { color: theme.colors.textSecondary }]}>Ödenen Tutar:</Text>
+                <Text style={[styles.summaryValue, { color: theme.colors.textPrimary }]}>
+                  {formatMoney(entry.totalCostMinor)}
+                </Text>
+              </View>
+            </View>
+
+            {/* Geri Alınamazlık ve V1 Kapsam Uyarısı */}
+            <View style={[styles.irreversibleWarningBox, { backgroundColor: isDark ? '#3D1414' : '#FEE4E2', borderColor: theme.colors.loss }]}>
+              <Text style={[styles.warningTitle, { color: theme.colors.loss }]}>
+                ⚠️ Bu işlem geri alınamaz!
+              </Text>
+              <Text style={[styles.warningSubText, { color: isDark ? '#FCA5A5' : '#B42318' }]}>
+                Altın İz V1 sürümünde silme işlemi satış kaydı veya kâr-zarar geçmişi oluşturmaz; kayıt portföyünüzden tamamen kaldırılır.
+              </Text>
+            </View>
+
+            {/* Hata Durumu (Başarısızlıkta kayıt görünür kalır) */}
             {deleteError && (
               <View style={[styles.deleteErrorBanner, { backgroundColor: isDark ? '#3D1414' : '#FEE4E2' }]}>
                 <Text style={[styles.deleteErrorText, { color: theme.colors.loss }]}>
@@ -546,12 +585,46 @@ const styles = StyleSheet.create({
   modalTitle: {
     fontSize: 18,
     fontWeight: '700',
-    marginBottom: 8,
+    marginBottom: 12,
   },
-  modalMessage: {
-    fontSize: 14,
-    lineHeight: 20,
+  deleteSummaryBox: {
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
+    marginBottom: 12,
+  },
+  summaryRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: '#E5E7EB',
+  },
+  lastSummaryRow: {
+    borderBottomWidth: 0,
+  },
+  summaryLabel: {
+    fontSize: 13,
+  },
+  summaryValue: {
+    fontSize: 13,
+    fontWeight: '600',
+  },
+  irreversibleWarningBox: {
+    padding: 12,
+    borderRadius: 10,
+    borderWidth: 1,
     marginBottom: 16,
+  },
+  warningTitle: {
+    fontSize: 14,
+    fontWeight: '700',
+    marginBottom: 4,
+  },
+  warningSubText: {
+    fontSize: 12,
+    lineHeight: 16,
+    fontWeight: '500',
   },
   deleteErrorBanner: {
     padding: 10,

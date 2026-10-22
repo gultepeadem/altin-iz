@@ -56,6 +56,27 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.39] - 22.10.2026
+
+### Added
+
+- Faz 8.4 Portföy kaydı silme tamamlandı:
+  - `src/app/(protected)/portfolio/[entryId].tsx`: Zenginleştirilmiş iki aşamalı silme onay modalı (`Modal`) ve güvenli silme akışı entegre edildi:
+    - Silinecek kaydın anlık kısa özet kartı (altın ürün adı, miktar/birim rozeti, alış tarihi, kuruş bazlı toplam alış tutarı) modal içerisine eklendi.
+    - İşlemin geri alınamazlığı ("Bu işlem geri alınamaz!") kırmızı vurgulu uyarı kartıyla açıkça belirtildi.
+    - Altın İz V1 sürüm kuralı (API.md Bölüm 16.5 & ADR-022): "Altın İz V1 sürümünde silme işlemi satış kaydı veya kâr-zarar geçmişi oluşturmaz; kayıt portföyünüzden tamamen kaldırılır." uyarısı eklendi.
+    - Güvenli "Vazgeç" butonu ile modal kapatma ve ekrandaki kaydı değiştirmeme davranışı doğrulandı.
+    - Silme işlemi esnasında işlem kilidi (`isDeleting`) ve buton devre dışı bırakma uygulandı; işlem tamamlanmadan erken başarı/yönlendirme verilmesi engellendi.
+    - API.md Bölüm 16.5 kuralı: Silme başarısız olduğunda kayıt ekrandan gizlenmez/silinmiş gibi gösterilmez, ekranda görünür tutulur ve hata banner'ı sunulur.
+    - Başarılı silme sonrasında kullanıcı doğrudan portföy ana sekmesine (`/(protected)/(tabs)/portfolio`) yönlendirilir.
+  - `supabase/tests/test-faz8-4-portfolio-delete.ts`: 10/10 senaryoyu kapsayan kayıt özeti alanları, geri alınamazlık uyarısı, V1 satış geçmişi uyarısı, vazgeç davranışının state koruması, işlem kilidi, hata izolasyonunda kaydın ekranda kalması, başarı yönlendirme rotası, RLS silme yetki izolasyonu ve modal butonlarını doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 8.4 tamamlandı olarak işaretlendi; sıradaki görev Faz 8.5 (Portföy özet hesaplaması) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.38] - 22.10.2026
 
 ### Added

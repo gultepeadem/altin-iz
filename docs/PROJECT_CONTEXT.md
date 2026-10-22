@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.26 Taslak  
+**Belge sürümü:** 1.27 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.3 tamamlandı, Faz 8.4 (Portföy kaydı silme) sıradaki  
-**Kodlama durumu:** portfolio/[entryId]/edit.tsx mevcut veri ön doldurması, alan kısıtları, dokunulmazlık, doğrulama kontrolleri, isDirty kaydedilmemiş değişiklik uyarısı ve çift gönderim korumasıyla tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.4 tamamlandı, Faz 8.5 (Portföy özet hesaplaması) sıradaki  
+**Kodlama durumu:** portfolio/[entryId].tsx silme onay penceresi, silinecek kayıt özeti, geri alınamazlık ve V1 satış geçmişi uyarısı, vazgeç koruması, işlem kilidi, hata izolasyonu ve portföy sekmesine yönlendirme ile tamamlandı
 
 ---
 

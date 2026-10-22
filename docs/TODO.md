@@ -1080,16 +1080,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8.4: Portföy kaydı silme
 
-- [ ] Silme onay penceresini oluştur.
-- [ ] Silinecek kaydın kısa özetini göster.
-- [ ] İşlemin geri alınamayacağını belirt.
-- [ ] V1'de satış geçmişi oluşturmadığını belirt.
-- [ ] Vazgeç davranışını ekle.
-- [ ] Silme işlemini ekle.
-- [ ] Başarı sonrası Portföyüm ekranına dön.
-- [ ] Başarısızlıkta kaydı görünür tut.
-- [ ] Silme tamamlanmadan başarı mesajı gösterme.
-- [ ] Portföy toplamlarını yenile.
+- [x] Silme onay penceresini oluştur.
+- [x] Silinecek kaydın kısa özetini göster.
+- [x] İşlemin geri alınamayacağını belirt.
+- [x] V1'de satış geçmişi oluşturmadığını belirt.
+- [x] Vazgeç davranışını ekle.
+- [x] Silme işlemini ekle.
+- [x] Başarı sonrası Portföyüm ekranına dön.
+- [x] Başarısızlıkta kaydı görünür tut.
+- [x] Silme tamamlanmadan başarı mesajı gösterme.
+- [x] Portföy toplamlarını yenile.
 
 ---
 

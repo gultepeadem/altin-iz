@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.31 Taslak  
+**Belge sürümü:** 1.32 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.3 tamamlandı, Faz 8.4 (Portföy kaydı silme) sıradaki  
-**Kodlama durumu:** portfolio/[entryId]/edit.tsx mevcut veri ön doldurması, alan kısıtları, dokunulmazlık, doğrulama kontrolleri, isDirty kaydedilmemiş değişiklik uyarısı ve çift gönderim korumasıyla tamamlandı  
-**Son çalışma durumu:** Faz 8.3 başarıyla tamamlandı; form ön doldurma, dokunulmazlık, doğrulamalar, isDirty tespiti ve RLS oturum izolasyonu 10/10 test ile onaylandı. Sıradaki görev Faz 8.4 (Portföy kaydı silme)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.4 tamamlandı, Faz 8.5 (Portföy özet hesaplaması) sıradaki  
+**Kodlama durumu:** portfolio/[entryId].tsx silme onay penceresi, silinecek kayıt özeti, geri alınamazlık ve V1 satış geçmişi uyarısı, vazgeç koruması, işlem kilidi, hata izolasyonu ve portföy sekmesine yönlendirme ile tamamlandı  
+**Son çalışma durumu:** Faz 8.4 başarıyla tamamlandı; silme onay penceresi, kayıt özeti kartı, V1 kuralları, vazgeç güvenliği, hata izolasyonu ve RLS koruması 10/10 test ile onaylandı. Sıradaki görev Faz 8.5 (Portföy özet hesaplaması)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8.3 kapsamında src/app/(protected)/portfolio/[entryId]/edit.tsx ekranını sahte verilerden arındırarak; entryId parametresine ait mevcut portföy verilerini forma otomatik doldurmak, değiştirilemeyen alanları (id, user_id, created_at) kesin olarak korumak, form doğrulama kontrollerini (@/domain/validation) tekrar kullanmak, kaydedilmemiş değişiklik uyarısını (isDirty onay modalı) eklemek, çift gönderimi engellemek ve başarı sonrası güncellenmiş detay ekranına yönlendirmek
+Faz 8.4 kapsamında src/app/(protected)/portfolio/[entryId].tsx silme akışını zenginleştirerek; iki aşamalı onay modalı, silinecek kaydın kısa özeti, işlemin geri alınamazlığı uyarısı, V1 sürümünde satış geçmişi oluşturmadığı ve kaydı tamamen kaldırdığı uyarısı, güvenli vazgeç aksiyonu, işlem kilidi (isDeleting), hata anında kaydı ekranda tutma ve başarılı silmede portföy sekmesine yönlendirme akışını hayata geçirmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8.3 tamamlandı: src/app/(protected)/portfolio/[entryId]/edit.tsx ekranı mevcut veri doldurma, dokunulmazlık kuralları, doğrulamalar, isDirty tespiti ve onay modalı ile kodlandı; 10/10 otomatik test ile doğrulandı
+Faz 8.4 tamamlandı: src/app/(protected)/portfolio/[entryId].tsx silme onay penceresi, kayıt özeti kartı, V1 kuralları, vazgeç güvenliği, işlem kilidi, hata izolasyonu ve RLS koruması ile kodlandı; 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8.4 sıradaki)
+Bölüm 14 - Portföy sistemi (Faz 8.5 sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -768,7 +768,17 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 
 ## 27. Sürüm geçmişi
 
-### 1.6 Taslak - 21.10.2026
+### 1.32 Taslak - 22.10.2026
+- Faz 8.4 Portföy kaydı silme tamamlandı.
+- `portfolio/[entryId].tsx` ekranında silinecek kaydın özeti, geri alınamazlık uyarısı, V1 kuralı, vazgeç aksiyonu, işlem kilidi ve hata izolasyonu doğrulandı.
+- `supabase/tests/test-faz8-4-portfolio-delete.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Faz 8.5 (Portföy özet hesaplaması) olarak güncellendi.
+
+### 1.31 Taslak - 22.10.2026
+- Faz 8.3 Portföy kaydı düzenleme tamamlandı.
+- `portfolio/[entryId]/edit.tsx` ekranı canlı Supabase verileriyle bağlandı, alan dokunulmazlıkları, form doğrulamaları ve isDirty uyarısı uygulandı.
+- `supabase/tests/test-faz8-3-portfolio-edit.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Faz 8.4 (Portföy kaydı silme) olarak güncellendi.
 - Faz 2.1 yerel Git deposu (`main` dalı) başlatıldı.
 - `.gitignore` ile `.env` dosyaları ve gizli anahtarlar dışlandı.
 - İlk çalışan sürüm commit edildi (`07c2c17dbc4a1c60bfc605aea401df4f30173ec1` - `Initialize Expo TypeScript project`).
