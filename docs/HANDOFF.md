@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.14 Taslak  
+**Belge sürümü:** 1.15 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.2 tamamlandı, Faz 4.3 sıradaki)  
-**Kodlama durumu:** Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (12 tablo)  
-**Son çalışma durumu:** Faz 4.2 başarıyla tamamlandı; 5 adet migration dosyası hazırlandı, development veritabanında çalıştırıldı ve 12 tablo doğrulandı. Sıradaki görev Faz 4.3 (Başlangıç ürün verileri)
+**Proje aşaması:** Supabase development altyapısı (Faz 4.3 tamamlandı, Faz 4.4 sıradaki)  
+**Kodlama durumu:** Başlangıç ürün kataloğu (25 ürün), kaynak ve yasal şablonlar seed edildi  
+**Son çalışma durumu:** Faz 4.3 başarıyla tamamlandı; supabase/seed.sql hazırlandı ve uygulandı, 25 başlangıç ürünü tanımlandı. Sıradaki görev Faz 4.4 (RLS politikaları)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 4.2 kapsamında DATABASE.md şemasına uygun migration dosyalarını oluşturmak, veritabanına uygulamak ve tabloları doğrulamak
+Faz 4.3 kapsamında başlangıç altın ürünlerini (25 ürün), fiyat kaynağını ve yasal şablonları seed.sql ile tanımlayıp veritabanına eklemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 4.2 tamamlandı: 5 adet SQL migration dosyası supabase/migrations/ altında oluşturuldu, veritabanına uygulandı ve 12 tablonun (user_profiles, gold_products, portfolio_entries vb.) hazır olduğu REST API üzerinden doğrulandı
+Faz 4.3 tamamlandı: supabase/seed.sql oluşturuldu, 25 doğrulanmış altın ürünü (Gram, Çeyrek, Yarım, Tam, Ata vb.), ALTIN_API birincil kaynağı ve 5 test yasal şablonu development veritabanına uygulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Supabase development altyapısı (Faz 4.3 hazırlığı)
+Supabase development altyapısı (Faz 4.4 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-c9ef12a (feat(database): apply schema migrations for 12 core tables, triggers, and indexes (Faz 4.2))
+f241725 (feat(database): seed initial 25 gold products, price source, and legal fixtures (Faz 4.3))
 ```
 
 ### Son çalışan commit
 
 ```text
-c9ef12a
+f241725
 ```
 
 ### Aktif dal
@@ -591,21 +591,24 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 4.3: Başlangıç ürün verileri
+Faz 4.4: RLS politikaları
 ```
 
-Bu görevde kesinleşen ürün kodları (Gram, Çeyrek, Yarım, Tam, Ata, Ayar ve Paketli altınlar), ölçü birimleri, miktar hassasiyetleri ve Ons Altın (`portfolio_enabled = false`) gibi kural tanımları hazırlanarak `supabase/seed.sql` dosyasına eklenecektir.
+Bu görevde veritabanındaki 12 tablonun satır bazlı güvenlik (RLS) politikaları tanımlanacaktır:
+- `auth.users` kaydı oluştuğunda tetikleyici ile `user_profiles` ve `user_preferences` oluşturulması
+- Kullanıcıların yalnızca kendi verilerini okuyabilmesi/yazabilmesi
+- Ürün kataloğu, fiyat kaynakları ve geçerli fiyatların `anon` ve `authenticated` rollerine güvenle salt okunur (SELECT) açılması
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 4.3 şu koşullarda tamamlanmış sayılır:
+Faz 4.4 şu koşullarda tamamlanmış sayılır:
 
-- V1 kapsamında desteklenen altın ürünleri `gold_products` şemasına uygun biçimde seed dosyasında tanımlanmalı.
-- Her ürünün `measurement_unit`, `quantity_precision`, `portfolio_enabled` ve `calculator_enabled` değerleri doğru belirlenmeli.
-- Seed dosyasında kesinlikle gerçek kullanıcı verisi bulunmamalı.
-- `docs/TODO.md` içindeki Faz 4.3 maddeleri güncellenmeli.
+- `DATABASE.md` Section 14 erişim matrisine uygun tüm RLS politikaları migration olarak yazılmalı.
+- `handle_new_user` tetikleyicisi tanımlanmalı.
+- `anon` ve `authenticated` kullanıcılarının ürünleri ve fiyatları okuyabildiği, ancak başkalarının profiline/portföyüne erişemediği doğrulanmalı.
+- `docs/TODO.md` içindeki Faz 4.4 maddeleri güncellenmeli.
 
 ---
 
@@ -626,7 +629,8 @@ Faz 4.3 şu koşullarda tamamlanmış sayılır:
 - [x] Expo Router rota iskeleti kuruldu (Faz 3.2: 8cdefa9).
 - [x] Development Supabase projesi oluşturuldu ve bağlandı (Faz 4: 9539dc5).
 - [x] Supabase yerel proje yapısı kuruldu (Faz 4.1: f0b0232).
-- [x] Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (Faz 4.2).
+- [x] Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (Faz 4.2: a871164).
+- [x] Başlangıç ürün kataloğu ve test verileri seed edildi (Faz 4.3).
 
 ---
 

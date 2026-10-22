@@ -56,6 +56,26 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.15] - 22.10.2026
+
+### Added
+
+- Faz 4.3 Başlangıç Ürün Verileri tamamlandı:
+  - `supabase/seed.sql` dosyası oluşturuldu ve veritabanına uygulandı.
+  - `gold_products` tablosuna 25 adet başlangıç altın ürünü (Gram, Çeyrek, Yarım, Tam, Cumhuriyet, Ata, Gremse, Reşat, Hamit, 22/14/18 Ayar, 1-100g Paketli Altınlar ve Ons Altın) eklendi.
+  - Eski ve yeni tarihli ürünler (`_NEW`, `_OLD`) ayrı kod ve adlarla tanımlandı.
+  - `OUNCE_GOLD` için `portfolio_enabled = false` kuralı uygulandı.
+  - Koşullu ürünler (`HAMIT_GOLD`, `GOLD_18K`, `PACKAGED_GOLD_1G`, `PACKAGED_GOLD_2_5G`) için portföy ve hesaplama alanları doğrudan fiyat doğrulanana kadar kapalı tutuldu.
+  - `price_sources` tablosuna `ALTIN_API` birincil kaynağı eklendi.
+  - `legal_documents` tablosuna "TEST METNİDİR - PRODUCTION İÇİN GEÇERLİ DEĞİLDİR" uyarısı taşıyan 5 yasal taslak eklendi.
+  - Gerçek kullanıcı verisi eklenmediği ve RLS kısıtlarının korunduğu doğrulandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 4.3 tamamlandı olarak işaretlendi; sıradaki görev Faz 4.4 (RLS politikaları) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.14] - 22.10.2026
 
 ### Added

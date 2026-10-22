@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.10 Taslak  
+**Belge sürümü:** 1.11 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.2 tamamlandı, Faz 4.3 sıradaki)  
-**Kodlama durumu:** Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (12 tablo)
+**Proje aşaması:** Supabase development altyapısı (Faz 4.3 tamamlandı, Faz 4.4 sıradaki)  
+**Kodlama durumu:** Başlangıç ürün kataloğu (25 ürün), kaynak ve yasal şablonlar seed edildi
 
 ---
 
@@ -607,18 +607,18 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 4.3: Başlangıç ürün verileri
 
-- [ ] Kesinleşen ürün kodlarını hazırla.
-- [ ] Ürün adlarını hazırla.
-- [ ] Eski ve yeni tarihli ürünleri ayrı tanımla.
-- [ ] Ölçü birimlerini tanımla.
-- [ ] Miktar hassasiyetlerini tanımla.
-- [ ] Paket ağırlıklarını tanımla.
-- [ ] Portföy için koşullu ürünleri devre dışı bırak.
-- [ ] Hesaplama için koşullu ürünleri devre dışı bırak.
-- [ ] Fiyat gösterimi için koşullu ürünleri devre dışı bırak.
-- [ ] Ons Altın için `portfolio_enabled = false` yap.
-- [ ] Seed dosyasına yalnızca doğrulanmış ürünleri ekle.
-- [ ] Seed dosyasına gerçek kullanıcı verisi ekleme.
+- [x] Kesinleşen ürün kodlarını hazırla.
+- [x] Ürün adlarını hazırla.
+- [x] Eski ve yeni tarihli ürünleri ayrı tanımla.
+- [x] Ölçü birimlerini tanımla.
+- [x] Miktar hassasiyetlerini tanımla.
+- [x] Paket ağırlıklarını tanımla.
+- [x] Portföy için koşullu ürünleri devre dışı bırak.
+- [x] Hesaplama için koşullu ürünleri devre dışı bırak.
+- [x] Fiyat gösterimi için koşullu ürünleri devre dışı bırak.
+- [x] Ons Altın için `portfolio_enabled = false` yap.
+- [x] Seed dosyasına yalnızca doğrulanmış ürünleri ekle.
+- [x] Seed dosyasına gerçek kullanıcı verisi ekleme.
 
 ---
 

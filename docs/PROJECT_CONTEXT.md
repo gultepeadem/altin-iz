@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.9 Taslak  
+**Belge sürümü:** 1.10 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Supabase development altyapısı (Faz 4.2 tamamlandı, Faz 4.3 sıradaki)  
-**Kodlama durumu:** Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (12 tablo)
+**Proje durumu:** Supabase development altyapısı (Faz 4.3 tamamlandı, Faz 4.4 sıradaki)  
+**Kodlama durumu:** Başlangıç ürün kataloğu (25 ürün), kaynak ve yasal şablonlar seed edildi
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.2 (Veritabanı migration dosyaları) adımı başarıyla tamamlanmıştır.
+Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.3 (Başlangıç ürün verileri) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 4.2 tamamlandı: DATABASE.md ile birebir uyumlu 5 migration dosyası (uzantılar, kullanıcı tabloları, ürün ve fiyat tabloları, portföy tablosu, yasal ve güvenlik tabloları) hazırlandı, development veritabanına uygulandı ve 12 tablonun tamamı REST API üzerinden doğrulandı.
+Faz 4.3 tamamlandı: supabase/seed.sql dosyası hazırlandı, 25 adet doğrulanmış altın ürünü (Gram, Çeyrek, Yarım, Tam, Ata vb.), ALTIN_API birincil kaynağı ve test şablon yasal metinleri development veritabanına uygulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 4.2 (Veritabanı migration dosyaları) tamamlandı; Faz 4.3 (Başlangıç ürün verileri) aşamasına geçiş
+Faz 4.3 (Başlangıç ürün verileri) tamamlandı; Faz 4.4 (RLS politikaları) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,14 @@ Faz 4.2 (Veritabanı migration dosyaları) tamamlandı; Faz 4.3 (Başlangıç ü
 Sıradaki teknik görev:
 
 ```text
-Faz 4.3: Başlangıç ürün verileri
+Faz 4.4: RLS politikaları
 ```
 
-Bu görevde kesinleşen ürün kodları (Gram, Çeyrek, Yarım, Tam, Ata, Ayar ve Paketli altınlar), ölçü birimleri, miktar hassasiyetleri ve Ons Altın (`portfolio_enabled = false`) gibi kural tanımları hazırlanarak `supabase/seed.sql` dosyasına eklenecektir.
+Bu görevde veritabanı tablolarının tamamı için satır bazlı güvenlik (Row Level Security - RLS) politikaları tanımlanacaktır:
+- `auth.users` kaydı oluştuğunda tetikleyici ile `user_profiles` ve `user_preferences` oluşturulması
+- Kullanıcıların yalnızca kendi profil, tercih, portföy ve hesap silme kayıtlarına erişebilmesi
+- Ürün kataloğu, fiyat kaynakları ve geçerli fiyatların `anon` ve `authenticated` rollerine güvenle salt okunur (SELECT) açılması
+- Hileli veri güncellemelerinin `BEFORE UPDATE` tetikleyicileriyle engellenmesi
 
 ---
 
