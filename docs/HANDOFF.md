@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.10 Taslak  
+**Belge sürümü:** 1.11 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3.1 tamamlandı, Faz 3.2 sıradaki)  
-**Kodlama durumu:** Ortak temel bileşenler (ScreenContainer, butonlar, formlar, geri bildirim) hazırlandı  
-**Son çalışma durumu:** Faz 3.1 başarıyla tamamlandı; ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri oluşturuldu. Sıradaki görev Faz 3.2 (Expo Router rota iskeleti)
+**Proje aşaması:** Bölüm 9 (Tasarım sistemi ve rota iskeleti) tamamlandı; Bölüm 10 (Supabase development altyapısı - Faz 4) sıradaki  
+**Kodlama durumu:** Expo Router rota iskeleti (public, protected, tabs, dinamik rotalar) hazırlandı  
+**Son çalışma durumu:** Faz 3.2 başarıyla tamamlandı; public, protected tabs ve dinamik rotalar oluşturuldu, typed routes eşitlendi. Sıradaki görev Faz 4 (Development Supabase projesi)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 3.1 kapsamında ortak temel arayüz bileşenlerini (ScreenContainer, butonlar, form alanları, geri bildirim ekranları) oluşturmak ve erişilebilirlik standartlarını sağlamak
+Faz 3.2 kapsamında Expo Router rota iskeletini (public, protected tabs, dinamik rotalar, kök stack layout) kurmak ve rota geçişlerini doğrulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 3.1 tamamlandı: ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri asgari 48dp dokunma alanı ve ekran okuyucu uyumuyla oluşturuldu; barrel export dosyaları bağlandı
+Faz 3.2 tamamlandı: Public rota grubu (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), Protected Tabs (Ana Sayfa, Fiyatlar, Hesapla, Portföyüm, Ayarlar), dinamik ve yardımcı sayfalar oluşturuldu; typed routes güncellendi; Bölüm 9 (Tasarım Sistemi ve Rota İskeleti) eksiksiz tamamlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Tasarım sistemi ve rota iskeleti (Faz 3.2 hazırlığı)
+Supabase development altyapısı (Bölüm 10 - Faz 4 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-0d1bf1c (feat(components): implement core common, form, and feedback components (Faz 3.1))
+ebf6a1c (feat(router): implement Expo Router skeleton for public, protected tabs, and dynamic routes (Faz 3.2))
 ```
 
 ### Son çalışan commit
 
 ```text
-0d1bf1c
+ebf6a1c
 ```
 
 ### Aktif dal
@@ -591,22 +591,22 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 3.2: Expo Router rota iskeleti
+Faz 4: Development Supabase projesi
 ```
 
-Bu görevde public rotalar (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), protected rotalar (tabs: index, prices, calculator, portfolio, settings), dinamik ürün detayı, portföy işlem rotaları ve +not-found ekranları oluşturulacaktır.
+Bu görevde Supabase hesabına giriş yapılarak bölge kararına uygun bir Development projesi oluşturulacak, proje URL ve publishable anon anahtarları güvenli şekilde development ortamına kaydedilecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 3.2 şu koşullarda tamamlanmış sayılır:
+Faz 4 şu koşullarda tamamlanmış sayılır:
 
-- Belirtilen Expo Router rota dosyaları `src/app/` altında oluşturulmalı.
-- Rotalar temel ekran bileşenlerini ve tema sistemini kullanmalı.
-- Alt menü (tabs) geçişleri hatasız çalışmalı.
-- `npx tsc --noEmit` ve `npm run lint` testleri hatasız tamamlanmalı.
-- `docs/TODO.md` içindeki Faz 3.2 maddeleri güncellenmeli.
+- Supabase üzerinde açıkça development olarak adlandırılmış proje oluşturulmalı.
+- Proje URL ve publishable anon key güvenli development ortamına eklenmeli.
+- Veritabanı şifresi parola yöneticisinde saklanmalı.
+- Secret veya service role anahtarları asla istemciye veya repoya eklenmemeli.
+- `docs/TODO.md` içindeki Faz 4 maddeleri güncellenmeli.
 
 ---
 

@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.11] - 22.10.2026
+
+### Added
+
+- Faz 3.2 Expo Router Rota İskeleti tamamlandı:
+  - Public rotalar (`src/app/(public)/`): `welcome.tsx`, `sign-in.tsx`, `sign-up.tsx`, `verify-email.tsx`, `forgot-password.tsx`, `reset-password.tsx` ve Stack layout oluşturuldu.
+  - Protected alt menü (`src/app/(protected)/(tabs)/`): `index.tsx` (Ana Sayfa), `prices.tsx` (Fiyatlar), `calculator.tsx` (Hesapla), `portfolio.tsx` (Portföyüm), `settings.tsx` (Ayarlar) ve Tabs layout oluşturuldu.
+  - Dinamik ve alt sayfalar (`src/app/(protected)/`): `gold/[productId].tsx`, `portfolio/add.tsx`, `portfolio/[entryId].tsx`, `portfolio/[entryId]/edit.tsx`, `account/index.tsx`, `account/delete.tsx`, `legal/index.tsx`, `legal/[documentType].tsx`, `about.tsx`, `support.tsx` ve Protected Stack layout oluşturuldu.
+  - Kök rotalar (`src/app/`): `index.tsx` (başlangıç yönlendirmesi), `_layout.tsx` (kök Stack navigatörü), `account-status.tsx`, `auth-callback.tsx` ve `+not-found.tsx` oluşturuldu.
+
+### Changed
+
+- Kök `_layout.tsx` Stack navigasyon yapısıyla güncellendi.
+- `eslint.config.js` içine `.expo/*` kuralı eklendi; eski şablon dosyaları (`explore.tsx`, `app-tabs.tsx`, `app-tabs.web.tsx`) temizlendi.
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Bölüm 9 (Tasarım Sistemi ve Rota İskeleti) tamamlandı olarak işaretlendi; sıradaki görev Bölüm 10 (Faz 4: Development Supabase projesi) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.10] - 22.10.2026
 
 ### Added

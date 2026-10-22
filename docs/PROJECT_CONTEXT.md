@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.5 Taslak  
+**Belge sürümü:** 1.6 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Tasarım sistemi ve rota iskeleti (Faz 3.1 tamamlandı, Faz 3.2 sıradaki)  
-**Kodlama durumu:** Ortak temel bileşenler (ScreenContainer, butonlar, formlar, geri bildirim) hazırlandı
+**Proje durumu:** Bölüm 9 (Tasarım sistemi ve rota iskeleti) tamamlandı; Bölüm 10 (Supabase development altyapısı - Faz 4) sıradaki  
+**Kodlama durumu:** Expo Router rota iskeleti (public, protected, tabs, dinamik rotalar) hazırlandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 9 kapsamındaki Tasarım Sistemi ve Rota İskeleti çalışmalarında Faz 3.1 (Ortak temel bileşenler) tamamlanmıştır.
+Bölüm 9 kapsamındaki Tasarım Sistemi ve Rota İskeleti (Faz 3, Faz 3.1 ve Faz 3.2) eksiksiz tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 3.1 tamamlandı: ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri asgari dokunma alanı ve erişilebilirlik standartlarına uygun olarak oluşturuldu.
+Faz 3.2 tamamlandı: Public (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), Protected Tabs (Ana Sayfa, Fiyatlar, Hesapla, Portföyüm, Ayarlar), dinamik rotalar (gold, portfolio, account, legal) ve kök navigatör hazırlandı; typed routes doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 3.1 (Ortak temel bileşenler) tamamlandı; Faz 3.2 (Expo Router rota iskeleti) aşamasına geçiş
+Bölüm 9 (Tasarım Sistemi ve Rota İskeleti) tamamlandı; Bölüm 10 (Supabase Development Altyapısı - Faz 4) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 3.1 (Ortak temel bileşenler) tamamlandı; Faz 3.2 (Expo Router rota iskelet
 Sıradaki teknik görev:
 
 ```text
-Faz 3.2: Expo Router rota iskeleti
+Faz 4: Development Supabase projesi
 ```
 
-Bu görevde public rotalar (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), protected rotalar (tabs: index, prices, calculator, portfolio, settings), dinamik ürün detayı, portföy işlem rotaları ve +not-found ekranları oluşturulacaktır.
+Bu görevde Supabase hesabına giriş yapılarak bölge kararına uygun bir Development projesi oluşturulacak, proje URL ve publishable anon anahtarları güvenli şekilde development ortamına kaydedilecektir.
 
 ---
 

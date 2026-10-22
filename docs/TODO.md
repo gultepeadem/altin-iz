@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6 Taslak  
+**Belge sürümü:** 1.7 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3.1 tamamlandı, Faz 3.2 sıradaki)  
-**Kodlama durumu:** Ortak temel bileşenler (ScreenContainer, butonlar, form alanları, geri bildirim ekranları) hazırlandı
+**Proje aşaması:** Bölüm 9 (Tasarım sistemi ve rota iskeleti) tamamlandı; Bölüm 10 (Supabase development altyapısı - Faz 4) sıradaki  
+**Kodlama durumu:** Expo Router rota iskeleti (public, protected, tabs, dinamik rotalar) hazırlandı
 
 ---
 
@@ -526,24 +526,24 @@ Initialize Expo TypeScript project
 
 ## Faz 3.2: Expo Router rota iskeleti
 
-- [ ] Kök `src/app/_layout.tsx` dosyasını incele.
-- [ ] Public rota grubunu oluştur.
-- [ ] Protected rota grubunu oluştur.
-- [ ] Tabs rota grubunu oluştur.
-- [ ] Ana Sayfa geçici ekranını oluştur.
-- [ ] Fiyatlar geçici ekranını oluştur.
-- [ ] Hesapla geçici ekranını oluştur.
-- [ ] Portföyüm geçici ekranını oluştur.
-- [ ] Ayarlar geçici ekranını oluştur.
-- [ ] Altın detay dinamik rotasını oluştur.
-- [ ] Portföy ekleme rotasını oluştur.
-- [ ] Portföy detay rotasını oluştur.
-- [ ] Portföy düzenleme rotasını oluştur.
-- [ ] Hesap rotalarını oluştur.
-- [ ] Yasal belge rotalarını oluştur.
-- [ ] `+not-found.tsx` ekranını oluştur.
-- [ ] Alt menü geçişlerini Android'de test et.
-- [ ] iOS geri hareketlerini kontrol et.
+- [x] Kök `src/app/_layout.tsx` dosyasını incele.
+- [x] Public rota grubunu oluştur.
+- [x] Protected rota grubunu oluştur.
+- [x] Tabs rota grubunu oluştur.
+- [x] Ana Sayfa geçici ekranını oluştur.
+- [x] Fiyatlar geçici ekranını oluştur.
+- [x] Hesapla geçici ekranını oluştur.
+- [x] Portföyüm geçici ekranını oluştur.
+- [x] Ayarlar geçici ekranını oluştur.
+- [x] Altın detay dinamik rotasını oluştur.
+- [x] Portföy ekleme rotasını oluştur.
+- [x] Portföy detay rotasını oluştur.
+- [x] Portföy düzenleme rotasını oluştur.
+- [x] Hesap rotalarını oluştur.
+- [x] Yasal belge rotalarını oluştur.
+- [x] `+not-found.tsx` ekranını oluştur.
+- [x] Alt menü geçişlerini Android'de test et.
+- [x] iOS geri hareketlerini kontrol et.
 
 ---
 

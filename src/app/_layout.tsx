@@ -1,16 +1,29 @@
+/**
+ * Altın İz — Kök Düzen (app/_layout.tsx)
+ * 
+ * ARCHITECTURE.md Section 7.1 uyarınca uygulama sağlayıcılarını bağlar
+ * ve kök Stack navigasyon yapısını tanımlar.
+ */
+
+import React from 'react';
+import { Stack } from 'expo-router';
 import * as SplashScreen from 'expo-splash-screen';
 
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 
 SplashScreen.preventAutoHideAsync();
 
-export default function TabLayout() {
+export default function RootLayout() {
   return (
     <ThemeProvider>
-      <AnimatedSplashOverlay />
-      <AppTabs />
+      <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(public)" />
+        <Stack.Screen name="(protected)" />
+        <Stack.Screen name="account-status" />
+        <Stack.Screen name="auth-callback" />
+        <Stack.Screen name="+not-found" options={{ headerShown: false }} />
+      </Stack>
     </ThemeProvider>
   );
 }
