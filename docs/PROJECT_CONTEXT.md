@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.49 Taslak  
+**Belge sürümü:** 1.50 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15.1 (Görsel mağaza varlıkları) TAMAMLANDI — Faz 15.2 (Mağaza metinleri) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-1-store-assets.ts 9 senaryo ve 9/9 iddia ile çalıştırıldı; STORE_ASSETS.md kılavuzu, app.json (#121212 zemin ve splash), 1024x1024 ikon, adaptive icon katmanları ve Zero PII / finansal dürüstlük kuralları doğrulandı
+**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15.2 (Mağaza metinleri) TAMAMLANDI — Faz 15.3 (Google Play hazırlığı) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-2-store-metadata.ts 10 senaryo ve 10/10 iddia ile çalıştırıldı; STORE_LISTING.md vitrin metinleri, kısa/uzun açıklamalar, ASO anahtar kelimeleri, sorumluluk reddi, yasal URL'ler, destek e-postası ve yaş sınıflandırması doğrulandı
 
 ---
 
@@ -1262,6 +1262,13 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.50 Taslak - 22.10.2026
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.2: Mağaza metinleri tamamlandı.
+- `docs/STORE_LISTING.md` mağaza vitrin metinleri belgesi hazırlandı; Google Play ve App Store kısa açıklamaları, 4000 karakterlik detaylı özellik açıklaması, ASO anahtar kelimeleri (96/100 karakter), SPK finansal sorumluluk reddi ("Yatırım tavsiyesi değildir"), resmi destek e-postası (`destek@altiniz.app`), yasal URL'ler (`https://altiniz.app/gizlilik`, `kullanim-kosullari`, `hesap-silme`), kategori (`Finans`) ve yaş derecelendirmesi (`4+` / `PEGI 3`) kilitlendi.
+- `supabase/tests/test-faz15-2-store-metadata.ts` test paketi yazılarak 10/10 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.3 (Google Play hazırlığı) olarak güncellendi.
 
 ### 1.49 Taslak - 22.10.2026
 

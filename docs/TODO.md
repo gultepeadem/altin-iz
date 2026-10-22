@@ -1469,16 +1469,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 15.2: Mağaza metinleri
 
-- [ ] Kısa açıklamayı yaz.
-- [ ] Uzun açıklamayı yaz.
-- [ ] Anahtar kelime yaklaşımını hazırla.
-- [ ] Finansal bilgilendirmeyi mağaza metnine ekle.
-- [ ] Destek e-posta adresini hazırla.
-- [ ] Gizlilik politikası URL'sini hazırla.
-- [ ] Hesap silme bilgi URL'sini hazırla.
-- [ ] Kullanım koşulları URL'sini hazırla.
-- [ ] Uygulama kategorisini doğrula.
-- [ ] Yaş derecelendirmesini doğru doldur.
+- [x] Kısa açıklamayı yaz.
+- [x] Uzun açıklamayı yaz.
+- [x] Anahtar kelime yaklaşımını hazırla.
+- [x] Finansal bilgilendirmeyi mağaza metnine ekle.
+- [x] Destek e-posta adresini hazırla.
+- [x] Gizlilik politikası URL'sini hazırla.
+- [x] Hesap silme bilgi URL'sini hazırla.
+- [x] Kullanım koşulları URL'sini hazırla.
+- [x] Uygulama kategorisini doğrula.
+- [x] Yaş derecelendirmesini doğru doldur.
 
 ---
 

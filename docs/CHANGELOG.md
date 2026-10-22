@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.62] - 22.10.2026
+
+### Added
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.2: Mağaza metinleri tamamlandı:
+  - `docs/STORE_LISTING.md`: Google Play ve Apple App Store için kopyala-yapıştır hazır resmi mağaza tanıtım metinleri hazırlandı:
+    - Kısa açıklamalar (Google Play: 76/80 karakter, App Store alt başlık: 29/30 karakter).
+    - Uzun açıklama (özellikler, Kapalıçarşı canlı fiyatlar, makas analizi, hesaplama, portföy takibi, sıfır izleme gizliliği ve çift tema).
+    - ASO anahtar kelimeleri (App Store: 96/100 karakter azami sınıra tam uyumlu).
+    - SPK ve mali mevzuata uygun yasal/finansal sorumluluk reddi metni ("Yatırım tavsiyesi değildir").
+    - Resmi destek e-postası (`destek@altiniz.app`).
+    - Yasal URL bağlantıları (`https://altiniz.app/gizlilik`, `https://altiniz.app/kullanim-kosullari`, `https://altiniz.app/hesap-silme`).
+    - Uygulama kategorisi (`Finans / Finance`).
+    - Yaş derecelendirmesi beyanı (App Store: `4+`, Google Play: `PEGI 3` / `Everyone`).
+  - `supabase/tests/test-faz15-2-store-metadata.ts`: Kısa/uzun açıklamalar, anahtar kelime limitleri, sorumluluk reddi, destek kanalları, yasal URL'ler, kategori ve yaş sınıflandırmasını denetleyen 10 testlik paket yazıldı ve 10/10 başarıyla doğrulandı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 15.2 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.3 (Google Play hazırlığı) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.55 / 1.50 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.61] - 22.10.2026
 
 ### Added

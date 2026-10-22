@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.54 Taslak  
+**Belge sürümü:** 1.55 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15.1 (Görsel mağaza varlıkları) TAMAMLANDI — Faz 15.2 (Mağaza metinleri) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-1-store-assets.ts 9 senaryo ve 9/9 iddia ile çalıştırıldı; STORE_ASSETS.md kılavuzu, app.json (#121212 zemin ve splash), 1024x1024 ikon, adaptive icon katmanları ve Zero PII / finansal dürüstlük kuralları doğrulandı  
-**Son çalışma durumu:** Faz 15.1 başarıyla tamamlandı; uygulama logosu (1024x1024 PNG), Android adaptive icon katmanları (foreground, background, monochrome), iOS ikonu, splash screen (#121212 arka plan), WCAG AA kontrast testleri, Google Play (1080x2400) ve App Store (1290x2796) 5 ekranlı vitrin storyboard'u ve yasal uyumluluk kuralları 9 test ile onaylandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.2 (Mağaza metinleri)
+**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15.2 (Mağaza metinleri) TAMAMLANDI — Faz 15.3 (Google Play hazırlığı) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-2-store-metadata.ts 10 senaryo ve 10/10 iddia ile çalıştırıldı; STORE_LISTING.md vitrin metinleri, kısa/uzun açıklamalar, ASO anahtar kelimeleri, sorumluluk reddi, yasal URL'ler, destek e-postası ve yaş sınıflandırması doğrulandı  
+**Son çalışma durumu:** Faz 15.2 başarıyla tamamlandı; kısa açıklamalar (Google Play: 76/80 kar., App Store: 29/30 kar.), uzun açıklama (özellikler, Kapalıçarşı canlı fiyatlar, makas analizi, hesaplama, portföy kâr/zararı, sıfır izleme gizliliği, çift tema), ASO anahtar kelimeleri (96/100 kar.), SPK sorumluluk reddi metni, destek e-postası (destek@altiniz.app), yasal URL'ler (gizlilik, kullanım koşulları, hesap silme), kategori (Finans) ve yaş derecelendirmesi (4+ / PEGI 3) 10 test ile onaylandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.3 (Google Play hazırlığı)
 
 ---
 
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.55 Taslak - 22.10.2026
+- Bölüm 21: Mağaza hazırlığı — Faz 15.2: Mağaza metinleri tamamlandı.
+- `docs/STORE_LISTING.md` mağaza vitrin metinleri belgesi hazırlandı; Google Play ve App Store kısa açıklamaları, 4000 karakterlik detaylı özellik açıklaması, ASO anahtar kelimeleri (96/100 karakter), SPK finansal sorumluluk reddi ("Yatırım tavsiyesi değildir"), resmi destek e-postası (`destek@altiniz.app`), yasal URL'ler (`https://altiniz.app/gizlilik`, `kullanim-kosullari`, `hesap-silme`), kategori (`Finans`) ve yaş derecelendirmesi (`4+` / `PEGI 3`) kilitlendi.
+- `supabase/tests/test-faz15-2-store-metadata.ts` test paketi yazılarak 10/10 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.3 (Google Play hazırlığı) olarak güncellendi.
 
 ### 1.54 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı.
