@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.30 Taslak  
+**Belge sürümü:** 1.31 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.2 tamamlandı, Faz 8.3 (Portföy kaydı düzenleme) sıradaki  
-**Kodlama durumu:** portfolio/[entryId].tsx canlı Supabase kaydı ve ürün fiyatıyla, değerleme, kâr-zarar, eski fiyat uyarısı, detay tablosu ve onaylı silme aksiyonuyla tamamlandı  
-**Son çalışma durumu:** Faz 8.2 başarıyla tamamlandı; kayıt detayı, canlı değerleme, ADR-010/ADR-013/ADR-014 uyumluluğu ve onaylı silme mekanizması 10/10 test ile onaylandı. Sıradaki görev Faz 8.3 (Portföy kaydı düzenleme)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.3 tamamlandı, Faz 8.4 (Portföy kaydı silme) sıradaki  
+**Kodlama durumu:** portfolio/[entryId]/edit.tsx mevcut veri ön doldurması, alan kısıtları, dokunulmazlık, doğrulama kontrolleri, isDirty kaydedilmemiş değişiklik uyarısı ve çift gönderim korumasıyla tamamlandı  
+**Son çalışma durumu:** Faz 8.3 başarıyla tamamlandı; form ön doldurma, dokunulmazlık, doğrulamalar, isDirty tespiti ve RLS oturum izolasyonu 10/10 test ile onaylandı. Sıradaki görev Faz 8.4 (Portföy kaydı silme)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8.2 kapsamında src/app/(protected)/portfolio/[entryId].tsx ekranını sahte verilerden arındırarak; entryId parametresine göre kullanıcının gerçek portföy kaydını ve ürünün güncel canlı alış fiyatını çekmek, tahmini güncel bozdurma değerini ve kâr/zararını (ADR-010 & ADR-032) hesaplayıp sunmak, eski fiyat veya eksik fiyat uyarılarını (ADR-013 & ADR-014) göstermek, düzenleme (/(protected)/portfolio/[entryId]/edit) ve güvenli onaylı silme aksiyonlarını bağlamak
+Faz 8.3 kapsamında src/app/(protected)/portfolio/[entryId]/edit.tsx ekranını sahte verilerden arındırarak; entryId parametresine ait mevcut portföy verilerini forma otomatik doldurmak, değiştirilemeyen alanları (id, user_id, created_at) kesin olarak korumak, form doğrulama kontrollerini (@/domain/validation) tekrar kullanmak, kaydedilmemiş değişiklik uyarısını (isDirty onay modalı) eklemek, çift gönderimi engellemek ve başarı sonrası güncellenmiş detay ekranına yönlendirmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8.2 tamamlandı: src/app/(protected)/portfolio/[entryId].tsx canlı kayıt ve fiyat verileriyle kodlandı; ADR-010 değerleme, kâr-zarar, ADR-013 fiyatsız kayıt güvenliği, ADR-014 eski fiyat uyarısı, detay alanları ve onaylı silme modalı 10/10 otomatik test ile doğrulandı
+Faz 8.3 tamamlandı: src/app/(protected)/portfolio/[entryId]/edit.tsx ekranı mevcut veri doldurma, dokunulmazlık kuralları, doğrulamalar, isDirty tespiti ve onay modalı ile kodlandı; 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8.3 sıradaki)
+Bölüm 14 - Portföy sistemi (Faz 8.4 sıradaki)
 ```
 
 ### Uygulama kodu durumu

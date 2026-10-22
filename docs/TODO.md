@@ -1067,14 +1067,14 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8.3: Portföy kaydı düzenleme
 
-- [ ] Mevcut kayıt verilerini forma doldur.
-- [ ] Değiştirilebilir alanları sınırla.
-- [ ] `id`, `user_id` ve `created_at` alanlarını değiştirme.
-- [ ] Form doğrulamalarını tekrar kullan.
-- [ ] Başarı sonrası detay ekranını yenile.
-- [ ] Portföy özetini yenile.
-- [ ] Kaydedilmemiş değişiklik uyarısını ekle.
-- [ ] Yetkisiz kayıt erişimini test et.
+- [x] Mevcut kayıt verilerini forma doldur.
+- [x] Değiştirilebilir alanları sınırla.
+- [x] `id`, `user_id` ve `created_at` alanlarını değiştirme.
+- [x] Form doğrulamalarını tekrar kullan.
+- [x] Başarı sonrası detay ekranını yenile.
+- [x] Portföy özetini yenile.
+- [x] Kaydedilmemiş değişiklik uyarısını ekle.
+- [x] Yetkisiz kayıt erişimini test et.
 
 ---
 

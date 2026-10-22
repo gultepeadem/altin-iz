@@ -56,6 +56,26 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.38] - 22.10.2026
+
+### Added
+
+- Faz 8.3 Portföy kaydı düzenleme tamamlandı:
+  - `src/app/(protected)/portfolio/[entryId]/edit.tsx`: Canlı Supabase kaydı ve ürün verileriyle entegre edildi.
+    - Mevcut kayıt verileri (ürün, miktar, alış tarihi, kuruş bazlı toplam tutar, alış yeri, not, işçilik tercihi) düzenleme formuna eksiksiz ön dolduruldu (`pre-fill`).
+    - Değiştirilemeyen alanlar (`id`, `user_id`, `created_at`) kesin olarak korundu; `user_id` formdan soyutlanarak güvenli oturumdan atandı.
+    - Form doğrulama kontrolleri (`validateQuantity`, `parseDateInputToISO`, `isFutureDate`, `parseMoneyInputToMinor`, metin azami sınırları) tekrar kullanıldı.
+    - `isDirty` mantığı geliştirildi; formda yapılan değişiklikler izlenerek kaydedilmemiş değişiklik varken sayfadan ayrılma girişiminde son kullanıcı onay modalı (`showDiscardModal`) sunuldu.
+    - Form gönderiminde çift tıklama kilit koruması (`submittingRef`) ve buton devre dışı bırakma uygulandı.
+    - Başarılı güncelleme sonrası güncellenmiş detay ekranına (`/(protected)/portfolio/${entryId}`) yönlendirme akışı bağlandı.
+  - `supabase/tests/test-faz8-3-portfolio-edit.ts`: 10/10 senaryoyu kapsayan form ön doldurma, dokunulmazlık, doğrulama kontrolleri, isDirty tespiti, RLS oturum izolasyonu, çift tıklama koruması ve rota uyumluluğunu doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 8.3 tamamlandı olarak işaretlendi; sıradaki görev Faz 8.4 (Portföy kaydı silme) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.37] - 22.10.2026
 
 ### Added

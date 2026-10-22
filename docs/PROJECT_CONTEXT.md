@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.25 Taslak  
+**Belge sürümü:** 1.26 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.2 tamamlandı, Faz 8.3 (Portföy kaydı düzenleme) sıradaki  
-**Kodlama durumu:** portfolio/[entryId].tsx canlı Supabase kaydı ve ürün fiyatıyla, değerleme, kâr-zarar, eski fiyat uyarısı, detay tablosu ve onaylı silme aksiyonuyla tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.3 tamamlandı, Faz 8.4 (Portföy kaydı silme) sıradaki  
+**Kodlama durumu:** portfolio/[entryId]/edit.tsx mevcut veri ön doldurması, alan kısıtları, dokunulmazlık, doğrulama kontrolleri, isDirty kaydedilmemiş değişiklik uyarısı ve çift gönderim korumasıyla tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 8.2 (Portföy kaydı detay ekranı) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.3 (Portföy kaydı düzenleme) aşamasına geçiş
+Faz 8.3 (Portföy kaydı düzenleme) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.4 (Portföy kaydı silme) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 8.2 (Portföy kaydı detay ekranı) tamamlandı; Bölüm 14 (Portföy sistem
 Sıradaki teknik görev:
 
 ```text
-Faz 8.3: Portföy kaydı düzenleme
+Faz 8.4: Portföy kaydı silme
 ```
 
-Bu görevde `src/app/(protected)/portfolio/[entryId]/edit.tsx` ekranı kodlanacak; mevcut kayıt verilerinin forma doldurulması, değiştirilebilir alanların sınırlandırılması (`id`, `user_id`, `created_at` dokunulmazlığı), form doğrulama kontrollerinin tekrar kullanımı, başarı sonrası detay ve portföy ekranlarının yenilenmesi geliştirilecektir.
+Bu görevde silme onay penceresinin detaylandırılması, silinecek kaydın kısa özeti, işlemin geri alınamayacağı ve V1'de satış geçmişi oluşturmadığı uyarısı, silme işlemi sonrası Portföyüm sekmesine yönlendirme, başarısızlıkta kaydın görünür kalması ve portföy toplamlarının yenilenmesi geliştirilecektir.
 
 ---
 
