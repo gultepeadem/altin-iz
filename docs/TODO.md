@@ -1265,22 +1265,22 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 12.1: `delete-account` Edge Function
 
-- [ ] Fonksiyon klasörünü oluştur.
-- [ ] Oturumu doğrula.
-- [ ] Kullanıcı kimliğini token üzerinden al.
-- [ ] İstek gövdesindeki serbest `user_id` değerini güven kaynağı olarak kabul etme.
-- [ ] Yeniden doğrulama şartını kontrol et.
-- [ ] Silme talebi kaydı oluştur.
-- [ ] Hesabı `deletion_pending` yap.
-- [ ] Portföy kayıtlarını sil.
-- [ ] Kullanıcı tercihlerini sil.
-- [ ] Yasal olayları saklama politikasına göre işle.
-- [ ] Güvenlik olaylarını saklama politikasına göre işle.
-- [ ] Profil kaydını sil.
-- [ ] Auth hesabını sil.
-- [ ] Aktif oturumları sonlandır.
-- [ ] Başarı ve hata durumlarını güvenli kaydet.
-- [ ] Secret anahtarı yanıtta veya logda gösterme.
+- [x] Fonksiyon klasörünü oluştur.
+- [x] Oturumu doğrula.
+- [x] Kullanıcı kimliğini token üzerinden al.
+- [x] İstek gövdesindeki serbest `user_id` değerini güven kaynağı olarak kabul etme.
+- [x] Yeniden doğrulama şartını kontrol et.
+- [x] Silme talebi kaydı oluştur.
+- [x] Hesabı `deletion_pending` yap.
+- [x] Portföy kayıtlarını sil.
+- [x] Kullanıcı tercihlerini sil.
+- [x] Yasal olayları saklama politikasına göre işle.
+- [x] Güvenlik olaylarını saklama politikasına göre işle.
+- [x] Profil kaydını sil.
+- [x] Auth hesabını sil.
+- [x] Aktif oturumları sonlandır.
+- [x] Başarı ve hata durumlarını güvenli kaydet.
+- [x] Secret anahtarı yanıtta veya logda gösterme.
 
 ---
 

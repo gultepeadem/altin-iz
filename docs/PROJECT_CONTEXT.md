@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.38 Taslak  
+**Belge sürümü:** 1.39 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) TAMAMLANDI - Faz 12.1 (delete-account Edge Function) sıradaki  
-**Kodlama durumu:** accountDeletion.ts modelleri, ADR-033 kararı, DATA_RETENTION.md güncellemeleri ve KI-018 çözümü hazırlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 18: Hesap ve veri silme - Faz 12.1 (delete-account Edge Function) TAMAMLANDI - Faz 12.2 (Hesap silme ekranı) sıradaki  
+**Kodlama durumu:** supabase/functions/delete-account Edge Function (index, types, service, sanitizer) hazırlandı; ADR-033 silme boru hattı ve parola doğrulaması bağlandı; 10/10 test başarılı
 
 ---
 
@@ -1262,6 +1262,13 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.39 Taslak - 22.10.2026
+
+- Bölüm 18 Hesap ve veri silme - Faz 12.1 `delete-account` Edge Function tamamlandı.
+- `supabase/functions/delete-account/` oluşturuldu; Bearer token doğrulama, parola ile yeniden kimlik doğrulama, ADR-033 silme boru hattı ve `KI-018` kısmi hata telafisi uygulandı.
+- `supabase/tests/test-faz12-1-delete-account-edge-function.ts` 10/10 test ile doğrulandı.
+- Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.2 (Hesap silme ekranı) olarak güncellendi.
 
 ### 1.38 Taslak - 22.10.2026
 

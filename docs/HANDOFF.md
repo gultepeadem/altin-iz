@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.43 Taslak  
+**Belge sürümü:** 1.44 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) TAMAMLANDI - Faz 12.1 (delete-account Edge Function) sıradaki  
-**Kodlama durumu:** accountDeletion.ts modelleri, ADR-033 kararı, DATA_RETENTION.md güncellemeleri ve KI-018 çözümü hazırlandı; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 12 başarıyla tamamlandı; hesap silme teknik tasarımı (yeniden kimlik doğrulama, silme sırası, fiziksel silinen ve anonimleşen tablolar, kısmi hata telafisi KI-018 ve PII-free kayıt sözleşmesi) kesinleştirildi. Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.1 (delete-account Edge Function)
+**Proje aşaması:** Bölüm 18: Hesap ve veri silme - Faz 12.1 (delete-account Edge Function) TAMAMLANDI - Faz 12.2 (Hesap silme ekranı) sıradaki  
+**Kodlama durumu:** supabase/functions/delete-account Edge Function (index, types, service, sanitizer) hazırlandı; ADR-033 silme boru hattı ve parola doğrulaması bağlandı; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 12.1 başarıyla tamamlandı; delete-account Edge Function uygulandı; Bearer token oturum kontrolü, parola ile yeniden kimlik doğrulama, portfolio_entries/tercihler/profil silme, yasal ve güvenlik kayıtlarını anonimleştirme ve auth hesabını silme akışı test edildi. Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.2 (Hesap silme ekranı)
 
 ---
 
@@ -767,6 +767,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.44 Taslak - 22.10.2026
+- Bölüm 18 Hesap ve veri silme - Faz 12.1 `delete-account` Edge Function tamamlandı.
+- `supabase/functions/delete-account/` oluşturuldu (`types.ts`, `sanitizer.ts`, `service.ts`, `index.ts`).
+- Oturum token doğrulaması, parola ile yeniden kimlik doğrulama, serbest user_id enjeksiyonunu yok sayma, ADR-033 silme boru hattı (`portfolio_entries`, `user_preferences`, `user_profiles` silinmesi; `user_legal_events`, `security_events` anonimleştirilmesi; `auth.admin.deleteUser` ile hesabın yok edilmesi) ve KI-018 hata telafisi uygulandı.
+- `supabase/tests/test-faz12-1-delete-account-edge-function.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.2 (Hesap silme ekranı) olarak güncellendi.
 
 ### 1.43 Taslak - 22.10.2026
 - Bölüm 18 Hesap ve veri silme - Faz 12 Hesap silme teknik tasarımı tamamlandı.

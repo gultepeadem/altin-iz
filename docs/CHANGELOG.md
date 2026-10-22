@@ -56,6 +56,31 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.51] - 22.10.2026
+
+### Added
+
+- Bölüm 18: Hesap ve veri silme — Faz 12.1: `delete-account` Edge Function tamamlandı:
+  - `supabase/functions/delete-account/types.ts`: Edge function için `DeleteAccountRequestBody`, `DeleteAccountResponse`, `DeleteAccountErrorCode` ve `DeletionExecutionResult` tür tanımları oluşturuldu.
+  - `supabase/functions/delete-account/sanitizer.ts`: Hassas parola, bearer token, service_role anahtarı ve JWT belirteçlerinin loglarda ve yanıtlarda sızmasını engelleyen `sanitizeString`, `safeLog` ve `safeError` temizleyicileri kodlandı.
+  - `supabase/functions/delete-account/service.ts`: ADR-033 katı hiyerarşisine uygun silme boru hattı (`processAccountDeletion`) uygulandı:
+    - Kullanıcı oturumu token üzerinden doğrulandı; istek gövdesindeki sahte `user_id` enjeksiyonları yok sayıldı.
+    - Yeniden kimlik doğrulama zorunluluğu (`auth.signInWithPassword`) işletildi.
+    - Silme talebi kaydı oluşturuldu (`status = 'processing'`).
+    - `portfolio_entries`, `user_preferences` ve `user_profiles` kayıtları fiziksel olarak silindi.
+    - `user_legal_events` ve `security_events` kayıtları mevzuata uygun biçimde `user_id = null` yapılarak anonimleştirildi.
+    - `auth.admin.deleteUser` ile Supabase Auth kullanıcısı ve oturumları sonlandırıldı.
+    - Kısmi arıza durumunda `KI-018` telafi stratejisiyle talep `failed` olarak işaretlendi.
+  - `supabase/functions/delete-account/index.ts`: CORS başlıkları, HTTP OPTIONS/POST denetimleri, Authorization Bearer başlığı doğrulayıcısı ve Deno.serve giriş noktası tamamlandı.
+  - `supabase/tests/test-faz12-1-delete-account-edge-function.ts`: 10/10 senaryoyla CORS, 405 metot reddi, 401 yetkisiz oturum reddi, şifresiz istek engeli, gövdedeki sahte user_id izolasyonu, ADR-033 silme sırası, anonimleştirme kuralları, KI-018 kısmi hata telafisi ve log sanitizer güvenliğini doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 12.1 maddeleri `[x]` olarak işaretlendi; sıradaki görev Faz 12.2 (Hesap silme ekranı) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.44 / 1.39 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.50] - 22.10.2026
 
 ### Added
