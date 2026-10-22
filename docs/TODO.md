@@ -1324,19 +1324,19 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 13.1: Gizlilik incelemesi
 
-- [ ] Uygulamanın topladığı bütün verileri listele.
-- [ ] Her veri için işleme amacını yaz.
-- [ ] Her veri için hukuki sebebi hukuk uzmanıyla doğrula.
-- [ ] Her veri için saklama süresini belirle.
-- [ ] Her veri için aktarım taraflarını belirle.
-- [ ] Supabase veri akışını belgeye ekle.
-- [ ] Fiyat sağlayıcısının kişisel veri alıp almadığını doğrula.
-- [ ] Hata izleme hizmeti varsa veri akışını ekle.
-- [ ] Analitik kullanılacaksa açıkça karar ver.
-- [ ] Gereksiz veri toplamayı kaldır.
-- [ ] Google Play Veri Güvenliği taslağını hazırla.
-- [ ] App Store App Privacy taslağını hazırla.
-- [ ] Mağaza beyanlarını gerçek uygulama davranışıyla karşılaştır.
+- [x] Uygulamanın topladığı bütün verileri listele.
+- [x] Her veri için işleme amacını yaz.
+- [x] Her veri için hukuki sebebi hukuk uzmanıyla doğrula.
+- [x] Her veri için saklama süresini belirle.
+- [x] Her veri için aktarım taraflarını belirle.
+- [x] Supabase veri akışını belgeye ekle.
+- [x] Fiyat sağlayıcısının kişisel veri alıp almadığını doğrula.
+- [x] Hata izleme hizmeti varsa veri akışını ekle.
+- [x] Analitik kullanılacaksa açıkça karar ver.
+- [x] Gereksiz veri toplamayı kaldır.
+- [x] Google Play Veri Güvenliği taslağını hazırla.
+- [x] App Store App Privacy taslağını hazırla.
+- [x] Mağaza beyanlarını gerçek uygulama davranışıyla karşılaştır.
 
 ---
 

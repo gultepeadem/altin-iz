@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.54] - 22.10.2026
+
+### Added
+
+- Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1: Gizlilik incelemesi tamamlandı (Bölüm 19 %100 tamamlandı):
+  - `docs/PRIVACY.md`:
+    - Toplanan veriler veritabanı şeması ve alanlarıyla birebir eşleştirildi (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`).
+    - Supabase AB veri merkezi (Frankfurt, Almanya - eu-central-1) ve TLS / HTTPS uçtan uca şifreli veri akışı kesinleştirildi.
+    - Fiyat sağlayıcısına hiçbir kişisel verinin (kullanıcı kimliği, e-posta, portföy kaydı) aktarılmadığı doğrulandı.
+    - Harici hata izleme servisi ve harici analitik/reklam kütüphanelerinin kullanılmayacağı (0 Tracking) karara bağlandı.
+    - Google Play Veri Güvenliği (Data Safety) taslak matrisi (Aktarım sırasında şifreleme, hesap silme talebi, veri kategorileri) hazırlandı.
+    - Apple App Store App Privacy taslak matrisi (Takip için kullanılmaz / No Tracking, Kullanıcıyla İlişkili / Linked to User) hazırlandı.
+  - `supabase/tests/test-faz13-1-privacy-review.ts`: 10/10 senaryoyla kişisel veri envanteri, izin minimizasyonu (`app.json`), üçüncü taraf takip izolasyonu, fiyat sağlayıcı izolasyonu, Supabase Frankfurt akışı, saklama ve silme süreleri, Google Play Data Safety taslağı, Apple App Privacy taslağı, hesap silme veri yok etme güvencesi ve mağaza beyan uyumunu doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 13.1 maddeleri `[x]` olarak işaretlendi; Bölüm 19 %100 tamamlandı, sıradaki görev Bölüm 20: Test aşaması — Faz 14 (Birim testleri) olarak güncellendi.
+- `docs/PRIVACY.md`: 1.1 Taslak sürümüne yükseltildi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.47 / 1.42 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.53] - 22.10.2026
 
 ### Added

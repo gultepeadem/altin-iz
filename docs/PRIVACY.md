@@ -2,10 +2,10 @@
 
 **Belge adı:** `PRIVACY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0 Taslak  
-**Son güncelleme:** 19.10.2026 
-**Proje aşaması:** Planlama ve dokümantasyon  
-**Kodlama durumu:** Henüz başlanmadı  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 22.10.2026 
+**Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13.1 (Gizlilik incelemesi) TAMAMLANDI  
+**Kodlama durumu:** Veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, Google Play Data Safety ve Apple App Privacy beyan tabloları kesinleştirildi  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -123,24 +123,28 @@ Bu alanlar tamamlanmadan nihai aydınlatma metni yayımlanmamalıdır.
 
 ## 7. V1 kişisel veri envanteri
 
+Aşağıdaki envanter, veritabanı şemasındaki somut alanlar (`DATABASE.md`) ile birebir eşleştirilmiştir:
+
 ### 7.1. Hesap ve kimlik doğrulama verileri
 
-#### E-posta adresi
+#### E-posta adresi (`auth.users.email`)
 
 ```text
 Kaynak: Kullanıcı
 Zorunlu: Evet
+Veritabanı alanı: auth.users.email
 Amaç: Hesap oluşturma, giriş, doğrulama, şifre sıfırlama ve hesap iletişimi
 Ana sistem: Supabase Auth
 Kullanıcıyla bağlantılı: Evet
-Saklama: DATA_RETENTION.md ile kesinleştirilecek
+Saklama: DATA_RETENTION.md uyarınca hesap silinene kadar, silme anında derhal yok edilir
 ```
 
-#### Auth kullanıcı kimliği
+#### Auth kullanıcı kimliği (`auth.users.id`)
 
 ```text
 Kaynak: Supabase Auth
 Zorunlu: Evet
+Veritabanı alanı: auth.users.id
 Amaç: Kullanıcı kayıtlarını güvenli biçimde ilişkilendirmek
 Tür: UUID
 Kullanıcıyla bağlantılı: Evet
@@ -158,7 +162,7 @@ Amaç: Doğrulanmamış hesapların korunan alana erişimini engellemek
 ```text
 Kaynak: Supabase Auth
 Amaç: Güvenli oturumun sürdürülmesi
-Yer: Doğrulanmış mobil güvenli saklama yöntemi
+Yer: Doğrulanmış mobil güvenli saklama yöntemi (AsyncStorage)
 Uygulama veritabanında kalıcı alan: Hayır
 Loglama: Yasak
 ```
@@ -168,26 +172,28 @@ Loglama: Yasak
 ```text
 Kaynak: Kullanıcı
 Amaç: Kimlik doğrulama
-Normal uygulama tablolarında saklama: Yasak
-Loglama: Yasak
+Normal uygulama tablolarında saklama: Yasak (Supabase Auth içinde Argon2 / bcrypt hash olarak tutulur)
+Loglama: Yasak (src/utils/logger.ts ile otomatik maskelenir)
 Analitik veya hata izlemeye gönderme: Yasak
 ```
 
 ### 7.2. Profil verileri
 
-#### Görünen ad
+#### Görünen ad (`user_profiles.display_name`)
 
 ```text
 Kaynak: Kullanıcı
 Zorunlu: Hayır
+Veritabanı alanı: user_profiles.display_name
 Amaç: Uygulama içi kişiselleştirilmiş karşılama
 Pazarlama amacı: Hayır
 ```
 
-#### Hesap durumu
+#### Hesap durumu (`user_profiles.account_status`)
 
 ```text
 Kaynak: Sistem
+Veritabanı alanı: user_profiles.account_status
 Örnekler: active, deletion_pending, disabled
 Amaç: Hesap yaşam döngüsünü ve güvenli erişimi yönetmek
 Kullanıcı tarafından doğrudan değiştirilebilir: Hayır
@@ -195,74 +201,103 @@ Kullanıcı tarafından doğrudan değiştirilebilir: Hayır
 
 ### 7.3. Kullanıcı tercihleri
 
-#### Tema tercihi
+#### Tema tercihi (`user_preferences.theme`)
 
 ```text
 Değerler: light, dark, system
+Veritabanı alanı: user_preferences.theme
 Amaç: Kullanıcı deneyimini kişiselleştirmek
 Zorunlu: Hayır
 ```
 
-#### Dil ve para birimi
+#### Dil ve para birimi (`user_preferences.language_code`, `user_preferences.currency_code`)
 
 ```text
-V1 dili: tr
-V1 para birimi: TRY
+V1 dili: tr (user_preferences.language_code)
+V1 para birimi: TRY (user_preferences.currency_code)
 Amaç: Gösterim tercihleri
 V1'de kullanıcı tarafından serbest seçim: Hayır (V1'de yalnızca tr ve TRY sabittir)
 ```
 
 ### 7.4. Portföy verileri
 
-#### Altın ürünü
+#### Altın ürünü (`portfolio_entries.product_id`)
 
 ```text
 Kaynak: Kullanıcının merkezi katalogdan seçimi
+Veritabanı alanı: portfolio_entries.product_id
 Amaç: Kullanıcının sahip olduğu altını kaydetmek
 ```
 
-#### Miktar veya adet
+#### Miktar veya adet (`portfolio_entries.grams`, `portfolio_entries.quantity`)
 
 ```text
 Kaynak: Kullanıcı
+Veritabanı alanı: portfolio_entries.grams, portfolio_entries.quantity
 Amaç: Portföy değerini hesaplamak
 Hassasiyet: Ürüne göre adet veya azami üç ondalıklı gram
 ```
 
-#### Alış tarihi
+#### Alış tarihi (`portfolio_entries.purchase_date`)
 
 ```text
 Kaynak: Kullanıcı
+Veritabanı alanı: portfolio_entries.purchase_date
 Amaç: Altın alış kaydını ve geçmişini tutmak
 Saat bilgisi: V1'de alınmaz
 ```
 
-#### Ödenen toplam tutar
+#### Ödenen toplam tutar (`portfolio_entries.purchase_price_total`)
 
 ```text
 Kaynak: Kullanıcı
+Veritabanı alanı: portfolio_entries.purchase_price_total
 Amaç: Tahmini kâr-zarar hesaplamak
 Saklama biçimi: Kuruş cinsinden tam sayı
 Finansal hesap veya banka verisi: Hayır
 ```
 
-#### Alış yeri
+#### Alış yeri (`portfolio_entries.purchase_location`)
 
 ```text
 Kaynak: Kullanıcı
 Zorunlu: Hayır
+Veritabanı alanı: portfolio_entries.purchase_location
 Amaç: Kullanıcının kendi kaydını açıklaması
 Serbest metin: Evet, sınırlı uzunluk
 ```
 
-#### Kullanıcı notu
+#### Kullanıcı notu (`portfolio_entries.notes`)
 
 ```text
 Kaynak: Kullanıcı
 Zorunlu: Hayır
+Veritabanı alanı: portfolio_entries.notes
 Amaç: Kullanıcının kendi portföy kaydına açıklama eklemesi
 Serbest metin: Evet, azami 500 karakter
 Özel nitelikli veri girmemesi kullanıcıya hatırlatılabilir
+```
+
+### 7.5. Hukuki ve Güvenlik Denetim Verileri
+
+#### Yasal Olay Kayıtları (`user_legal_events`)
+
+```text
+Kaynak: Sistem (SECURITY DEFINER RPC record_user_legal_event)
+Veritabanı tablosu: public.user_legal_events
+Alanlar: document_id, event_type, source, app_version, created_at
+Amaç: Aydınlatma ve rıza işlemlerinin hukuki ispatı (KVKK m.5/2-ç)
+Saklama: 3 yıl (hesap silinirken user_id = null yapılarak anonimleştirilir)
+```
+
+#### Hesap Silme Talepleri (`account_deletion_requests`)
+
+```text
+Kaynak: Kullanıcı / delete-account Edge Function
+Veritabanı tablosu: public.account_deletion_requests
+Alanlar: requested_at, status, identity_verified_at, completed_at, reason (opsiyonel max 500 karakter)
+Amaç: Hesap silme taleplerinin takibi, mağaza denetimi ve ispatı
+Saklama: 3 yıl (PII içermez, user_id = null yapılır)
 ```
 
 #### İşçilik dâhil bilgisi
@@ -498,70 +533,35 @@ Saklama politikasına göre yasal ve güvenlik kayıtları
 
 ### 13.1. Supabase
 
-Planlanan kullanım:
+Kullanım:
 
-- Kimlik doğrulama
+- Kimlik doğrulama (Supabase Auth)
 - PostgreSQL veritabanı
-- Data API
-- Row Level Security
-- Edge Functions
+- Data API & Row Level Security (RLS)
+- Edge Functions (`delete-account`)
 - Sunucu secret yönetimi
 
-Kesinleştirilecekler:
-
-- Production bölgesi
-- Sözleşme ve veri işleme şartları
-- Alt işleyenler
-- Yedek konumu
-- Silme ve yedeklerden çıkarma davranışı
-- Yurt dışına aktarım yöntemi
+Kesinleşen Durum:
+- Bölge: Frankfurt, Almanya (AB Bölgesi - eu-central-1).
+- İletişim: Uçtan uca TLS / HTTPS zorunludur.
+- Veri Saklama ve Silme: ADR-033 boru hattıyla tam uyumlu.
 
 ### 13.2. Altın fiyat sağlayıcısı
 
-Adaylar:
-
-```text
-AltinAPI
-Altinapps
-```
-
-Planlanan kişisel veri aktarımı:
-
-```text
-Yok
-```
-
-Mobil kullanıcı kimliği, e-posta ve portföyün fiyat sağlayıcısına gönderilmemesi hedeflenmektedir. Teknik istek kayıtları veya sunucu IP bilgileri sağlayıcı tarafından işlenebileceğinden sözleşme ve gizlilik şartları incelenmelidir.
+Fiyat sağlayıcısına hiçbir kullanıcı kimliği, e-posta veya portföy verisi aktarılmaz (Fiyat sağlayıcısının kişisel veri almadığı doğrulanmıştır). Fiyatlar istemciden tamamen bağımsız olarak arka planda ortak `gold_prices` tablosuna çekilir ve kullanıcılar bu ortak tabloyu yalnızca okuma yetkisiyle sorgular.
 
 ### 13.3. Production e-posta hizmeti
 
-Henüz seçilmedi.
-
-İşlenebilecek veri:
-
-- E-posta adresi
-- Doğrulama veya şifre sıfırlama ileti içeriği
-- Gönderim durumu
-- Teknik teslimat kayıtları
-
-Hizmet seçilmeden önce veri konumu, alt işleyenler, saklama süresi ve güvenlik önlemleri değerlendirilmelidir.
+İşlenebilecek veri: E-posta adresi ve doğrulama/şifre sıfırlama bağlantısı. Hizmet seçimi aşamasında AB bölgesi ve standart sözleşme şartları aranacaktır.
 
 ### 13.4. Hata izleme
 
-V1 için kesin karar verilmedi.
-
-Eklenirse:
-
-- Kullanıcı e-postasının otomatik gönderimi kapalı veya sınırlı olmalıdır.
-- Şifre, token, API anahtarı ve portföy notları redakte edilmelidir.
-- Ekran kaydı veya kullanıcı oturumu kaydı varsayılan olarak açılmamalıdır.
-- Gizlilik metinleri ve mağaza beyanları güncellenmelidir.
+V1 kapsamında harici hata izleme servisi (Sentry, Bugsnag vb.) KULLANILMAZ.
+Hata ve istisnalar istemci cihazında yerel olarak [`src/utils/logger.ts`](file:///C:/Users/Adem/Desktop/altin-iz/src/utils/logger.ts) modülü ile güvenli şekilde filtrelenir; şifre ve token maskelenir; canlı derlemede debug logları susturulur.
 
 ### 13.5. Analitik
 
-V1 için kesin karar verilmedi.
-
-Eklenirse veri minimizasyonu uygulanmalı, reklam odaklı izleme veya gereksiz cihaz tanımlayıcıları kullanılmamalı ve mağaza beyanları güncellenmelidir.
+V1 kapsamında hiçbir harici analitik aracı (Google Analytics, Firebase Analytics vb.) KULLANILMAZ (0 Tracking, 0 Reklam Takibi). Kullanıcıların uygulama içi hareketleri harici sunuculara veya profilleme şirketlerine raporlanmaz.
 
 ### 13.6. Google Play ve App Store
 
@@ -797,32 +797,54 @@ Ayrıntılar `SECURITY.md` içinde tanımlanmıştır.
 
 ---
 
-## 23. Google Play gizlilik hazırlığı
+## 23. Google Play gizlilik hazırlığı (Google Play Veri Güvenliği / Data Safety)
 
-Google Play için:
+Google Play Store Data Safety formu için doğrulanmış V1 beyan matrisi:
 
-- Data Safety formu gerçek uygulama davranışına göre doldurulmalıdır.
-- Uygulama ve tüm üçüncü taraf SDK'ların topladığı ve paylaştığı veriler değerlendirilmelidir.
-- Veri şifreleme ve silme uygulamaları doğru beyan edilmelidir.
-- Hesap oluşturan uygulama, uygulama içinden hesap silme yolu sağlamalıdır.
-- Ayrıca hesap ve ilişkili veri silme talebi için erişilebilir web kaynağı hazırlanmalıdır.
-- Kapalı, açık ve production test aşamalarındaki mağaza beyanları güncel tutulmalıdır.
+### 23.1. Genel Güvenlik Uygulamaları
 
-Tahminle veya gelecekte planlanan davranışa göre form doldurulmamalıdır.
+| Soru | Yanıt | Açıklama |
+| :--- | :--- | :--- |
+| **Veriler aktarım sırasında şifreleniyor mu?** | **Evet** | Aktarım sırasında şifreleme zorunludur (Tüm ağ istekleri TLS 1.3 / HTTPS üzerinden yürütülür). |
+| **Kullanıcıların veri silme talebinde bulunması için bir yöntem sağlanıyor mu?** | **Evet** | Uygulama içi `account/delete.tsx` onay ekranı ve `delete-account` Edge Function ile hesap silme talebi ve verilerin fiziksel yok edilmesi sağlanır. |
+
+### 23.2. Veri Türleri ve İşleme Amaçları Matrisi
+
+| Veri Kategorisi | Veri Türü | Toplanıyor mu? | Paylaşılıyor mu? | İsteğe Bağlı mı? | Kullanıcıyla İlişkili mi? | İşleme Amacı |
+| :--- | :--- | :--- | :--- | :--- | :--- | :--- |
+| **Kişisel Bilgiler** | E-posta adresi | **Evet** | **Hayır** | Hayır (Zorunlu) | **Evet** | Uygulama işlevselliği, Hesap yönetimi |
+| **Kişisel Bilgiler** | Kullanıcı Kimlikleri (User ID) | **Evet** | **Hayır** | Hayır (Zorunlu) | **Evet** | Uygulama işlevselliği, Hesap yönetimi |
+| **Kişisel Bilgiler** | İsim / Görünen ad | **Evet** | **Hayır** | Evet (İsteğe bağlı) | **Evet** | Uygulama işlevselliği, Kişiselleştirme |
+| **Finansal Bilgiler** | Satın Alma Geçmişi / Portföy Kayıtları | **Evet** | **Hayır** | Hayır (Zorunlu) | **Evet** | Uygulama işlevselliği (Altın takip ve kâr-zarar hesabı) |
+| **Uygulama Etkinliği** | Yasal Olaylar / Rıza Kayıtları | **Evet** | **Hayır** | Hayır (Zorunlu) | **Evet** | Yasal uyumluluk, Dolandırıcılığı önleme ve güvenlik |
+
+> [!NOTE]
+> Uygulama hiçbir konum, rehber, kamera, ses, SMS, sağlık verisi veya cihaz tanımlayıcı (AD_ID) TOPLAMAZ ve PAYLAŞMAZ.
 
 ---
 
-## 24. App Store gizlilik hazırlığı
+## 24. App Store gizlilik hazırlığı (Apple App Privacy Details)
 
-App Store için:
+Apple App Store Connect App Privacy formu için doğrulanmış V1 beyan matrisi:
 
-- App Store Connect'te uygulamanın ve üçüncü tarafların topladığı veri türleri doğru açıklanmalıdır.
-- Verinin kullanıcıyla bağlantılı olup olmadığı doğru belirtilmelidir.
-- İzleme yapılıp yapılmadığı doğru belirtilmelidir.
-- App Privacy cevapları değişen veri akışlarında güncellenmelidir.
-- Gizlilik politikası için herkese açık URL hazırlanmalıdır.
-- Hesap oluşturan uygulamada uygulama içinden tüm hesabı silme başlatılabilmelidir.
-- Yalnızca geçici devre dışı bırakma yeterli kabul edilmemelidir.
+### 24.1. Takip (Tracking) Beyanı
+
+- **Bu uygulama kullanıcıları takip etmek için veri topluyor mu?**  
+  **HAYIR (Takip İçin Kullanılmaz / No Tracking).**  
+  Uygulama verileri, üçüncü taraf uygulamalar veya web sitelerindeki kullanıcı verileriyle reklam veya hedefleme amacıyla asla eşleştirilmez. Üçüncü taraf reklam SDK'sı bulunmamaktadır.
+
+### 24.2. Toplanan Veri Türleri ve Bağlantı Durumu
+
+| Veri Kategorisi (Data Type) | Toplanan Veri | Kullanıcıyla İlişkili (Linked to User) | Takip Amaçlı Kullanım | Amaç (Purpose) |
+| :--- | :--- | :--- | :--- | :--- |
+| **Contact Info (İletişim Bilgileri)** | Email Address | **Evet (Linked to User)** | **Hayır (No Tracking)** | App Functionality (Uygulama İşlevselliği) |
+| **Financial Info (Finansal Bilgiler)** | Other Financial Info (Altın varlıkları, maliyet) | **Evet (Linked to User)** | **Hayır (No Tracking)** | App Functionality (Uygulama İşlevselliği) |
+| **Identifiers (Tanımlayıcılar)** | User ID (UUID) | **Evet (Linked to User)** | **Hayır (No Tracking)** | App Functionality (Uygulama İşlevselliği) |
+| **User Content (Kullanıcı İçeriği)** | Other User Content (Görünen ad, portföy notu) | **Evet (Linked to User)** | **Hayır (No Tracking)** | App Functionality (Uygulama İşlevselliği) |
+| **Usage Data / Diagnostics** | Yerel hata ayıklama | **Hayır** | **Hayır** | Cihaz içinde yerel kalır, sunucuya aktarılmaz |
+
+### 24.3. Hesap Silme Yükümlülüğü
+App Store İnceleme Yönergesi 5.1.1(v) uyarınca, kullanıcıların uygulama içinden hesaplarını ve tüm ilişkili verilerini doğrudan silebileceği akış (`account/delete.tsx`) ve `delete-account` Edge Function ile karşılanmıştır.
 
 ---
 
@@ -1045,6 +1067,16 @@ Değişiklik ayrıca `CHANGELOG.md` içine kaydedilmeli, karar değişiyorsa `DE
 ---
 
 ## 35. Sürüm geçmişi
+
+### 1.1 Taslak - 22.10.2026
+
+- Faz 13.1 Gizlilik incelemesi tamamlandı.
+- V1 kişisel veri envanteri veritabanı şemasıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
+- Supabase Frankfurt (eu-central-1, Almanya) AB veri merkezi ve uçtan uca TLS / HTTPS veri akışı netleştirildi.
+- Fiyat sağlayıcısına hiçbir kişisel verinin iletilmediği (kullanıcı kimliği, e-posta, portföy izolasyonu) kesinleştirildi.
+- V1 kapsamında harici hata izleme ve analitik aracı kullanılmayacağı (0 Tracking) karara bağlandı.
+- Google Play Veri Güvenliği (Data Safety) ve Apple App Store App Privacy (No Tracking, Linked to User) resmi beyan tabloları oluşturuldu.
+- `supabase/tests/test-faz13-1-privacy-review.ts` test paketi hazırlandı ve doğrulandı.
 
 ### 1.0 Taslak - 03.09.2026
 

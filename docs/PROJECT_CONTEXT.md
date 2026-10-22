@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.41 Taslak  
+**Belge sürümü:** 1.42 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) TAMAMLANDI - Faz 13.1 (Gizlilik incelemesi) sıradaki  
-**Kodlama durumu:** src/utils/logger.ts güvenli loglayıcı bağlandı, loglarda şifre/token maskelemesi sağlandı, 12 tabloda RLS ve Edge Function yetkileri doğrulandı; 11/11 güvenlik testi başarılı
+**Proje durumu:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi TAMAMLANDI - Bölüm 20: Test aşaması - Faz 14 (Birim testleri) sıradaki  
+**Kodlama durumu:** docs/PRIVACY.md veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, Google Play Data Safety ve Apple App Privacy tabloları kesinleştirildi; 10/10 test başarılı
 
 ---
 
@@ -1262,6 +1262,17 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.42 Taslak - 22.10.2026
+
+- Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1: Gizlilik incelemesi tamamlandı (Bölüm 19 %100 tamamlandı).
+- `docs/PRIVACY.md` V1 kişisel veri envanteri veritabanı şeması ve alanlarıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
+- Supabase Frankfurt (eu-central-1, Almanya) AB veri merkezi ve uçtan uca TLS / HTTPS veri akışı netleştirildi.
+- Fiyat sağlayıcısına hiçbir kişisel verinin iletilmediği (kullanıcı kimliği, e-posta, portföy izolasyonu) kesinleştirildi.
+- V1 kapsamında harici hata izleme ve analitik aracı kullanılmayacağı (0 Tracking) karara bağlandı.
+- Google Play Veri Güvenliği (Data Safety) ve Apple App Store App Privacy (No Tracking, Linked to User) resmi beyan tabloları oluşturuldu.
+- `supabase/tests/test-faz13-1-privacy-review.ts` test paketi oluşturuldu (10/10 test başarılı).
+- Sıradaki görev Bölüm 20: Test aşaması — Faz 14 (Birim testleri) olarak güncellendi.
 
 ### 1.41 Taslak - 22.10.2026
 
