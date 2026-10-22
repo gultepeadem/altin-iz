@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.27 Taslak  
+**Belge sürümü:** 1.28 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 13 (Hesaplama sistemi) tamamlandı, Bölüm 14 - Faz 8 (Portföy sistemi) sıradaki  
-**Kodlama durumu:** calculator.tsx canlı Supabase ürün ve fiyatları, modal seçici, miktar doğrulamaları, mod seçimi, sonuç kartı ve bilgilendirme ile tamamlandı  
-**Son çalışma durumu:** Faz 7.1 başarıyla tamamlandı; hesaplama ekranı, girdi kontrolleri ve ADR-011/ADR-013 kuralları uygulandı, 9/9 doğrulama testi geçti. Sıradaki görev Faz 8 (Portföy servisi)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8 tamamlandı, Faz 8.1 (Portföye altın ekleme formu) sıradaki  
+**Kodlama durumu:** portfolioService.ts (CRUD, sıralama, oturum izolasyonu, değerleme entegrasyonu, ADR-013 kısmi portföy desteği) ve modelleri tamamlandı  
+**Son çalışma durumu:** Faz 8 başarıyla tamamlandı; CRUD, sıralama kuralları, user_id güvenlik izolasyonu ve ADR-013 kısmi portföy doğrulaması 10/10 test ile onaylandı. Sıradaki görev Faz 8.1 (Portföye altın ekleme formu)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 7.1 kapsamında calculator.tsx ekranını sahte verilerden arındırarak goldProductService ve goldPriceService ile gerçek Supabase verilerine bağlamak, altın türü seçici modalını kurmak, dinamik miktar etiketlerini (Adet/Gram/Ons) bağlamak, miktar doğrulamalarını (tam sayı, 3 ondalık) uygulamak, Satın Alacağım / Bozduracağım modlarını ve birim fiyatı göstermek, hesaplama ve temizleme aksiyonlarını kodlamak, portföye ekle kısayolunu ve finansal bilgilendirmeyi eklemek
+Faz 8 kapsamında portfolioService.ts ve ilişkili modelleri (PortfolioEntry, CreatePortfolioEntryInput, UpdatePortfolioEntryInput, PortfolioEntryWithValuation) oluşturmak, kullanıcının portföy kayıtlarını listeleme, detay getirme, oluşturma, güncelleme ve silme (CRUD) işlemlerini kodlamak, sıralama kurallarını (purchase_date DESC, created_at DESC) sağlamak, kullanıcı kimliğini form girdisinden soyutlayarak güvenli auth oturumundan atamak, Supabase hatalarını ortak AppError modeline dönüştürmek ve fiyatı olmayan kayıtların kaybolmadığını (ADR-013 kısmi portföy) doğrulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 7.1 tamamlandı: calculator.tsx canlı servis entegrasyonu, ürün seçici modalı, miktar kontrolleri, mod seçimi ve sonuç kartı ile kodlandı; 9/9 otomatik test başarıyla geçti
+Faz 8 tamamlandı: portfolioService.ts ve src/models/portfolio.ts eksiksiz oluşturuldu; CRUD, sıralama, güvenlik oturumu izolasyonu ve ADR-013 kısmi portföy doğrulaması 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8 hazırlığı)
+Bölüm 14 - Portföy sistemi (Faz 8.1 sıradaki)
 ```
 
 ### Uygulama kodu durumu

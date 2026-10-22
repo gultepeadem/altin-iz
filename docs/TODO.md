@@ -1007,16 +1007,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8: Portföy servisi
 
-- [ ] `portfolioService.ts` oluştur.
-- [ ] Kullanıcının kayıtlarını listele.
-- [ ] Tek kayıt detayını getir.
-- [ ] Kayıt oluştur.
-- [ ] Kayıt güncelle.
-- [ ] Kayıt sil.
-- [ ] Kayıtları alış tarihi ve oluşturulma zamanına göre sırala.
-- [ ] Kullanıcı kimliğini form girdisinden alma.
-- [ ] Supabase hatalarını ortak hata modeline dönüştür.
-- [ ] Fiyat olmayan kayıtların kaybolmadığını test et.
+- [x] `portfolioService.ts` oluştur.
+- [x] Kullanıcının kayıtlarını listele.
+- [x] Tek kayıt detayını getir.
+- [x] Kayıt oluştur.
+- [x] Kayıt güncelle.
+- [x] Kayıt sil.
+- [x] Kayıtları alış tarihi ve oluşturulma zamanına göre sırala.
+- [x] Kullanıcı kimliğini form girdisinden alma.
+- [x] Supabase hatalarını ortak hata modeline dönüştür.
+- [x] Fiyat olmayan kayıtların kaybolmadığını test et.
 
 ---
 

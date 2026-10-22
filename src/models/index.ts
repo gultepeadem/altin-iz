@@ -8,3 +8,4 @@ export * from './auth';
 export * from './profile';
 export * from './goldProduct';
 export * from './goldPrice';
+export * from './portfolio';

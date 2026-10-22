@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.35] - 22.10.2026
+
+### Added
+
+- Faz 8 Portföy servisi tamamlandı (Bölüm 14 - Portföy sistemi başlangıcı):
+  - `src/models/portfolio.ts`: `PortfolioEntry`, `CreatePortfolioEntryInput`, `UpdatePortfolioEntryInput`, `PortfolioEntryWithValuation` ve `mapRowToPortfolioEntry` modelleri oluşturuldu.
+  - `src/services/portfolioService.ts`: Portföy servisi geliştirildi.
+    - `listEntries`: Giriş yapmış kullanıcının portföy kayıtlarını `purchase_date DESC, created_at DESC` sıralamasıyla ve ilişkili ürün detaylarıyla birlikte listeler.
+    - `getEntryById`: Kullanıcının tekil portföy kaydını getirir; yetkisiz veya bulunamayan kayıtlar için `null` döner.
+    - `createEntry`: Formdan asla `user_id` almaz, kimliği güvenli auth oturumundan atar. Miktar (tam sayı/ondalık), sıfırdan büyük maliyet, bugünden ileri olmayan tarih (`isValidPurchaseDate`) ve azami karakter sınırlarını doğrular.
+    - `updateEntry`: Kullanıcının mevcut kaydını günceller; `id`, `user_id` ve `created_at` alanlarının değiştirilemezliğini güvenceye alır.
+    - `deleteEntry`: Kullanıcının kendi kaydını güvenle siler.
+    - `getEntriesWithValuation`: Canlı Supabase fiyatlarını çekerek her kayıt için güncel alış fiyatı üzerinden değerleme (`calculateEntryValuation`) yapar ve konsolide portföy özeti (`calculatePortfolioSummary`) üretir.
+    - ADR-013 Kısmi Portföy Uyumluluğu: Fiyatı bulunamayan ürünlerin kayıtları asla listeden silinmez veya düşmez; `unavailable` olarak işaretlenir ve portföy özeti `isPartial = true` olarak kâr-zararı yalnızca fiyatı olanların maliyeti üzerinden hesaplar.
+  - `src/models/index.ts` ve `src/services/index.ts`: Yeni portföy modeli ve servisi dışa aktarıldı.
+  - `supabase/tests/test-faz8-portfolio-service.ts`: 10/10 senaryoyu kapsayan CRUD, sıralama, güvenlik oturumu izolasyonu, girdi sınırları, RLS koruması ve ADR-013 kurallarını doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` güncellenerek Faz 8 tamamlandı olarak işaretlendi; sıradaki görev Faz 8.1 (Portföye altın ekleme formu) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.34] - 22.10.2026
 
 ### Added

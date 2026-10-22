@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.22 Taslak  
+**Belge sürümü:** 1.23 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 13 (Hesaplama sistemi) tamamlandı, Bölüm 14 - Faz 8 (Portföy sistemi) sıradaki  
-**Kodlama durumu:** calculator.tsx canlı Supabase ürün ve fiyatları, modal seçici, miktar kontrolleri ve işlem modları ile tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8 tamamlandı, Faz 8.1 (Portföye altın ekleme formu) sıradaki  
+**Kodlama durumu:** portfolioService.ts (CRUD, sıralama, oturum izolasyonu, değerleme entegrasyonu, ADR-013 kısmi portföy desteği) ve modelleri tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 7.1 (Hesaplama ekranı) ve Bölüm 13 (Hesaplama sistemi) tamamlandı; Bölüm 14 (Portföy Sistemi) - Faz 8 aşamasına geçiş
+Faz 8 (Portföy servisi) tamamlandı; Bölüm 14 (Portföy sistemi) - Faz 8.1 (Portföye altın ekleme formu) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 7.1 (Hesaplama ekranı) ve Bölüm 13 (Hesaplama sistemi) tamamlandı; Böl�
 Sıradaki teknik görev:
 
 ```text
-Faz 8: Portföy servisi
+Faz 8.1: Portföye altın ekleme formu
 ```
 
-Bu görevde `src/services/portfolioService.ts` servisi kodlanacak; kullanıcının portföy kayıtlarını listeleme, tek kayıt detayı getirme, yeni kayıt oluşturma, kayıt güncelleme, kayıt silme, sıralama, RLS ile kullanıcı kimliğini oturumdan alma ve hata normalizasyonu fonksiyonları geliştirilecektir.
+Bu görevde `src/app/(protected)/portfolio/add.tsx` ekranı kodlanacak; yalnızca `portfolio_enabled` aktif ürünlerin listelenmesi, miktar ve dinamik birim etiketi, alış tarihi (gelecek tarih engeli), ödenen toplam tutar, alış yeri ve not sınırları, çift kayıt engelleme ve form gönderimi geliştirilecektir.
 
 ---
 
