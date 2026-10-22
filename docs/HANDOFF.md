@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.12 Taslak  
+**Belge sürümü:** 1.13 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4 tamamlandı, Faz 4.1 sıradaki)  
-**Kodlama durumu:** Development Supabase projesi oluşturuldu ve bağlandı  
-**Son çalışma durumu:** Faz 4 başarıyla tamamlandı; altin-iz-dev projesi oluşturuldu, .env.local yapılandırıldı, bağlantı doğrulandı. Sıradaki görev Faz 4.1 (Supabase yerel proje yapısı)
+**Proje aşaması:** Supabase development altyapısı (Faz 4.1 tamamlandı, Faz 4.2 sıradaki)  
+**Kodlama durumu:** Supabase yerel proje yapısı (config, migrations, seed) kuruldu  
+**Son çalışma durumu:** Faz 4.1 başarıyla tamamlandı; supabase CLI kuruldu, supabase/ klasörü (config.toml, seed.sql, migrations/.gitkeep) oluşturuldu. Sıradaki görev Faz 4.2 (Veritabanı migration dosyaları)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 4 kapsamında Supabase development projesini oluşturmak, anahtarları güvenle development ortamına eklemek ve bağlantıyı doğrulamak
+Faz 4.1 kapsamında Supabase yerel proje yapısını (config.toml, migrations, seed.sql) kurmak ve CLI bağımlılığını yapılandırmak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 4 tamamlandı: altin-iz-dev projesi Frankfurt bölgesinde oluşturuldu, .env.local ortam değişkenleri tanımlandı, API anahtarı ve auth endpoint bağlantısı doğrulandı
+Faz 4.1 tamamlandı: supabase paketi devDependencies içine eklendi; supabase/config.toml, migrations/.gitkeep ve seed.sql oluşturuldu; yerel proje altin-iz-dev referansıyla eşleştirildi
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Supabase development altyapısı (Faz 4.1 hazırlığı)
+Supabase development altyapısı (Faz 4.2 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-8cdefa9 (feat(router): implement Expo Router skeleton for public, protected tabs, and dynamic routes (Faz 3.2))
+ff409e7 (feat(supabase): initialize local supabase structure, config, seed, and migrations (Faz 4.1))
 ```
 
 ### Son çalışan commit
 
 ```text
-8cdefa9
+ff409e7
 ```
 
 ### Aktif dal
@@ -591,21 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 4.1: Supabase yerel proje yapısı
+Faz 4.2: Veritabanı migration dosyaları
 ```
 
-Bu görevde `supabase/` klasörü (`config.toml`, migration dizini, seed yapısı) oluşturulacak ve yerel Supabase konfigürasyonu tamamlanacaktır.
+Bu görevde PostgreSQL UUID desteği, ortak updated_at tetikleyici fonksiyonu, user_profiles, user_consents, audit_logs, legal_documents, gold_products, gold_product_aliases, gold_prices, portfolio_entries ve account_deletion_requests tablolarının migration dosyaları hazırlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 4.1 şu koşullarda tamamlanmış sayılır:
+Faz 4.2 şu koşullarda tamamlanmış sayılır:
 
-- Proje kökünde `supabase/` dizini ve `config.toml` dosyası yapılandırılmalı.
-- `supabase/migrations/` ve `supabase/seed.sql` dosyaları hazır bulunmalı.
-- Yapılandırmada hiçbir gizli anahtar (service_role) yer almamalı.
-- `docs/TODO.md` içindeki Faz 4.1 maddeleri güncellenmeli.
+- `DATABASE.md` içinde tanımlanan tablolar ve ilişkiler migration dosyalarına dökülmeli.
+- Ortak `updated_at` tetikleyicisi tanımlanmalı.
+- Her migration için tablo, sütun kısıtları (NOT NULL, CHECK, UNIQUE) ve dizinler eksiksiz olmalı.
+- `docs/TODO.md` içindeki Faz 4.2 maddeleri güncellenmeli.
 
 ---
 
@@ -624,7 +624,8 @@ Faz 4.1 şu koşullarda tamamlanmış sayılır:
 - [x] İlk çalışan proje oluşturulduğunda Git deposu başlatılmalı (Faz 2.1: 07c2c17).
 - [x] Tema ve tasarım sistemi bileşenleri hazırlandı (Faz 3 - Faz 3.1).
 - [x] Expo Router rota iskeleti kuruldu (Faz 3.2: 8cdefa9).
-- [x] Development Supabase projesi oluşturuldu ve bağlandı (Faz 4).
+- [x] Development Supabase projesi oluşturuldu ve bağlandı (Faz 4: 9539dc5).
+- [x] Supabase yerel proje yapısı kuruldu (Faz 4.1).
 
 ---
 

@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.7 Taslak  
+**Belge sürümü:** 1.8 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Supabase development altyapısı (Faz 4 tamamlandı, Faz 4.1 sıradaki)  
-**Kodlama durumu:** Development Supabase projesi oluşturuldu ve bağlandı
+**Proje durumu:** Supabase development altyapısı (Faz 4.1 tamamlandı, Faz 4.2 sıradaki)  
+**Kodlama durumu:** Supabase yerel proje yapısı (config, migrations, seed) kuruldu
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 10 kapsamındaki Supabase Development Altyapısının ilk adımı olan Faz 4 (Development Supabase projesi) başarıyla tamamlanmıştır.
+Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.1 (Supabase yerel proje yapısı) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 4 tamamlandı: Supabase üzerinde Frankfurt (eu-central-1) bölgesinde altin-iz-dev projesi oluşturuldu; mobil .env.local ortam değişkenleri tanımlandı; /auth/v1/health üzerinden API anahtarı ve bağlantı testi başarıyla doğrulandı.
+Faz 4.1 tamamlandı: Supabase CLI devDependency olarak eklendi; supabase/config.toml, migrations/ dizini (.gitkeep) ve seed.sql dosyası oluşturuldu; proje kimliği (hoqujzhcjeaudmkyqgpc) yerel yapıyla bağlandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 4 (Development Supabase projesi) tamamlandı; Faz 4.1 (Supabase yerel proje yapısı) aşamasına geçiş
+Faz 4.1 (Supabase yerel proje yapısı) tamamlandı; Faz 4.2 (Veritabanı migration dosyaları) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 4 (Development Supabase projesi) tamamlandı; Faz 4.1 (Supabase yerel proje 
 Sıradaki teknik görev:
 
 ```text
-Faz 4.1: Supabase yerel proje yapısı
+Faz 4.2: Veritabanı migration dosyaları
 ```
 
-Bu görevde projenin kök dizininde `supabase/` klasörü, migration yapısı ve seed/config tanımları oluşturulacak, yerel ve uzak Supabase geliştirme yapısı senkronize edilecektir.
+Bu görevde PostgreSQL UUID desteği, ortak `updated_at` tetikleyici fonksiyonu, `user_profiles`, `user_consents`, `audit_logs`, `legal_documents`, `gold_products`, `gold_product_aliases`, `gold_prices`, `portfolio_entries` ve `account_deletion_requests` tablolarının migration dosyaları hazırlanacaktır.
 
 ---
 

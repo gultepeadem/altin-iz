@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.8 Taslak  
+**Belge sürümü:** 1.9 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4 tamamlandı, Faz 4.1 sıradaki)  
-**Kodlama durumu:** Development Supabase projesi oluşturuldu ve bağlandı
+**Proje aşaması:** Supabase development altyapısı (Faz 4.1 tamamlandı, Faz 4.2 sıradaki)  
+**Kodlama durumu:** Supabase yerel proje yapısı (config, migrations, seed) kuruldu
 
 ---
 
@@ -565,14 +565,14 @@ Initialize Expo TypeScript project
 
 ## Faz 4.1: Supabase yerel proje yapısı
 
-- [ ] Supabase CLI gereksinimini güncel dokümantasyondan doğrula.
-- [ ] Gerekliyse Supabase CLI'ı uygun yöntemle kur.
-- [ ] `supabase` klasörünü başlat.
-- [ ] Development projesini yerel projeye bağla.
-- [ ] Bağlantı kimliklerini gizli olmayan doğru yerde tut.
-- [ ] Migration klasörünü doğrula.
-- [ ] Seed dosyasını oluştur.
-- [ ] Veritabanı değişikliklerinin panelde kayıtsız yapılmaması kuralını uygula.
+- [x] Supabase CLI gereksinimini güncel dokümantasyondan doğrula.
+- [x] Gerekliyse Supabase CLI'ı uygun yöntemle kur.
+- [x] `supabase` klasörünü başlat.
+- [x] Development projesini yerel projeye bağla.
+- [x] Bağlantı kimliklerini gizli olmayan doğru yerde tut.
+- [x] Migration klasörünü doğrula.
+- [x] Seed dosyasını oluştur.
+- [x] Veritabanı değişikliklerinin panelde kayıtsız yapılmaması kuralını uygula.
 
 ---
 

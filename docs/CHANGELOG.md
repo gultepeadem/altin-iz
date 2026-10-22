@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.13] - 22.10.2026
+
+### Added
+
+- Faz 4.1 Supabase Yerel Proje Yapısı tamamlandı:
+  - `supabase` (v2.121.0) paketi `devDependencies` olarak projeye eklendi.
+  - `supabase/config.toml` dosyası başlatıldı; portlar, migration ve seed yapılandırması ayarlandı.
+  - `supabase/migrations/` dizini ve `.gitkeep` dosyası oluşturuldu.
+  - `supabase/seed.sql` dosyası oluşturuldu; geliştirme/test ortamı ilkeleri ve yasal metin uyarıları eklendi.
+  - `supabase/.gitignore` dosyası oluşturuldu (`.temp`, `.branches` vb. geçici dosyaların depoya eklenmesi engellendi).
+  - Proje referansı (`hoqujzhcjeaudmkyqgpc`) yerel yapılandırma ile eşleştirildi.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 4.1 tamamlandı olarak işaretlendi; sıradaki görev Faz 4.2 (Veritabanı migration dosyaları) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.12] - 22.10.2026
 
 ### Added
