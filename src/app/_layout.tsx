@@ -12,9 +12,14 @@ import * as SplashScreen from 'expo-splash-screen';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { AuthProvider } from '@/providers/AuthProvider';
 
-SplashScreen.preventAutoHideAsync();
+SplashScreen.preventAutoHideAsync().catch(() => {});
 
 export default function RootLayout() {
+  React.useEffect(() => {
+    // Kök düzen yüklendiğinde açılış (splash) ekranını kapat
+    SplashScreen.hideAsync().catch(() => {});
+  }, []);
+
   return (
     <ThemeProvider>
       <AuthProvider>

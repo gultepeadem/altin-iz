@@ -12,6 +12,7 @@
 import React from 'react';
 import { ActivityIndicator, StyleSheet, View } from 'react-native';
 import { Redirect } from 'expo-router';
+import * as SplashScreen from 'expo-splash-screen';
 
 import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
@@ -19,6 +20,12 @@ import { useTheme } from '@/hooks/useTheme';
 export default function Index() {
   const { status, isLoading } = useAuth();
   const { theme } = useTheme();
+
+  React.useEffect(() => {
+    if (!isLoading) {
+      SplashScreen.hideAsync().catch(() => {});
+    }
+  }, [isLoading]);
 
   // Oturum durumu henüz netleşmeden yönlendirme yapılmaz (Sonsuz yönlendirme engeli)
   if (isLoading) {
