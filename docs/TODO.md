@@ -1443,13 +1443,13 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 15: Uygulama kimliği ve sürümleme
 
-- [ ] Kesin uygulama adını doğrula.
-- [ ] Android package kimliğini doğrula.
-- [ ] iOS bundle identifier değerini doğrula.
-- [ ] Uygulama sürüm numarası politikasını belirle.
-- [ ] Android versionCode politikasını belirle.
-- [ ] iOS buildNumber politikasını belirle.
-- [ ] Development, Preview ve Production EAS profillerini oluştur.
+- [x] Kesin uygulama adını doğrula.
+- [x] Android package kimliğini doğrula.
+- [x] iOS bundle identifier değerini doğrula.
+- [x] Uygulama sürüm numarası politikasını belirle.
+- [x] Android versionCode politikasını belirle.
+- [x] iOS buildNumber politikasını belirle.
+- [x] Development, Preview ve Production EAS profillerini oluştur.
 
 ---
 

@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.52 Taslak  
+**Belge sürümü:** 1.53 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 20: Test aşaması TAMAMLANDI (%100) — Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz14-4-user-isolation-tests.ts 10 senaryo ve 10/10 iddia ile çalıştırıldı; Row Level Security (RLS), çoklu kiracı kullanıcı izolasyonu, tetikleyici korumaları ve gizli anahtar güvenliği doğrulandı  
-**Son çalışma durumu:** Faz 14.4 başarıyla tamamlandı; A ve B kullanıcıları için profil ayrılığı (`user_profiles_select_own`), tercih ayrılığı (`user_preferences_select_own`, `update_own`), portföy ayrılığı (`portfolio_entries_select_own`, `insert_own`), çapraz detay/güncelleme/silme engeli, manipüle edilmiş user_id koruması (`protect_portfolio_user_id` tetikleyicisi) ve istemcide service_role anahtarı bulunmaması 10 test ile onaylandı. Bölüm 20 (Test aşaması) %100 tamamlandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme)
+**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme) TAMAMLANDI — Faz 15.1 (Görsel mağaza varlıkları) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-identity-and-versioning.ts 7 senaryo ve 7/7 iddia ile çalıştırıldı; app.json (name, slug, bundleIdentifier, package, version, versionCode, buildNumber) ve eas.json (development, preview, production) profilleri doğrulandı  
+**Son çalışma durumu:** Faz 15 başarıyla tamamlandı; uygulama adı ('Altın İz'), Android paket kimliği ('com.altiniz.app', versionCode: 1), iOS bundle identifier ('com.altiniz.app', buildNumber: '1'), SemVer sürüm ('1.0.0') kilitlendi; EAS Build profilleri (development, preview APK, production AAB/App Store) oluşturuldu. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.1 (Görsel mağaza varlıkları)
 
 ---
 
@@ -767,6 +767,17 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.53 Taslak - 22.10.2026
+- Bölüm 21: Mağaza hazırlığı — Faz 15: Uygulama kimliği ve sürümleme tamamlandı.
+- `app.json`:
+  - Kesin uygulama adı (`name`: 'Altın İz') ve `slug`: 'altin-iz' doğrulandı.
+  - Android paket kimliği (`com.altiniz.app`) ve `versionCode`: 1 kilitlendi.
+  - iOS bundle identifier (`com.altiniz.app`) ve `buildNumber`: '1' kilitlendi.
+  - Sürüm politikası SemVer (`version`: '1.0.0') olarak belirlendi.
+- `eas.json`: Expo Application Services (EAS) profilleri (`development`, `preview` - APK, `production` - AAB ve App Store, `autoIncrement: true`) oluşturuldu.
+- `supabase/tests/test-faz15-identity-and-versioning.ts` test paketi yazılarak 7/7 iddia ile başarıyla doğrulandı.
+- Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.1 (Görsel mağaza varlıkları) olarak güncellendi.
 
 ### 1.52 Taslak - 22.10.2026
 - Bölüm 20: Test aşaması — Faz 14.4: Kullanıcı ayrılığı güvenlik testleri tamamlandı (Bölüm 20: Test aşaması %100 tamamlandı).

@@ -56,6 +56,26 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.60] - 22.10.2026
+
+### Added
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15: Uygulama kimliği ve sürümleme tamamlandı:
+  - `app.json`:
+    - Uygulama adı (`name`: 'Altın İz') ve slug ('altin-iz') doğrulandı.
+    - Android paket kimliği (`package`: 'com.altiniz.app') ve sürüm kodu (`versionCode`: 1) yapılandırıldı.
+    - iOS bundle identifier (`bundleIdentifier`: 'com.altiniz.app') ve derleme numarası (`buildNumber`: '1') yapılandırıldı.
+    - Uygulama sürüm numarası (`version`: '1.0.0' SemVer) kilitlendi.
+  - `eas.json`: Expo Application Services (EAS) için `development`, `preview` (APK çıktısı ile doğrudan test imkânı) ve `production` (Google Play için AAB, App Store için app-store çıktısı ve autoIncrement) profilleri oluşturuldu.
+  - `supabase/tests/test-faz15-identity-and-versioning.ts`: Uygulama kimliği, platform paket adları, sürümleme politikaları ve EAS profillerini doğrulayan 7 testlik paket yazıldı ve 7/7 başarıyla doğrulandı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 15 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.1 (Görsel mağaza varlıkları) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.53 / 1.48 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.59] - 22.10.2026
 
 ### Added
