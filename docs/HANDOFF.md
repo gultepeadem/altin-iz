@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.18 Taslak  
+**Belge sürümü:** 1.19 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Kullanıcı hesabı geliştirmesi (Faz 5 tamamlandı, Faz 5.1 sıradaki)  
-**Kodlama durumu:** Supabase JS istemcisi (singleton), ortam değişkenleri ve AsyncStorage adaptörü kuruldu  
-**Son çalışma durumu:** Faz 5 başarıyla tamamlandı; @supabase/supabase-js ve AsyncStorage kuruldu, src/lib/environment.ts ve src/lib/supabase.ts oluşturuldu. Sıradaki görev Faz 5.1 (Auth servisleri)
+**Proje aşaması:** Fiyat sistemi (Faz 6 tamamlandı, Faz 6.1 sıradaki)  
+**Kodlama durumu:** Fiyat sağlayıcı sembol eşleştirmeleri, eski/yeni tarihli ayrımı ve veri bütünlüğü kuralları uygulandı  
+**Son çalışma durumu:** Faz 6 başarıyla tamamlandı; price_source_product_mappings tablosuna 22 eşleştirme tanımlandı, SELECT RLS politikası eklendi ve 7 doğrulama testi geçti. Sıradaki görev Faz 6.1 (Fiyat çekme Edge Function)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 5 kapsamında Expo SDK 58 uyumlu Supabase JS istemcisini ve AsyncStorage tabanlı oturum adaptörünü mobil uygulamaya entegre etmek
+Faz 6 kapsamında development fiyat sağlayıcısı (ALTIN_API) sembol eşleştirmelerini (price_source_product_mappings) yapılandırmak, eski/yeni tarihli ürün ayrımını sağlamak ve veri bütünlüğü koruma kurallarını doğrulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 5 tamamlandı: @supabase/supabase-js ve AsyncStorage kuruldu; src/lib/environment.ts, src/lib/supabase.ts ve src/lib/index.ts oluşturuldu; singleton istemci üzerinden canlı veritabanı sorgusu başarıyla test edildi
+Faz 6 tamamlandı: 20 aktif + 2 test/pasif eşleştirme tanımlandı, SELECT RLS politikası uygulandı, 7/7 doğrulama testi (25 ürün kataloğu, 10 sikke eşleştirmesi, Cumhuriyet/Ata ayrımı, sahte ürün oluşumunun engellenmesi, pasif eşleştirme izolasyonu) başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 11 - Kullanıcı hesabı geliştirmesi (Faz 5.1 hazırlığı)
+Bölüm 12 - Fiyat sistemi (Faz 6.1 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,23 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6: Fiyat sağlayıcısı eşleştirmeleri
+Faz 6.1: Fiyat çekme Edge Function
 ```
 
-Bu görevde `price_sources` tablosuna development fiyat sağlayıcısı tanımı yapılacak, `price_source_product_mappings` tablosunda doğrulanmış ürünler (`gold_products`) ile sağlayıcı sembolleri eşleştirilecek; eski/yeni tarihli ürün ayrımı, devre dışı eşleştirme testleri ve bilinmeyen sembol korumaları kodlanacaktır.
+Bu görevde `supabase/functions/fetch-gold-prices` Edge Function'ı oluşturulacak, sunucu ortam değişkenleri ve API sırları tanımlanacak, istek zaman aşımı, sağlayıcı API çağrısı, 401/403/500 hata yönetimi ve ham yanıt doğrulama adımları kodlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6 şu koşullarda tamamlanmış sayılır:
+Faz 6.1 şu koşullarda tamamlanmış sayılır:
 
-- `price_sources` tablosuna development sağlayıcı kaydı eklenmeli.
-- Doğrulanmış ürün sembol eşleştirmeleri `price_source_product_mappings` tablosuna eklenmeli.
-- Belirsiz / koşullu ürünlerin (Cumhuriyet / Ata, 18 ayar) eşleştirilmediği teyit edilmeli.
-- Bilinmeyen sembolün veritabanında sahte ürün üretmediği test edilmeli.
-- Devre dışı eşleştirmenin fiyat üretmediği doğrulanmalı.
-- `docs/TODO.md` içindeki Faz 6 maddeleri güncellenmeli.
+- `supabase/functions/fetch-gold-prices` dizini ve ana kod dosyası oluşturulmalı.
+- Sunucu ortam değişkenleri ve API secret tanımları yapılmalı.
+- İstek zaman aşımı (timeout) mekanizması eklenmeli.
+- Sağlayıcı API çağrısı ve HTTP 401, 403, 500 hata yönetimleri kodlanmalı.
+- Yanıt veri yapısı doğrulanmalı ve ham yanıt ayrıştırılmalı.
+- `docs/TODO.md` içindeki Faz 6.1 maddeleri güncellenmeli.
 
 ---
 
@@ -639,7 +639,8 @@ Faz 6 şu koşullarda tamamlanmış sayılır:
 - [x] E-posta doğrulama akışı, hız sınırı (cooldown) ve auth-callback derin bağlantıları uygulandı (Faz 5.4: 6765aa0).
 - [x] Giriş ekranı (sign-in), hesap durumu yönlendirmeleri ve hata maskelemesi uygulandı (Faz 5.5: 02b85da).
 - [x] Şifre sıfırlama ekranları, kurtarma oturumu ve şifre güncelleme uygulandı (Faz 5.6: 681a2d7).
-- [x] Çıkış onay penceresi, oturum ve önbellek temizleme, korunan alan koruması uygulandı (Faz 5.7).
+- [x] Çıkış onay penceresi, oturum ve önbellek temizleme, korunan alan koruması uygulandı (Faz 5.7: 7411378).
+- [x] Fiyat sağlayıcısı sembol eşleştirmeleri ve güvenlik testleri tamamlandı (Faz 6).
 
 ---
 

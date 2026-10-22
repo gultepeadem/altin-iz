@@ -823,13 +823,13 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6: Fiyat sağlayıcısı eşleştirmeleri
 
-- [ ] `price_sources` içine development sağlayıcısını ekle.
-- [ ] Doğrulanmış ürünleri `gold_products` içine ekle.
-- [ ] Doğrulanmış sembolleri `price_source_product_mappings` içine ekle.
-- [ ] Eski ve yeni tarihli ürünleri doğru eşleştir.
-- [ ] Belirsiz Cumhuriyet ve Ata eşleştirmesini etkinleştirme.
-- [ ] Bilinmeyen sembolün otomatik ürün oluşturmadığını test et.
-- [ ] Devre dışı eşleştirmenin fiyat üretmediğini test et.
+- [x] `price_sources` içine development sağlayıcısını ekle.
+- [x] Doğrulanmış ürünleri `gold_products` içine ekle.
+- [x] Doğrulanmış sembolleri `price_source_product_mappings` içine ekle.
+- [x] Eski ve yeni tarihli ürünleri doğru eşleştir.
+- [x] Belirsiz Cumhuriyet ve Ata eşleştirmesini etkinleştirme.
+- [x] Bilinmeyen sembolün otomatik ürün oluşturmadığını test et.
+- [x] Devre dışı eşleştirmenin fiyat üretmediğini test et.
 
 ---
 

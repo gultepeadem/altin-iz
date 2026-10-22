@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.26] - 22.10.2026
+
+### Added
+
+- Faz 6 Fiyat sağlayıcısı eşleştirmeleri tamamlandı:
+  - `supabase/migrations/20261022000007_price_source_product_mappings.sql` göçüyle `price_source_product_mappings` tablosuna 22 adet sağlayıcı sembol eşleştirmesi (20 aktif, 2 test/pasif) ve SELECT okuma RLS politikası (`price_source_product_mappings_read_all`) eklendi.
+  - `supabase/seed.sql` dosyasına güncel eşleştirmeler ve RLS okuma politikası işlendi.
+  - Eski ve yeni tarihli altın sikke ürünleri (Çeyrek, Yarım, Tam, Ata, Gremse) için `_NEW` ve `_OLD` sembolleri üzerinden ayrıştırılmış sembol eşleştirmeleri sağlandı.
+  - Güvenlik ve veri bütünlüğü kuralları uyarınca Cumhuriyet Altını (`REPUBLIC_GOLD`) ile Ata Altını sembolleri resmi sağlayıcı dökümantasyonu netleşene kadar eşleştirilmedi (ADR-017 & KI-005).
+  - Bilinmeyen dış sembollerin otomatik sahte ürün oluşturmadığı ve `is_active = false` olan eşleştirmelerin fiyat işlemine dahil edilmediği 7/7 otomatik test ile doğrulandı.
+  - **Bölüm 12 (Fiyat Sistemi)** kapsamındaki ilk aşama olan Faz 6 tamamlandı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6 tamamlandı olarak işaretlendi; sıradaki görev Faz 6.1 (Fiyat çekme Edge Function) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.25] - 22.10.2026
 
 ### Added

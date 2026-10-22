@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.13 Taslak  
+**Belge sürümü:** 1.14 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Kullanıcı hesabı geliştirmesi (Faz 5 tamamlandı, Faz 5.1 sıradaki)  
-**Kodlama durumu:** Supabase JS istemcisi (singleton), ortam değişkenleri ve AsyncStorage adaptörü kuruldu
+**Proje durumu:** Fiyat sistemi (Faz 6 tamamlandı, Faz 6.1 sıradaki)  
+**Kodlama durumu:** Fiyat sağlayıcı sembol eşleştirmeleri, eski/yeni tarihli ayrımı ve veri bütünlüğü kuralları uygulandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 5.7 (Çıkış yapma) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6 aşamasına geçiş
+Faz 6 (Fiyat sağlayıcısı eşleştirmeleri) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.1 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 5.7 (Çıkış yapma) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6 aşama
 Sıradaki teknik görev:
 
 ```text
-Faz 6: Fiyat sağlayıcısı eşleştirmeleri
+Faz 6.1: Fiyat çekme Edge Function
 ```
 
-Bu görevde `price_sources` tablosuna development fiyat sağlayıcısı tanımı yapılacak, `price_source_product_mappings` tablosunda doğrulanmış ürünler (`gold_products`) ile sağlayıcı sembolleri eşleştirilecek; eski/yeni tarihli ürün ayrımı, devre dışı eşleştirme testleri ve bilinmeyen sembol korumaları kodlanacaktır.
+Bu görevde `supabase/functions/fetch-gold-prices` Edge Function'ı oluşturulacak, sunucu ortam değişkenleri ve API sırları tanımlanacak, istek zaman aşımı, sağlayıcı API çağrısı, 401/403/500 hata yönetimi ve ham yanıt doğrulama adımları kodlanacaktır.
 
 ---
 
