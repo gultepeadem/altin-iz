@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.39 Taslak  
+**Belge sürümü:** 1.40 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 16 (Ayarlar ve kullanıcı tercihleri) TAMAMLANDI - Bölüm 17 (Yasal belgeler ve gizlilik) Faz 11 sıradaki  
-**Kodlama durumu:** account/index.tsx canlı auth/profil entegrasyonu, görünen ad doğrulama/kaydetme, salt okunur e-posta, e-posta doğrulama rozeti, şifre sıfırlama talebi ve hesap silme yönlendirmesiyle tamamlandı; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 10.2 başarıyla tamamlandı; Bölüm 16: Ayarlar ve kullanıcı tercihleri eksiksiz sonuçlandırıldı; 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı)
+**Proje aşaması:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı) TAMAMLANDI - Faz 11.1 (Yasal belge ekranları) sıradaki  
+**Kodlama durumu:** legal.ts modelleri, 6 şablon metin (KI-025), legalService.ts (aktif belgeler, tür sorgusu, content_hash bütünlük doğrulama, yasal olay RPC) hazırlandı; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 11 başarıyla tamamlandı; legalService ve modelleri oluşturuldu; canlı Supabase tablosundan aktif belgeler okundu; SHA-256 içerik özeti ve tek aktif sürüm kuralı 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamında Faz 10.2 Hesap bilgileri ekranını; src/app/(protected)/account/index.tsx ekranını canlı auth ve profil servisiyle entegre etmek, e-posta adresi ve doğrulama rozeti göstermek, görünen ad doğrulama ve güncelleme imkanı sağlamak, şifre sıfırlama talebi akışını bağlamak ve sistem alanlarını gizlemek
+Bölüm 17 (Yasal belgeler ve gizlilik) kapsamında Faz 11 Yasal belge altyapısını; src/models/legal.ts ve src/services/legalService.ts oluşturarak 6 yasal belge türünü (KVKK, Gizlilik, Şartlar, Saklama/Silme, Finansal Uyarı, Açık Rıza), content_hash (SHA-256) üretimini, tek aktif sürüm kuralını ve Supabase RPC yasal olay kaydı altyapısını kurmak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 10.2 tamamlandı: account/index.tsx ekranı kullanıcı profil bilgileri, e-posta doğrulama durumu rozeti, görünen ad güncelleme formu, şifre sıfırlama bağlantısı ve tehlikeli hesap silme yönlendirmesiyle kodlandı; profileService.ts ve modelleri hazırlandı; 10/10 otomatik test ile doğrulandı. Bölüm 16 (Ayarlar ve kullanıcı tercihleri) eksiksiz sonuçlandırıldı
+Faz 11 tamamlandı: legal.ts modelleri, 6 şablon metin (KI-025), content_hash üretimi, legalService.ts ve canlı Supabase legal_documents sorgusu kodlandı; 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 17 - Yasal belgeler ve gizlilik (Faz 11: Yasal belge altyapısı sıradaki)
+Bölüm 17 - Yasal belgeler ve gizlilik (Faz 11.1: Yasal belge ekranları sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.40 Taslak - 22.10.2026
+- Bölüm 17 Yasal belgeler ve gizlilik - Faz 11 Yasal belge altyapısı tamamlandı.
+- `src/models/legal.ts` oluşturuldu; 6 yasal belge türü (KVKK, Gizlilik, Şartlar, Saklama/Silme, Finansal Uyarı, Açık Rıza), Türkçe başlıklar, şablon metinler (KI-025), content_hash (SHA-256) üretimi ve model dönüştürücüsü kodlandı.
+- `src/services/legalService.ts` oluşturuldu; aktif yasal belgeleri getirme, tür bazında sorgulama, bütünlük doğrulama ve Supabase RPC (record_user_legal_event) üzerinden yasal olay kaydı bağlandı.
+- `supabase/tests/test-faz11-legal-service.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları) olarak güncellendi.
 
 ### 1.39 Taslak - 22.10.2026
 - Bölüm 16 Ayarlar ve kullanıcı tercihleri - Faz 10.2 Hesap bilgileri tamamlandı (Bölüm 16: Ayarlar ve kullanıcı tercihleri başarıyla sonuçlandırıldı).

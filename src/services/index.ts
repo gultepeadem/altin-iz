@@ -9,3 +9,4 @@ export * from './portfolioService';
 export * from './homeService';
 export * from './preferencesService';
 export * from './profileService';
+export * from './legalService';

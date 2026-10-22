@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.34 Taslak  
+**Belge sürümü:** 1.35 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 16 (Ayarlar ve kullanıcı tercihleri) TAMAMLANDI - Bölüm 17 (Yasal belgeler ve gizlilik) Faz 11 sıradaki  
-**Kodlama durumu:** account/index.tsx canlı auth/profil entegrasyonu, görünen ad güncelleme, salt okunur e-posta, doğrulama rozeti, şifre sıfırlama ve hesap silme yönlendirmesiyle tamamlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı) TAMAMLANDI - Faz 11.1 (Yasal belge ekranları) sıradaki  
+**Kodlama durumu:** legal.ts modelleri, 6 şablon metin (KI-025), content_hash SHA-256 üretimi, legalService.ts ve canlı Supabase legal_documents sorgusuyla tamamlandı; 10/10 test başarılı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamındaki Faz 10.2 (Hesap bilgileri) adımı başarıyla tamamlanmış ve Bölüm 16 sonuçlandırılmıştır.
+Bölüm 17 (Yasal belgeler ve gizlilik) kapsamındaki Faz 11 (Yasal belge altyapısı) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 10.2 tamamlandı: account/index.tsx ekranı kullanıcı profil bilgileri, avatar baş harfleri, salt okunur e-posta, e-posta doğrulama rozeti, görünen ad güncelleme formu, şifre sıfırlama bağlantısı ve hesap silme yönlendirmesiyle kodlandı; profileService.ts ve modelleri hazırlandı; 10/10 otomatik test ile doğrulandı. Bölüm 16 (Ayarlar ve kullanıcı tercihleri) eksiksiz tamamlandı.
+Faz 11 tamamlandı: legal.ts modelleri, 6 şablon metin (KI-025), content_hash SHA-256 üretimi, legalService.ts ve canlı Supabase legal_documents sorgusu kodlandı; 10/10 otomatik test ile doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) tamamlandı; Bölüm 17 (Yasal belgeler ve gizlilik) - Faz 11 (Yasal belge altyapısı) aşamasına geçiş
+Faz 11 (Yasal belge altyapısı) tamamlandı; Bölüm 17 (Yasal belgeler ve gizlilik) - Faz 11.1 (Yasal belge ekranları) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Bölüm 16 (Ayarlar ve kullanıcı tercihleri) tamamlandı; Bölüm 17 (Yasal be
 Sıradaki teknik görev:
 
 ```text
-Faz 11: Yasal belge altyapısı
+Faz 11.1: Yasal belge ekranları
 ```
 
-Bu görevde docs/PRIVACY.md, docs/DATA_RETENTION.md ve docs/DECISIONS.md doğrultusunda KVKK aydınlatma metni, gizlilik politikası, kullanım koşulları, veri saklama/silme ve finansal bilgilendirme metinlerinin legal_documents tablosuna sürümlü eklenmesi, tek aktif sürüm kuralı, content_hash üretimi ve legalService altyapısı geliştirilecektir.
+Bu görevde src/app/(protected)/legal/index.tsx (Yasal belge listesi ekranı) ve src/app/(protected)/legal/[documentType].tsx (Belge detay ekranı) ekranları canlı legalService servisiyle bağlanacak; KVKK Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve Silme ve Finansal Bilgilendirme metinleri kullanıcıya sunulacaktır.
 
 ---
 

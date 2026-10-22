@@ -11,3 +11,4 @@ export * from './goldPrice';
 export * from './portfolio';
 export * from './home';
 export * from './preferences';
+export * from './legal';

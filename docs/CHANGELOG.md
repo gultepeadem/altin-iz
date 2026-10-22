@@ -56,6 +56,34 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.47] - 22.10.2026
+
+### Added
+
+- Bölüm 17: Yasal belgeler ve gizlilik — Faz 11: Yasal belge altyapısı tamamlandı:
+  - `src/models/legal.ts`:
+    - `LegalDocumentType` ('kvkk_notice', 'privacy_policy', 'terms_of_use', 'data_retention', 'financial_disclaimer', 'explicit_consent') ve `LEGAL_DOCUMENT_TYPES` tanımlandı.
+    - `LEGAL_DOCUMENT_TITLES`: Belge türleri için kullanıcı dostu Türkçe başlıklar tanımlandı.
+    - `LegalDocument` ve `UserLegalEvent` modelleri tanımlandı.
+    - `mapRowToLegalDocument`: Veritabanı `legal_documents` satırlarını modele dönüştürür.
+    - `computeContentHash`: Web Crypto API (`crypto.subtle`) tabanlı 64 karakterli deterministik SHA-256 içerik özeti üretimi kodlandı.
+    - `FALLBACK_LEGAL_DOCUMENTS`: Ağ hatası veya çevrimdışı durumlar için 6 şablon yasal metin (KVKK, Gizlilik, Kullanım Koşulları, Veri Saklama ve Silme, Finansal Bilgilendirme/Yatırım Tavsiyesi Değildir, Açık Rıza) hazırlandı (`KI-025` şablon metin uyarısı doğrultusunda).
+  - `src/services/legalService.ts`:
+    - `getActiveDocuments`: Yürürlükteki aktif yasal belgeleri getirir; çevrimdışı durumda şablon metinlere döner.
+    - `getDocumentByType`: Belge türüne göre aktif ve geçerli belgeyi sorgular.
+    - `getDocumentById`: Belge UUID'sine göre sorgulama yapar.
+    - `verifyDocumentIntegrity`: `content_hash` bütünlük doğrulaması gerçekleştirir.
+    - `recordLegalEvent`: Kullanıcı onay ve görüntüleme olaylarını `record_user_legal_event` RPC fonksiyonuyla güvenle kaydeder.
+  - `src/services/index.ts`: `legalService` dışa aktarımı sağlandı.
+  - `supabase/tests/test-faz11-legal-service.ts`: 10/10 senaryoyla 6 yasal belge türü, başlık eşlemeleri, model dönüştürme, SHA-256 hash üretimi, belge bütünlük denetimi, şablon metinlerin eksiksizliği, canlı Supabase tablosu sorgusu, tek aktif sürüm kuralı, salt-okunur RLS kuralı ve yasal olay RPC fonksiyonu güvenliğini doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 11 maddeleri tamamlandı (`[x]`) olarak işaretlendi; sıradaki görev Faz 11.1 (Yasal belge ekranları) olarak belirlendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 11 tamamlandı olarak kaydedildi.
+
+---
+
 ## [0.0.0-planning.46] - 22.10.2026
 
 ### Added

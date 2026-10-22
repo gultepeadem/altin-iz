@@ -1206,16 +1206,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 ## Faz 11: Yasal belge altyapısı
 
 - [!] Production yayını öncesi nihai yasal belge metinlerini doğrulamak için hukuk uzmanıyla çalış (`KI-025`, geliştirme aşamasında şablon metinler kullanılır).
-- [ ] KVKK aydınlatma metnini hazırla.
-- [ ] Gizlilik politikasını hazırla.
-- [ ] Kullanım koşullarını hazırla.
-- [ ] Veri saklama ve silme metnini hazırla.
-- [ ] Finansal bilgilendirme metnini hazırla.
-- [ ] Gerekli ise ayrı açık rıza metnini hazırla.
-- [ ] Belgeleri `legal_documents` tablosuna sürümlü ekle.
-- [ ] Her belge türünde tek aktif sürüm kuralını test et.
-- [ ] `content_hash` üretimini uygula.
-- [ ] Aktif ve yürürlükteki belge sorgusunu oluştur.
+- [x] KVKK aydınlatma metnini hazırla.
+- [x] Gizlilik politikasını hazırla.
+- [x] Kullanım koşullarını hazırla.
+- [x] Veri saklama ve silme metnini hazırla.
+- [x] Finansal bilgilendirme metnini hazırla.
+- [x] Gerekli ise ayrı açık rıza metnini hazırla.
+- [x] Belgeleri `legal_documents` tablosuna sürümlü ekle.
+- [x] Her belge türünde tek aktif sürüm kuralını test et.
+- [x] `content_hash` üretimini uygula.
+- [x] Aktif ve yürürlükteki belge sorgusunu oluştur.
 
 ---
 
