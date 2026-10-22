@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.11 Taslak  
+**Belge sürümü:** 1.12 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 9 (Tasarım sistemi ve rota iskeleti) tamamlandı; Bölüm 10 (Supabase development altyapısı - Faz 4) sıradaki  
-**Kodlama durumu:** Expo Router rota iskeleti (public, protected, tabs, dinamik rotalar) hazırlandı  
-**Son çalışma durumu:** Faz 3.2 başarıyla tamamlandı; public, protected tabs ve dinamik rotalar oluşturuldu, typed routes eşitlendi. Sıradaki görev Faz 4 (Development Supabase projesi)
+**Proje aşaması:** Supabase development altyapısı (Faz 4 tamamlandı, Faz 4.1 sıradaki)  
+**Kodlama durumu:** Development Supabase projesi oluşturuldu ve bağlandı  
+**Son çalışma durumu:** Faz 4 başarıyla tamamlandı; altin-iz-dev projesi oluşturuldu, .env.local yapılandırıldı, bağlantı doğrulandı. Sıradaki görev Faz 4.1 (Supabase yerel proje yapısı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 3.2 kapsamında Expo Router rota iskeletini (public, protected tabs, dinamik rotalar, kök stack layout) kurmak ve rota geçişlerini doğrulamak
+Faz 4 kapsamında Supabase development projesini oluşturmak, anahtarları güvenle development ortamına eklemek ve bağlantıyı doğrulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 3.2 tamamlandı: Public rota grubu (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), Protected Tabs (Ana Sayfa, Fiyatlar, Hesapla, Portföyüm, Ayarlar), dinamik ve yardımcı sayfalar oluşturuldu; typed routes güncellendi; Bölüm 9 (Tasarım Sistemi ve Rota İskeleti) eksiksiz tamamlandı
+Faz 4 tamamlandı: altin-iz-dev projesi Frankfurt bölgesinde oluşturuldu, .env.local ortam değişkenleri tanımlandı, API anahtarı ve auth endpoint bağlantısı doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Supabase development altyapısı (Bölüm 10 - Faz 4 hazırlığı)
+Supabase development altyapısı (Faz 4.1 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-ebf6a1c (feat(router): implement Expo Router skeleton for public, protected tabs, and dynamic routes (Faz 3.2))
+8cdefa9 (feat(router): implement Expo Router skeleton for public, protected tabs, and dynamic routes (Faz 3.2))
 ```
 
 ### Son çalışan commit
 
 ```text
-ebf6a1c
+8cdefa9
 ```
 
 ### Aktif dal
@@ -591,22 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 4: Development Supabase projesi
+Faz 4.1: Supabase yerel proje yapısı
 ```
 
-Bu görevde Supabase hesabına giriş yapılarak bölge kararına uygun bir Development projesi oluşturulacak, proje URL ve publishable anon anahtarları güvenli şekilde development ortamına kaydedilecektir.
+Bu görevde `supabase/` klasörü (`config.toml`, migration dizini, seed yapısı) oluşturulacak ve yerel Supabase konfigürasyonu tamamlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 4 şu koşullarda tamamlanmış sayılır:
+Faz 4.1 şu koşullarda tamamlanmış sayılır:
 
-- Supabase üzerinde açıkça development olarak adlandırılmış proje oluşturulmalı.
-- Proje URL ve publishable anon key güvenli development ortamına eklenmeli.
-- Veritabanı şifresi parola yöneticisinde saklanmalı.
-- Secret veya service role anahtarları asla istemciye veya repoya eklenmemeli.
-- `docs/TODO.md` içindeki Faz 4 maddeleri güncellenmeli.
+- Proje kökünde `supabase/` dizini ve `config.toml` dosyası yapılandırılmalı.
+- `supabase/migrations/` ve `supabase/seed.sql` dosyaları hazır bulunmalı.
+- Yapılandırmada hiçbir gizli anahtar (service_role) yer almamalı.
+- `docs/TODO.md` içindeki Faz 4.1 maddeleri güncellenmeli.
 
 ---
 
@@ -623,16 +622,19 @@ Faz 4 şu koşullarda tamamlanmış sayılır:
 - [x] Geliştirme ortamı adımları tamamlandı (Faz 1.1 - Faz 1.5).
 - [x] Güncel Expo proje oluşturma yöntemi resmî belgelerden doğrulanıp uygulandı (Faz 2).
 - [x] İlk çalışan proje oluşturulduğunda Git deposu başlatılmalı (Faz 2.1: 07c2c17).
+- [x] Tema ve tasarım sistemi bileşenleri hazırlandı (Faz 3 - Faz 3.1).
+- [x] Expo Router rota iskeleti kuruldu (Faz 3.2: 8cdefa9).
+- [x] Development Supabase projesi oluşturuldu ve bağlandı (Faz 4).
 
 ---
 
 ## 22. Gizli bilgi durumu
 
 ```text
-Supabase URL: Yok
-Supabase publishable key: Yok
-Supabase secret key: Yok
-Supabase veritabanı şifresi: Yok
+Supabase URL: Geliştirme ortamında tanımlı (yerel .env.local, gitignored)
+Supabase publishable key: Geliştirme ortamında tanımlı (yerel .env.local, gitignored)
+Supabase secret key: Yok (asla depoya veya istemciye eklenmez)
+Supabase veritabanı şifresi: Yok (yalnızca kullanıcı parola yöneticisinde saklı)
 Altın fiyat API anahtarı: Yok
 E-posta hizmeti anahtarı: Yok
 Production kullanıcı verisi: Yok

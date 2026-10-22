@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.7 Taslak  
+**Belge sürümü:** 1.8 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 9 (Tasarım sistemi ve rota iskeleti) tamamlandı; Bölüm 10 (Supabase development altyapısı - Faz 4) sıradaki  
-**Kodlama durumu:** Expo Router rota iskeleti (public, protected, tabs, dinamik rotalar) hazırlandı
+**Proje aşaması:** Supabase development altyapısı (Faz 4 tamamlandı, Faz 4.1 sıradaki)  
+**Kodlama durumu:** Development Supabase projesi oluşturuldu ve bağlandı
 
 ---
 
@@ -551,15 +551,15 @@ Initialize Expo TypeScript project
 
 ## Faz 4: Development Supabase projesi
 
-- [ ] Supabase hesabına giriş yap.
-- [ ] Production değil Development projesi oluştur.
-- [ ] Daha önce verilen bölge kararına uygun bölgeyi seç.
-- [ ] Proje adını açıkça development olarak işaretle.
-- [ ] Proje URL değerini güvenli yere kaydet.
-- [ ] Publishable key değerini güvenli development ortamına kaydet.
-- [ ] Veritabanı şifresini parola yöneticisinde sakla.
-- [ ] Secret veya service role anahtarını mobil `.env` dosyasına yazma.
-- [ ] Supabase projesinin hazır olduğunu doğrula.
+- [x] Supabase hesabına giriş yap.
+- [x] Production değil Development projesi oluştur.
+- [x] Daha önce verilen bölge kararına uygun bölgeyi seç.
+- [x] Proje adını açıkça development olarak işaretle.
+- [x] Proje URL değerini güvenli yere kaydet.
+- [x] Publishable key değerini güvenli development ortamına kaydet.
+- [x] Veritabanı şifresini parola yöneticisinde sakla.
+- [x] Secret veya service role anahtarını mobil `.env` dosyasına yazma.
+- [x] Supabase projesinin hazır olduğunu doğrula.
 
 ---
 

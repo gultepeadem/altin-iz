@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6 Taslak  
+**Belge sürümü:** 1.7 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 9 (Tasarım sistemi ve rota iskeleti) tamamlandı; Bölüm 10 (Supabase development altyapısı - Faz 4) sıradaki  
-**Kodlama durumu:** Expo Router rota iskeleti (public, protected, tabs, dinamik rotalar) hazırlandı
+**Proje durumu:** Supabase development altyapısı (Faz 4 tamamlandı, Faz 4.1 sıradaki)  
+**Kodlama durumu:** Development Supabase projesi oluşturuldu ve bağlandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 9 kapsamındaki Tasarım Sistemi ve Rota İskeleti (Faz 3, Faz 3.1 ve Faz 3.2) eksiksiz tamamlanmıştır.
+Bölüm 10 kapsamındaki Supabase Development Altyapısının ilk adımı olan Faz 4 (Development Supabase projesi) başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 3.2 tamamlandı: Public (welcome, sign-in, sign-up, verify-email, forgot-password, reset-password), Protected Tabs (Ana Sayfa, Fiyatlar, Hesapla, Portföyüm, Ayarlar), dinamik rotalar (gold, portfolio, account, legal) ve kök navigatör hazırlandı; typed routes doğrulandı.
+Faz 4 tamamlandı: Supabase üzerinde Frankfurt (eu-central-1) bölgesinde altin-iz-dev projesi oluşturuldu; mobil .env.local ortam değişkenleri tanımlandı; /auth/v1/health üzerinden API anahtarı ve bağlantı testi başarıyla doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Bölüm 9 (Tasarım Sistemi ve Rota İskeleti) tamamlandı; Bölüm 10 (Supabase Development Altyapısı - Faz 4) aşamasına geçiş
+Faz 4 (Development Supabase projesi) tamamlandı; Faz 4.1 (Supabase yerel proje yapısı) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Bölüm 9 (Tasarım Sistemi ve Rota İskeleti) tamamlandı; Bölüm 10 (Supabase
 Sıradaki teknik görev:
 
 ```text
-Faz 4: Development Supabase projesi
+Faz 4.1: Supabase yerel proje yapısı
 ```
 
-Bu görevde Supabase hesabına giriş yapılarak bölge kararına uygun bir Development projesi oluşturulacak, proje URL ve publishable anon anahtarları güvenli şekilde development ortamına kaydedilecektir.
+Bu görevde projenin kök dizininde `supabase/` klasörü, migration yapısı ve seed/config tanımları oluşturulacak, yerel ve uzak Supabase geliştirme yapısı senkronize edilecektir.
 
 ---
 

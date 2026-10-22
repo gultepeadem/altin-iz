@@ -56,6 +56,22 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.12] - 22.10.2026
+
+### Added
+
+- Faz 4 Development Supabase projesi oluşturuldu ve doğrulandı:
+  - Supabase üzerinde `altin-iz-dev` adıyla Frankfurt (`eu-central-1`) bölgesinde development projesi açıldı.
+  - Mobil uygulamanın geliştirme ortamı (`.env.local`) için `EXPO_PUBLIC_SUPABASE_URL` ve `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` değerleri tanımlandı.
+  - Proje Auth endpoint'i (`/auth/v1/health`) üzerinden API anahtarı ve ağ bağlantısı başarıyla test edilerek HTTP 200 yanıtı alındı.
+  - `service_role` veya gizli anahtarların istemciye ya da depoya eklenmediği doğrulandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 4 tamamlandı olarak işaretlendi; sıradaki görev Faz 4.1 (Supabase yerel proje yapısı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.11] - 22.10.2026
 
 ### Added
