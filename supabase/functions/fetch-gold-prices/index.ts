@@ -3,11 +3,13 @@
  * supabase/functions/fetch-gold-prices/index.ts
  */
 
-import { getFetchPricesConfig } from './config.ts';
+import { getFetchPricesConfig, getSchedulerConfig } from './config.ts';
 import { fetchGoldPricesFromProvider } from './fetcher.ts';
 import { validateAndTransformPrices } from './validator.ts';
+import { executePriceFetchRun } from './scheduler.ts';
 import { PriceApiError } from './types.ts';
 import { safeError, safeLog } from './sanitizer.ts';
+import { createClient } from '@supabase/supabase-js';
 
 // Deno HTTP Server ve ortam değişkenleri için tip bildirimleri
 declare const Deno: {
@@ -51,6 +53,27 @@ function isAuthorized(req: Request): boolean {
   return authHeader.startsWith('Bearer ') && authHeader.length > 15;
 }
 
+function getSupabaseAdminClient() {
+  const url =
+    typeof Deno !== 'undefined' && Deno?.env?.get
+      ? Deno.env.get('SUPABASE_URL')
+      : typeof process !== 'undefined' && process?.env
+      ? process.env.EXPO_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL
+      : undefined;
+
+  const key =
+    typeof Deno !== 'undefined' && Deno?.env?.get
+      ? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
+      : typeof process !== 'undefined' && process?.env
+      ? process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY
+      : undefined;
+
+  if (url && key) {
+    return createClient(url, key);
+  }
+  return null;
+}
+
 export async function handler(req: Request): Promise<Response> {
   // CORS Preflight istekleri
   if (req.method === 'OPTIONS') {
@@ -75,13 +98,46 @@ export async function handler(req: Request): Promise<Response> {
   }
 
   const config = getFetchPricesConfig();
+  const schedulerConfig = getSchedulerConfig();
+
+  // İstek gövdesinden tetikleyici seçeneklerini oku (varsa)
+  let body: any = {};
+  if (req.method === 'POST') {
+    try {
+      body = await req.json();
+    } catch {
+      body = {};
+    }
+  }
+
+  const triggerType = body.triggerType ?? 'manual';
+  const force = Boolean(body.force);
 
   try {
-    safeLog('Fiyat çekme Edge Function tetiklendi.', {
+    safeLog(`Fiyat çekme Edge Function tetiklendi [Tetikleyici: ${triggerType}, Zamanlayıcı Aktif: ${schedulerConfig.enabled}].`, {
       source: config.sourceCode,
       url: config.baseUrl,
     }, config.apiKey);
 
+    const adminClient = getSupabaseAdminClient();
+    if (adminClient && body.executeRun !== false) {
+      // Tam veritabanı entegrasyonlu kilit, kota ve çalıştırma kaydı
+      const executionResult = await executePriceFetchRun(adminClient, {
+        triggerType,
+        force,
+        sourceCode: config.sourceCode,
+      });
+
+      return new Response(
+        JSON.stringify(executionResult),
+        {
+          status: executionResult.success ? 200 : 400,
+          headers: { ...CORS_HEADERS, 'Content-Type': 'application/json' },
+        }
+      );
+    }
+
+    // Standart / İzole çekim ve doğrulama akışı
     const result = await fetchGoldPricesFromProvider(config);
     const validation = validateAndTransformPrices(result.rawData, config.sourceCode, []);
 

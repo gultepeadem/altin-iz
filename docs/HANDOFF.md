@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.21 Taslak  
+**Belge sürümü:** 1.22 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Fiyat sistemi (Faz 6.2 tamamlandı, Faz 6.3 sıradaki)  
-**Kodlama durumu:** Fiyat doğrulama, kuruşa dönüştürme, RLS görünürlük izolasyonu ve price_fetch_runs sayaçları tamamlandı  
-**Son çalışma durumu:** Faz 6.2 başarıyla tamamlandı; validator.ts modülü oluşturuldu, 11/11 doğrulama ve canlı RLS testi geçti. Sıradaki görev Faz 6.3 (Fiyat zamanlayıcısı)
+**Proje aşaması:** Fiyat sistemi (Faz 6.3 tamamlandı, Faz 6.4 sıradaki)  
+**Kodlama durumu:** Fiyat zamanlayıcısı, çakışma kilidi, kota koruması ve yetkili tetikleme motoru tamamlandı  
+**Son çalışma durumu:** Faz 6.3 başarıyla tamamlandı; scheduler.ts modülü oluşturuldu ve 7/7 doğrulama testi geçti. Sıradaki görev Faz 6.4 (Güncel fiyat okuma servisi)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 6.2 kapsamında dış sağlayıcıdan dönen ham fiyat verilerinin JSON yapısını doğrulamak, sembol ve ürün eşleştirmelerini denetlemek, 0 ve negatif fiyatları reddetmek, TL kuruşa güvenli dönüştürmek, geçersiz fiyatların kullanıcılara görünmediğini RLS ile doğrulamak ve price_fetch_runs sayaçlarını hesaplamak
+Faz 6.3 kapsamında otomatik fiyat zamanlayıcısının development ortamında güvenle kapalı tutulması, yetkili manuel fiyat tetikleme motorunun kurulması, ücretsiz harici API kotasını izleme ve koruma mekanizmasının oluşturulması, eşzamanlı görevlerin çakışmasını önleyen kilit (concurrency lock) yapısının uygulanması, aynı veri için yinelenen kayıt üretiminin engellenmesi ve zamanlayıcı hatalarının güvenle loglanması
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 6.2 tamamlandı: validator.ts modülü kodlandı; 11/11 senaryoyu kapsayan otomatik testler (JSON kontrolü, boş sembol, devre dışı eşleştirme, negatif/sıfır fiyat, kuruş çevrimi, gelecek zaman reddi, eski veri bayrağı, price_fetch_runs durumları ve canlı RLS görünürlük testi) başarıyla geçti
+Faz 6.3 tamamlandı: scheduler.ts modülü kodlandı; 7/7 senaryoyu kapsayan otomatik testler (kapalı zamanlayıcı, manuel tetikleme, eşzamanlı kilit koruması, bayat kilit temizleme, kota izleme, değişmeyen veri filtreleme ve güvenli hata kaydı) başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 12 - Fiyat sistemi (Faz 6.3 hazırlığı)
+Bölüm 12 - Fiyat sistemi (Faz 6.4 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,23 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6.3: Fiyat zamanlayıcısı
+Faz 6.4: Güncel fiyat okuma servisi
 ```
 
-Bu görevde development ortamında otomatik fiyat zamanlayıcısının başlangıçta kontrollü yönetilmesi, yetkili manuel fiyat tetikleme yönteminin oluşturulması, ücretsiz kotayı izleme yaklaşımı, zamanlanmış görevlerin çakışmasını önleme ve teknik loglama kuralları yapılandırılacaktır.
+Bu görevde istemci uygulaması için `src/services/goldProductService.ts` ve `src/services/goldPriceService.ts` servisleri oluşturulacak, aktif ürün listesi ve en son geçerli fiyatları getiren metotlar yazılacak, alış ve satış fiyatları ile kaynak zamanı ayrı modellenecek ve `live` durumu üretilecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6.3 şu koşullarda tamamlanmış sayılır:
+Faz 6.4 şu koşullarda tamamlanmış sayılır:
 
-- Development ortamında zamanlayıcı mekanizması başlangıçta kapalı/kontrollü tutulmalı.
-- Yetkili manuel fiyat çekme tetikleyicisi oluşturulmalı.
-- Ücretsiz kotanın izlenmesi ve aşırı istek yapılmaması güvenceye alınmalı.
-- Eşzamanlı zamanlanmış görevlerin çakışmasını önleyen kilit/kontrol mekanizması tanımlanmalı.
-- Zamanlayıcı hatalarının güvenli teknik kayda alındığı doğrulanmalı.
-- `docs/TODO.md` içindeki Faz 6.3 maddeleri güncellenmeli.
+- `goldProductService.ts` ve `goldPriceService.ts` oluşturulmalı.
+- Aktif altın ürünleri listesi getirilip modellenmeli.
+- Her ürün için en son geçerli fiyat kaydı RLS kurallarına uygun okunmalı.
+- Alış ve satış fiyatları ile zaman damgaları ayrı ayrı modellenmeli.
+- Verinin güncelliğine göre `live` durumu üretilmeli.
+- `docs/TODO.md` içindeki Faz 6.4 maddeleri güncellenmeli.
 
 ---
 
@@ -642,7 +642,8 @@ Faz 6.3 şu koşullarda tamamlanmış sayılır:
 - [x] Çıkış onay penceresi, oturum ve önbellek temizleme, korunan alan koruması uygulandı (Faz 5.7: 7411378).
 - [x] Fiyat sağlayıcısı sembol eşleştirmeleri ve güvenlik testleri tamamlandı (Faz 6: 6431225).
 - [x] Fiyat çekme Edge Function, zaman aşımı ve hata yönetimi tamamlandı (Faz 6.1: d46aaf1).
-- [x] Fiyat verisi doğrulama, kuruşa çevrim ve RLS filtreleme testleri tamamlandı (Faz 6.2).
+- [x] Fiyat verisi doğrulama, kuruşa çevrim ve RLS filtreleme testleri tamamlandı (Faz 6.2: 502ea6c).
+- [x] Fiyat zamanlayıcısı, çakışma kilidi ve kota koruması tamamlandı (Faz 6.3).
 
 ---
 

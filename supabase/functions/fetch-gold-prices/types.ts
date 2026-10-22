@@ -122,3 +122,37 @@ export interface ValidationSummary {
   errorMessage?: string | null;
 }
 
+export interface SchedulerConfig {
+  enabled: boolean;
+  intervalMinutes: number;
+  concurrencyTimeoutMinutes: number;
+  quotaMonthlyLimit: number;
+  skipIdenticalPrices: boolean;
+}
+
+export interface ConcurrencyCheckResult {
+  canRun: boolean;
+  activeRunId?: string;
+  reason?: 'CONCURRENT_RUN_IN_PROGRESS' | 'STALE_LOCK_CLEARED' | 'NO_CONFLICT';
+}
+
+export interface QuotaCheckResult {
+  allowed: boolean;
+  currentUsage: number;
+  limit: number;
+  remaining: number;
+  warning?: string;
+}
+
+export interface DuplicateCheckResult {
+  isDuplicate: boolean;
+  reason?: string;
+}
+
+export interface ManualTriggerOptions {
+  sourceCode?: string;
+  force?: boolean;
+  triggerType?: 'manual' | 'scheduled';
+}
+
+

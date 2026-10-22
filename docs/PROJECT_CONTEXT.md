@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.16 Taslak  
+**Belge sürümü:** 1.17 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Fiyat sistemi (Faz 6.2 tamamlandı, Faz 6.3 sıradaki)  
-**Kodlama durumu:** Fiyat doğrulama kuralları, sayaçlar, kuruş çevrimi ve RLS görünürlük izolasyonu tamamlandı
+**Proje durumu:** Fiyat sistemi (Faz 6.3 tamamlandı, Faz 6.4 sıradaki)  
+**Kodlama durumu:** Fiyat zamanlayıcısı, çakışma kilidi, kota izleme ve yetkili tetikleyici tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 6.2 (Fiyat doğrulama) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.3 aşamasına geçiş
+Faz 6.3 (Fiyat zamanlayıcısı) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.4 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 6.2 (Fiyat doğrulama) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.3 aş
 Sıradaki teknik görev:
 
 ```text
-Faz 6.3: Fiyat zamanlayıcısı
+Faz 6.4: Güncel fiyat okuma servisi
 ```
 
-Bu görevde development ortamında otomatik fiyat zamanlayıcısının başlangıçta kontrollü yönetilmesi, yetkili manuel fiyat tetikleme yönteminin oluşturulması, ücretsiz kotayı izleme yaklaşımı, zamanlanmış görevlerin çakışmasını önleme ve teknik loglama kuralları yapılandırılacaktır.
+Bu görevde istemci uygulaması için `src/services/goldProductService.ts` ve `src/services/goldPriceService.ts` servisleri oluşturulacak, aktif ürün listesi ve en son geçerli fiyatları getiren metotlar yazılacak, alış ve satış fiyatları ile kaynak zamanı ayrı modellenecek ve `live` durumu üretilecektir.
 
 ---
 

@@ -874,13 +874,13 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6.3: Fiyat zamanlayıcısı
 
-- [ ] Development ortamında otomatik zamanlayıcıyı başlangıçta kapalı tut.
-- [ ] Yetkili manuel fiyat çekme yöntemini oluştur.
-- [ ] Ücretsiz kotayı izleme yöntemini oluştur.
-- [ ] Production çekme sıklığını ticari plan sonrası kesinleştir.
-- [ ] Zamanlanmış görevin art arda çakışmasını önle.
-- [ ] Aynı veri için gereksiz yinelenen kayıt davranışını değerlendir.
-- [ ] Zamanlayıcı hatasını güvenli teknik kayda al.
+- [x] Development ortamında otomatik zamanlayıcıyı başlangıçta kapalı tut.
+- [x] Yetkili manuel fiyat çekme yöntemini oluştur.
+- [x] Ücretsiz kotayı izleme yöntemini oluştur.
+- [x] Production çekme sıklığını ticari plan sonrası kesinleştir.
+- [x] Zamanlanmış görevin art arda çakışmasını önle.
+- [x] Aynı veri için gereksiz yinelenen kayıt davranışını değerlendir.
+- [x] Zamanlayıcı hatasını güvenli teknik kayda al.
 
 ---
 

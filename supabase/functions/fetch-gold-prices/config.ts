@@ -3,7 +3,7 @@
  * supabase/functions/fetch-gold-prices/config.ts
  */
 
-import type { FetchPricesConfig } from './types.ts';
+import type { FetchPricesConfig, SchedulerConfig } from './types.ts';
 
 // Hem Deno çalışma zamanında (Supabase Edge) hem de Node.js ortamında (testler) çalışabilen güvenli ortam okuyucu
 declare const Deno: { env: { get(key: string): string | undefined } } | undefined;
@@ -39,3 +39,22 @@ export function getFetchPricesConfig(overrides?: Partial<FetchPricesConfig>): Fe
     retryDelayMs: Number.isFinite(retryDelayMs) && retryDelayMs >= 0 ? retryDelayMs : 500,
   };
 }
+
+export function getSchedulerConfig(overrides?: Partial<SchedulerConfig>): SchedulerConfig {
+  // Development ortamında otomatik zamanlayıcı varsayılan olarak KAPALIDIR (false)
+  const envEnabled = getEnv('ENABLE_PRICE_SCHEDULER', 'false').toLowerCase() === 'true';
+  const enabled = overrides?.enabled ?? envEnabled;
+  const intervalMinutes = overrides?.intervalMinutes ?? Number(getEnv('PRICE_SCHEDULER_INTERVAL_MINUTES', '15'));
+  const concurrencyTimeoutMinutes = overrides?.concurrencyTimeoutMinutes ?? Number(getEnv('CONCURRENCY_TIMEOUT_MINUTES', '5'));
+  const quotaMonthlyLimit = overrides?.quotaMonthlyLimit ?? Number(getEnv('GOLD_API_MONTHLY_QUOTA_LIMIT', '500'));
+  const skipIdenticalPrices = overrides?.skipIdenticalPrices ?? (getEnv('SKIP_IDENTICAL_PRICES', 'true').toLowerCase() === 'true');
+
+  return {
+    enabled,
+    intervalMinutes: Number.isFinite(intervalMinutes) && intervalMinutes > 0 ? intervalMinutes : 15,
+    concurrencyTimeoutMinutes: Number.isFinite(concurrencyTimeoutMinutes) && concurrencyTimeoutMinutes > 0 ? concurrencyTimeoutMinutes : 5,
+    quotaMonthlyLimit: Number.isFinite(quotaMonthlyLimit) && quotaMonthlyLimit > 0 ? quotaMonthlyLimit : 500,
+    skipIdenticalPrices,
+  };
+}
+

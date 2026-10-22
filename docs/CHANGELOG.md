@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.29] - 22.10.2026
+
+### Added
+
+- Faz 6.3 Fiyat zamanlayıcısı tamamlandı:
+  - `supabase/functions/fetch-gold-prices/scheduler.ts`: Zamanlayıcı yöneticisi, eşzamanlı çakışma koruma kilidi (`checkConcurrencyLock`), bayat kilit kurtarma mekanizması (`STALE_LOCK_CLEARED`), aylık ücretsiz kota izleme (`checkQuotaUsage`), değişmeyen veride yinelenen kayıt engelleme (`isDuplicatePriceData`) ve yetkili manuel çalıştırma motoru (`executePriceFetchRun`) kodlandı.
+  - Development ortamında otomatik zamanlayıcı gereksiz kota tüketimini ve maliyet oluşumunu engellemek amacıyla varsayılan olarak kapalı tutuldu (`ENABLE_PRICE_SCHEDULER=false`, ADR-031).
+  - Yetkili manuel fiyat çekme tetikleyicisi (`triggerType: 'manual'`) oluşturuldu; kilit, kota ve çalıştırma kayıtları güvenceye alındı.
+  - Aylık ücretsiz API kotası (%80 erken uyarı ve %100 aşım durumunda dış isteği bloklama) uygulandı.
+  - 5 dakikadan eski takılı kalan işlemlerin kilidi otomatik serbest bırakılarak kesinti engellendi.
+  - Gelen fiyatların veritabanındaki son geçerli fiyatlarla aynı olması durumunda gereksiz yinelenen kayıt basımı önlendi.
+  - Zamanlayıcı hata loglarında `sanitizer.ts` ile API anahtarlarının açık metin olarak saklanması engellendi.
+  - `supabase/tests/test-faz6-3-price-scheduler.ts`: 7/7 senaryoyu kapsayan otomatik testler başarıyla çalıştırıldı.
+
+### Changed
+
+- `supabase/functions/fetch-gold-prices/types.ts`: `SchedulerConfig`, `ConcurrencyCheckResult`, `QuotaCheckResult`, `DuplicateCheckResult`, `ManualTriggerOptions` modelleri eklendi.
+- `supabase/functions/fetch-gold-prices/config.ts`: `getSchedulerConfig` fonksiyonu eklendi.
+- `supabase/functions/fetch-gold-prices/index.ts`: Edge Function giriş noktası `executePriceFetchRun` yetkili tetikleyicisiyle entegre edildi.
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6.3 tamamlandı olarak işaretlendi; sıradaki görev Faz 6.4 (Güncel fiyat okuma servisi) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.28] - 22.10.2026
 
 ### Added
