@@ -56,6 +56,31 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.31] - 22.10.2026
+
+### Added
+
+- Faz 6.5 Fiyatlar ekranı tamamlandı:
+  - `src/app/(protected)/(tabs)/prices.tsx`: Sahte (mock) verilerden arındırılarak canlı Supabase veritabanı fiyatları ve `goldPriceService` ile tam entegre edildi.
+  - Canlı piyasa durum göstergesi (Yeşil "Canlı Piyasa" rozeti veya sarı "Gecikmeli" rozeti) ve son güncelleme zamanı bilgisi eklendi.
+  - Türkçe karakter duyarlı anlık arama (Türkçe küçük/büyük harf uyumlu arama kutusu ve tek tıkla arama temizleme butonu) eklendi.
+  - 4 yönlü sıralama kontrolü (`Varsayılan` [sortOrder], `İsim (A-Z)`, `Fiyat (Artan)`, `Fiyat (Azalan)`) eklendi.
+  - Fiyatı olmayan ürünlerin fiyat sıralamalarında sona güvenle atılması sağlandı.
+  - Kartlarda Alış (Bozdurma) ve Satış (Satın Alma) fiyatları açık ve net etiketlerle ayrıştırıldı.
+  - Günlük değişim rozeti yalnızca geçerli veri olduğunda renklendirilerek gösterildi (`▲ +%0,45` veya `▼ -%0,20`).
+  - ADR-013 kuralı uyarınca fiyatı olmayan ürünlerde kesinlikle `0 TL` gösterilmemesi (`-` veya `Fiyat Yok` gösterimi) uygulandı.
+  - Eski veri durumunda `StaleDataBanner`, kısmi veri durumunda `PartialDataBanner` uyarı şeritleri entegre edildi.
+  - Çek-yenile (pull-to-refresh) ve hata durumunda "Yeniden Dene" butonu ile dayanıklı veri yenileme mekanizması kuruldu.
+  - Ürün kartına tıklandığında `/(protected)/gold/[productId]` detay sayfasına dinamik yönlendirme eklendi.
+  - Uzun ürün adlarının Android ve iOS üzerinde taşmadan ve fiyatları bozmadan düzgün sarılması sağlandı.
+  - `supabase/tests/test-faz6-5-prices-screen.ts`: 10/10 senaryoyu kapsayan sıralama, arama, ADR-013 kuralı ve canlı veritabanı test paketi başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6.5 tamamlandı olarak işaretlendi; sıradaki görev Faz 6.6 (Altın detay ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.30] - 22.10.2026
 
 ### Added

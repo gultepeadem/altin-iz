@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.23 Taslak  
+**Belge sürümü:** 1.24 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Fiyat sistemi (Faz 6.4 tamamlandı, Faz 6.5 sıradaki)  
-**Kodlama durumu:** goldProductService.ts, goldPriceService.ts, fiyat modelleri ve formatlayıcılar tamamlandı  
-**Son çalışma durumu:** Faz 6.4 başarıyla tamamlandı; modeller ve servisler oluşturuldu, 10/10 doğrulama testi geçti. Sıradaki görev Faz 6.5 (Fiyatlar ekranı)
+**Proje aşaması:** Fiyat sistemi (Faz 6.5 tamamlandı, Faz 6.6 sıradaki)  
+**Kodlama durumu:** prices.tsx canlı Supabase fiyatları, arama, 4 yönlü sıralama, uyarı şeritleri ve çek-yenile ile tamamlandı  
+**Son çalışma durumu:** Faz 6.5 başarıyla tamamlandı; arayüz, arama, sıralama ve ADR-013 kuralı uygulandı, 10/10 doğrulama testi geçti. Sıradaki görev Faz 6.6 (Altın detay ekranı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 6.4 kapsamında mobil istemci için goldProductService.ts ve goldPriceService.ts servislerini oluşturmak, aktif ürün listesini ve en son geçerli fiyatları getiren metotları kodlamak, alış ve satış fiyatları ile kaynak ve çekilme zamanlarını ayrı modellemek, fiyat tazeliğine göre live, stale, partial ve unavailable durumlarını üretmek, formatlayıcı yardımcıları eklemek
+Faz 6.5 kapsamında prices.tsx ekranını sahte verilerden arındırarak goldPriceService ile gerçek Supabase verilerine bağlamak, ekran başlığı, son güncelleme zamanı, arama alanı, 4 yönlü sıralama (varsayılan, isim A-Z, satış artan/azalan), fiyat kartları, alış/satış etiketleri, günlük değişim rozetleri, ADR-013 sıfır TL engellemesi, eski/kısmi veri uyarı şeritleri ve çek-yenile işlevlerini kodlamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 6.4 tamamlandı: goldProduct.ts, goldPrice.ts modelleri, formatters.ts araçları ve goldProductService.ts, goldPriceService.ts servisleri kodlandı; 10/10 senaryoyu kapsayan otomatik testler (canlı aktif ürünler, fiyat gösterimine açık filtreleme, alış/satış ayrımı, zaman ayrımı, live/stale/partial/unavailable durumları, fiyat izolasyonu ve formatlayıcılar) başarıyla geçti
+Faz 6.5 tamamlandı: prices.tsx canlı servis entegrasyonu, arama, sıralama, kartlar, uyarı şeritleri ve çek-yenile ile kodlandı; 10/10 otomatik test başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 12 - Fiyat sistemi (Faz 6.5 hazırlığı)
+Bölüm 12 - Fiyat sistemi (Faz 6.6 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,23 +591,24 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6.5: Fiyatlar ekranı
+Faz 6.6: Altın detay ekranı
 ```
 
-Bu görevde `src/app/(protected)/(tabs)/prices.tsx` ekranı kodlanacak; ekran başlığı, son güncelleme bilgisi, ürün arama alanı, sıralama kontrolleri (varsayılan, isme göre, fiyata göre artan/azalan), fiyat kartları, alış/satış etiketleri, tazelik rozetleri (`live`, `stale`, `partial`, `unavailable`) ve aşağı çekip yenileme (pull-to-refresh) entegre edilecektir.
+Bu görevde `src/app/(protected)/gold/[productId].tsx` ekranı kodlanacak; dinamik `productId` doğrulaması, ürün adı, alış ve satış fiyatları, varsa günlük değişim, günün düşük ve yüksek değerleri, son fiyat zamanı, fiyat kaynağı, güncellik durumu rozeti, Hesapla butonu, Portföye Ekle butonu ve finansal bilgilendirme metni entegre edilecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6.5 şu koşullarda tamamlanmış sayılır:
+Faz 6.6 şu koşullarda tamamlanmış sayılır:
 
-- `src/app/(protected)/(tabs)/prices.tsx` ekranı tasarım sistemi bileşenleriyle kodlanmalı.
-- Son güncelleme zamanı ve durum rozetleri gösterilmeli.
-- Arama ve sıralama filtreleri çalışmalı.
-- Fiyat kartlarında alış ve satış fiyatları açıkça ayrılmalı.
-- Aşağı çekerek yenileme (pull-to-refresh) çalışmalı.
-- `docs/TODO.md` içindeki Faz 6.5 maddeleri güncellenmeli.
+- `src/app/(protected)/gold/[productId].tsx` ekranı tasarım sistemi bileşenleriyle kodlanmalı.
+- Geçersiz veya bulunamayan ürün kimliklerinde anlaşılır hata/boş durum ekranı sunulmalı.
+- Alış ve satış fiyatları net olarak ayrıştırılmalı, fiyatı olmayan üründe 0 TL gösterilmemeli.
+- Varsa günün en düşük ve en yüksek fiyatları gösterilmeli.
+- Hesapla ve Portföye Ekle butonları ilgili akışlara yönlendirmeli.
+- Yasal/finansal bilgilendirme uyarısı yer almalı.
+- `docs/TODO.md` içindeki Faz 6.6 maddeleri güncellenmeli.
 
 ---
 
@@ -644,7 +645,8 @@ Faz 6.5 şu koşullarda tamamlanmış sayılır:
 - [x] Fiyat çekme Edge Function, zaman aşımı ve hata yönetimi tamamlandı (Faz 6.1: d46aaf1).
 - [x] Fiyat verisi doğrulama, kuruşa çevrim ve RLS filtreleme testleri tamamlandı (Faz 6.2: 502ea6c).
 - [x] Fiyat zamanlayıcısı, çakışma kilidi ve kota koruması tamamlandı (Faz 6.3: 4f55e31).
-- [x] Güncel fiyat okuma servisleri, modelleri ve durum hesaplamaları tamamlandı (Faz 6.4).
+- [x] Güncel fiyat okuma servisleri, modelleri ve durum hesaplamaları tamamlandı (Faz 6.4: 09bcaeb).
+- [x] Fiyatlar ekranı, arama, sıralama, kartlar, uyarı şeritleri ve çek-yenile tamamlandı (Faz 6.5).
 
 ---
 

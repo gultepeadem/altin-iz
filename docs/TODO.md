@@ -903,24 +903,24 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6.5: Fiyatlar ekranı
 
-- [ ] Ekran başlığını oluştur.
-- [ ] Son güncelleme bilgisini göster.
-- [ ] Arama alanını oluştur.
-- [ ] Sıralama kontrolünü oluştur.
-- [ ] Varsayılan sıralamayı ekle.
-- [ ] İsme göre sıralamayı ekle.
-- [ ] Satış fiyatına göre artan sıralamayı ekle.
-- [ ] Satış fiyatına göre azalan sıralamayı ekle.
-- [ ] Fiyat kartlarını oluştur.
-- [ ] Alış ve satış etiketlerini açıkça göster.
-- [ ] Günlük değişimi yalnızca varsa göster.
-- [ ] Fiyatı olmayan üründe `0 TL` gösterme.
-- [ ] Eski veri uyarısını göster.
-- [ ] Kısmi veri uyarısını göster.
-- [ ] Yeniden Dene butonunu ekle.
-- [ ] Ürün detayına yönlendirmeyi ekle.
-- [ ] Android'de uzun ürün adlarını test et.
-- [ ] iOS'ta liste ve geri hareketini test et.
+- [x] Ekran başlığını oluştur.
+- [x] Son güncelleme bilgisini göster.
+- [x] Arama alanını oluştur.
+- [x] Sıralama kontrolünü oluştur.
+- [x] Varsayılan sıralamayı ekle.
+- [x] İsme göre sıralamayı ekle.
+- [x] Satış fiyatına göre artan sıralamayı ekle.
+- [x] Satış fiyatına göre azalan sıralamayı ekle.
+- [x] Fiyat kartlarını oluştur.
+- [x] Alış ve satış etiketlerini açıkça göster.
+- [x] Günlük değişimi yalnızca varsa göster.
+- [x] Fiyatı olmayan üründe `0 TL` gösterme.
+- [x] Eski veri uyarısını göster.
+- [x] Kısmi veri uyarısını göster.
+- [x] Yeniden Dene butonunu ekle.
+- [x] Ürün detayına yönlendirmeyi ekle.
+- [x] Android'de uzun ürün adlarını test et.
+- [x] iOS'ta liste ve geri hareketini test et.
 
 ---
 

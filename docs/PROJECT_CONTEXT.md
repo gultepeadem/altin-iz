@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.18 Taslak  
+**Belge sürümü:** 1.19 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Fiyat sistemi (Faz 6.4 tamamlandı, Faz 6.5 sıradaki)  
-**Kodlama durumu:** Güncel fiyat ve ürün okuma servisleri, formatlayıcılar ve tazelik durumları tamamlandı
+**Proje durumu:** Fiyat sistemi (Faz 6.5 tamamlandı, Faz 6.6 sıradaki)  
+**Kodlama durumu:** prices.tsx canlı Supabase fiyatları, arama, 4 yönlü sıralama, uyarı şeritleri ve çek-yenile ile tamamlandı
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 6.4 (Güncel fiyat okuma servisi) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.5 aşamasına geçiş
+Faz 6.5 (Fiyatlar ekranı) tamamlandı; Bölüm 12 (Fiyat Sistemi) - Faz 6.6 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 6.4 (Güncel fiyat okuma servisi) tamamlandı; Bölüm 12 (Fiyat Sistemi) - 
 Sıradaki teknik görev:
 
 ```text
-Faz 6.5: Fiyatlar ekranı
+Faz 6.6: Altın detay ekranı
 ```
 
-Bu görevde `src/app/(protected)/(tabs)/prices.tsx` ekranı kodlanacak; ekran başlığı, son güncelleme bilgisi, ürün arama alanı, sıralama kontrolleri (varsayılan, isme göre, fiyata göre artan/azalan), fiyat kartları, alış/satış etiketleri, tazelik rozetleri (`live`, `stale`, `partial`, `unavailable`) ve aşağı çekip yenileme (pull-to-refresh) entegre edilecektir.
+Bu görevde `src/app/(protected)/gold/[productId].tsx` ekranı kodlanacak; dinamik `productId` doğrulaması, ürün adı, alış ve satış fiyatları, varsa günlük değişim, günün düşük ve yüksek değerleri, son fiyat zamanı, fiyat kaynağı, güncellik durumu rozeti, Hesapla butonu, Portföye Ekle butonu ve finansal bilgilendirme metni entegre edilecektir.
 
 ---
 
