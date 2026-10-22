@@ -56,6 +56,34 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.46] - 22.10.2026
+
+### Added
+
+- Bölüm 16: Ayarlar ve kullanıcı tercihleri — Faz 10.2: Hesap bilgileri tamamlandı (Bölüm 16: Ayarlar ve kullanıcı tercihleri başarıyla sonuçlandırıldı):
+  - `src/models/profile.ts`:
+    - `mapRowToUserProfile`: Veritabanı `user_profiles` satırını `UserProfile` nesnesine güvenle dönüştürür.
+    - `MAX_DISPLAY_NAME_LENGTH` (50) ve `validateDisplayName`: Görünen adın azami 50 karakter sınırını doğrular, boş girişi isteğe bağlı kabul eder.
+  - `src/services/profileService.ts`:
+    - `getProfile`: Aktif kullanıcının `user_profiles` kaydını çeker, kayıt yoksa fallback oluşturur.
+    - `updateDisplayName`: Yalnızca `display_name` alanını günceller; RLS ve tetikleyici kuralı uyarınca `user_id`, `account_status` ve `created_at` dokunulmazlığını korur.
+  - `src/app/(protected)/account/index.tsx`:
+    - Kullanıcı Profili ve Dinamik Avatar: Oturumdaki kullanıcı adından veya e-postasından türetilen 2 harfli avatar ve tam ad başlığı.
+    - E-posta Doğrulama Durumu: `user.email_confirmed_at` verisine göre `✓ E-posta Doğrulandı (Aktif)` veya `⚠️ E-posta Henüz Doğrulanmadı` rozeti.
+    - Salt Okunur E-posta: E-posta giriş alanı kilitli (`editable={false}`) ve güvenlik bilgilendirme mesajıyla gösterildi.
+    - Görünen Ad Formu: Kullanıcının adını düzenleyebileceği, karakter sınırı doğrulamalı alan (`TextField`).
+    - Şifre Değiştirme / Sıfırlama: `authService.resetPasswordForEmail` akışıyla kayıtlı e-postaya güvenli şifre sıfırlama bağlantısı gönderen buton ve onay penceresi.
+    - Tehlikeli Alan: "Hesabımı ve Verilerimi Sil" bağlantısı ile kalıcı silme ekranına (`/(protected)/account/delete`) yönlendirme.
+    - Sistem Alanlarının Korunması: `user_id`, `created_at` ve `account_status` gibi sistem alanları kullanıcı formundan gizlendi.
+  - `supabase/tests/test-faz10-2-account-screen.ts`: 10/10 senaryoyla görünen ad doğrulayıcısı, 50 karakter kısıtlaması, model eşleyicisi, salt okunur e-posta alanı, doğrulama rozeti, avatar baş harf türetimi, şifre sıfırlama talebi, sistem alanlarının gizlenmesi, canlı Supabase şeması ve AppError normalizasyonunu doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 10.2 ve Bölüm 16 tamamlandı olarak işaretlendi; sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı) olarak belirlendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 10.2 tamamlandı olarak kaydedildi.
+
+---
+
 ## [0.0.0-planning.45] - 22.10.2026
 
 ### Added

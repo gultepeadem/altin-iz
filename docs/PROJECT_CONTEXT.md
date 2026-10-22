@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.33 Taslak  
+**Belge sürümü:** 1.34 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı) TAMAMLANDI - Faz 10.2 (Hesap bilgileri) sıradaki  
-**Kodlama durumu:** tabs/settings.tsx profilleme, üçlü tema seçimi, hesap ve tehlikeli silme menüleri, yasal rotalar, fiyat kaynağı, onaylı güvenli çıkış ve Safe Area ile tamamlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 16 (Ayarlar ve kullanıcı tercihleri) TAMAMLANDI - Bölüm 17 (Yasal belgeler ve gizlilik) Faz 11 sıradaki  
+**Kodlama durumu:** account/index.tsx canlı auth/profil entegrasyonu, görünen ad güncelleme, salt okunur e-posta, doğrulama rozeti, şifre sıfırlama ve hesap silme yönlendirmesiyle tamamlandı; 10/10 test başarılı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamındaki Faz 10.1 (Ayarlar ekranı) adımı başarıyla tamamlanmıştır.
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamındaki Faz 10.2 (Hesap bilgileri) adımı başarıyla tamamlanmış ve Bölüm 16 sonuçlandırılmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 10.1 tamamlandı: tabs/settings.tsx ekranı kullanıcı profil kartı, görünüm/üçlü tema seçimi (Sistem, Açık, Koyu), hesap yönetimi bağlantıları, tehlikeli hesap silme ayrımı, yasal ve bilgilendirme bağlantıları, fiyat kaynağı bilgisi (ADR-003), güvenli çıkış onay mekanizması ve Safe Area desteğiyle kodlandı; 10/10 otomatik test ile doğrulandı.
+Faz 10.2 tamamlandı: account/index.tsx ekranı kullanıcı profil bilgileri, avatar baş harfleri, salt okunur e-posta, e-posta doğrulama rozeti, görünen ad güncelleme formu, şifre sıfırlama bağlantısı ve hesap silme yönlendirmesiyle kodlandı; profileService.ts ve modelleri hazırlandı; 10/10 otomatik test ile doğrulandı. Bölüm 16 (Ayarlar ve kullanıcı tercihleri) eksiksiz tamamlandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 10.1 (Ayarlar ekranı) tamamlandı; Bölüm 16 (Ayarlar ve kullanıcı tercihleri) - Faz 10.2 (Hesap bilgileri) aşamasına geçiş
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) tamamlandı; Bölüm 17 (Yasal belgeler ve gizlilik) - Faz 11 (Yasal belge altyapısı) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 10.1 (Ayarlar ekranı) tamamlandı; Bölüm 16 (Ayarlar ve kullanıcı terci
 Sıradaki teknik görev:
 
 ```text
-Faz 10.2: Hesap bilgileri
+Faz 11: Yasal belge altyapısı
 ```
 
-Bu görevde src/app/(protected)/account/index.tsx ekranında kullanıcının e-posta adresini gösterme, e-posta doğrulama durumunu gösterme, görünen adı varsa gösterme ve güncelleme, şifre sıfırlama/değiştirme bağlantısı ve kullanıcının değiştiremeyeceği sistem alanlarını gizleme geliştirilecektir.
+Bu görevde docs/PRIVACY.md, docs/DATA_RETENTION.md ve docs/DECISIONS.md doğrultusunda KVKK aydınlatma metni, gizlilik politikası, kullanım koşulları, veri saklama/silme ve finansal bilgilendirme metinlerinin legal_documents tablosuna sürümlü eklenmesi, tek aktif sürüm kuralı, content_hash üretimi ve legalService altyapısı geliştirilecektir.
 
 ---
 

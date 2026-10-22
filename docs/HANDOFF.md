@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.38 Taslak  
+**Belge sürümü:** 1.39 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı) TAMAMLANDI - Faz 10.2 (Hesap bilgileri) sıradaki  
-**Kodlama durumu:** tabs/settings.tsx profilleme, tema seçimi (Sistem/Açık/Koyu), hesap/silme menüleri, yasal rotalar, fiyat kaynağı, güvenli çıkış onay modalı ve Safe Area ile tamamlandı; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 10.1 başarıyla tamamlandı; Ayarlar ekranı (settings.tsx) tüm bağlantıları, tema seçimi, onaylı güvenli çıkışı ve fiyat kaynağıyla kodlandı; 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.2 (Hesap bilgileri)
+**Proje aşaması:** Bölüm 16 (Ayarlar ve kullanıcı tercihleri) TAMAMLANDI - Bölüm 17 (Yasal belgeler ve gizlilik) Faz 11 sıradaki  
+**Kodlama durumu:** account/index.tsx canlı auth/profil entegrasyonu, görünen ad doğrulama/kaydetme, salt okunur e-posta, e-posta doğrulama rozeti, şifre sıfırlama talebi ve hesap silme yönlendirmesiyle tamamlandı; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 10.2 başarıyla tamamlandı; Bölüm 16: Ayarlar ve kullanıcı tercihleri eksiksiz sonuçlandırıldı; 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamında Faz 10.1 Ayarlar ekranını; src/app/(protected)/(tabs)/settings.tsx ekranını kullanıcı profili özeti, üçlü tema seçimi (Sistem/Açık/Koyu), hesap ve tehlikeli hesap silme menüleri, yasal ve bilgilendirme bağlantıları, fiyat kaynağı bilgisi ve onaylı güvenli çıkış butonu ile geliştirmek
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamında Faz 10.2 Hesap bilgileri ekranını; src/app/(protected)/account/index.tsx ekranını canlı auth ve profil servisiyle entegre etmek, e-posta adresi ve doğrulama rozeti göstermek, görünen ad doğrulama ve güncelleme imkanı sağlamak, şifre sıfırlama talebi akışını bağlamak ve sistem alanlarını gizlemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 10.1 tamamlandı: tabs/settings.tsx ekranı kullanıcı profil kartı, görünüm/tema seçimi, hesap ve hesap silme yönlendirmeleri, bilgilendirme rotaları, fiyat kaynağı, güvenli çıkış onay mekanizması ve Safe Area desteğiyle kodlandı; 10/10 otomatik test ile doğrulandı
+Faz 10.2 tamamlandı: account/index.tsx ekranı kullanıcı profil bilgileri, e-posta doğrulama durumu rozeti, görünen ad güncelleme formu, şifre sıfırlama bağlantısı ve tehlikeli hesap silme yönlendirmesiyle kodlandı; profileService.ts ve modelleri hazırlandı; 10/10 otomatik test ile doğrulandı. Bölüm 16 (Ayarlar ve kullanıcı tercihleri) eksiksiz sonuçlandırıldı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 16 - Ayarlar ve kullanıcı tercihleri (Faz 10.2: Hesap bilgileri sıradaki)
+Bölüm 17 - Yasal belgeler ve gizlilik (Faz 11: Yasal belge altyapısı sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.39 Taslak - 22.10.2026
+- Bölüm 16 Ayarlar ve kullanıcı tercihleri - Faz 10.2 Hesap bilgileri tamamlandı (Bölüm 16: Ayarlar ve kullanıcı tercihleri başarıyla sonuçlandırıldı).
+- `src/models/profile.ts` genişletildi (mapRowToUserProfile, MAX_DISPLAY_NAME_LENGTH: 50, validateDisplayName); `src/services/profileService.ts` oluşturuldu (getProfile, updateDisplayName RLS ve tetikleyici kolon korumasıyla).
+- `src/app/(protected)/account/index.tsx` ekranı kullanıcı profil kartı, avatar baş harfleri, salt okunur e-posta, e-posta doğrulama durumu rozeti, görünen ad güncelleme formu, şifre sıfırlama talebi akışı ve tehlikeli hesap silme yönlendirmesiyle kodlandı.
+- `supabase/tests/test-faz10-2-account-screen.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı) olarak güncellendi.
 
 ### 1.38 Taslak - 22.10.2026
 - Bölüm 16 Ayarlar ve kullanıcı tercihleri - Faz 10.1 Ayarlar ekranı tamamlandı.

@@ -1193,11 +1193,11 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 10.2: Hesap bilgileri
 
-- [ ] E-posta adresini göster.
-- [ ] E-posta doğrulama durumunu göster.
-- [ ] Görünen adı varsa göster ve düzenle.
-- [ ] Şifre değiştirme veya sıfırlama bağlantısını ekle.
-- [ ] Kullanıcının değiştiremeyeceği sistem alanlarını gizle.
+- [x] E-posta adresini göster.
+- [x] E-posta doğrulama durumunu göster.
+- [x] Görünen adı varsa göster ve düzenle.
+- [x] Şifre değiştirme veya sıfırlama bağlantısını ekle.
+- [x] Kullanıcının değiştiremeyeceği sistem alanlarını gizle.
 
 ---
 
