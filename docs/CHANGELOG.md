@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.48] - 22.10.2026
+
+### Added
+
+- Bölüm 17: Yasal belgeler ve gizlilik — Faz 11.1: Yasal belge ekranları tamamlandı:
+  - `src/components/common/ScreenContainer.tsx`: `refreshControl` desteği eklendi; kaydırılabilir ekranlarda platforma özgü çekip yenileme (pull-to-refresh) yeteneği kazandırıldı.
+  - `src/app/(protected)/legal/index.tsx`: Yasal belgeler dizini canlı `legalService.getActiveDocuments()` sorgusuyla entegre edildi; KVKK Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve Silme Politikası ile Finansal Bilgilendirme/Sorumluluk Reddi metinleri için ikonlar, sürüm etiketleri ve güvenli alan tasarımı eklendi.
+  - `src/app/(protected)/legal/[documentType].tsx`: Yasal belge detay ekranı canlı `legalService` entegrasyonuyla geliştirildi:
+    - Parametreye göre belge çözümleme (`resolveLegalDocumentType`): hem standart enum değerleri hem de legacy kebab-case URL slugları (`kvkk-aydinlatma`, `gizlilik-politikasi`, `kullanim-kosullari`, `veri-saklama-ve-imha`, `sorumluluk-reddi`, `acik-riza`) desteklendi.
+    - Belge başlığı, sürüm rozeti ve yürürlük tarihi gösterimi.
+    - SHA-256 metin bütünlüğü doğrulaması (`verifyDocumentIntegrity`) ve yeşil doğrulama rozeti.
+    - Kriptografik özet kartı: denetim izlenebilirliği için tam SHA-256 hash dizesi görüntülendi.
+    - Çevrimdışı/hata durumunda şablon metin sunumu ve çekip yenileme (`RefreshControl`) desteği.
+    - Arka planda `legalService.recordLegalEvent` ile `viewed` olayı kaydı tetiklendi.
+  - `supabase/tests/test-faz11-1-legal-screens.ts`: 10/10 senaryoyla standart enum çözümleme, kebab-case URL slug eşleme, geçersiz slug reddi, KVKK, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama, Finansal Bilgilendirme içerik ve bütünlük testleri, aktif belge dizin sağlayıcısı ve yasal olay kaydı sözleşmesini doğrulayan kapsamlı test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 11.1 maddeleri tamamlandı (`[x]`) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.41 / 1.36 Taslak sürümlerine yükseltildi; sıradaki görev Faz 11.2 (Kullanıcı yasal olayları) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.47] - 22.10.2026
 
 ### Added

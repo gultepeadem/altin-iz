@@ -1221,15 +1221,15 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 11.1: Yasal belge ekranları
 
-- [ ] Yasal belge listesi ekranını oluştur.
-- [ ] Belge detay ekranını oluştur.
-- [ ] KVKK Aydınlatma Metnini göster.
-- [ ] Gizlilik Politikasını göster.
-- [ ] Kullanım Koşullarını göster.
-- [ ] Veri Saklama ve Silme bilgisini göster.
-- [ ] Finansal Bilgilendirme metnini göster.
-- [ ] Belge sürümünü gösterme gereksinimini değerlendir.
-- [ ] Belge çevrimdışı önbelleğini sürüm bilgisiyle yönet.
+- [x] Yasal belge listesi ekranını oluştur.
+- [x] Belge detay ekranını oluştur.
+- [x] KVKK Aydınlatma Metnini göster.
+- [x] Gizlilik Politikasını göster.
+- [x] Kullanım Koşullarını göster.
+- [x] Veri Saklama ve Silme bilgisini göster.
+- [x] Finansal Bilgilendirme metnini göster.
+- [x] Belge sürümünü gösterme gereksinimini değerlendir.
+- [x] Belge çevrimdışı önbelleğini sürüm bilgisiyle yönet.
 
 ---
 

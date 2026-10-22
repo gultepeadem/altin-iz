@@ -33,6 +33,8 @@ export interface ScreenContainerProps {
   contentContainerStyle?: StyleProp<ViewStyle>;
   /** Hangi kenarların güvenli alan olarak korunacağı */
   edges?: Edge[];
+  /** Kaydırılabilir ekranlarda çekip yenileme (pull-to-refresh) kontrolü */
+  refreshControl?: React.ReactElement;
 }
 
 export function ScreenContainer({
@@ -43,6 +45,7 @@ export function ScreenContainer({
   style,
   contentContainerStyle,
   edges = ['top', 'left', 'right'],
+  refreshControl,
 }: ScreenContainerProps) {
   const { theme } = useTheme();
 
@@ -58,6 +61,7 @@ export function ScreenContainer({
       ]}
       keyboardShouldPersistTaps="handled"
       showsVerticalScrollIndicator={false}
+      refreshControl={refreshControl}
     >
       {children}
     </ScrollView>

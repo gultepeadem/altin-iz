@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.35 Taslak  
+**Belge sürümü:** 1.36 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı) TAMAMLANDI - Faz 11.1 (Yasal belge ekranları) sıradaki  
-**Kodlama durumu:** legal.ts modelleri, 6 şablon metin (KI-025), content_hash SHA-256 üretimi, legalService.ts ve canlı Supabase legal_documents sorgusuyla tamamlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları) TAMAMLANDI - Faz 11.2 (Kullanıcı yasal olayları) sıradaki  
+**Kodlama durumu:** legal/index ve legal/[documentType] ekranları canlı legalService ile bağlandı; SHA-256 bütünlük doğrulaması, sürüm etiketleri ve pull-to-refresh eklendi; 10/10 test başarılı
 
 ---
 
@@ -1262,6 +1262,14 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.36 Taslak - 22.10.2026
+
+- Bölüm 17 Yasal belgeler ve gizlilik - Faz 11.1 Yasal belge ekranları tamamlandı.
+- Yasal belge listesi (`src/app/(protected)/legal/index.tsx`) ve detay ekranı (`src/app/(protected)/legal/[documentType].tsx`) canlı `legalService` entegrasyonuyla geliştirildi.
+- KVKK Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve Finansal Bilgilendirme metinleri SHA-256 bütünlük kontrolü ve sürüm etiketleriyle sunuldu.
+- `supabase/tests/test-faz11-1-legal-screens.ts` 10/10 test ile doğrulandı.
+- Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.2 (Kullanıcı yasal olayları) olarak güncellendi.
 
 ### 1.1 Taslak - 03.09.2026
 

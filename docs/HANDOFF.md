@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.40 Taslak  
+**Belge sürümü:** 1.41 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11 (Yasal belge altyapısı) TAMAMLANDI - Faz 11.1 (Yasal belge ekranları) sıradaki  
-**Kodlama durumu:** legal.ts modelleri, 6 şablon metin (KI-025), legalService.ts (aktif belgeler, tür sorgusu, content_hash bütünlük doğrulama, yasal olay RPC) hazırlandı; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 11 başarıyla tamamlandı; legalService ve modelleri oluşturuldu; canlı Supabase tablosundan aktif belgeler okundu; SHA-256 içerik özeti ve tek aktif sürüm kuralı 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları)
+**Proje aşaması:** Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.1 (Yasal belge ekranları) TAMAMLANDI - Faz 11.2 (Kullanıcı yasal olayları) sıradaki  
+**Kodlama durumu:** legal/index ve legal/[documentType] ekranları canlı legalService ile bağlandı; SHA-256 bütünlük doğrulaması, sürüm etiketleri ve pull-to-refresh eklendi; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 11.1 başarıyla tamamlandı; yasal belge listesi ve detay ekranları oluşturuldu; KVKK, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve Finansal Bilgilendirme metinleri canlı/şablon ayrımı ve SHA-256 bütünlük kontrolüyle kullanıcılara sunuldu. Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.2 (Kullanıcı yasal olayları)
 
 ---
 
@@ -767,6 +767,14 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.41 Taslak - 22.10.2026
+- Bölüm 17 Yasal belgeler ve gizlilik - Faz 11.1 Yasal belge ekranları tamamlandı.
+- `src/components/common/ScreenContainer.tsx` bileşenine `refreshControl` desteği eklendi.
+- `src/app/(protected)/legal/index.tsx` ekranı canlı `legalService.getActiveDocuments()` ile bağlandı; KVKK, Gizlilik, Şartlar, Saklama ve Finansal Uyarı belgeleri listelendi, ikonlar, sürüm bilgileri ve pull-to-refresh eklendi.
+- `src/app/(protected)/legal/[documentType].tsx` ekranı canlı `legalService` entegrasyonuyla geliştirildi; URL slug çözümü (`resolveLegalDocumentType`), SHA-256 bütünlük kontrolü (`verifyDocumentIntegrity`), denetim için kriptografik özet kartı ve arka plan `viewed` olay kaydı eklendi.
+- `supabase/tests/test-faz11-1-legal-screens.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 17: Yasal belgeler ve gizlilik - Faz 11.2 (Kullanıcı yasal olayları) olarak güncellendi.
 
 ### 1.40 Taslak - 22.10.2026
 - Bölüm 17 Yasal belgeler ve gizlilik - Faz 11 Yasal belge altyapısı tamamlandı.
