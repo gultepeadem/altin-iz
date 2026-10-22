@@ -56,6 +56,20 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.8] - 22.10.2026
+
+### Added
+
+- Faz 2.4 kapsamında `.env.example` şablonu (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `EXPO_PUBLIC_APP_ENV`) oluşturuldu.
+- Geliştirme ortamı için yerel `.env.local` oluşturuldu ve `.gitignore` tarafından dışlandığı (`git check-ignore`) doğrulandı.
+
+### Changed
+
+- `ARCHITECTURE.md` içine eksik ortam değişkenleri durumunda güvenli hata davranışı kuralı eklendi.
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Bölüm 8 (Proje İskeleti - Faz 2 serisi) tamamlandı olarak işaretlendi; sıradaki görev Faz 3 (Tema altyapısı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.7] - 21.10.2026
 
 ### Added

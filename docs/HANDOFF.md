@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.7 Taslak  
-**Son güncelleme:** 21.10.2026  
-**Proje aşaması:** Proje iskeleti (Faz 2)  
-**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı  
-**Son çalışma durumu:** Faz 2.3 başarıyla tamamlandı; ARCHITECTURE.md mimarisindeki 11 temel src/ klasörünün tamamı mevcut. Sıradaki görev Faz 2.4 (Ortam dosyaları)
+**Belge sürümü:** 1.8 Taslak  
+**Son güncelleme:** 22.10.2026  
+**Proje aşaması:** Proje iskeleti (Faz 2) tamamlandı; Tasarım sistemi ve rota iskeleti (Faz 3) sıradaki  
+**Kodlama durumu:** Expo TypeScript iskeleti ve ortam altyapısı hazırlandı  
+**Son çalışma durumu:** Faz 2.4 başarıyla tamamlandı; .env.example oluşturuldu, .env.local dışlandı, hata davranışı ARCHITECTURE.md içine işlendi. Sıradaki görev Faz 3 (Tema altyapısı)
 
 ---
 
@@ -57,25 +57,25 @@ Yeni güncellemede:
 ### Oturum tarihi
 
 ```text
-21.10.2026
+22.10.2026
 ```
 
 ### Oturumun ana amacı
 
 ```text
-Faz 2.3 kapsamında ARCHITECTURE.md mimarisinde tanımlanan temel src/ klasörlerini oluşturmak ve yapıyı doğrulamak
+Faz 2.4 kapsamında ortam dosyalarını (.env.example, .env.local) yapılandırmak, Git dışlamasını doğrulamak ve eksik ortam değişkeni güvenlik kuralını belirlemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 2.3 tamamlandı: Eksik 7 klasör (domain, lib, models, providers, services, theme, utils) oluşturuldu; mevcut 4 klasör (app, components, constants, hooks) teyit edildi; ARCHITECTURE.md ile %100 uyum doğrulandı; TypeScript yol takma adı mevcut olarak teyit edildi
+Faz 2.4 tamamlandı: .env.example şablonu oluşturuldu; yerel .env.local dosyası oluşturulup .gitignore tarafından dışlandığı doğrulandı; eksik değişken durumunda güvenli hata davranışı ARCHITECTURE.md içine eklendi; Bölüm 8 (Proje İskeleti) eksiksiz tamamlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Proje iskeleti (Faz 2)
+Tasarım sistemi ve rota iskeleti (Faz 3) hazırlığı
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-4da17fb (scaffold: create core src/ directories per ARCHITECTURE.md (Faz 2.3))
+71bbcc2 (config: setup environment template and ignore rules (Faz 2.4))
 ```
 
 ### Son çalışan commit
 
 ```text
-4da17fb
+71bbcc2
 ```
 
 ### Aktif dal
@@ -591,21 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 2.4: Ortam dosyaları
+Faz 3: Tema altyapısı
 ```
 
-Bu görevde `.env.example` dosyası oluşturulacak ve geliştirme ortamı için `.env.local` dosyası hazırlanacaktır. Ortam değişkenleri: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `EXPO_PUBLIC_APP_ENV`.
+Bu görevde açık ve koyu tema renk paletleri, boşluk ve tipografi sistemleri, tema modelleri ve ThemeProvider bileşeni oluşturulacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 2.4 şu koşullarda tamamlanmış sayılır:
+Faz 3 şu koşullarda tamamlanmış sayılır:
 
-- `.env.example` dosyası oluşturulmuş ve gerçek anahtar içermemeli.
-- `.env.local` dosyası oluşturulmuş ve `.gitignore` tarafından dışlanmalı.
-- Eksik ortam değişkenleri için güvenli hata davranışı planlanmalı.
-- `TODO.md` içindeki Faz 2.4 maddeleri güncellenmeli.
+- Açık ve koyu tema renk dosyaları oluşturulmalı.
+- Boşluk ve tipografi sistemleri hazırlanmalı.
+- Tema TypeScript modeli ve ThemeProvider oluşturulmalı.
+- `light`, `dark` ve `system` seçenekleri desteklenmeli.
+- `npx tsc --noEmit` ve `npm run lint` testleri hatasız tamamlanmalı.
+- `docs/TODO.md` içindeki Faz 3 maddeleri güncellenmeli.
 
 ---
 

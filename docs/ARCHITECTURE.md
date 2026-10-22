@@ -423,6 +423,11 @@ supabase.ts    → Supabase istemcisi
 environment.ts → Ortam değişkenlerini güvenli okuma ve doğrulama
 ```
 
+Eksik ortam değişkenleri güvenli hata davranışı kuralı:
+- Zorunlu ortam değişkenleri (`EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, `EXPO_PUBLIC_APP_ENV`) eksik veya boş olduğunda uygulama sessizce tanımsız (`undefined`) değerlerle ağ isteği atmamalıdır.
+- `src/lib/environment.ts` modülü başlatma anında bu değerleri doğrulayacak; eksiklik durumunda geliştiriciye açık, anlaşılır bir hata mesajı vererek uygulamanın kararsız duruma geçmesini önleyecektir.
+- Örnek dosyalara (`.env.example`) veya istemci koduna asla gizli anahtar (service_role, veritabanı şifresi) yazılmayacaktır.
+
 ### `src/models/`
 
 TypeScript veri modellerini içerir.

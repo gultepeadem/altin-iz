@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2 Taslak  
-**Son güncelleme:** 21.10.2026 
-**Proje durumu:** Proje iskeleti (Faz 2)  
-**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı
+**Belge sürümü:** 1.3 Taslak  
+**Son güncelleme:** 22.10.2026 
+**Proje durumu:** Proje iskeleti (Faz 2) tamamlandı; Tasarım sistemi ve tema (Faz 3) sıradaki  
+**Kodlama durumu:** Expo TypeScript iskeleti ve ortam altyapısı hazırlandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Faz 2 proje iskeleti oluşturma, yerel Git deposu başlatma ve Faz 2.2 kapsamında 14 belgenin gerçek klasör konumlarında doğrulanması tamamlanmıştır.
+Bölüm 8 kapsamındaki Proje İskeleti (Faz 2, 2.1, 2.2, 2.3 ve 2.4) tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 2.3 kapsamında ARCHITECTURE.md mimarisine uygun olarak eksik 7 temel src/ klasörü oluşturuldu; mevcut 4 klasörle birlikte 11 klasörlü src/ yapısı tamamlandı ve doğrulandı.
+Faz 2.4 tamamlandı: .env.example şablonu oluşturuldu, .env.local yerel geliştirme dosyası oluşturulup Git dışlama kuralı (.gitignore) doğrulandı; eksik ortam değişkeni güvenli hata davranışı ARCHITECTURE.md içine işlendi.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 2.3 (Temel klasörlerin oluşturulması) tamamlandı; Faz 2.4 (Ortam dosyaları) aşamasına geçiş
+Proje İskeleti (Faz 2 serisi) tamamlandı; Tasarım Sistemi ve Rota İskeleti (Faz 3: Tema altyapısı) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 2.3 (Temel klasörlerin oluşturulması) tamamlandı; Faz 2.4 (Ortam dosyala
 Sıradaki teknik görev:
 
 ```text
-Faz 2.4: Ortam dosyaları
+Faz 3: Tema altyapısı
 ```
 
-Bu görevde `.env.example` dosyası oluşturulacak, geliştirme ortamı için `.env.local` hazırlanacak ve eksik ortam değişkeni güvenli hata davranışı planlanacaktır.
+Bu görevde açık ve koyu tema renk paletleri, boşluk ve tipografi sistemleri, tema modelleri ve ThemeProvider bileşeni oluşturulacaktır.
 
 ---
 

@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3 Taslak  
-**Son güncelleme:** 21.10.2026  
-**Proje aşaması:** Proje iskeleti (Faz 2)  
-**Kodlama durumu:** Expo TypeScript iskeleti oluşturuldu ve doğrulandı
+**Belge sürümü:** 1.4 Taslak  
+**Son güncelleme:** 22.10.2026  
+**Proje aşaması:** Proje iskeleti (Faz 2) tamamlandı; Tasarım sistemi ve rota iskeleti (Faz 3) sıradaki  
+**Kodlama durumu:** Expo TypeScript iskeleti ve ortam altyapısı hazırlandı
 
 ---
 
@@ -469,14 +469,14 @@ Initialize Expo TypeScript project
 
 ## Faz 2.4: Ortam dosyaları
 
-- [ ] `.env.example` dosyasını oluştur.
-- [ ] `EXPO_PUBLIC_SUPABASE_URL` adını ekle.
-- [ ] `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` adını ekle.
-- [ ] `EXPO_PUBLIC_APP_ENV` adını ekle.
-- [ ] Örnek dosyaya gerçek anahtar yazma.
-- [ ] Geliştirme ortamı için gerçek `.env.local` dosyasını oluştur.
-- [ ] `.env.local` dosyasının Git tarafından dışlandığını doğrula.
-- [ ] Eksik ortam değişkenleri için güvenli hata davranışını planla.
+- [x] `.env.example` dosyasını oluştur.
+- [x] `EXPO_PUBLIC_SUPABASE_URL` adını ekle.
+- [x] `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` adını ekle.
+- [x] `EXPO_PUBLIC_APP_ENV` adını ekle.
+- [x] Örnek dosyaya gerçek anahtar yazma.
+- [x] Geliştirme ortamı için gerçek `.env.local` dosyasını oluştur.
+- [x] `.env.local` dosyasının Git tarafından dışlandığını doğrula.
+- [x] Eksik ortam değişkenleri için güvenli hata davranışını planla.
 
 ---
 
