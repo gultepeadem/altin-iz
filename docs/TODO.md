@@ -1405,22 +1405,22 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 14.3: iOS testleri
 
-- [ ] Uygulama açılışı.
-- [ ] Safe Area.
-- [ ] Kayıt ve giriş klavyesi.
-- [ ] E-posta bağlantısı.
-- [ ] Şifre sıfırlama bağlantısı.
-- [ ] Alt menü.
-- [ ] Geri kaydırma hareketi.
-- [ ] Hesaplama klavyesi.
-- [ ] Tarih seçici.
-- [ ] Portföy işlemleri.
-- [ ] Tema değiştirme.
-- [ ] Secure storage.
-- [ ] Çıkış sonrası önbellek.
-- [ ] Hesap silme.
-- [ ] İnternet kapalı durumu.
-- [ ] Uygulama arka plan ve ön plan geçişi.
+- [x] Uygulama açılışı.
+- [x] Safe Area.
+- [x] Kayıt ve giriş klavyesi.
+- [x] E-posta bağlantısı.
+- [x] Şifre sıfırlama bağlantısı.
+- [x] Alt menü.
+- [x] Geri kaydırma hareketi.
+- [x] Hesaplama klavyesi.
+- [x] Tarih seçici.
+- [x] Portföy işlemleri.
+- [x] Tema değiştirme.
+- [x] Secure storage.
+- [x] Çıkış sonrası önbellek.
+- [x] Hesap silme.
+- [x] İnternet kapalı durumu.
+- [x] Uygulama arka plan ve ön plan geçişi.
 
 ---
 

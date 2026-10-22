@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.50 Taslak  
+**Belge sürümü:** 1.51 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 20: Test aşaması - Faz 14.2 (Android cihaz testleri) TAMAMLANDI - Faz 14.3 (iOS testleri) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz14-2-android-tests.ts 20 senaryo ve 20/20 iddia ile çalıştırıldı; Android platformuna özgü yaşam döngüsü, formlar, klavye, navigasyon ve hata durumları doğrulandı  
-**Son çalışma durumu:** Faz 14.2 başarıyla tamamlandı; Android uygulama açılışı, Splash screen, kayıt/giriş formları, e-posta doğrulama, şifre sıfırlama, alt sekmeler, fiyat listesi ve çekip yenileme (pull-to-refresh), altın detay, hesaplama klavyesi (decimal-pad), tarih seçici, portföy CRUD döngüsü, tema kalıcılığı, çıkış, hesap silme, çevrimdışı ve yavaş bağlantı yönetimi, arka plan/ön plan yaşam döngüsü ve esnek tipografi 20 test ile onaylandı. Sıradaki görev Bölüm 20: Test aşaması - Faz 14.3 (iOS testleri)
+**Proje aşaması:** Bölüm 20: Test aşaması - Faz 14.3 (iOS testleri) TAMAMLANDI - Faz 14.4 (Kullanıcı ayrılığı güvenlik testleri) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz14-3-ios-tests.ts 16 senaryo ve 16/16 iddia ile çalıştırıldı; iOS platformuna özgü safe area, klavye, jestler, alt sekmeler, modal sunumları, sistem teması, AsyncStorage ve oturum yaşam döngüsü doğrulandı  
+**Son çalışma durumu:** Faz 14.3 başarıyla tamamlandı; iOS uygulama açılışı, SafeAreaView çentik/Dynamic Island ve alt çizgi koruması, KeyboardAvoidingView padding, e-posta doğrulama, şifre sıfırlama, 5 sekmeli alt menü, slide_from_right ve geri jesti, decimal-pad klavye, tarih seçici, modal portföy işlemleri, sistem teması senkronizasyonu, güvenli oturum kalıcılığı, çıkış, destructive alert ile hesap silme, çevrimdışı hata sunumu ve arka plan unmount abonelik temizliği 16 test ile onaylandı. Sıradaki görev Bölüm 20: Test aşaması - Faz 14.4 (Kullanıcı ayrılığı güvenlik testleri)
 
 ---
 
@@ -767,6 +767,27 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.51 Taslak - 22.10.2026
+- Bölüm 20: Test aşaması — Faz 14.3: iOS testleri tamamlandı.
+- `supabase/tests/test-faz14-3-ios-tests.ts` oluşturuldu; iOS platformuna özgü 16 cihaz ve ekran testi yazılarak 16/16 iddia ile başarıyla doğrulandı:
+  1. Splash screen gizleme, oturum sağlayıcısı ve `Redirect` yönlendirmesi.
+  2. `SafeAreaView` çentik (Notch), Dynamic Island ve Home Indicator kenar güvenliği.
+  3. iOS kayıt ve giriş formları `KeyboardAvoidingView` `behavior='padding'` uyumu.
+  4. E-posta doğrulama ekranı tekrar gönderim ve geri dönüş yönlendirmesi.
+  5. Şifre sıfırlama talebi ve yeni şifre belirleme akışları.
+  6. 5 sekmeli alt menü (Ana Sayfa, Fiyatlar, Hesapla, Portföy, Ayarlar) ve stil ayarları.
+  7. iOS ekran geçiş animasyonu (`slide_from_right`), geri başlığı (`headerBackTitle`) ve yerel geri kaydırma desteği.
+  8. Hesaplama ekranı `decimal-pad` klavye türü ve hesaplama mantığı.
+  9. Portföy alış tarihi doğrulama ve gelecek tarih engeli (`isFutureDate`).
+  10. Portföy modal sunumu (`presentation: 'modal'`), ekleme ve silme operasyonları.
+  11. iOS sistem teması (`useRNColorScheme`) ile açık/koyu mod dinamik senkronizasyonu.
+  12. iOS `AsyncStorage` ile güvenli ve kalıcı oturum yönetimi.
+  13. Çıkış sonrası oturum sıfırlama (`signOut`) ve önbellek temizliği.
+  14. Hesap silme ekranı `destructive` stilinde onay diyaloğu ve silme çağrısı.
+  15. İnternet kapalı durumu erişilebilirlik etiketi (`accessibilityRole="alert"`) ve tekrar dene butonu.
+  16. Arka plan/ön plan ve unmount sırasında `unsubscribe` ile bellek sızıntısı engeli.
+- Sıradaki görev Bölüm 20: Test aşaması — Faz 14.4 (Kullanıcı ayrılığı güvenlik testleri) olarak güncellendi.
 
 ### 1.50 Taslak - 22.10.2026
 - Bölüm 20: Test aşaması — Faz 14.2: Android cihaz testleri tamamlandı.

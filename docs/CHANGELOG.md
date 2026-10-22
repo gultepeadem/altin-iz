@@ -56,6 +56,36 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.58] - 22.10.2026
+
+### Added
+
+- Bölüm 20: Test aşaması — Faz 14.3: iOS testleri tamamlandı:
+  - `supabase/tests/test-faz14-3-ios-tests.ts`: iOS platformuna özgü 16 cihaz, ekran, klavye, safe area ve navigasyon davranışını doğrulayan test paketi yazıldı ve 16/16 başarıyla doğrulandı:
+    1. iOS uygulama açılışı (`app/_layout.tsx` Splash screen gizleme, oturum sağlayıcısı ve `index.tsx` Redirect rota yönlendirmesi).
+    2. iOS Safe Area (`ScreenContainer.tsx` `react-native-safe-area-context`, `edges=['top', 'left', 'right']` notch/Dynamic Island ve alt çubuk koruması).
+    3. iOS kayıt ve giriş klavyesi (`ScreenContainer.tsx` `behavior={Platform.OS === 'ios' ? 'padding' : undefined}` ve form entegrasyonu).
+    4. iOS e-posta doğrulama ekranı (`verify-email.tsx` tekrar gönderim ve yönlendirme akışı).
+    5. iOS şifre sıfırlama bağlantısı (`forgot-password.tsx` ve `reset-password.tsx` deep link ve yeni şifre akışı).
+    6. iOS alt menü (`(protected)/(tabs)/_layout.tsx` 5 sekme, tab bar stili ve etiketler).
+    7. iOS geri kaydırma hareketi (`(protected)/_layout.tsx` `animation: 'slide_from_right'`, `headerBackTitle: 'Geri'` ve yerel swipe-to-go-back jesti).
+    8. iOS hesaplama klavyesi (`calculator.tsx` `decimal-pad` klavye türü ve hesaplama mantığı).
+    9. iOS tarih seçici (`portfolioValidation.ts` `isFutureDate` gelecek tarih kısıtı ve `parseDateInputToISO`).
+    10. iOS portföy işlemleri (`presentation: 'modal'` modal sunumu, ekleme ve silme operasyonları).
+    11. iOS tema değiştirme (`ThemeProvider.tsx` `useRNColorScheme` iOS sistem teması ve anlık renk şeması çözümü).
+    12. iOS secure storage (`supabase.ts` `safeStorage`/`AsyncStorage` kalıcı oturum adaptörü).
+    13. iOS çıkış sonrası önbellek (`authService.signOut` ve `AuthProvider` `unauthenticated` durum sıfırlaması).
+    14. iOS hesap silme (`account/delete.tsx` `style: 'destructive'` kırmızı onay diyaloğu ve silme çağrısı).
+    15. iOS internet kapalı durumu (`ErrorState.tsx` `accessibilityRole="alert"` erişilebilirlik etiketi ve `onRetry` butonu).
+    16. iOS arka plan ve ön plan geçişi (`AuthProvider.tsx` `onAuthStateChange` dinleyicisi ve `unsubscribe` bellek sızıntısı engeli).
+
+### Changed
+
+- `docs/TODO.md`: Faz 14.3 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 20: Test aşaması — Faz 14.4 (Kullanıcı ayrılığı güvenlik testleri) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.51 / 1.46 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.57] - 22.10.2026
 
 ### Added
