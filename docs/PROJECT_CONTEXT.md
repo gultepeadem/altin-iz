@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.51 Taslak  
+**Belge sürümü:** 1.52 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 21: Mağaza hazırlığı - Faz 15.3 (Google Play hazırlığı) TAMAMLANDI — Faz 15.4 (App Store hazırlığı) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-3-google-play-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; GOOGLE_PLAY_SETUP.md konsol kılavuzu, 20 tester/14 gün kuralı, Data Safety yanıtları, hesap silme web URL ve denetçi test hesabı doğrulandı
+**Proje durumu:** Bölüm 21: Mağaza hazırlığı TAMAMLANDI (%100) — Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-4-app-store-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; APP_STORE_SETUP.md konsol kılavuzu, App Privacy beyanları, Kural 5.1.1(v) hesap silme açıklaması, TestFlight adımları ve denetçi demo hesabı doğrulandı
 
 ---
 
@@ -1262,6 +1262,13 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.52 Taslak - 22.10.2026
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı).
+- `docs/APP_STORE_SETUP.md` konsol kılavuzu oluşturuldu; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+`), App Privacy beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content), Apple Kural 5.1.1(v) uygulama içi hesap silme açıklaması (`account/delete.tsx`), TestFlight dahili/harici grupları, iPhone 6.7 inç/6.5 inç ekran görüntüleri, Apple App Review denetçi notları, hazır demo giriş hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`) ve Guideline 3.1.1/3.1.5 uyum stratejisi belgelendi.
+- `supabase/tests/test-faz15-4-app-store-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
+- Bölüm 21 (Mağaza hazırlığı) eksiksiz tamamlandı; sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) olarak güncellendi.
 
 ### 1.51 Taslak - 22.10.2026
 

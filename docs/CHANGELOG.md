@@ -56,6 +56,32 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.64] - 22.10.2026
+
+### Added
+
+- Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı):
+  - `docs/APP_STORE_SETUP.md`: Apple App Store Connect kurulum, TestFlight ve App Review kılavuzu oluşturuldu:
+    - Apple Developer Program gereksinimleri ($99/yıl, bireysel/kurumsal, 2FA, App ID `com.altiniz.app`).
+    - App Store Connect uygulama kaydı parametreleri (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+` yaş derecelendirmesi).
+    - App Privacy (Veri Gizliliği) formu resmi beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content; sıfır reklam takibi).
+    - Apple Kural 5.1.1(v) uygulama içi hesap silme akışının denetçiye şeffafça açıklanması (`account/delete.tsx`, `destructive` onay, `delete-account` Edge Function ve `https://altiniz.app/hesap-silme` web formu).
+    - Resmi gizlilik politikası URL'si (`https://altiniz.app/gizlilik`).
+    - EAS Build ile iOS üretim IPA çıktısı (`buildType: "app-store"`) ve TestFlight yükleme süreci.
+    - Dahili (Internal) ve harici (External) TestFlight grupları yapılandırması.
+    - iPhone 6.7 inç ve 6.5 inç vitrin ekran görüntüsü standartları.
+    - Apple denetçisi için resmi açıklama notları (Notes for Reviewer, alım-satım yapılmadığı, YTD uyarısı).
+    - Apple denetçileri için hazır demo giriş hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`).
+    - Guideline 3.1.1 (IAP / tamamen ücretsiz) ve Guideline 3.1.5 (Kripto yasağı) politika uyarı çözümleri.
+  - `supabase/tests/test-faz15-4-app-store-readiness.ts`: Apple Developer hesabı, bundle ID, App Privacy, hesap silme, gizlilik URL'si, TestFlight, denetçi notları ve mağaza politikalarını denetleyen 11 testlik paket yazıldı ve 11/11 başarıyla doğrulandı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 15.4 maddeleri `[x]` olarak işaretlendi; Bölüm 21 (Mağaza hazırlığı) %100 tamamlandı; sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol — P0 kontrol listesi olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.57 / 1.52 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.63] - 22.10.2026
 
 ### Added

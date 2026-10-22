@@ -1500,17 +1500,17 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 15.4: App Store hazırlığı
 
-- [ ] Apple Developer hesabını hazırla.
-- [ ] App Store Connect uygulama kaydını oluştur.
-- [ ] App Privacy beyanını doldur.
-- [ ] Hesap silme akışını inceleme için açıkla.
-- [ ] Gizlilik politikası bağlantısını ekle.
-- [ ] TestFlight sürümünü yükle.
-- [ ] Test kullanıcılarını ekle.
-- [ ] iPhone ekran görüntülerini yükle.
-- [ ] App Review açıklamalarını hazırla.
-- [ ] İnceleme test hesabını hazırla.
-- [ ] Mağaza uyarılarını çöz.
+- [x] Apple Developer hesabını hazırla.
+- [x] App Store Connect uygulama kaydını oluştur.
+- [x] App Privacy beyanını doldur.
+- [x] Hesap silme akışını inceleme için açıkla.
+- [x] Gizlilik politikası bağlantısını ekle.
+- [x] TestFlight sürümünü yükle.
+- [x] Test kullanıcılarını ekle.
+- [x] iPhone ekran görüntülerini yükle.
+- [x] App Review açıklamalarını hazırla.
+- [x] İnceleme test hesabını hazırla.
+- [x] Mağaza uyarılarını çöz.
 
 ---
 

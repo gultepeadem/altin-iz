@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.56 Taslak  
+**Belge sürümü:** 1.57 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 21: Mağaza hazırlığı - Faz 15.3 (Google Play hazırlığı) TAMAMLANDI — Faz 15.4 (App Store hazırlığı) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz15-3-google-play-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; GOOGLE_PLAY_SETUP.md konsol kılavuzu, 20 tester/14 gün kuralı, Data Safety yanıtları, hesap silme web URL ve denetçi test hesabı doğrulandı  
-**Son çalışma durumu:** Faz 15.3 başarıyla tamamlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 2024+ kişisel hesap kapalı test zorunluluğu (20 test kullanıcısı / 14 gün), Data Safety formu (TLS şifreleme, toplanan veriler, 0 paylaşılan veri), zorunlu hesap silme web URL'si (`https://altiniz.app/hesap-silme`) ve uygulama içi silme (`account/delete.tsx`), gizlilik bağlantısı, denetçi uygulama erişim talimatları (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mağaza politikası uyarı çözümleri 11 test ile onaylandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15.4 (App Store hazırlığı)
+**Proje aşaması:** Bölüm 21: Mağaza hazırlığı TAMAMLANDI (%100) — Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz15-4-app-store-readiness.ts 11 senaryo ve 11/11 iddia ile çalıştırıldı; APP_STORE_SETUP.md konsol kılavuzu, App Privacy beyanları, Kural 5.1.1(v) hesap silme açıklaması, TestFlight adımları ve denetçi demo hesabı doğrulandı  
+**Son çalışma durumu:** Faz 15.4 başarıyla tamamlandı; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, 4+), App Privacy (sıfır reklam takibi, kullanıcıyla ilişkili veriler), Kural 5.1.1(v) uygulama içi hesap silme inceleme açıklaması (`account/delete.tsx`), gizlilik bağlantısı, EAS production IPA derleme ve TestFlight grupları, 6.7 inç/6.5 inç ekran görüntüleri, App Review inceleme notları, hazır demo denetçi hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`) ve Guideline 3.1.1/3.1.5 politika çözümleri 11 test ile onaylandı. Bölüm 21 (Mağaza hazırlığı) %100 tamamlandı. Sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi)
 
 ---
 
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.57 Taslak - 22.10.2026
+- Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı).
+- `docs/APP_STORE_SETUP.md` konsol kılavuzu oluşturuldu; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+`), App Privacy beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content), Apple Kural 5.1.1(v) uygulama içi hesap silme açıklaması (`account/delete.tsx`), TestFlight dahili/harici grupları, iPhone 6.7 inç/6.5 inç ekran görüntüleri, Apple App Review denetçi notları, hazır demo giriş hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`) ve Guideline 3.1.1/3.1.5 uyum stratejisi belgelendi.
+- `supabase/tests/test-faz15-4-app-store-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
+- Bölüm 21 (Mağaza hazırlığı) eksiksiz tamamlandı; sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) olarak güncellendi.
 
 ### 1.56 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.3: Google Play hazırlığı tamamlandı.
