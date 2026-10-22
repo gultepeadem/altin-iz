@@ -56,6 +56,30 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.59] - 22.10.2026
+
+### Added
+
+- Bölüm 20: Test aşaması — Faz 14.4: Kullanıcı ayrılığı güvenlik testleri tamamlandı (Bölüm 20: Test aşaması %100 tamamlandı):
+  - `supabase/tests/test-faz14-4-user-isolation-tests.ts`: Çok kullanıcılı RLS (Row Level Security), tetikleyici korumaları ve istemci servis izolasyonunu denetleyen 10 testlik güvenlik paketi yazıldı ve 10/10 başarıyla doğrulandı:
+    1. A kullanıcısı profil ayrılığı (`user_profiles_select_own` politikası: `auth.uid() = user_id`).
+    2. B kullanıcısı profil ayrılığı (`user_profiles` tablosunda RLS etkinliği ve yetkisiz sorgulama engeli).
+    3. Tercih ayrılığı (`user_preferences_select_own` ve `user_preferences_update_own` politikaları ile `preferencesService` izolasyonu).
+    4. A kullanıcısı portföy ayrılığı (`portfolio_entries_select_own` ve `portfolioService.listEntries` filtrelemesi).
+    5. B kullanıcısı portföy ayrılığı (`portfolio_entries_insert_own` `WITH CHECK (auth.uid() = user_id)` kuralı).
+    6. Çapraz detay engeli (Cross-read: `portfolioService.getEntryById` `id` + `user_id` çift anahtar denetimi ve RLS koruması).
+    7. Çapraz güncelleme engeli (Cross-update: `portfolioService.updateEntry` ve `portfolio_entries_update_own`).
+    8. Çapraz silme engeli (Cross-delete: `portfolioService.deleteEntry` ve `portfolio_entries_delete_own`).
+    9. Manipüle edilmiş `user_id` koruması (`protect_portfolio_user_id` veritabanı tetikleyicisi `NEW.user_id <> OLD.user_id` istisnası ve istemci `activeUserId` güvencesi).
+    10. İstemci paketinde gizli anahtar güvenliği (`src/` taramasında JWT, database connection string ve `service_role` sızıntısı olmaması, `environment.ts` güvenli ihracı).
+
+### Changed
+
+- `docs/TODO.md`: Faz 14.4 maddeleri `[x]` olarak işaretlendi; Bölüm 20 (Test aşaması) tamamlandı; sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15 (Uygulama kimliği ve sürümleme) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.52 / 1.47 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.58] - 22.10.2026
 
 ### Added

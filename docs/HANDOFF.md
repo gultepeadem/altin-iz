@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.51 Taslak  
+**Belge sürümü:** 1.52 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 20: Test aşaması - Faz 14.3 (iOS testleri) TAMAMLANDI - Faz 14.4 (Kullanıcı ayrılığı güvenlik testleri) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz14-3-ios-tests.ts 16 senaryo ve 16/16 iddia ile çalıştırıldı; iOS platformuna özgü safe area, klavye, jestler, alt sekmeler, modal sunumları, sistem teması, AsyncStorage ve oturum yaşam döngüsü doğrulandı  
-**Son çalışma durumu:** Faz 14.3 başarıyla tamamlandı; iOS uygulama açılışı, SafeAreaView çentik/Dynamic Island ve alt çizgi koruması, KeyboardAvoidingView padding, e-posta doğrulama, şifre sıfırlama, 5 sekmeli alt menü, slide_from_right ve geri jesti, decimal-pad klavye, tarih seçici, modal portföy işlemleri, sistem teması senkronizasyonu, güvenli oturum kalıcılığı, çıkış, destructive alert ile hesap silme, çevrimdışı hata sunumu ve arka plan unmount abonelik temizliği 16 test ile onaylandı. Sıradaki görev Bölüm 20: Test aşaması - Faz 14.4 (Kullanıcı ayrılığı güvenlik testleri)
+**Proje aşaması:** Bölüm 20: Test aşaması TAMAMLANDI (%100) — Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz14-4-user-isolation-tests.ts 10 senaryo ve 10/10 iddia ile çalıştırıldı; Row Level Security (RLS), çoklu kiracı kullanıcı izolasyonu, tetikleyici korumaları ve gizli anahtar güvenliği doğrulandı  
+**Son çalışma durumu:** Faz 14.4 başarıyla tamamlandı; A ve B kullanıcıları için profil ayrılığı (`user_profiles_select_own`), tercih ayrılığı (`user_preferences_select_own`, `update_own`), portföy ayrılığı (`portfolio_entries_select_own`, `insert_own`), çapraz detay/güncelleme/silme engeli, manipüle edilmiş user_id koruması (`protect_portfolio_user_id` tetikleyicisi) ve istemcide service_role anahtarı bulunmaması 10 test ile onaylandı. Bölüm 20 (Test aşaması) %100 tamamlandı. Sıradaki görev Bölüm 21: Mağaza hazırlığı - Faz 15 (Uygulama kimliği ve sürümleme)
 
 ---
 
@@ -767,6 +767,21 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.52 Taslak - 22.10.2026
+- Bölüm 20: Test aşaması — Faz 14.4: Kullanıcı ayrılığı güvenlik testleri tamamlandı (Bölüm 20: Test aşaması %100 tamamlandı).
+- `supabase/tests/test-faz14-4-user-isolation-tests.ts` oluşturuldu; çoklu kiracı RLS, tetikleyici korumaları ve istemci servis izolasyonunu denetleyen 10 güvenlik testi yazılarak 10/10 iddia ile başarıyla doğrulandı:
+  1. A kullanıcısı profil ayrılığı (`user_profiles_select_own` politikası: `auth.uid() = user_id`).
+  2. B kullanıcısı profil ayrılığı (`user_profiles` tablosunda RLS etkinliği ve yetkisiz sorgulama engeli).
+  3. Tercih ayrılığı (`user_preferences_select_own` ve `user_preferences_update_own` politikaları ile `preferencesService` izolasyonu).
+  4. A kullanıcısı portföy ayrılığı (`portfolio_entries_select_own` ve `portfolioService.listEntries` filtrelemesi).
+  5. B kullanıcısı portföy ayrılığı (`portfolio_entries_insert_own` `WITH CHECK (auth.uid() = user_id)` kuralı).
+  6. Çapraz detay engeli (Cross-read: `portfolioService.getEntryById` `id` + `user_id` çift anahtar denetimi ve RLS koruması).
+  7. Çapraz güncelleme engeli (Cross-update: `portfolioService.updateEntry` ve `portfolio_entries_update_own`).
+  8. Çapraz silme engeli (Cross-delete: `portfolioService.deleteEntry` ve `portfolio_entries_delete_own`).
+  9. Manipüle edilmiş `user_id` koruması (`protect_portfolio_user_id` veritabanı tetikleyicisi `NEW.user_id <> OLD.user_id` istisnası ve istemci `activeUserId` güvencesi).
+  10. İstemci paketinde gizli anahtar güvenliği (`src/` taramasında JWT, database connection string ve `service_role` sızıntısı olmaması, `environment.ts` güvenli ihracı).
+- Bölüm 20 (Test aşaması) eksiksiz tamamlandı; sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15 (Uygulama kimliği ve sürümleme) olarak güncellendi.
 
 ### 1.51 Taslak - 22.10.2026
 - Bölüm 20: Test aşaması — Faz 14.3: iOS testleri tamamlandı.

@@ -1426,16 +1426,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 14.4: Kullanıcı ayrılığı güvenlik testleri
 
-- [ ] A kullanıcısı yalnızca kendi profilini görüyor.
-- [ ] B kullanıcısı yalnızca kendi profilini görüyor.
-- [ ] A kullanıcısı yalnızca kendi tercihlerini görüyor.
-- [ ] A kullanıcısı yalnızca kendi portföyünü görüyor.
-- [ ] B kullanıcısı yalnızca kendi portföyünü görüyor.
-- [ ] A kullanıcısı B'nin kayıt kimliğiyle detay alamıyor.
-- [ ] A kullanıcısı B'nin kayıt kimliğiyle güncelleme yapamıyor.
-- [ ] A kullanıcısı B'nin kayıt kimliğiyle silme yapamıyor.
-- [ ] Manipüle edilmiş `user_id` kabul edilmiyor.
-- [ ] Service role anahtarı istemci paketinde bulunmuyor.
+- [x] A kullanıcısı yalnızca kendi profilini görüyor.
+- [x] B kullanıcısı yalnızca kendi profilini görüyor.
+- [x] A kullanıcısı yalnızca kendi tercihlerini görüyor.
+- [x] A kullanıcısı yalnızca kendi portföyünü görüyor.
+- [x] B kullanıcısı yalnızca kendi portföyünü görüyor.
+- [x] A kullanıcısı B'nin kayıt kimliğiyle detay alamıyor.
+- [x] A kullanıcısı B'nin kayıt kimliğiyle güncelleme yapamıyor.
+- [x] A kullanıcısı B'nin kayıt kimliğiyle silme yapamıyor.
+- [x] Manipüle edilmiş `user_id` kabul edilmiyor.
+- [x] Service role anahtarı istemci paketinde bulunmuyor.
 
 ---
 
