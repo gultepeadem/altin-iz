@@ -1304,21 +1304,21 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 13: Güvenlik incelemesi
 
-- [ ] Mobil uygulamada gizli anahtar araması yap.
-- [ ] Git geçmişinde gizli anahtar araması yap.
-- [ ] Hata loglarında şifre olmadığını doğrula.
-- [ ] Hata loglarında erişim belirteci olmadığını doğrula.
-- [ ] Hata loglarında API anahtarı olmadığını doğrula.
-- [ ] Ekran görüntüsü ve debug çıktılarında hassas bilgi olmadığını kontrol et.
-- [ ] RLS politikalarını yeniden test et.
-- [ ] Edge Function yetkilerini sınırla.
-- [ ] Kullanıcı girdilerinin backend'de doğrulandığını kontrol et.
-- [ ] Bağımlılık güvenlik taraması yap.
-- [ ] Kullanılmayan paketleri kaldır.
-- [ ] Development loglarını production için sınırla.
-- [ ] Oturum süresi dolma davranışını test et.
-- [ ] Çıkış sonrası önbellek temizliğini test et.
-- [ ] Hesap silme sonrası erişimi test et.
+- [x] Mobil uygulamada gizli anahtar araması yap.
+- [x] Git geçmişinde gizli anahtar araması yap.
+- [x] Hata loglarında şifre olmadığını doğrula.
+- [x] Hata loglarında erişim belirteci olmadığını doğrula.
+- [x] Hata loglarında API anahtarı olmadığını doğrula.
+- [x] Ekran görüntüsü ve debug çıktılarında hassas bilgi olmadığını kontrol et.
+- [x] RLS politikalarını yeniden test et.
+- [x] Edge Function yetkilerini sınırla.
+- [x] Kullanıcı girdilerinin backend'de doğrulandığını kontrol et.
+- [x] Bağımlılık güvenlik taraması yap.
+- [x] Kullanılmayan paketleri kaldır.
+- [x] Development loglarını production için sınırla.
+- [x] Oturum süresi dolma davranışını test et.
+- [x] Çıkış sonrası önbellek temizliğini test et.
+- [x] Hesap silme sonrası erişimi test et.
 
 ---
 

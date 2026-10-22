@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.40 Taslak  
+**Belge sürümü:** 1.41 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 18: Hesap ve veri silme TAMAMLANDI - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) sıradaki  
-**Kodlama durumu:** account/delete.tsx onay ekranı, authService.deleteAccount metodu ve iki aşamalı silme akışı bağlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) TAMAMLANDI - Faz 13.1 (Gizlilik incelemesi) sıradaki  
+**Kodlama durumu:** src/utils/logger.ts güvenli loglayıcı bağlandı, loglarda şifre/token maskelemesi sağlandı, 12 tabloda RLS ve Edge Function yetkileri doğrulandı; 11/11 güvenlik testi başarılı
 
 ---
 
@@ -1262,6 +1262,18 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.41 Taslak - 22.10.2026
+
+- Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13: Güvenlik incelemesi tamamlandı.
+- Mobil kod tabanında (`src/`) ve Git commit geçmişinde `service_role`, şifre veya gizli anahtar sızıntısı bulunmadığı doğrulandı.
+- `src/utils/logger.ts` merkezi güvenli loglayıcı oluşturuldu; şifre (`password`, `parola`, `sifre`), Bearer token, JWT ve API anahtarı maskelemesi uygulandı; canlı ortamda debug loglarının susturulması sağlandı.
+- Kod tabanındaki doğrudan `console.` çağrıları güvenli `logger` metotlarıyla değiştirildi.
+- 12 veritabanı tablosunda RLS etkinliği ve kullanıcı portföy izolasyonu (`auth.uid() = user_id`) doğrulandı.
+- `delete-account` Edge Function CORS, 405 Method Not Allowed ve 401 Bearer sınırlandırmaları ile gerekçe sınırı (500 karakter) doğrulandı.
+- Expo SDK 58 uyumlu yama sürümleri (`expo@~58.0.17`, `expo-linking@~58.0.14`, `expo-router@~58.0.25`) güncellendi; `npx expo-doctor` 20/20 test ile onaylandı.
+- `supabase/tests/test-faz13-security-review.ts` test paketi oluşturuldu (11/11 test başarılı).
+- Sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1 (Gizlilik incelemesi) olarak güncellendi.
 
 ### 1.40 Taslak - 22.10.2026
 

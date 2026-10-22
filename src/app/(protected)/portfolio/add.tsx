@@ -42,6 +42,7 @@ import {
 import { useTheme } from '@/hooks/useTheme';
 import { goldProductService } from '@/services/goldProductService';
 import { portfolioService } from '@/services/portfolioService';
+import { logger } from '@/utils/logger';
 import type { GoldProduct } from '@/models/goldProduct';
 import {
   parseQuantity,
@@ -264,7 +265,7 @@ export default function PortfolioAddScreen() {
           message={error || 'Portföye eklenebilecek aktif altın ürünü bulunamadı.'}
           onRetry={() => {
             setLoading(true);
-            goldProductService.getPortfolioProducts().then(setProducts).catch(console.error).finally(() => setLoading(false));
+            goldProductService.getPortfolioProducts().then(setProducts).catch((err) => logger.error('PortfolioAdd', 'Ürünler yüklenemedi', err)).finally(() => setLoading(false));
           }}
         />
       </ScreenContainer>

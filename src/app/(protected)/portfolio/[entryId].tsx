@@ -45,6 +45,7 @@ import {
   formatPercent,
   formatQuantity,
 } from '@/utils/formatters';
+import { logger } from '@/utils/logger';
 
 export default function PortfolioEntryDetailScreen() {
   const { entryId } = useLocalSearchParams<{ entryId?: string }>();
@@ -102,7 +103,7 @@ export default function PortfolioEntryDetailScreen() {
           }
         } catch (priceErr) {
           // Fiyat bulunamazsa kayıt yine de görüntülenir (ADR-013)
-          console.warn('Güncel fiyat okunamadı:', priceErr);
+          logger.warn('PortfolioDetail', 'Güncel fiyat okunamadı:', priceErr);
           if (isMounted) {
             setLatestPrice(null);
           }

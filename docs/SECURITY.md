@@ -2,10 +2,10 @@
 
 **Belge adı:** `SECURITY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 19.10.2026  
-**Proje aşaması:** Planlama ve dokümantasyon  
-**Kodlama durumu:** Henüz başlanmadı  
+**Belge sürümü:** 1.2 Taslak  
+**Son güncelleme:** 22.10.2026  
+**Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) TAMAMLANDI  
+**Kodlama durumu:** src/utils/logger.ts güvenli loglayıcı kodlandı, loglarda şifre/token maskelemesi sağlandı, RLS ve Edge Function yetkileri doğrulandı; 11/11 güvenlik testi başarılı  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -1324,6 +1324,16 @@ Güvenlik açığının sömürü ayrıntısı bu belgeye gereksiz biçimde yaz�
 ---
 
 ## 39. Sürüm geçmişi
+
+### 1.2 Taslak - 22.10.2026
+
+- Faz 13 Güvenlik incelemesi ve sertleştirmesi tamamlandı.
+- Mobil kod tabanında (`src/`) ve Git geçmişinde `service_role`, şifre veya gizli anahtar sızıntısı bulunmadığı doğrulandı.
+- `src/utils/logger.ts` merkezi güvenli loglama aracı oluşturuldu; şifre (`password`, `parola`, `sifre`), Bearer token, JWT ve API anahtarı maskelemesi uygulandı; canlı ortamda debug loglarının susturulması sağlandı.
+- 12 veritabanı tablosunda RLS etkinliği ve kullanıcı portföy izolasyonu (`auth.uid() = user_id`) doğrulandı.
+- `delete-account` Edge Function CORS, 405 Method Not Allowed ve 401 Bearer sınırlandırmaları doğrulandı.
+- Expo SDK 58 uyumlu yama sürümleri (`expo@~58.0.17`, `expo-linking@~58.0.14`, `expo-router@~58.0.25`) güncellendi; `npx expo-doctor` 20/20 test ile onaylandı.
+- `supabase/tests/test-faz13-security-review.ts` 11/11 test ile doğrulandı.
 
 ### 1.1 Taslak - 19.10.2026
 

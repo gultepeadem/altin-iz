@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.53] - 22.10.2026
+
+### Added
+
+- Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13: Güvenlik incelemesi tamamlandı:
+  - `src/utils/logger.ts`: Güvenli, prodüksiyon duyarlı merkezi loglayıcı oluşturuldu:
+    - Şifreler (`password`, `parola`, `sifre`), Bearer belirteçleri, JWT dizileri, `service_role` ve API anahtarlarını maskeleyen `sanitizeLogData` ve `sanitizeString` fonksiyonları uygulandı.
+    - Canlı derlemede (`__DEV__ === false` veya `appEnv === 'production'`) debug loglarını tamamen susturma ve hata loglarında stack trace gizleme yetenekleri eklendi.
+  - `src/utils/index.ts`: `logger` dışa aktarımı eklendi.
+  - `src/services/legalService.ts`, `src/app/(protected)/portfolio/add.tsx`, `src/app/(protected)/portfolio/[entryId].tsx`: Doğrudan `console.warn` ve `console.error` çağrıları yerine güvenli `logger` metotlarına geçildi.
+  - `supabase/functions/delete-account/service.ts`: Gerekçe metni uzunluk sınırı (maksimum 500 karakter) ve ek girdi güvenliği denetimleri eklendi.
+  - `package.json`, `package-lock.json`: `npx expo install --fix` ile SDK 58 uyumlu `expo@~58.0.17`, `expo-linking@~58.0.14`, `expo-router@~58.0.25` yama güncellemeleri uygulandı; `npx expo-doctor` 20/20 başarılı.
+  - `supabase/tests/test-faz13-security-review.ts`: 11/11 senaryoyla kod tabanı ve Git geçmişi gizli anahtar denetimi, şifre/token/API anahtarı maskelemesi, prodüksiyon debug susturma, 12 tabloda RLS ve portföy izolasyonu, Edge Function yetki kısıtlamaları (CORS, 405, 401), backend girdi doğrulaması ve oturum sonlandırma/çıkış izolasyonunu doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 13 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1 (Gizlilik incelemesi) olarak güncellendi.
+- `docs/SECURITY.md`: 1.2 Taslak sürümüne yükseltildi; Faz 13 güvenlik kontrolleri ve test sonuçları işlendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.46 / 1.41 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.52] - 22.10.2026
 
 ### Added

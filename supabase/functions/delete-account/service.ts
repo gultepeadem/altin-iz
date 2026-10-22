@@ -44,6 +44,12 @@ export async function processAccountDeletion(params: {
 
   safeLog('Hesap silme işlemi başlatıldı.', { userId });
 
+  // İsteğe bağlı gerekçe sınırlandırılır (maksimum 500 karakter)
+  const reason = typeof body.reason === 'string' ? body.reason.trim().slice(0, 500) : undefined;
+  if (reason) {
+    safeLog('Ayrılma gerekçesi kaydedildi.', { length: reason.length });
+  }
+
   // 2. Yeniden kimlik doğrulama kontrolü (Şifre zorunludur)
   const password = body.password?.trim();
   if (!password) {

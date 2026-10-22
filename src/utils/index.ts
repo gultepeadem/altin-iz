@@ -4,3 +4,4 @@
 
 export * from './normalizeError';
 export * from './formatters';
+export * from './logger';

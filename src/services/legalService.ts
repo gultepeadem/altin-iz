@@ -28,6 +28,7 @@ import {
   FALLBACK_LEGAL_DOCUMENTS,
 } from '../models/legal.ts';
 import { normalizeError } from '../utils/normalizeError.ts';
+import { logger } from '../utils/logger.ts';
 
 export const legalService = {
   /**
@@ -147,7 +148,7 @@ export const legalService = {
     if (params.documentType) {
       const validation = validateConsentSeparation(params.documentType, params.eventType);
       if (!validation.isValid) {
-        console.warn(`[legalService] Hukuki kural ihlali engellendi: ${validation.error}`);
+        logger.warn('legalService', `Hukuki kural ihlali engellendi: ${validation.error}`);
         return null;
       }
     }

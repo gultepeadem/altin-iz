@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.45 Taslak  
+**Belge sürümü:** 1.46 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 18: Hesap ve veri silme TAMAMLANDI - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) sıradaki  
-**Kodlama durumu:** account/delete.tsx onay ekranı, authService.deleteAccount metodu ve iki aşamalı silme akışı bağlandı; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 12.2 ve Bölüm 18 başarıyla tamamlandı; hesap silme onay ekranı, parola ile yeniden kimlik doğrulama, silinecek veriler listesi, irreversible kırmızı uyarı panosu, iki aşamalı Alert onayı, ekran kilitleme ve oturum sonlandırma döngüsü test edildi. Sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi)
+**Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) TAMAMLANDI - Faz 13.1 (Gizlilik incelemesi) sıradaki  
+**Kodlama durumu:** src/utils/logger.ts güvenli loglayıcı bağlandı, şifre/token maskelemesi eklendi, 12 tabloda RLS ve Edge Function yetkileri doğrulandı; 11/11 güvenlik testi başarılı  
+**Son çalışma durumu:** Faz 13 başarıyla tamamlandı; kod tabanı ve Git geçmişi gizli anahtar denetimi yapıldı, logger modülü ile loglarda şifre/token maskelemesi sağlandı, canlı ortamda debug susturuldu, Expo SDK 58 yamaları uygulandı ve 11/11 test başarılı oldu. Sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13.1 (Gizlilik incelemesi)
 
 ---
 
@@ -767,6 +767,17 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.46 Taslak - 22.10.2026
+- Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13: Güvenlik incelemesi tamamlandı.
+- Mobil kod tabanında (`src/`) ve Git commit geçmişinde `service_role`, şifre veya gizli anahtar sızıntısı bulunmadığı doğrulandı.
+- `src/utils/logger.ts` merkezi güvenli loglayıcı oluşturuldu; şifre (`password`, `parola`, `sifre`), Bearer token, JWT ve API anahtarı maskelemesi uygulandı; canlı ortamda debug loglarının susturulması sağlandı.
+- Kod tabanındaki doğrudan `console.` çağrıları güvenli `logger` metotlarıyla değiştirildi.
+- 12 veritabanı tablosunda RLS etkinliği ve kullanıcı portföy izolasyonu (`auth.uid() = user_id`) doğrulandı.
+- `delete-account` Edge Function CORS, 405 Method Not Allowed ve 401 Bearer sınırlandırmaları ile gerekçe sınırı (500 karakter) doğrulandı.
+- Expo SDK 58 uyumlu yama sürümleri (`expo@~58.0.17`, `expo-linking@~58.0.14`, `expo-router@~58.0.25`) güncellendi; `npx expo-doctor` 20/20 test ile onaylandı.
+- `supabase/tests/test-faz13-security-review.ts` test paketi oluşturuldu (11/11 test başarılı).
+- Sıradaki görev Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1 (Gizlilik incelemesi) olarak güncellendi.
 
 ### 1.45 Taslak - 22.10.2026
 - Bölüm 18: Hesap ve veri silme — Faz 12.2: Hesap silme ekranı tamamlandı (Bölüm 18 %100 tamamlandı).
