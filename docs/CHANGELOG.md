@@ -56,6 +56,25 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.33] - 22.10.2026
+
+### Added
+
+- Faz 7 Hesaplama etki alanı fonksiyonları tamamlandı:
+  - `src/domain/calculations/money.ts`: Para dönüştürme (`toMinorUnits`, `fromMinorUnits`), kuruş yuvarlama (`roundToMinor`) ve `Number.MAX_SAFE_INTEGER` güvenli sınır denetimi (`isSafeMoney`) geliştirildi.
+  - `src/domain/calculations/percentage.ts`: Yüzdelik getiri hesaplayıcı (`calculatePercentageChange`) ve sıfıra bölme koruması geliştirildi.
+  - `src/domain/calculations/valuation.ts`: Satın alma tahmini (`calculatePurchaseEstimate`), bozdurma tahmini (`calculateRedemptionEstimate`) ve kayıt bazlı değerleme/kâr-zarar (`calculateEntryValuation`) fonksiyonları kodlandı. ADR-013 uyarınca fiyat yoksa asla 0 TL üretilmemesi sağlandı.
+  - `src/domain/calculations/portfolioSummary.ts`: Portföy konsolide özeti (`calculatePortfolioSummary`), kısmi portföy bayrağı (`isPartial`), eski fiyat bayrağı (`isStale`), ve eşleşen maliyet bazlı kâr-zarar hesabı kodlandı. Tekil kayıt yüzdelerinin asla toplanmaması ve ağırlıklı oran çıkarılması güvenceye alındı.
+  - `src/domain/validation/quantityValidation.ts`: Ölçü birimine göre miktar doğrulama (`validateQuantity`: adette pozitif tam sayı, gramda azami 3 ondalık pozitif sayı) ve metin ayrıştırma (`parseQuantity`: virgül ve nokta desteği) kodlandı.
+  - `docs/DECISIONS.md`: `ADR-032: Hesaplama Motoru ve Sayısal Hassasiyet Modeli` kararı kaydedildi.
+  - `supabase/tests/test-faz7-calculations.ts`: TODO.md birim testlerinin tamamını (tam adet, 3 ondalıklı gram, kâr, zarar, başa baş, yüzde, büyük para, fiyat yok, eski fiyat, kısmi portföy, yüzde toplamı yasağı ve miktar doğrulama) kapsayan 12/12 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 7 tamamlandı olarak işaretlendi; sıradaki görev Faz 7.1 (Hesaplama ekranı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.32] - 22.10.2026
 
 ### Added

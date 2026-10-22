@@ -947,33 +947,33 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 7: Hesaplama etki alanı fonksiyonları
 
-- [ ] Para modelini kesinleştir.
-- [ ] JavaScript güvenli tam sayı sınırını değerlendir.
-- [ ] Ondalıklı hesaplama kütüphanesi gerekip gerekmediğine karar ver.
-- [ ] Kararı `DECISIONS.md` içine yaz.
-- [ ] Satın alma tahmini fonksiyonunu oluştur.
-- [ ] Bozdurma tahmini fonksiyonunu oluştur.
-- [ ] Kayıt bazında tahmini değer fonksiyonunu oluştur.
-- [ ] Kâr-zarar fonksiyonunu oluştur.
-- [ ] Yüzde fonksiyonunu oluştur.
-- [ ] Sıfıra bölme korumasını oluştur.
-- [ ] Kısmi portföy toplamı fonksiyonunu oluştur.
-- [ ] Para yuvarlama kurallarını uygula.
-- [ ] Gram ve adet miktar doğrulamasını uygula.
+- [x] Para modelini kesinleştir.
+- [x] JavaScript güvenli tam sayı sınırını değerlendir.
+- [x] Ondalıklı hesaplama kütüphanesi gerekip gerekmediğine karar ver.
+- [x] Kararı `DECISIONS.md` içine yaz.
+- [x] Satın alma tahmini fonksiyonunu oluştur.
+- [x] Bozdurma tahmini fonksiyonunu oluştur.
+- [x] Kayıt bazında tahmini değer fonksiyonunu oluştur.
+- [x] Kâr-zarar fonksiyonunu oluştur.
+- [x] Yüzde fonksiyonunu oluştur.
+- [x] Sıfıra bölme korumasını oluştur.
+- [x] Kısmi portföy toplamı fonksiyonunu oluştur.
+- [x] Para yuvarlama kurallarını uygula.
+- [x] Gram ve adet miktar doğrulamasını uygula.
 
 ### Birim testleri
 
-- [ ] Tam adet hesabını test et.
-- [ ] Üç ondalıklı gram hesabını test et.
-- [ ] Kâr sonucunu test et.
-- [ ] Zarar sonucunu test et.
-- [ ] Başa baş sonucunu test et.
-- [ ] Yüzde hesabını test et.
-- [ ] Büyük para değerini test et.
-- [ ] Fiyat yok durumunu test et.
-- [ ] Eski fiyat durumunu test et.
-- [ ] Kısmi portföy toplamını test et.
-- [ ] Her kayıt yüzdesinin toplanmadığını test et.
+- [x] Tam adet hesabını test et.
+- [x] Üç ondalıklı gram hesabını test et.
+- [x] Kâr sonucunu test et.
+- [x] Zarar sonucunu test et.
+- [x] Başa baş sonucunu test et.
+- [x] Yüzde hesabını test et.
+- [x] Büyük para değerini test et.
+- [x] Fiyat yok durumunu test et.
+- [x] Eski fiyat durumunu test et.
+- [x] Kısmi portföy toplamını test et.
+- [x] Her kayıt yüzdesinin toplanmadığını test et.
 
 ---
 

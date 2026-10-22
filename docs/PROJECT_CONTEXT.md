@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.20 Taslak  
+**Belge sürümü:** 1.21 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 12 (Fiyat sistemi) tamamlandı, Bölüm 13 - Faz 7 (Hesaplama sistemi) sıradaki  
-**Kodlama durumu:** gold/[productId].tsx dinamik doğrulama, canlı fiyatlar, günün değerleri, durum rozetleri, portföy/hesaplama butonları ve finansal bilgilendirme ile tamamlandı
+**Proje durumu:** Bölüm 13 - Hesaplama sistemi (Faz 7 tamamlandı, Faz 7.1 sıradaki)  
+**Kodlama durumu:** src/domain/calculations ve src/domain/validation modülleri tamamlandı; ADR-032 kaydedildi
 
 ---
 
@@ -1112,7 +1112,7 @@ Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-asy
 Mevcut geçiş durumu:
 
 ```text
-Faz 6.6 (Altın detay ekranı) ve Bölüm 12 (Fiyat sistemi) tamamlandı; Bölüm 13 (Hesaplama Sistemi) - Faz 7 aşamasına geçiş
+Faz 7 (Hesaplama etki alanı fonksiyonları) tamamlandı; Bölüm 13 (Hesaplama Sistemi) - Faz 7.1 aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 6.6 (Altın detay ekranı) ve Bölüm 12 (Fiyat sistemi) tamamlandı; Bölü
 Sıradaki teknik görev:
 
 ```text
-Faz 7: Hesaplama etki alanı fonksiyonları
+Faz 7.1: Hesaplama ekranı
 ```
 
-Bu görevde para modeli kesinleştirilecek, JavaScript güvenli tam sayı sınırları (BigInt vs Number) değerlendirilecek, ondalıklı hesaplama kütüphanesi gerekip gerekmediğine karar verilerek `DECISIONS.md` içine yazılacak; ardından `calculatorDomain.ts` etki alanı modülünde satın alma tahmini ve bozdurma tahmini fonksiyonları kodlanacaktır.
+Bu görevde `src/app/(protected)/(tabs)/calculator.tsx` ekranı kodlanacak; altın türü seçicisi (`calculator_enabled` ürünleri), miktar alanı, ürüne göre adet/gram etiketlerinin dinamik gösterimi, Satın Alacağım / Bozduracağım seçenekleri, Hesapla butonu, sonucu temizle butonu, kullanılan fiyat türü ("Satış Fiyatı" / "Alış Fiyatı"), son güncelleme zamanı, güncellik durumu ve finansal bilgilendirme metni entegre edilecektir.
 
 ---
 

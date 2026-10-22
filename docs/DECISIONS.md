@@ -1091,6 +1091,24 @@ Altın İz V1 geliştirme ve doğrulama sürecinde ücretli altyapı, ücretli A
 
 ---
 
+# ADR-032: Hesaplama Motoru ve Sayısal Hassasiyet Modeli
+
+**Tarih:** 22.10.2026  
+**Durum:** Aktif
+
+## Karar
+
+1. **Sıfır Bağımlılık Yaklaşımı:** Finansal hesaplama için harici bir ağır ondalıklı sayı kütüphanesi (`bignumber.js`, `decimal.js` vb.) mobil istemci paket boyutunu şişirmemek, çalışma zamanı performansını düşürmemek ve gereksiz harici bağımlılık yaratmamak amacıyla V1 aşamasında kullanılmayacaktır.
+2. **Kuruş Bazlı Tamsayı Modeli:** Türk Lirası para değerleri kuruş (minor unit) cinsinden tamsayı olarak saklanır ve işlenir (ADR-007). 1 TL = 100 kuruş.
+3. **Güvenli Sayı Sınırı:** JavaScript yerel `Number` türünün güvenli tamsayı üst sınırı olan `Number.MAX_SAFE_INTEGER` ($2^{53} - 1 = 9,007,199,254,740,991$ kuruş $\approx 90$ Trilyon TL), bireysel altın portföyü ve alım-satım hesaplamaları için fazlasıyla yeterlidir.
+4. **Miktar Hassasiyeti:** Ürün miktarları `NUMERIC(18,3)` kuralına uygun olarak adetli ürünlerde pozitif tam sayı, gramlı ürünlerde azami 3 ondalık basamak (ör. 1.250 gr) olarak doğrulanır (ADR-009).
+5. **Yuvarlama Kuralı:** Miktar ile fiyat çarpımlarında ara kuruş küsuratları en yakın kuruş tamsayısına `Math.round()` ile yuvarlanır (`roundToMinor`).
+6. **Sıfıra Bölme Koruması:** Yüzde değişim hesaplamalarında taban maliyet sıfır veya negatifse sıfıra bölme hatası engellenir ve oran %0 olarak döndürülür.
+7. **Portföy Yüzde Toplamı Yasağı:** Portföy genel yüzdesi hesaplanırken asla tekil kayıtların yüzdeleri toplanmaz; portföyün net kâr/zarar tutarı ile fiyatı bilinen altınların eşleşen toplam maliyeti oranlanır.
+8. **Kısmi Portföy İzolasyonu:** Fiyatı bulunamayan ürünlerde ADR-013 kuralı uyarınca kesinlikle 0 TL kabul edilmez; kısmi portföyde kâr-zarar hesabı yalnızca fiyatı bilinen kayıtların ödenen maliyetiyle eşleştirilir.
+
+---
+
 # Açık kararlar
 
 Aşağıdaki konular henüz tam kesinleşmemiştir:
@@ -1121,6 +1139,10 @@ Bu kararlar kesinleştiğinde yeni ADR bölümleri eklenir veya ilgili koşullu 
 ---
 
 # Sürüm geçmişi
+
+## 1.2 - 22.10.2026
+
+- ADR-032 ile hesaplama motoru ve sayısal hassasiyet modeli karara bağlandı (harici kütüphanesiz kuruş bazlı tamsayı modeli, `Number.MAX_SAFE_INTEGER` güvenli sınırları, miktar doğrulama kuralları).
 
 ## 1.1 - 03.09.2026
 
