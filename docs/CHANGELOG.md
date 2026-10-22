@@ -56,6 +56,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.14] - 22.10.2026
+
+### Added
+
+- Faz 4.2 Veritabanı Migration Dosyaları tamamlandı:
+  - `20261022000001_extensions_and_helpers.sql`: `pgcrypto`, `uuid-ossp` uzantıları ve ortak `update_updated_at_column()` fonksiyonu oluşturuldu.
+  - `20261022000002_user_tables.sql`: `user_profiles` ve `user_preferences` tabloları, CHECK kısıtları ve `updated_at` tetikleyicileriyle oluşturuldu.
+  - `20261022000003_product_and_price_tables.sql`: `gold_products`, `price_sources`, `price_source_product_mappings`, `price_fetch_runs` ve `gold_prices` tabloları, benzersizlik kısıtları, doğrulamalar ve performans indeksleriyle oluşturuldu.
+  - `20261022000004_portfolio_tables.sql`: `portfolio_entries` tablosu, sayısal hassasiyet, tarih kontrolü (`purchase_date <= CURRENT_DATE`) ve kullanıcı indeksleriyle oluşturuldu.
+  - `20261022000005_legal_and_security_tables.sql`: `legal_documents`, `user_legal_events`, `account_deletion_requests` ve `security_events` tabloları oluşturuldu.
+  - Development veritabanında tüm migrationlar çalıştırıldı ve REST API üzerinden 12 tablonun tamamının HTTP 200 ile erişilebilir olduğu doğrulandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 4.2 tamamlandı olarak işaretlendi; sıradaki görev Faz 4.3 (Başlangıç ürün verileri) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.13] - 22.10.2026
 
 ### Added

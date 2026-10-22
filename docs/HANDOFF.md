@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.13 Taslak  
+**Belge sürümü:** 1.14 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.1 tamamlandı, Faz 4.2 sıradaki)  
-**Kodlama durumu:** Supabase yerel proje yapısı (config, migrations, seed) kuruldu  
-**Son çalışma durumu:** Faz 4.1 başarıyla tamamlandı; supabase CLI kuruldu, supabase/ klasörü (config.toml, seed.sql, migrations/.gitkeep) oluşturuldu. Sıradaki görev Faz 4.2 (Veritabanı migration dosyaları)
+**Proje aşaması:** Supabase development altyapısı (Faz 4.2 tamamlandı, Faz 4.3 sıradaki)  
+**Kodlama durumu:** Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (12 tablo)  
+**Son çalışma durumu:** Faz 4.2 başarıyla tamamlandı; 5 adet migration dosyası hazırlandı, development veritabanında çalıştırıldı ve 12 tablo doğrulandı. Sıradaki görev Faz 4.3 (Başlangıç ürün verileri)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 4.1 kapsamında Supabase yerel proje yapısını (config.toml, migrations, seed.sql) kurmak ve CLI bağımlılığını yapılandırmak
+Faz 4.2 kapsamında DATABASE.md şemasına uygun migration dosyalarını oluşturmak, veritabanına uygulamak ve tabloları doğrulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 4.1 tamamlandı: supabase paketi devDependencies içine eklendi; supabase/config.toml, migrations/.gitkeep ve seed.sql oluşturuldu; yerel proje altin-iz-dev referansıyla eşleştirildi
+Faz 4.2 tamamlandı: 5 adet SQL migration dosyası supabase/migrations/ altında oluşturuldu, veritabanına uygulandı ve 12 tablonun (user_profiles, gold_products, portfolio_entries vb.) hazır olduğu REST API üzerinden doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Supabase development altyapısı (Faz 4.2 hazırlığı)
+Supabase development altyapısı (Faz 4.3 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-ff409e7 (feat(supabase): initialize local supabase structure, config, seed, and migrations (Faz 4.1))
+c9ef12a (feat(database): apply schema migrations for 12 core tables, triggers, and indexes (Faz 4.2))
 ```
 
 ### Son çalışan commit
 
 ```text
-ff409e7
+c9ef12a
 ```
 
 ### Aktif dal
@@ -408,7 +408,7 @@ main
 ### Migration durumu
 
 ```text
-Migration dosyaları henüz yazılmadı.
+5 adet SQL migration dosyası hazırlandı ve development veritabanında çalıştırıldı (12 tablo, tetikleyiciler, indeksler).
 ```
 
 Gerçek olmayan commit, dal veya migration adı uydurulmamalıdır.
@@ -591,21 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 4.2: Veritabanı migration dosyaları
+Faz 4.3: Başlangıç ürün verileri
 ```
 
-Bu görevde PostgreSQL UUID desteği, ortak updated_at tetikleyici fonksiyonu, user_profiles, user_consents, audit_logs, legal_documents, gold_products, gold_product_aliases, gold_prices, portfolio_entries ve account_deletion_requests tablolarının migration dosyaları hazırlanacaktır.
+Bu görevde kesinleşen ürün kodları (Gram, Çeyrek, Yarım, Tam, Ata, Ayar ve Paketli altınlar), ölçü birimleri, miktar hassasiyetleri ve Ons Altın (`portfolio_enabled = false`) gibi kural tanımları hazırlanarak `supabase/seed.sql` dosyasına eklenecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 4.2 şu koşullarda tamamlanmış sayılır:
+Faz 4.3 şu koşullarda tamamlanmış sayılır:
 
-- `DATABASE.md` içinde tanımlanan tablolar ve ilişkiler migration dosyalarına dökülmeli.
-- Ortak `updated_at` tetikleyicisi tanımlanmalı.
-- Her migration için tablo, sütun kısıtları (NOT NULL, CHECK, UNIQUE) ve dizinler eksiksiz olmalı.
-- `docs/TODO.md` içindeki Faz 4.2 maddeleri güncellenmeli.
+- V1 kapsamında desteklenen altın ürünleri `gold_products` şemasına uygun biçimde seed dosyasında tanımlanmalı.
+- Her ürünün `measurement_unit`, `quantity_precision`, `portfolio_enabled` ve `calculator_enabled` değerleri doğru belirlenmeli.
+- Seed dosyasında kesinlikle gerçek kullanıcı verisi bulunmamalı.
+- `docs/TODO.md` içindeki Faz 4.3 maddeleri güncellenmeli.
 
 ---
 
@@ -625,7 +625,8 @@ Faz 4.2 şu koşullarda tamamlanmış sayılır:
 - [x] Tema ve tasarım sistemi bileşenleri hazırlandı (Faz 3 - Faz 3.1).
 - [x] Expo Router rota iskeleti kuruldu (Faz 3.2: 8cdefa9).
 - [x] Development Supabase projesi oluşturuldu ve bağlandı (Faz 4: 9539dc5).
-- [x] Supabase yerel proje yapısı kuruldu (Faz 4.1).
+- [x] Supabase yerel proje yapısı kuruldu (Faz 4.1: f0b0232).
+- [x] Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (Faz 4.2).
 
 ---
 

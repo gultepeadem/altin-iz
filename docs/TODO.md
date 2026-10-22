@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.9 Taslak  
+**Belge sürümü:** 1.10 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.1 tamamlandı, Faz 4.2 sıradaki)  
-**Kodlama durumu:** Supabase yerel proje yapısı (config, migrations, seed) kuruldu
+**Proje aşaması:** Supabase development altyapısı (Faz 4.2 tamamlandı, Faz 4.3 sıradaki)  
+**Kodlama durumu:** Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (12 tablo)
 
 ---
 
@@ -580,28 +580,28 @@ Initialize Expo TypeScript project
 
 Migration görevleri küçük dosyalara ayrılabilir:
 
-- [ ] UUID veya gerekli PostgreSQL özelliklerini hazırla.
-- [ ] Ortak `updated_at` fonksiyonunu oluştur.
-- [ ] `user_profiles` tablosunu oluştur.
-- [ ] `user_preferences` tablosunu oluştur.
-- [ ] `gold_products` tablosunu oluştur.
-- [ ] `price_sources` tablosunu oluştur.
-- [ ] `price_source_product_mappings` tablosunu oluştur.
-- [ ] `price_fetch_runs` tablosunu oluştur.
-- [ ] `gold_prices` tablosunu oluştur.
-- [ ] `portfolio_entries` tablosunu oluştur.
-- [ ] `legal_documents` tablosunu oluştur.
-- [ ] `user_legal_events` tablosunu oluştur.
-- [ ] `account_deletion_requests` tablosunu oluştur.
-- [ ] `security_events` tablosunu oluştur.
-- [ ] Yabancı anahtarları ekle.
-- [ ] Benzersizlik kurallarını ekle.
-- [ ] `CHECK` kısıtlarını ekle.
-- [ ] İndeksleri ekle.
-- [ ] `updated_at` tetikleyicilerini ekle.
-- [ ] Migrationları boş development veritabanında çalıştır.
-- [ ] Migrationları ikinci kez sıfırdan kurarak doğrula.
-- [ ] Şemayı `DATABASE.md` ile karşılaştır.
+- [x] UUID veya gerekli PostgreSQL özelliklerini hazırla.
+- [x] Ortak `updated_at` fonksiyonunu oluştur.
+- [x] `user_profiles` tablosunu oluştur.
+- [x] `user_preferences` tablosunu oluştur.
+- [x] `gold_products` tablosunu oluştur.
+- [x] `price_sources` tablosunu oluştur.
+- [x] `price_source_product_mappings` tablosunu oluştur.
+- [x] `price_fetch_runs` tablosunu oluştur.
+- [x] `gold_prices` tablosunu oluştur.
+- [x] `portfolio_entries` tablosunu oluştur.
+- [x] `legal_documents` tablosunu oluştur.
+- [x] `user_legal_events` tablosunu oluştur.
+- [x] `account_deletion_requests` tablosunu oluştur.
+- [x] `security_events` tablosunu oluştur.
+- [x] Yabancı anahtarları ekle.
+- [x] Benzersizlik kurallarını ekle.
+- [x] `CHECK` kısıtlarını ekle.
+- [x] İndeksleri ekle.
+- [x] `updated_at` tetikleyicilerini ekle.
+- [x] Migrationları boş development veritabanında çalıştır.
+- [x] Migrationları ikinci kez sıfırdan kurarak doğrula.
+- [x] Şemayı `DATABASE.md` ile karşılaştır.
 
 ---
 

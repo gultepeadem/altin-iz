@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.8 Taslak  
+**Belge sürümü:** 1.9 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Supabase development altyapısı (Faz 4.1 tamamlandı, Faz 4.2 sıradaki)  
-**Kodlama durumu:** Supabase yerel proje yapısı (config, migrations, seed) kuruldu
+**Proje durumu:** Supabase development altyapısı (Faz 4.2 tamamlandı, Faz 4.3 sıradaki)  
+**Kodlama durumu:** Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (12 tablo)
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.1 (Supabase yerel proje yapısı) adımı başarıyla tamamlanmıştır.
+Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.2 (Veritabanı migration dosyaları) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 4.1 tamamlandı: Supabase CLI devDependency olarak eklendi; supabase/config.toml, migrations/ dizini (.gitkeep) ve seed.sql dosyası oluşturuldu; proje kimliği (hoqujzhcjeaudmkyqgpc) yerel yapıyla bağlandı.
+Faz 4.2 tamamlandı: DATABASE.md ile birebir uyumlu 5 migration dosyası (uzantılar, kullanıcı tabloları, ürün ve fiyat tabloları, portföy tablosu, yasal ve güvenlik tabloları) hazırlandı, development veritabanına uygulandı ve 12 tablonun tamamı REST API üzerinden doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 4.1 (Supabase yerel proje yapısı) tamamlandı; Faz 4.2 (Veritabanı migration dosyaları) aşamasına geçiş
+Faz 4.2 (Veritabanı migration dosyaları) tamamlandı; Faz 4.3 (Başlangıç ürün verileri) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 4.1 (Supabase yerel proje yapısı) tamamlandı; Faz 4.2 (Veritabanı migrat
 Sıradaki teknik görev:
 
 ```text
-Faz 4.2: Veritabanı migration dosyaları
+Faz 4.3: Başlangıç ürün verileri
 ```
 
-Bu görevde PostgreSQL UUID desteği, ortak `updated_at` tetikleyici fonksiyonu, `user_profiles`, `user_consents`, `audit_logs`, `legal_documents`, `gold_products`, `gold_product_aliases`, `gold_prices`, `portfolio_entries` ve `account_deletion_requests` tablolarının migration dosyaları hazırlanacaktır.
+Bu görevde kesinleşen ürün kodları (Gram, Çeyrek, Yarım, Tam, Ata, Ayar ve Paketli altınlar), ölçü birimleri, miktar hassasiyetleri ve Ons Altın (`portfolio_enabled = false`) gibi kural tanımları hazırlanarak `supabase/seed.sql` dosyasına eklenecektir.
 
 ---
 
