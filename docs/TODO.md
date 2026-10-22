@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.13 Taslak  
+**Belge sürümü:** 1.14 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 10 (Supabase development altyapısı) tamamlandı; Bölüm 11 (Supabase JS SDK ve oturum yönetimi - Faz 5) sıradaki  
-**Kodlama durumu:** RLS politikaları ve güvenlik testleri (16 senaryo) başarıyla doğrulandı
+**Proje aşaması:** Kullanıcı hesabı geliştirmesi (Faz 5 tamamlandı, Faz 5.1 sıradaki)  
+**Kodlama durumu:** Supabase JS istemcisi (singleton), ortam değişkenleri ve AsyncStorage adaptörü kuruldu
 
 ---
 
@@ -698,19 +698,19 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5: Supabase istemcisi
 
-- [ ] Güncel Expo-Supabase entegrasyon yöntemini doğrula.
-- [ ] Gerekli paketleri listele.
-- [ ] Her paketin neden gerektiğini açıkla.
-- [ ] Paketlerin Expo uyumluluğunu kontrol et.
-- [ ] Paketleri kur.
-- [ ] `src/lib/environment.ts` oluştur.
-- [ ] `src/lib/supabase.ts` oluştur.
-- [ ] Tek Supabase istemcisi oluştur.
-- [ ] Güvenli mobil oturum saklama yöntemini uygula.
-- [ ] Eksik ortam değişkeni hata durumunu uygula.
-- [ ] Gizli anahtar bulunmadığını kontrol et.
-- [ ] Android'de bağlantıyı test et.
-- [ ] iOS uyumluluğunu kontrol et.
+- [x] Güncel Expo-Supabase entegrasyon yöntemini doğrula.
+- [x] Gerekli paketleri listele.
+- [x] Her paketin neden gerektiğini açıkla.
+- [x] Paketlerin Expo uyumluluğunu kontrol et.
+- [x] Paketleri kur.
+- [x] `src/lib/environment.ts` oluştur.
+- [x] `src/lib/supabase.ts` oluştur.
+- [x] Tek Supabase istemcisi oluştur.
+- [x] Güvenli mobil oturum saklama yöntemini uygula.
+- [x] Eksik ortam değişkeni hata durumunu uygula.
+- [x] Gizli anahtar bulunmadığını kontrol et.
+- [x] Android'de bağlantıyı test et.
+- [x] iOS uyumluluğunu kontrol et.
 
 ---
 

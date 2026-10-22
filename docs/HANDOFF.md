@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.17 Taslak  
+**Belge sürümü:** 1.18 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 10 (Supabase development altyapısı) tamamlandı; Bölüm 11 (Faz 5: Supabase istemcisi) sıradaki  
-**Kodlama durumu:** RLS politikaları ve güvenlik testleri (16 senaryo) başarıyla doğrulandı  
-**Son çalışma durumu:** Faz 4.5 başarıyla tamamlandı; Test Kullanıcısı A ve B ile 16 adet RLS güvenlik ve yetki testi çalıştırıldı, %100 geçti. Sıradaki görev Faz 5 (Supabase JS SDK ve istemci kurulumu)
+**Proje aşaması:** Kullanıcı hesabı geliştirmesi (Faz 5 tamamlandı, Faz 5.1 sıradaki)  
+**Kodlama durumu:** Supabase JS istemcisi (singleton), ortam değişkenleri ve AsyncStorage adaptörü kuruldu  
+**Son çalışma durumu:** Faz 5 başarıyla tamamlandı; @supabase/supabase-js ve AsyncStorage kuruldu, src/lib/environment.ts ve src/lib/supabase.ts oluşturuldu. Sıradaki görev Faz 5.1 (Auth servisleri)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 4.5 kapsamında iki bağımsız test kullanıcısı (A ve B) üzerinden RLS çapraz erişim, kolon koruma ve yetkilendirme testlerini çalıştırmak ve belgelemek
+Faz 5 kapsamında Expo SDK 58 uyumlu Supabase JS istemcisini ve AsyncStorage tabanlı oturum adaptörünü mobil uygulamaya entegre etmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 4.5 tamamlandı: Test Kullanıcısı A ve B üzerinden 16 adet RLS testi çalıştırıldı; çift yönlü kullanıcı veri izolasyonu, kolon koruma kuralları ve salt-okunur fiyat kuralları %100 başarıyla doğrulandı; Bölüm 10 eksiksiz tamamlandı
+Faz 5 tamamlandı: @supabase/supabase-js ve AsyncStorage kuruldu; src/lib/environment.ts, src/lib/supabase.ts ve src/lib/index.ts oluşturuldu; singleton istemci üzerinden canlı veritabanı sorgusu başarıyla test edildi
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 11 - Kullanıcı hesabı geliştirmesi (Faz 5 hazırlığı)
+Bölüm 11 - Kullanıcı hesabı geliştirmesi (Faz 5.1 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-e6ecf5f (test(database): verify RLS policies and document security suite results (Faz 4.5))
+65ae722 (feat(client): setup Supabase JS client, environment validation, and AsyncStorage session adapter (Faz 5))
 ```
 
 ### Son çalışan commit
 
 ```text
-e6ecf5f
+65ae722
 ```
 
 ### Aktif dal
@@ -591,22 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5: Supabase istemcisi
+Faz 5.1: Auth servisleri
 ```
 
-Bu görevde Expo SDK 58 için en güncel `@supabase/supabase-js` paketi ve güvenli oturum saklama altyapısı kurulacak; `src/lib/environment.ts` ve `src/lib/supabase.ts` dosyaları oluşturularak mobil uygulamanın Supabase bağlantısı başlatılacaktır.
+Bu görevde `src/services/authService.ts` dosyası oluşturularak kayıt olma, giriş yapma, çıkış yapma, mevcut oturumu okuma, e-posta doğrulamasını tekrar gönderme ve şifre sıfırlama işlemlerinin servis fonksiyonları kodlanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5 şu koşullarda tamamlanmış sayılır:
+Faz 5.1 şu koşullarda tamamlanmış sayılır:
 
-- `@supabase/supabase-js` paketi Expo uyumlu sürümle kurulmalı.
-- Güvenli mobil oturum saklama adaptörü (AsyncStorage veya SecureStore kararı) yapılandırılmalı.
-- `src/lib/environment.ts` ortam değişkenlerini doğrulamalı; eksik değişken durumunda anlaşılır hata üretmeli.
-- `src/lib/supabase.ts` tek bir istemci örneği (singleton) dışa aktarmalı.
-- `docs/TODO.md` içindeki Faz 5 maddeleri güncellenmeli.
+- `src/services/authService.ts` dosyası oluşturulmalı.
+- Kayıt, giriş, çıkış, oturum kontrolü, e-posta doğrulama ve şifre sıfırlama fonksiyonları yazılmalı.
+- Hata yönetiminde `normalizeError` kullanılmalı; kullanıcıya anlaşılır Türkçe mesajlar dönmeli.
+- `docs/TODO.md` içindeki Faz 5.1 maddeleri güncellenmeli.
 
 ---
 
@@ -630,7 +629,8 @@ Faz 5 şu koşullarda tamamlanmış sayılır:
 - [x] Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (Faz 4.2: a871164).
 - [x] Başlangıç ürün kataloğu ve test verileri seed edildi (Faz 4.3: 89af81b).
 - [x] RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı (Faz 4.4: b5f736c).
-- [x] İki kullanıcılı RLS güvenlik testleri %100 başarıyla tamamlandı (Faz 4.5).
+- [x] İki kullanıcılı RLS güvenlik testleri %100 başarıyla tamamlandı (Faz 4.5: 33b59c2).
+- [x] Supabase JS istemcisi, ortam değişkenleri ve oturum adaptörü kuruldu (Faz 5).
 
 ---
 

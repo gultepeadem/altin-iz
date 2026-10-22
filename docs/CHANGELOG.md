@@ -56,6 +56,23 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.18] - 22.10.2026
+
+### Added
+
+- Faz 5 Supabase İstemcisi tamamlandı:
+  - `@supabase/supabase-js` (^2.118.0) ve `@react-native-async-storage/async-storage` (2.2.0) paketleri `npx expo install` ile Expo SDK 58 uyumlu olarak kuruldu.
+  - `src/lib/environment.ts` oluşturuldu; `EXPO_PUBLIC_SUPABASE_URL` ve `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` ortam değişkenlerini doğrulayan, eksiklik durumunda açıklayıcı hata fırlatan yapı kuruldu.
+  - `src/lib/supabase.ts` oluşturuldu; mobil oturumu `AsyncStorage` ile cihazda güvenle saklayan, otomatik token yenileme (`autoRefreshToken: true`) ve kalıcı oturum (`persistSession: true`) özelliklerine sahip tek Supabase istemcisi (singleton) yapılandırıldı.
+  - `src/lib/index.ts` oluşturuldu ve istemci dışa aktarımları düzenlendi.
+  - Supabase JS istemcisi üzerinden veritabanı sorgusu (`gold_products`) başarıyla test edildi.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.1 (Auth servisleri) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.17] - 22.10.2026
 
 ### Added

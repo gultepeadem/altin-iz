@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.12 Taslak  
+**Belge sürümü:** 1.13 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 10 (Supabase development altyapısı) tamamlandı; Bölüm 11 (Supabase JS SDK ve oturum yönetimi - Faz 5) sıradaki  
-**Kodlama durumu:** RLS politikaları ve güvenlik testleri (16 senaryo) başarıyla doğrulandı
+**Proje durumu:** Kullanıcı hesabı geliştirmesi (Faz 5 tamamlandı, Faz 5.1 sıradaki)  
+**Kodlama durumu:** Supabase JS istemcisi (singleton), ortam değişkenleri ve AsyncStorage adaptörü kuruldu
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 10 kapsamındaki Supabase Development Altyapısı (Faz 4, Faz 4.1, Faz 4.2, Faz 4.3, Faz 4.4 ve Faz 4.5) eksiksiz tamamlanmıştır.
+Bölüm 11 (Kullanıcı Hesabı Geliştirmesi) kapsamındaki Faz 5 (Supabase istemcisi) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 4.5 tamamlandı: Test Kullanıcısı A ve B üzerinden 16 adet RLS güvenlik ve yetki testi çalıştırıldı; kullanıcılar arası çift yönlü portföy ve profil izolasyonu, sahte veri engeli, kolon koruması ve salt-okunur fiyat kuralları %100 başarıyla kanıtlandı.
+Faz 5 tamamlandı: Expo SDK 58 uyumlu @supabase/supabase-js ve @react-native-async-storage/async-storage kuruldu; src/lib/environment.ts (katı doğrulama), src/lib/supabase.ts (singleton istemci ve oturum saklama adaptörü) ve src/lib/index.ts oluşturuldu; canlı veritabanı sorgusu test edildi.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Bölüm 10 (Supabase Development Altyapısı) tamamlandı; Bölüm 11 (Kullanıcı Hesabı Geliştirmesi - Faz 5: Supabase İstemcisi) aşamasına geçiş
+Faz 5 (Supabase istemcisi) tamamlandı; Faz 5.1 (Auth servisleri) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Bölüm 10 (Supabase Development Altyapısı) tamamlandı; Bölüm 11 (Kullanıc
 Sıradaki teknik görev:
 
 ```text
-Faz 5: Supabase istemcisi
+Faz 5.1: Auth servisleri
 ```
 
-Bu görevde Expo SDK 58 için en güncel `@supabase/supabase-js` paketi ve güvenli oturum saklama altyapısı kurulacak; `src/lib/environment.ts` ve `src/lib/supabase.ts` dosyaları oluşturularak mobil uygulamanın Supabase bağlantısı başlatılacaktır.
+Bu görevde `src/services/authService.ts` dosyası oluşturularak kayıt olma, giriş yapma, çıkış yapma, mevcut oturumu okuma, e-posta doğrulamasını tekrar gönderme ve şifre sıfırlama işlemlerinin servis fonksiyonları kodlanacaktır.
 
 ---
 
