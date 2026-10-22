@@ -852,23 +852,23 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 6.2: Fiyat doğrulama
 
-- [ ] Yanıtın JSON olduğunu doğrula.
-- [ ] Fiyat listesinin beklenen yapıda olduğunu doğrula.
-- [ ] Sembol boşsa reddet.
-- [ ] Eşleştirme yoksa reddet.
-- [ ] Alış fiyatının sayı olduğunu doğrula.
-- [ ] Satış fiyatının sayı olduğunu doğrula.
-- [ ] En az bir fiyatın mevcut olduğunu doğrula.
-- [ ] Negatif ve sıfır fiyatı reddet.
-- [ ] Para birimini doğrula.
-- [ ] Ürün birimini doğrula.
-- [ ] Zaman damgasını doğrula.
-- [ ] Makul olmayan gelecek zamanını reddet.
-- [ ] Sağlayıcının eski veri işaretini kaydet.
-- [ ] Ondalıklı TL değerini güvenli biçimde kuruşa çevir.
-- [ ] Geçersiz fiyatın kullanıcıya gösterilmediğini test et.
-- [ ] `price_fetch_runs` sayaçlarını güncelle.
-- [ ] `success`, `partial` ve `failed` durumlarını test et.
+- [x] Yanıtın JSON olduğunu doğrula.
+- [x] Fiyat listesinin beklenen yapıda olduğunu doğrula.
+- [x] Sembol boşsa reddet.
+- [x] Eşleştirme yoksa reddet.
+- [x] Alış fiyatının sayı olduğunu doğrula.
+- [x] Satış fiyatının sayı olduğunu doğrula.
+- [x] En az bir fiyatın mevcut olduğunu doğrula.
+- [x] Negatif ve sıfır fiyatı reddet.
+- [x] Para birimini doğrula.
+- [x] Ürün birimini doğrula.
+- [x] Zaman damgasını doğrula.
+- [x] Makul olmayan gelecek zamanını reddet.
+- [x] Sağlayıcının eski veri işaretini kaydet.
+- [x] Ondalıklı TL değerini güvenli biçimde kuruşa çevir.
+- [x] Geçersiz fiyatın kullanıcıya gösterilmediğini test et.
+- [x] `price_fetch_runs` sayaçlarını güncelle.
+- [x] `success`, `partial` ve `failed` durumlarını test et.
 
 ---
 

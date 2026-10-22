@@ -5,6 +5,7 @@
 
 import { getFetchPricesConfig } from './config.ts';
 import { fetchGoldPricesFromProvider } from './fetcher.ts';
+import { validateAndTransformPrices } from './validator.ts';
 import { PriceApiError } from './types.ts';
 import { safeError, safeLog } from './sanitizer.ts';
 
@@ -82,11 +83,15 @@ export async function handler(req: Request): Promise<Response> {
     }, config.apiKey);
 
     const result = await fetchGoldPricesFromProvider(config);
+    const validation = validateAndTransformPrices(result.rawData, config.sourceCode, []);
 
     return new Response(
       JSON.stringify({
         success: true,
-        data: result,
+        data: {
+          fetch: result,
+          validation,
+        },
       }),
       {
         status: 200,

@@ -73,3 +73,52 @@ export interface FetchPricesResult {
   rawData: unknown;
   durationMs: number;
 }
+
+export type FetchRunStatus = 'running' | 'success' | 'partial' | 'failed';
+
+export interface ProductMappingInfo {
+  id: string;
+  source_id: string;
+  product_id: string;
+  external_symbol: string;
+  external_name?: string;
+  is_active: boolean;
+  product?: {
+    id: string;
+    code: string;
+    name: string;
+    measurement_unit: 'piece' | 'gram' | 'ounce';
+    is_active: boolean;
+  };
+}
+
+export interface ValidatedPriceRecord {
+  product_id: string;
+  source_id: string;
+  buy_price_minor: number | null;
+  sell_price_minor: number | null;
+  currency_code: string;
+  price_unit: 'piece' | 'gram' | 'ounce';
+  daily_change_percent?: number | null;
+  day_low_minor?: number | null;
+  day_high_minor?: number | null;
+  source_price_at: string;
+  fetched_at: string;
+  fetch_run_id?: string;
+  is_provider_stale: boolean;
+  is_valid: boolean;
+  validation_message?: string | null;
+}
+
+export interface ValidationSummary {
+  status: FetchRunStatus;
+  productsReceived: number;
+  productsSaved: number;
+  productsRejected: number;
+  validRecords: ValidatedPriceRecord[];
+  rejectedRecords: ValidatedPriceRecord[];
+  allRecords: ValidatedPriceRecord[];
+  errorCode?: string | null;
+  errorMessage?: string | null;
+}
+

@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.28] - 22.10.2026
+
+### Added
+
+- Faz 6.2 Fiyat doğrulama tamamlandı:
+  - `supabase/functions/fetch-gold-prices/validator.ts`: Fiyat doğrulama ve dönüştürme modülü kodlandı (`toMinorUnits`, `parseDateSafe`, `extractPriceList`, `validateSinglePriceItem`, `validateAndTransformPrices`).
+  - Sayısal pozitiflik denetimi: 0 ve negatif fiyatlar güvenle reddedildi.
+  - Alış ve satış fiyatlarından en az birinin pozitif sayı olması şartı uygulandı.
+  - Ondalıklı TL tutarları IEEE-754 kayan nokta hassasiyet hatalarından arındırılarak kuruşa (`_minor`, `BIGINT`) tam sayı olarak çevrildi.
+  - Aşırı gelecek tarihli zaman damgaları (10 dakikadan ileri) engellendi.
+  - TRY/USD para birimleri ve `piece`, `gram`, `ounce` ürün ölçü birimi denetimi bağlandı.
+  - Sağlayıcının eski/gecikmeli veri işareti (`is_provider_stale`) entegre edildi.
+  - `price_fetch_runs` tablosu için `products_received`, `products_saved`, `products_rejected` sayaçları ve `success`, `partial`, `failed` durum hesaplama kuralları kodlandı.
+  - `supabase/tests/test-faz6-2-price-validation.ts`: Tüm doğrulama kurallarını ve canlı veritabanı RLS `gold_prices_read_valid` politikasını (`is_valid = false` olan kayıtların anonim/authenticated kullanıcılara asla dönmediğini) doğrulayan 11/11 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `supabase/functions/fetch-gold-prices/types.ts`: `FetchRunStatus`, `ProductMappingInfo`, `ValidatedPriceRecord`, `ValidationSummary` tipleri eklendi.
+- `supabase/functions/fetch-gold-prices/index.ts`: Çekilen ham veriyi doğrulamadan geçiren iş akışı bağlandı.
+- `docs/TODO.md`, `docs/PROJECT_CONTEXT.md` ve `docs/HANDOFF.md` güncellenerek Faz 6.2 tamamlandı olarak işaretlendi; sıradaki görev Faz 6.3 (Fiyat zamanlayıcısı) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.27] - 22.10.2026
 
 ### Added

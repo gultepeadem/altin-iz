@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.20 Taslak  
+**Belge sürümü:** 1.21 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Fiyat sistemi (Faz 6.1 tamamlandı, Faz 6.2 sıradaki)  
-**Kodlama durumu:** Fiyat çekme Edge Function, zaman aşımı (8s), hata ve kota yönetimi (401, 403, 429, 500-504) ve API anahtarı maskelemesi tamamlandı  
-**Son çalışma durumu:** Faz 6.1 başarıyla tamamlandı; supabase/functions/fetch-gold-prices modülleri oluşturuldu ve 9/9 doğrulama testi geçti. Sıradaki görev Faz 6.2 (Fiyat doğrulama)
+**Proje aşaması:** Fiyat sistemi (Faz 6.2 tamamlandı, Faz 6.3 sıradaki)  
+**Kodlama durumu:** Fiyat doğrulama, kuruşa dönüştürme, RLS görünürlük izolasyonu ve price_fetch_runs sayaçları tamamlandı  
+**Son çalışma durumu:** Faz 6.2 başarıyla tamamlandı; validator.ts modülü oluşturuldu, 11/11 doğrulama ve canlı RLS testi geçti. Sıradaki görev Faz 6.3 (Fiyat zamanlayıcısı)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 6.1 kapsamında supabase/functions/fetch-gold-prices Edge Function'ını oluşturmak, ortam değişkenleri ve API secret yönetimini sağlamak, istek zaman aşımı, HTTP 401/403/429/5xx hata yönetimi, sınırlı tekrar deneme döngüsü ve API anahtarı maskelemesini kodlamak
+Faz 6.2 kapsamında dış sağlayıcıdan dönen ham fiyat verilerinin JSON yapısını doğrulamak, sembol ve ürün eşleştirmelerini denetlemek, 0 ve negatif fiyatları reddetmek, TL kuruşa güvenli dönüştürmek, geçersiz fiyatların kullanıcılara görünmediğini RLS ile doğrulamak ve price_fetch_runs sayaçlarını hesaplamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 6.1 tamamlandı: types.ts, sanitizer.ts, config.ts, fetcher.ts ve index.ts modülleri kodlandı; 9/9 senaryoyu kapsayan otomatik testler (başarılı çekim, 401, 403, 429, 503 retry, timeout, maskeleme, yetki denetimi) başarıyla geçti
+Faz 6.2 tamamlandı: validator.ts modülü kodlandı; 11/11 senaryoyu kapsayan otomatik testler (JSON kontrolü, boş sembol, devre dışı eşleştirme, negatif/sıfır fiyat, kuruş çevrimi, gelecek zaman reddi, eski veri bayrağı, price_fetch_runs durumları ve canlı RLS görünürlük testi) başarıyla geçti
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 12 - Fiyat sistemi (Faz 6.2 hazırlığı)
+Bölüm 12 - Fiyat sistemi (Faz 6.3 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -591,24 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 6.2: Fiyat doğrulama
+Faz 6.3: Fiyat zamanlayıcısı
 ```
 
-Bu görevde dış sağlayıcıdan dönen ham fiyat verisinin JSON yapısı, liste formatı, sembol varlığı ve eşleşme durumu, alış/satış fiyatlarının sayısal pozitifliği, para birimi (TRY/USD) ve ürün birimi doğrulaması, zaman damgası kontrolleri, TL kuruşa güvenli çevrim ve `price_fetch_runs` tablosuna durum (`success`, `partial`, `failed`) kaydı kodlanacaktır.
+Bu görevde development ortamında otomatik fiyat zamanlayıcısının başlangıçta kontrollü yönetilmesi, yetkili manuel fiyat tetikleme yönteminin oluşturulması, ücretsiz kotayı izleme yaklaşımı, zamanlanmış görevlerin çakışmasını önleme ve teknik loglama kuralları yapılandırılacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 6.2 şu koşullarda tamamlanmış sayılır:
+Faz 6.3 şu koşullarda tamamlanmış sayılır:
 
-- Dış sağlayıcı yanıtı için şema ve tip doğrulaması yazılmalı.
-- Sembolü eşleşmeyen, boş veya geçersiz olan fiyatların reddedildiği doğrulanmalı.
-- Negatif veya sıfır fiyatların reddedildiği test edilmeli.
-- Zaman damgasının makul sınırda olduğu ve aşırı gelecek tarihlerin elendiği test edilmeli.
-- Ondalıklı TL değerinin kuruşa (tam sayı) güvenle çevrildiği doğrulanmalı.
-- `price_fetch_runs` tablosuna işlenen sayaçların ve durumların (`success`, `partial`, `failed`) testleri yapılmalı.
-- `docs/TODO.md` içindeki Faz 6.2 maddeleri güncellenmeli.
+- Development ortamında zamanlayıcı mekanizması başlangıçta kapalı/kontrollü tutulmalı.
+- Yetkili manuel fiyat çekme tetikleyicisi oluşturulmalı.
+- Ücretsiz kotanın izlenmesi ve aşırı istek yapılmaması güvenceye alınmalı.
+- Eşzamanlı zamanlanmış görevlerin çakışmasını önleyen kilit/kontrol mekanizması tanımlanmalı.
+- Zamanlayıcı hatalarının güvenli teknik kayda alındığı doğrulanmalı.
+- `docs/TODO.md` içindeki Faz 6.3 maddeleri güncellenmeli.
 
 ---
 
@@ -642,7 +641,8 @@ Faz 6.2 şu koşullarda tamamlanmış sayılır:
 - [x] Şifre sıfırlama ekranları, kurtarma oturumu ve şifre güncelleme uygulandı (Faz 5.6: 681a2d7).
 - [x] Çıkış onay penceresi, oturum ve önbellek temizleme, korunan alan koruması uygulandı (Faz 5.7: 7411378).
 - [x] Fiyat sağlayıcısı sembol eşleştirmeleri ve güvenlik testleri tamamlandı (Faz 6: 6431225).
-- [x] Fiyat çekme Edge Function, zaman aşımı ve hata yönetimi tamamlandı (Faz 6.1).
+- [x] Fiyat çekme Edge Function, zaman aşımı ve hata yönetimi tamamlandı (Faz 6.1: d46aaf1).
+- [x] Fiyat verisi doğrulama, kuruşa çevrim ve RLS filtreleme testleri tamamlandı (Faz 6.2).
 
 ---
 
