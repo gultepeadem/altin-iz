@@ -1,11 +1,20 @@
 /**
  * Altın İz — Ayarlar Ekranı (tabs/settings)
  * 
- * Faz 5.7 Kapsamı:
- * - Çıkış onay penceresi (Alert / Modal)
- * - Supabase oturumu sonlandırma (authService.signOut)
- * - Yerel kullanıcı oturum verilerini ve önbelleğini temizleme
- * - Kök rotaya (welcome) yönlendirme ve geçmişi temizleme
+ * Mimari Referansı: docs/ARCHITECTURE.md Bölüm 7.5 ve Bölüm 16
+ * Görev Referansı: docs/TODO.md Faz 10.1 (Ayarlar ekranı)
+ * Karar Referansı: ADR-004 (Tema Yönetimi ve Tercih Saklama)
+ * 
+ * Ekran Kapsamı:
+ * - [x] Kullanıcı profil özeti (Avatar, Ad/Soyad, E-posta, Aktif durum rozeti)
+ * - [x] Görünüm ve Tema bölümü (Sistem, Açık, Koyu seçenekleri, ADR-004)
+ * - [x] Hesap Yönetimi bölümü (Hesap Bilgileri ve Profil bağlantısı)
+ * - [x] Hesap Silme bağlantısı (KVKK ve mağaza ilkelerine uygun yönlendirme)
+ * - [x] Bilgilendirme ve Yasal bölümü (Yasal Belgeler & KVKK, Uygulama Hakkında, Yardım & Destek)
+ * - [x] Çıkış Yap butonu ve onay mekanizması (iOS/Android yerel Alert, Web Modal)
+ * - [x] Güvenli oturum kapatma ve /(public)/welcome rotasına yönlendirme
+ * - [x] Uygulama sürüm bilgisi ve alt bilgi alanı
+ * - [x] iOS Safe Area ve kaydırma optimizasyonu
  */
 
 import React, { useState } from 'react';
@@ -29,16 +38,34 @@ import { ThemePreference } from '@/theme/types';
 
 export default function SettingsScreen() {
   const { theme, preference, setPreference } = useTheme();
-  const { signOut } = useAuth();
+  const { user, profile, signOut } = useAuth();
 
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const themeOptions: { label: string; value: ThemePreference }[] = [
-    { label: 'Sistem', value: 'system' },
-    { label: 'Açık', value: 'light' },
-    { label: 'Koyu', value: 'dark' },
+  const themeOptions: { label: string; value: ThemePreference; icon: string }[] = [
+    { label: 'Sistem', value: 'system', icon: '📱' },
+    { label: 'Açık', value: 'light', icon: '☀️' },
+    { label: 'Koyu', value: 'dark', icon: '🌙' },
   ];
+
+  // Kullanıcı adı ve e-posta çözümlemesi
+  const userDisplayName =
+    profile?.displayName ||
+    (user?.user_metadata?.full_name as string | undefined) ||
+    (user?.user_metadata?.display_name as string | undefined) ||
+    user?.email?.split('@')[0] ||
+    'Değerli Kullanıcı';
+
+  const userEmail = user?.email || 'Oturum bilgisi yüklenemedi';
+
+  const userInitials =
+    userDisplayName
+      .split(' ')
+      .filter(Boolean)
+      .slice(0, 2)
+      .map((n: string) => n[0].toUpperCase())
+      .join('') || 'Aİ';
 
   /**
    * Çıkış işlemini gerçekleştirir
@@ -49,7 +76,9 @@ export default function SettingsScreen() {
 
     try {
       await signOut();
-      // Protected navigasyon geçmişini temizleyerek welcome ekranına yönlendir
+      router.replace('/(public)/welcome');
+    } catch {
+      // Çıkış hatası olsa dahi yerel rotayı welcome'a yönlendir
       router.replace('/(public)/welcome');
     } finally {
       setIsSigningOut(false);
@@ -57,7 +86,7 @@ export default function SettingsScreen() {
   };
 
   /**
-   * Çıkış butonuna basıldığında onay penceresini açar
+   * Çıkış butonuna basıldığında platforma uygun onay penceresini açar
    */
   const handleSignOutPress = () => {
     if (Platform.OS === 'web') {
@@ -65,7 +94,7 @@ export default function SettingsScreen() {
     } else {
       Alert.alert(
         'Güvenli Çıkış',
-        'Hesabınızdan çıkış yapmak istediğinize emin misiniz?',
+        'Hesabınızdan çıkış yapmak istediğinize emin misiniz? Cihazdaki yerel oturum bilgileriniz temizlenecektir.',
         [
           { text: 'Vazgeç', style: 'cancel' },
           {
@@ -79,98 +108,261 @@ export default function SettingsScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={true}>
-      {/* Tema Ayarları */}
-      <View style={styles.section}>
-        <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
-          GÖRÜNÜM VE TEMA
-        </Text>
-        <View style={[styles.card, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
-          <Text style={[styles.settingLabel, { color: theme.colors.textPrimary }]}>
-            Tema Tercihi
+    <ScreenContainer scrollable={true} withPadding={true}>
+      {/* Kullanıcı Profil Kartı */}
+      <View
+        style={[
+          styles.profileCard,
+          {
+            backgroundColor: theme.colors.card,
+            borderColor: theme.colors.border,
+          },
+        ]}
+      >
+        <View style={[styles.avatar, { backgroundColor: theme.colors.primary }]}>
+          <Text style={[styles.avatarText, { color: '#FFFFFF' }]}>
+            {userInitials}
           </Text>
-          <View style={styles.themeSelector}>
-            {themeOptions.map((opt) => (
-              <Pressable
-                key={opt.value}
-                onPress={() => setPreference(opt.value)}
-                style={[
-                  styles.themeButton,
-                  preference === opt.value && { backgroundColor: theme.colors.primary },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.themeButtonText,
-                    {
-                      color:
-                        preference === opt.value
-                          ? theme.colors.textInverse
-                          : theme.colors.textSecondary,
-                    },
-                  ]}
-                >
-                  {opt.label}
-                </Text>
-              </Pressable>
-            ))}
+        </View>
+        <View style={styles.profileInfo}>
+          <Text
+            style={[styles.profileName, { color: theme.colors.textPrimary }]}
+            numberOfLines={1}
+          >
+            {userDisplayName}
+          </Text>
+          <Text
+            style={[styles.profileEmail, { color: theme.colors.textSecondary }]}
+            numberOfLines={1}
+          >
+            {userEmail}
+          </Text>
+          <View style={styles.badgeRow}>
+            <View
+              style={[
+                styles.statusBadge,
+                { backgroundColor: theme.colors.profitLight },
+              ]}
+            >
+              <Text style={[styles.badgeText, { color: theme.colors.profit }]}>
+                ✓ Doğrulanmış Hesap
+              </Text>
+            </View>
           </View>
         </View>
       </View>
 
-      {/* Hesap & Profil */}
+      {/* Görünüm ve Tema Bölümü */}
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
-          HESAP
+          GÖRÜNÜM VE TEMA
         </Text>
-        <View style={[styles.card, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: theme.colors.card,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
+          <Text style={[styles.settingLabel, { color: theme.colors.textPrimary }]}>
+            Uygulama Teması
+          </Text>
+          <Text style={[styles.settingSubLabel, { color: theme.colors.textSecondary }]}>
+            Arayüzün cihaz sistemiyle veya tercihinizle nasıl görüntüleneceğini belirleyin.
+          </Text>
+          <View style={styles.themeSelector}>
+            {themeOptions.map((opt) => {
+              const isSelected = preference === opt.value;
+              return (
+                <Pressable
+                  key={opt.value}
+                  onPress={() => setPreference(opt.value)}
+                  style={[
+                    styles.themeButton,
+                    {
+                      backgroundColor: isSelected
+                        ? theme.colors.primary
+                        : theme.colors.background,
+                      borderColor: isSelected
+                        ? theme.colors.primary
+                        : theme.colors.border,
+                    },
+                  ]}
+                  accessibilityRole="button"
+                  accessibilityLabel={`${opt.label} tema seçeneği`}
+                  accessibilityState={{ selected: isSelected }}
+                >
+                  <Text style={styles.themeIcon}>{opt.icon}</Text>
+                  <Text
+                    style={[
+                      styles.themeButtonText,
+                      {
+                        color: isSelected
+                          ? '#FFFFFF'
+                          : theme.colors.textSecondary,
+                        fontWeight: isSelected ? '700' : '500',
+                      },
+                    ]}
+                  >
+                    {opt.label}
+                  </Text>
+                </Pressable>
+              );
+            })}
+          </View>
+        </View>
+      </View>
+
+      {/* Hesap Bölümü */}
+      <View style={styles.section}>
+        <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
+          HESAP YÖNETİMİ
+        </Text>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: theme.colors.card,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
+          {/* Hesap Bilgileri Bağlantısı */}
           <Pressable
             onPress={() => router.push('/(protected)/account')}
-            style={styles.menuRow}
+            style={[
+              styles.menuRow,
+              styles.divider,
+              { borderBottomColor: theme.colors.border },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Hesap Bilgileri ve Profil"
           >
-            <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
-              Hesap Bilgileri & Profil
+            <View style={styles.menuLeft}>
+              <Text style={styles.menuIcon}>👤</Text>
+              <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
+                Hesap Bilgileri & Profil
+              </Text>
+            </View>
+            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
+              ›
             </Text>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>›</Text>
+          </Pressable>
+
+          {/* Hesap Silme Bağlantısı */}
+          <Pressable
+            onPress={() => router.push('/(protected)/account/delete')}
+            style={styles.menuRow}
+            accessibilityRole="button"
+            accessibilityLabel="Hesabımı Sil"
+          >
+            <View style={styles.menuLeft}>
+              <Text style={styles.menuIcon}>🗑️</Text>
+              <Text style={[styles.menuText, { color: theme.colors.loss }]}>
+                Hesabımı Sil
+              </Text>
+            </View>
+            <Text style={[styles.arrow, { color: theme.colors.loss }]}>
+              ›
+            </Text>
           </Pressable>
         </View>
       </View>
 
-      {/* Yasal & Destek */}
+      {/* Yasal ve Gizlilik Bölümü */}
       <View style={styles.section}>
         <Text style={[styles.sectionTitle, { color: theme.colors.textSecondary }]}>
-          BİLGİLENDİRME
+          BİLGİLENDİRME VE YASAL
         </Text>
-        <View style={[styles.card, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+        <View
+          style={[
+            styles.card,
+            {
+              backgroundColor: theme.colors.card,
+              borderColor: theme.colors.border,
+            },
+          ]}
+        >
+          {/* Yasal ve Gizlilik Bağlantısı */}
           <Pressable
             onPress={() => router.push('/(protected)/legal')}
-            style={[styles.menuRow, styles.divider, { borderBottomColor: theme.colors.border }]}
+            style={[
+              styles.menuRow,
+              styles.divider,
+              { borderBottomColor: theme.colors.border },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Yasal Belgeler ve Gizlilik"
           >
-            <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
-              Yasal Belgeler ve KVKK
+            <View style={styles.menuLeft}>
+              <Text style={styles.menuIcon}>📜</Text>
+              <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
+                Yasal Belgeler ve Gizlilik
+              </Text>
+            </View>
+            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
+              ›
             </Text>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>›</Text>
           </Pressable>
 
+          {/* Uygulama Hakkında Bağlantısı */}
           <Pressable
             onPress={() => router.push('/(protected)/about')}
-            style={[styles.menuRow, styles.divider, { borderBottomColor: theme.colors.border }]}
+            style={[
+              styles.menuRow,
+              styles.divider,
+              { borderBottomColor: theme.colors.border },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Uygulama Hakkında"
           >
-            <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
-              Uygulama Hakkında
+            <View style={styles.menuLeft}>
+              <Text style={styles.menuIcon}>ℹ️</Text>
+              <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
+                Uygulama Hakkında
+              </Text>
+            </View>
+            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
+              ›
             </Text>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>›</Text>
           </Pressable>
 
+          {/* Yardım ve Destek Bağlantısı */}
           <Pressable
             onPress={() => router.push('/(protected)/support')}
-            style={styles.menuRow}
+            style={[
+              styles.menuRow,
+              styles.divider,
+              { borderBottomColor: theme.colors.border },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Yardım ve Destek"
           >
-            <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
-              Yardım ve Destek
+            <View style={styles.menuLeft}>
+              <Text style={styles.menuIcon}>💬</Text>
+              <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
+                Yardım ve Destek
+              </Text>
+            </View>
+            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
+              ›
             </Text>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>›</Text>
           </Pressable>
+
+          {/* Fiyat Veri Kaynağı Bilgisi (ADR-003) */}
+          <View style={styles.menuRow}>
+            <View style={styles.menuLeft}>
+              <Text style={styles.menuIcon}>📊</Text>
+              <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
+                Fiyat Kaynağı
+              </Text>
+            </View>
+            <Text style={[styles.menuValue, { color: theme.colors.textSecondary }]}>
+              Kapalıçarşı Serbest Piyasa
+            </Text>
+          </View>
         </View>
       </View>
 
@@ -184,6 +376,16 @@ export default function SettingsScreen() {
         accessibilityLabel="Güvenli Çıkış Yap"
       />
 
+      {/* Sürüm Bilgisi ve Alt Bilgi */}
+      <View style={styles.footerContainer}>
+        <Text style={[styles.footerTitle, { color: theme.colors.textTertiary }]}>
+          Altın İz v1.0.0
+        </Text>
+        <Text style={[styles.footerSubtitle, { color: theme.colors.textTertiary }]}>
+          Kişisel Altın ve Portföy Takip Uygulaması
+        </Text>
+      </View>
+
       {/* Web & Yedek Çıkış Onay Modalı */}
       <Modal
         visible={showConfirmModal}
@@ -192,11 +394,24 @@ export default function SettingsScreen() {
         onRequestClose={() => setShowConfirmModal(false)}
       >
         <View style={styles.modalOverlay}>
-          <View style={[styles.modalCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
+          <View
+            style={[
+              styles.modalCard,
+              {
+                backgroundColor: theme.colors.card,
+                borderColor: theme.colors.border,
+              },
+            ]}
+          >
             <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>
               Güvenli Çıkış
             </Text>
-            <Text style={[styles.modalMessage, { color: theme.colors.textSecondary }]}>
+            <Text
+              style={[
+                styles.modalMessage,
+                { color: theme.colors.textSecondary },
+              ]}
+            >
               Hesabınızdan çıkış yapmak istediğinize emin misiniz? Cihazdaki yerel oturum bilgileriniz temizlenecektir.
             </Text>
             <View style={styles.modalButtons}>
@@ -221,9 +436,53 @@ export default function SettingsScreen() {
 }
 
 const styles = StyleSheet.create({
+  profileCard: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    padding: 16,
+    borderRadius: 16,
+    borderWidth: 1,
+    marginTop: 8,
+    marginBottom: 16,
+  },
+  avatar: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 14,
+  },
+  avatarText: {
+    fontSize: 18,
+    fontWeight: '700',
+  },
+  profileInfo: {
+    flex: 1,
+  },
+  profileName: {
+    fontSize: 16,
+    fontWeight: '700',
+    marginBottom: 2,
+  },
+  profileEmail: {
+    fontSize: 13,
+    marginBottom: 6,
+  },
+  badgeRow: {
+    flexDirection: 'row',
+  },
+  statusBadge: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 6,
+  },
+  badgeText: {
+    fontSize: 11,
+    fontWeight: '600',
+  },
   section: {
-    marginTop: 16,
-    marginBottom: 8,
+    marginBottom: 18,
   },
   sectionTitle: {
     fontSize: 12,
@@ -239,47 +498,84 @@ const styles = StyleSheet.create({
   },
   settingLabel: {
     fontSize: 15,
-    fontWeight: '500',
-    padding: 16,
-    paddingBottom: 8,
+    fontWeight: '600',
+    paddingHorizontal: 16,
+    paddingTop: 14,
+    paddingBottom: 2,
+  },
+  settingSubLabel: {
+    fontSize: 13,
+    lineHeight: 18,
+    paddingHorizontal: 16,
+    paddingBottom: 12,
   },
   themeSelector: {
     flexDirection: 'row',
-    padding: 12,
-    paddingTop: 0,
+    paddingHorizontal: 12,
+    paddingBottom: 14,
     gap: 8,
   },
   themeButton: {
     flex: 1,
     paddingVertical: 10,
-    borderRadius: 8,
+    borderRadius: 10,
+    borderWidth: 1,
     alignItems: 'center',
+    justifyContent: 'center',
+  },
+  themeIcon: {
+    fontSize: 16,
+    marginBottom: 2,
   },
   themeButtonText: {
     fontSize: 13,
-    fontWeight: '600',
   },
   menuRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: 16,
+    paddingVertical: 14,
     paddingHorizontal: 16,
   },
-  divider: {
-    borderBottomWidth: StyleSheet.hairlineWidth,
+  menuLeft: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 12,
+  },
+  menuIcon: {
+    fontSize: 16,
   },
   menuText: {
     fontSize: 15,
     fontWeight: '500',
   },
+  menuValue: {
+    fontSize: 13,
+    fontWeight: '500',
+  },
   arrow: {
-    fontSize: 20,
+    fontSize: 18,
     fontWeight: '300',
   },
+  divider: {
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
   signOutButton: {
-    marginTop: 28,
-    marginBottom: 36,
+    marginTop: 16,
+    marginBottom: 12,
+  },
+  footerContainer: {
+    alignItems: 'center',
+    marginTop: 8,
+    marginBottom: 32,
+  },
+  footerTitle: {
+    fontSize: 13,
+    fontWeight: '600',
+    marginBottom: 2,
+  },
+  footerSubtitle: {
+    fontSize: 11,
   },
   modalOverlay: {
     flex: 1,

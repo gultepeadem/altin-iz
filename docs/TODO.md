@@ -1179,15 +1179,15 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 10.1: Ayarlar ekranı
 
-- [ ] Hesap Bilgileri bağlantısını ekle.
-- [ ] Görünüm bölümünü ekle.
-- [ ] Yasal ve Gizlilik bölümünü ekle.
-- [ ] Uygulama Hakkında bağlantısını ekle.
-- [ ] Destek ve Hata Bildir bağlantısını ekle.
-- [ ] Çıkış Yap butonunu ekle.
-- [ ] Hesabımı ve Verilerimi Sil seçeneğini tehlikeli işlem olarak ayır.
-- [ ] Uygulama sürümünü göster.
-- [ ] Fiyat kaynağını göster.
+- [x] Hesap Bilgileri bağlantısını ekle.
+- [x] Görünüm bölümünü ekle.
+- [x] Yasal ve Gizlilik bölümünü ekle.
+- [x] Uygulama Hakkında bağlantısını ekle.
+- [x] Destek ve Hata Bildir bağlantısını ekle.
+- [x] Çıkış Yap butonunu ekle.
+- [x] Hesabımı ve Verilerimi Sil seçeneğini tehlikeli işlem olarak ayır.
+- [x] Uygulama sürümünü göster.
+- [x] Fiyat kaynağını göster.
 
 ---
 

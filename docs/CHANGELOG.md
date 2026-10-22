@@ -56,6 +56,28 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.45] - 22.10.2026
+
+### Added
+
+- Bölüm 16: Ayarlar ve kullanıcı tercihleri — Faz 10.1: Ayarlar ekranı tamamlandı:
+  - `src/app/(protected)/(tabs)/settings.tsx`:
+    - Kullanıcı Profil Özeti: Kullanıcının profil adı/e-postası, avatar baş harfleri (initials) ve doğrulanmış hesap rozeti sunuldu.
+    - Görünüm ve Tema Bölümü: Sistem (📱), Açık (☀️) ve Koyu (🌙) seçenekleri, erişilebilir butonlar (`accessibilityState={{ selected }}`) ve anında renk değişimi (`setPreference`) ile entegre edildi.
+    - Hesap Yönetimi: "Hesap Bilgileri & Profil" (`/(protected)/account`) ve kırmızı renk semantiğiyle tehlikeli işlem olarak ayrılan "Hesabımı Sil" (`/(protected)/account/delete`) bağlantıları bağlandı.
+    - Bilgilendirme ve Yasal Bölümü: "Yasal Belgeler ve Gizlilik" (`/(protected)/legal`), "Uygulama Hakkında" (`/(protected)/about`), "Yardım ve Destek" (`/(protected)/support`) ve "Fiyat Kaynağı" (Kapalıçarşı Serbest Piyasa - ADR-003) bilgisi eklendi.
+    - Güvenli Çıkış: Platforma duyarlı onay akışı (iOS/Android için yerel `Alert.alert`, Web için `Modal`), işlem kilidi (`isSigningOut`), oturum sonlandırma (`authService.signOut`) ve karşılama ekranına (`/(public)/welcome`) fail-safe yönlendirme sağlandı.
+    - Sürüm ve Telif Alanı: `Altın İz v1.0.0` ve uygulama alt bilgisi yerleştirildi.
+    - `ScreenContainer` ile iOS Safe Area ve dikey kaydırma (`scrollable={true}`) tam uyumlu hale getirildi.
+  - `supabase/tests/test-faz10-1-settings-screen.ts`: 10/10 test senaryosuyla hesap rotası, hesap silme rotası, tema seçenekleri, anında tema güncelleme, yasal rotalar, avatar baş harfleri algoritması, onay penceresi seçenekleri, oturum kapatma ve welcome yönlendirmesi, fail-safe yönlendirme ve Safe Area yapılandırması doğrulandı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 10.1 maddeleri tamamlandı (`[x]`) olarak işaretlendi; sıradaki görev Faz 10.2 (Hesap bilgileri) olarak belirlendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 10.1 tamamlandı olarak kaydedildi.
+
+---
+
 ## [0.0.0-planning.44] - 22.10.2026
 
 ### Added

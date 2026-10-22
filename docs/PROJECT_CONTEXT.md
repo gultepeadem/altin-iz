@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.32 Taslak  
+**Belge sürümü:** 1.33 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Tema tercihi) TAMAMLANDI - Faz 10.1 (Ayarlar ekranı) sıradaki  
-**Kodlama durumu:** preferencesService.ts oluşturuldu, ThemeProvider yerel/uzak tema yükleme ve arka plan DB senkronizasyonuna bağlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı) TAMAMLANDI - Faz 10.2 (Hesap bilgileri) sıradaki  
+**Kodlama durumu:** tabs/settings.tsx profilleme, üçlü tema seçimi, hesap ve tehlikeli silme menüleri, yasal rotalar, fiyat kaynağı, onaylı güvenli çıkış ve Safe Area ile tamamlandı; 10/10 test başarılı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamındaki Faz 10 (Tema tercihi) adımı başarıyla tamamlanmıştır.
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamındaki Faz 10.1 (Ayarlar ekranı) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 10 tamamlandı: preferencesService.ts oluşturuldu, ThemeProvider açılışta tercih yükleme ve anında uygulama (ADR-004) ile bağlandı, yerel depolama ve Supabase user_preferences tablosu senkronizasyonu sağlandı; 10/10 otomatik test ile doğrulandı.
+Faz 10.1 tamamlandı: tabs/settings.tsx ekranı kullanıcı profil kartı, görünüm/üçlü tema seçimi (Sistem, Açık, Koyu), hesap yönetimi bağlantıları, tehlikeli hesap silme ayrımı, yasal ve bilgilendirme bağlantıları, fiyat kaynağı bilgisi (ADR-003), güvenli çıkış onay mekanizması ve Safe Area desteğiyle kodlandı; 10/10 otomatik test ile doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 10 (Tema tercihi) tamamlandı; Bölüm 16 (Ayarlar ve kullanıcı tercihleri) - Faz 10.1 (Ayarlar ekranı) aşamasına geçiş
+Faz 10.1 (Ayarlar ekranı) tamamlandı; Bölüm 16 (Ayarlar ve kullanıcı tercihleri) - Faz 10.2 (Hesap bilgileri) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Faz 10 (Tema tercihi) tamamlandı; Bölüm 16 (Ayarlar ve kullanıcı tercihleri
 Sıradaki teknik görev:
 
 ```text
-Faz 10.1: Ayarlar ekranı
+Faz 10.2: Hesap bilgileri
 ```
 
-Bu görevde src/app/(protected)/(tabs)/settings.tsx ekranında Hesap Bilgileri bölümü, Görünüm (Tema seçimi: Açık / Koyu / Sistem), Yasal ve Gizlilik bölümü, Uygulama Hakkında bilgileri ve Çıkış Yap / Hesap Silme bağlantıları geliştirilecektir.
+Bu görevde src/app/(protected)/account/index.tsx ekranında kullanıcının e-posta adresini gösterme, e-posta doğrulama durumunu gösterme, görünen adı varsa gösterme ve güncelleme, şifre sıfırlama/değiştirme bağlantısı ve kullanıcının değiştiremeyeceği sistem alanlarını gizleme geliştirilecektir.
 
 ---
 

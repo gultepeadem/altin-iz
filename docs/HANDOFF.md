@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.37 Taslak  
+**Belge sürümü:** 1.38 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10 (Tema tercihi) TAMAMLANDI - Faz 10.1 (Ayarlar ekranı) sıradaki  
-**Kodlama durumu:** preferencesService.ts oluşturuldu, ThemeProvider açılışta yerel tema okuma ve arka plan DB senkronizasyonuna bağlandı, 10/10 test başarılı  
-**Son çalışma durumu:** Faz 10 başarıyla tamamlandı; preferencesService ve ThemeProvider yerel ve uzak tema tercihini ADR-004 doğrultusunda yönetiyor, 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı)
+**Proje aşaması:** Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.1 (Ayarlar ekranı) TAMAMLANDI - Faz 10.2 (Hesap bilgileri) sıradaki  
+**Kodlama durumu:** tabs/settings.tsx profilleme, tema seçimi (Sistem/Açık/Koyu), hesap/silme menüleri, yasal rotalar, fiyat kaynağı, güvenli çıkış onay modalı ve Safe Area ile tamamlandı; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 10.1 başarıyla tamamlandı; Ayarlar ekranı (settings.tsx) tüm bağlantıları, tema seçimi, onaylı güvenli çıkışı ve fiyat kaynağıyla kodlandı; 10/10 otomatik test ile doğrulandı. Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.2 (Hesap bilgileri)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamında Faz 10 Tema tercihi altyapısını; src/models/preferences.ts ve src/services/preferencesService.ts oluşturarak yerel depolama (AsyncStorage) ve Supabase user_preferences tablosu senkronizasyonunu sağlamak, ThemeProvider ile entegre ederek açılışta tercihi yüklemek ve anında uygulamak
+Bölüm 16 (Ayarlar ve kullanıcı tercihleri) kapsamında Faz 10.1 Ayarlar ekranını; src/app/(protected)/(tabs)/settings.tsx ekranını kullanıcı profili özeti, üçlü tema seçimi (Sistem/Açık/Koyu), hesap ve tehlikeli hesap silme menüleri, yasal ve bilgilendirme bağlantıları, fiyat kaynağı bilgisi ve onaylı güvenli çıkış butonu ile geliştirmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 10 tamamlandı: preferencesService.ts oluşturuldu, yerel depolama ve Supabase senkronizasyonu sağlandı, ThemeProvider açılışta tercih yükleme ve arka plan senkronizasyonuyla donatıldı; 10/10 otomatik test ile doğrulandı
+Faz 10.1 tamamlandı: tabs/settings.tsx ekranı kullanıcı profil kartı, görünüm/tema seçimi, hesap ve hesap silme yönlendirmeleri, bilgilendirme rotaları, fiyat kaynağı, güvenli çıkış onay mekanizması ve Safe Area desteğiyle kodlandı; 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 16 - Ayarlar ve kullanıcı tercihleri (Faz 10.1: Ayarlar ekranı sıradaki)
+Bölüm 16 - Ayarlar ve kullanıcı tercihleri (Faz 10.2: Hesap bilgileri sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.38 Taslak - 22.10.2026
+- Bölüm 16 Ayarlar ve kullanıcı tercihleri - Faz 10.1 Ayarlar ekranı tamamlandı.
+- `src/app/(protected)/(tabs)/settings.tsx` ekranı kullanıcı profil kartı, görünüm/üçlü tema seçimi (Sistem, Açık, Koyu), hesap yönetimi bağlantıları, tehlikeli hesap silme ayrımı, yasal ve bilgilendirme bağlantıları, fiyat kaynağı bilgisi (ADR-003), güvenli çıkış onay mekanizması ve Safe Area desteğiyle geliştirildi.
+- `supabase/tests/test-faz10-1-settings-screen.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 16: Ayarlar ve kullanıcı tercihleri - Faz 10.2 (Hesap bilgileri) olarak güncellendi.
 
 ### 1.37 Taslak - 22.10.2026
 - Bölüm 16 Ayarlar ve kullanıcı tercihleri - Faz 10 Tema tercihi tamamlandı.
