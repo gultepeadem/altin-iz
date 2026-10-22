@@ -56,6 +56,27 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.9] - 22.10.2026
+
+### Added
+
+- Faz 3 Tema Altyapısı tamamlandı:
+  - `src/theme/types.ts`: ColorPalette, SpacingSystem, TypographySystem, Theme ve ThemeContextValue türleri tanımlandı.
+  - `src/theme/spacing.ts`: 4px/8px tabanlı boşluk sistemi oluşturuldu.
+  - `src/theme/typography.ts`: Yazı boyutu, satır yüksekliği ve ağırlık sistemi oluşturuldu.
+  - `src/theme/lightTheme.ts`: `ARCHITECTURE.md` Section 23 renklerine uygun açık tema paleti oluşturuldu (#F7F8FA, #14213D, #D4A72C).
+  - `src/theme/darkTheme.ts`: Koyu tema paleti oluşturuldu (#0B1220, #111C2F, #E0B84F).
+  - `src/models/theme.ts`: Tema veri modelleri modellendi.
+  - `src/providers/ThemeProvider.tsx`: `light`, `dark` ve `system` seçeneklerini destekleyen, sistem teması değişikliklerini anlık algılayan ve React Navigation temasıyla senkron çalışan merkezi sağlayıcı oluşturuldu.
+  - `src/hooks/useTheme.ts`: Tema kancası export edildi.
+
+### Changed
+
+- `src/app/_layout.tsx`: Kök layout yeni `ThemeProvider` sağlayıcımızla entegre edildi.
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 3 tamamlandı olarak işaretlendi; sıradaki görev Faz 3.1 (Ortak temel bileşenler) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.8] - 22.10.2026
 
 ### Added

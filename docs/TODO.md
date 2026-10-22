@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.4 Taslak  
+**Belge sürümü:** 1.5 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Proje iskeleti (Faz 2) tamamlandı; Tasarım sistemi ve rota iskeleti (Faz 3) sıradaki  
-**Kodlama durumu:** Expo TypeScript iskeleti ve ortam altyapısı hazırlandı
+**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3 tamamlandı, Faz 3.1 sıradaki)  
+**Kodlama durumu:** Tema sistemi altyapısı ve ThemeProvider hazırlandı
 
 ---
 
@@ -484,17 +484,17 @@ Initialize Expo TypeScript project
 
 ## Faz 3: Tema altyapısı
 
-- [ ] Açık tema renk dosyasını oluştur.
-- [ ] Koyu tema renk dosyasını oluştur.
-- [ ] Boşluk sistemini oluştur.
-- [ ] Yazı boyutu sistemini oluştur.
-- [ ] Tema TypeScript modelini oluştur.
-- [ ] `ThemeProvider` oluştur.
-- [ ] `light`, `dark` ve `system` seçeneklerini destekle.
-- [ ] Sistem teması değiştiğinde uygulamanın güncellendiğini kontrol et.
-- [ ] Açık tema kontrastını kontrol et.
-- [ ] Koyu tema kontrastını kontrol et.
-- [ ] Kâr ve zarar bilgisinin yalnızca renkle anlatılmadığını doğrula.
+- [x] Açık tema renk dosyasını oluştur.
+- [x] Koyu tema renk dosyasını oluştur.
+- [x] Boşluk sistemini oluştur.
+- [x] Yazı boyutu sistemini oluştur.
+- [x] Tema TypeScript modelini oluştur.
+- [x] `ThemeProvider` oluştur.
+- [x] `light`, `dark` ve `system` seçeneklerini destekle.
+- [x] Sistem teması değiştiğinde uygulamanın güncellendiğini kontrol et.
+- [x] Açık tema kontrastını kontrol et.
+- [x] Koyu tema kontrastını kontrol et.
+- [x] Kâr ve zarar bilgisinin yalnızca renkle anlatılmadığını doğrula.
 
 ---
 

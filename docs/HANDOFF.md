@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.8 Taslak  
+**Belge sürümü:** 1.9 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Proje iskeleti (Faz 2) tamamlandı; Tasarım sistemi ve rota iskeleti (Faz 3) sıradaki  
-**Kodlama durumu:** Expo TypeScript iskeleti ve ortam altyapısı hazırlandı  
-**Son çalışma durumu:** Faz 2.4 başarıyla tamamlandı; .env.example oluşturuldu, .env.local dışlandı, hata davranışı ARCHITECTURE.md içine işlendi. Sıradaki görev Faz 3 (Tema altyapısı)
+**Proje aşaması:** Tasarım sistemi ve rota iskeleti (Faz 3 tamamlandı, Faz 3.1 sıradaki)  
+**Kodlama durumu:** Tema sistemi altyapısı ve ThemeProvider hazırlandı  
+**Son çalışma durumu:** Faz 3 başarıyla tamamlandı; açık/koyu tema, boşluk ve tipografi sistemleri, ThemeProvider ve useTheme kancası oluşturuldu. Sıradaki görev Faz 3.1 (Ortak temel bileşenler)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 2.4 kapsamında ortam dosyalarını (.env.example, .env.local) yapılandırmak, Git dışlamasını doğrulamak ve eksik ortam değişkeni güvenlik kuralını belirlemek
+Faz 3 kapsamında tema altyapısını (açık/koyu renk paletleri, boşluk, tipografi, ThemeProvider) kurmak ve kök navigasyona bağlamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 2.4 tamamlandı: .env.example şablonu oluşturuldu; yerel .env.local dosyası oluşturulup .gitignore tarafından dışlandığı doğrulandı; eksik değişken durumunda güvenli hata davranışı ARCHITECTURE.md içine eklendi; Bölüm 8 (Proje İskeleti) eksiksiz tamamlandı
+Faz 3 tamamlandı: lightTheme.ts, darkTheme.ts, spacing.ts, typography.ts, ThemeProvider.tsx ve useTheme.ts oluşturuldu; light/dark/system tema desteği ve kök layout entegrasyonu sağlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Tasarım sistemi ve rota iskeleti (Faz 3) hazırlığı
+Tasarım sistemi ve rota iskeleti (Faz 3.1 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-71bbcc2 (config: setup environment template and ignore rules (Faz 2.4))
+247daf7 (feat(theme): implement design system theme and ThemeProvider (Faz 3))
 ```
 
 ### Son çalışan commit
 
 ```text
-71bbcc2
+247daf7
 ```
 
 ### Aktif dal
@@ -591,23 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 3: Tema altyapısı
+Faz 3.1: Ortak temel bileşenler
 ```
 
-Bu görevde açık ve koyu tema renk paletleri, boşluk ve tipografi sistemleri, tema modelleri ve ThemeProvider bileşeni oluşturulacaktır.
+Bu görevde ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri oluşturulacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 3 şu koşullarda tamamlanmış sayılır:
+Faz 3.1 şu koşullarda tamamlanmış sayılır:
 
-- Açık ve koyu tema renk dosyaları oluşturulmalı.
-- Boşluk ve tipografi sistemleri hazırlanmalı.
-- Tema TypeScript modeli ve ThemeProvider oluşturulmalı.
-- `light`, `dark` ve `system` seçenekleri desteklenmeli.
+- Belirtilen temel arayüz bileşenleri `src/components/` altında oluşturulmalı.
+- Bileşenler tema renklerini ve boşluk değerlerini dinamik olarak kullanmalı.
 - `npx tsc --noEmit` ve `npm run lint` testleri hatasız tamamlanmalı.
-- `docs/TODO.md` içindeki Faz 3 maddeleri güncellenmeli.
+- `docs/TODO.md` içindeki Faz 3.1 maddeleri güncellenmeli.
 
 ---
 

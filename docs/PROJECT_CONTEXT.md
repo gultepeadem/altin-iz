@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3 Taslak  
+**Belge sürümü:** 1.4 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Proje iskeleti (Faz 2) tamamlandı; Tasarım sistemi ve tema (Faz 3) sıradaki  
-**Kodlama durumu:** Expo TypeScript iskeleti ve ortam altyapısı hazırlandı
+**Proje durumu:** Tasarım sistemi ve rota iskeleti (Faz 3 tamamlandı, Faz 3.1 sıradaki)  
+**Kodlama durumu:** Tema sistemi altyapısı ve ThemeProvider hazırlandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 8 kapsamındaki Proje İskeleti (Faz 2, 2.1, 2.2, 2.3 ve 2.4) tamamlanmıştır.
+Bölüm 9 kapsamındaki Tasarım Sistemi ve Rota İskeleti çalışmalarına başlanmış, Faz 3 (Tema altyapısı) tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 2.4 tamamlandı: .env.example şablonu oluşturuldu, .env.local yerel geliştirme dosyası oluşturulup Git dışlama kuralı (.gitignore) doğrulandı; eksik ortam değişkeni güvenli hata davranışı ARCHITECTURE.md içine işlendi.
+Faz 3 tamamlandı: Açık ve koyu tema renk paletleri, 4px/8px boşluk sistemi, tipografi sistemi, TypeScript modelleri ve merkezi ThemeProvider oluşturuldu; kök _layout.tsx entegrasyonu sağlandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Proje İskeleti (Faz 2 serisi) tamamlandı; Tasarım Sistemi ve Rota İskeleti (Faz 3: Tema altyapısı) aşamasına geçiş
+Faz 3 (Tema altyapısı) tamamlandı; Faz 3.1 (Ortak temel bileşenler) aşamasına geçiş
 ```
 
 ---
@@ -1122,10 +1122,10 @@ Proje İskeleti (Faz 2 serisi) tamamlandı; Tasarım Sistemi ve Rota İskeleti (
 Sıradaki teknik görev:
 
 ```text
-Faz 3: Tema altyapısı
+Faz 3.1: Ortak temel bileşenler
 ```
 
-Bu görevde açık ve koyu tema renk paletleri, boşluk ve tipografi sistemleri, tema modelleri ve ThemeProvider bileşeni oluşturulacaktır.
+Bu görevde ScreenContainer, PrimaryButton, SecondaryButton, DangerButton, TextField, PasswordField, LoadingState, EmptyState, ErrorState, StaleDataBanner ve PartialDataBanner bileşenleri oluşturulacaktır.
 
 ---
 
