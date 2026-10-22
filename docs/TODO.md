@@ -1380,26 +1380,26 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 14.2: Android cihaz testleri
 
-- [ ] Uygulama açılışı.
-- [ ] Kayıt formu.
-- [ ] E-posta bağlantısı.
-- [ ] Giriş formu.
-- [ ] Şifre sıfırlama bağlantısı.
-- [ ] Alt menü.
-- [ ] Fiyat listesi.
-- [ ] Altın detay ekranı.
-- [ ] Hesaplama klavyesi.
-- [ ] Tarih seçici.
-- [ ] Portföy ekleme.
-- [ ] Portföy düzenleme.
-- [ ] Portföy silme.
-- [ ] Tema değiştirme.
-- [ ] Çıkış.
-- [ ] Hesap silme.
-- [ ] İnternet kapalı durumu.
-- [ ] Yavaş bağlantı.
-- [ ] Uygulama arka plan ve ön plan geçişi.
-- [ ] Farklı yazı boyutları.
+- [x] Uygulama açılışı.
+- [x] Kayıt formu.
+- [x] E-posta bağlantısı.
+- [x] Giriş formu.
+- [x] Şifre sıfırlama bağlantısı.
+- [x] Alt menü.
+- [x] Fiyat listesi.
+- [x] Altın detay ekranı.
+- [x] Hesaplama klavyesi.
+- [x] Tarih seçici.
+- [x] Portföy ekleme.
+- [x] Portföy düzenleme.
+- [x] Portföy silme.
+- [x] Tema değiştirme.
+- [x] Çıkış.
+- [x] Hesap silme.
+- [x] İnternet kapalı durumu.
+- [x] Yavaş bağlantı.
+- [x] Uygulama arka plan ve ön plan geçişi.
+- [x] Farklı yazı boyutları.
 
 ---
 

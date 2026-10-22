@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.44 Taslak  
+**Belge sürümü:** 1.45 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 20: Test aşaması - Faz 14.1 (Entegrasyon testleri) TAMAMLANDI - Faz 14.2 (RLS güvenlik testleri) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz14-1-integration-tests.ts 14 senaryo ve 22/22 iddia ile çalıştırıldı; auth, portföy, fiyat, ürün, yasal ve silme servis entegrasyonları doğrulandı
+**Proje durumu:** Bölüm 20: Test aşaması - Faz 14.2 (Android cihaz testleri) TAMAMLANDI - Faz 14.3 (iOS testleri) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz14-2-android-tests.ts 20 senaryo ve 20/20 iddia ile çalıştırıldı; Android platformuna özgü yaşam döngüsü, formlar, klavye, navigasyon ve hata durumları doğrulandı
 
 ---
 
@@ -1262,6 +1262,32 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.45 Taslak - 22.10.2026
+
+- Bölüm 20: Test aşaması — Faz 14.2: Android cihaz testleri tamamlandı.
+- `supabase/tests/test-faz14-2-android-tests.ts` oluşturuldu; Android platformuna özgü 20 cihaz ve ekran testi yazılarak 20/20 iddia ile başarıyla doğrulandı:
+  1. Splash screen gizleme ve oturum durumuna göre ilk rota yönlendirmesi.
+  2. Kayıt formu alanları, e-posta klavye tipi ve e-posta doğrulama ekranına yönlendirme.
+  3. E-posta doğrulama ekranı tekrar gönderim ve geri dönüş yetenekleri.
+  4. Giriş formu şifre gizleme, oturum açma ve şifremi unuttum bağlantısı.
+  5. Şifre sıfırlama talebi ve yeni şifre belirleme akışları.
+  6. Alt sekmeler (5 sekme: Ana Sayfa, Fiyatlar, Hesapla, Portföy, Ayarlar).
+  7. Fiyat listesi ve `RefreshControl` çekip yenileme (pull-to-refresh).
+  8. Altın detay ekranı dinamik rota parametresi, alış/satış görünümü ve hesaplama ekranına aktarım.
+  9. Hesaplama ekranı `decimal-pad` klavye türü ve anlık satın alma/bozdurma tahminleri.
+  10. Portföy tarih seçici ve gelecek tarih engeli.
+  11. Portföy ekleme formu, klavye uyumu ve `createEntry`.
+  12. Portföy düzenleme ekranı mevcut veriyi ön yükleme ve `updateEntry`.
+  13. Portföy silme iki aşamalı `Alert.alert` onayı ve `deleteEntry`.
+  14. Tema değiştirme (light/dark/system) ve `safeStorage`/`AsyncStorage` kalıcılığı.
+  15. Çıkış işlemi (`authService.signOut`) ve güvenli yönlendirme.
+  16. Hesap silme ekranı şifre doğrulaması, `destructive` alert onayı ve Edge Function çağrısı.
+  17. İnternet kapalı durumu (`ErrorState` ve çevrimdışı fallback metinleri).
+  18. Yavaş bağlantı geri bildirimi (`ActivityIndicator` ve işlem sırasında buton kilitleme).
+  19. Arka plan ve ön plan geçişi yaşam döngüsü güvenliği (`onAuthStateChange` abonelik temizliği).
+  20. Farklı yazı boyutları esnekliği (tipografi ölçekleri ve `ScrollView` taşma koruması).
+- Sıradaki görev Bölüm 20: Test aşaması — Faz 14.3 (iOS testleri) olarak güncellendi.
 
 ### 1.44 Taslak - 22.10.2026
 

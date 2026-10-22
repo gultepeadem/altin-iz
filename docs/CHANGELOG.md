@@ -56,6 +56,40 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.57] - 22.10.2026
+
+### Added
+
+- Bölüm 20: Test aşaması — Faz 14.2: Android cihaz testleri tamamlandı:
+  - `supabase/tests/test-faz14-2-android-tests.ts`: Android platformuna özgü 20 cihaz ve ekran davranışını doğrulayan test paketi yazıldı ve 20/20 başarıyla doğrulandı:
+    1. Android uygulama açılışı (`app/_layout.tsx` Splash screen gizleme, oturum dinleme ve kök yönlendirme).
+    2. Android kayıt formu (`app/(auth)/register.tsx` form alanları, `keyboardType`, `signUp` çağrısı ve `push('/verify-email')`).
+    3. Android e-posta doğrulama ekranı (`app/(auth)/verify-email.tsx` resend butonu, geri dönüş ve oturum kontrolü).
+    4. Android giriş formu (`app/(auth)/login.tsx` şifre alanı, `secureTextEntry`, `signInWithPassword` ve şifremi unuttum bağlantısı).
+    5. Android şifre sıfırlama bağlantısı (`forgot-password.tsx` e-posta talep ve `reset-password.tsx` yeni şifre belirleme).
+    6. Android alt menü (`app/(protected)/(tabs)/_layout.tsx` 5 sekme: Ana Sayfa, Fiyatlar, Hesapla, Portföy, Ayarlar).
+    7. Android fiyat listesi (`app/(protected)/(tabs)/prices.tsx` `RefreshControl` pull-to-refresh ve fiyat listeleme).
+    8. Android altın detay ekranı (`app/(protected)/gold/[productId].tsx` dinamik parametre, alış/satış görünümü ve hesapla yönlendirmesi).
+    9. Android hesaplama klavyesi (`app/(protected)/(tabs)/calculate.tsx` `decimal-pad` klavye türü ve satın alma/bozdurma tahminleri).
+    10. Android tarih seçici (`components/portfolio/PortfolioEntryForm.tsx` tarih ayrıştırması ve gelecek tarih engeli).
+    11. Android portföy ekleme (`app/(protected)/portfolio/add.tsx` form alanları, `KeyboardAvoidingView` ve `createEntry`).
+    12. Android portföy düzenleme (`app/(protected)/portfolio/[id].tsx` mevcut veriyi yükleme ve `updateEntry`).
+    13. Android portföy silme (`PortfolioEntryForm.tsx` iki aşamalı `Alert.alert` onayı ve `deleteEntry`).
+    14. Android tema değiştirme (`settings.tsx` ve `ThemeProvider.tsx` light/dark/system seçimi ve `safeStorage`/`AsyncStorage` kalıcılığı).
+    15. Android çıkış işlemi (`settings.tsx` `handleSignOut` ve `authService.signOut` ile oturum sonlandırma).
+    16. Android hesap silme (`app/(protected)/account/delete.tsx` parola doğrulaması, `Alert.alert` destructive onayı ve `deleteAccount` çağrısı).
+    17. Android internet kapalı durumu (`ErrorState.tsx` 'Yeniden Dene' butonu ve çevrimdışı fallback metinleri).
+    18. Android yavaş bağlantı (`ActivityIndicator` ve `PrimaryButton` disabled kilitleme güvenliği).
+    19. Android uygulama arka plan ve ön plan geçişi (`useAuth` `onAuthStateChange` dinleyicisi ve unmounted abonelik temizliği).
+    20. Android farklı yazı boyutları (`theme/typography.ts` tipografi ölçekleri ve `ScreenContainer.tsx` ScrollView taşma engeli).
+
+### Changed
+
+- `docs/TODO.md`: Faz 14.2 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 20: Test aşaması — Faz 14.3 (iOS testleri) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.50 / 1.45 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.56] - 22.10.2026
 
 ### Added
