@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.15 Taslak  
+**Belge sürümü:** 1.16 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.3 tamamlandı, Faz 4.4 sıradaki)  
-**Kodlama durumu:** Başlangıç ürün kataloğu (25 ürün), kaynak ve yasal şablonlar seed edildi  
-**Son çalışma durumu:** Faz 4.3 başarıyla tamamlandı; supabase/seed.sql hazırlandı ve uygulandı, 25 başlangıç ürünü tanımlandı. Sıradaki görev Faz 4.4 (RLS politikaları)
+**Proje aşaması:** Supabase development altyapısı (Faz 4.4 tamamlandı, Faz 4.5 sıradaki)  
+**Kodlama durumu:** RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı  
+**Son çalışma durumu:** Faz 4.4 başarıyla tamamlandı; 12 tabloda RLS etkinleştirildi, handle_new_user ve kolon koruma tetikleyicileri eklendi, ürün ve fiyatlar güvenle salt-okunur açıldı. Sıradaki görev Faz 4.5 (RLS güvenlik testleri)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 4.3 kapsamında başlangıç altın ürünlerini (25 ürün), fiyat kaynağını ve yasal şablonları seed.sql ile tanımlayıp veritabanına eklemek
+Faz 4.4 kapsamında 12 tablonun Row Level Security (RLS) politikalarını, handle_new_user tetikleyicisini ve BEFORE UPDATE kolon koruma kurallarını uygulamak
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 4.3 tamamlandı: supabase/seed.sql oluşturuldu, 25 doğrulanmış altın ürünü (Gram, Çeyrek, Yarım, Tam, Ata vb.), ALTIN_API birincil kaynağı ve 5 test yasal şablonu development veritabanına uygulandı
+Faz 4.4 tamamlandı: 20261022000006_rls_and_security_policies.sql migration'ı uygulandı, kullanıcı verisi izolasyonu ve ortak tablo salt-okunur erişimi API testleriyle doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Supabase development altyapısı (Faz 4.4 hazırlığı)
+Supabase development altyapısı (Faz 4.5 hazırlığı)
 ```
 
 ### Uygulama kodu durumu
@@ -390,13 +390,13 @@ Henüz bağlanmadı (Kullanıcı tarafından GitHub'da private altin-iz deposu o
 ### Son commit
 
 ```text
-f241725 (feat(database): seed initial 25 gold products, price source, and legal fixtures (Faz 4.3))
+cc3949c (feat(database): implement RLS policies, user triggers, and security functions (Faz 4.4))
 ```
 
 ### Son çalışan commit
 
 ```text
-f241725
+cc3949c
 ```
 
 ### Aktif dal
@@ -408,7 +408,7 @@ main
 ### Migration durumu
 
 ```text
-5 adet SQL migration dosyası hazırlandı ve development veritabanında çalıştırıldı (12 tablo, tetikleyiciler, indeksler).
+6 adet SQL migration dosyası hazırlandı ve development veritabanında çalıştırıldı (12 tablo, tetikleyiciler, indeksler, RLS politikaları).
 ```
 
 Gerçek olmayan commit, dal veya migration adı uydurulmamalıdır.
@@ -591,24 +591,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 4.4: RLS politikaları
+Faz 4.5: RLS güvenlik testleri
 ```
 
-Bu görevde veritabanındaki 12 tablonun satır bazlı güvenlik (RLS) politikaları tanımlanacaktır:
-- `auth.users` kaydı oluştuğunda tetikleyici ile `user_profiles` ve `user_preferences` oluşturulması
-- Kullanıcıların yalnızca kendi verilerini okuyabilmesi/yazabilmesi
-- Ürün kataloğu, fiyat kaynakları ve geçerli fiyatların `anon` ve `authenticated` rollerine güvenle salt okunur (SELECT) açılması
+Bu görevde iki farklı test kullanıcısı (Test Kullanıcısı A ve Test Kullanıcısı B) üzerinden çapraz erişim testleri gerçekleştirilecek; A'nın B'nin portföyünü okuyamadığı/değiştiremediği, normal kullanıcının ürün veya fiyat yazamadığı test komutlarıyla teyit edilecek ve güvenlik test sonuçları belgelenecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 4.4 şu koşullarda tamamlanmış sayılır:
+Faz 4.5 şu koşullarda tamamlanmış sayılır:
 
-- `DATABASE.md` Section 14 erişim matrisine uygun tüm RLS politikaları migration olarak yazılmalı.
-- `handle_new_user` tetikleyicisi tanımlanmalı.
-- `anon` ve `authenticated` kullanıcılarının ürünleri ve fiyatları okuyabildiği, ancak başkalarının profiline/portföyüne erişemediği doğrulanmalı.
-- `docs/TODO.md` içindeki Faz 4.4 maddeleri güncellenmeli.
+- Test Kullanıcısı A ve B oluşturulup yetkisiz çapraz erişim senaryoları çalıştırılmalı.
+- Bütün yetkisiz işlemler (okuma, ekleme, güncelleme, silme) veritabanı RLS seviyesinde 401/403/boş sonuç ile reddedilmeli.
+- Test sonuçları `SECURITY.md` ve `HANDOFF.md` dosyalarına işlenmeli.
+- `docs/TODO.md` içindeki Faz 4.5 maddeleri güncellenmeli.
 
 ---
 
@@ -630,7 +627,8 @@ Faz 4.4 şu koşullarda tamamlanmış sayılır:
 - [x] Development Supabase projesi oluşturuldu ve bağlandı (Faz 4: 9539dc5).
 - [x] Supabase yerel proje yapısı kuruldu (Faz 4.1: f0b0232).
 - [x] Veritabanı tabloları, tetikleyicileri ve indeksleri oluşturuldu (Faz 4.2: a871164).
-- [x] Başlangıç ürün kataloğu ve test verileri seed edildi (Faz 4.3).
+- [x] Başlangıç ürün kataloğu ve test verileri seed edildi (Faz 4.3: 89af81b).
+- [x] RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı (Faz 4.4).
 
 ---
 

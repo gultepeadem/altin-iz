@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.10 Taslak  
+**Belge sürümü:** 1.11 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Supabase development altyapısı (Faz 4.3 tamamlandı, Faz 4.4 sıradaki)  
-**Kodlama durumu:** Başlangıç ürün kataloğu (25 ürün), kaynak ve yasal şablonlar seed edildi
+**Proje durumu:** Supabase development altyapısı (Faz 4.4 tamamlandı, Faz 4.5 sıradaki)  
+**Kodlama durumu:** RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı
 
 ---
 
@@ -1101,18 +1101,18 @@ Mağaza hazırlığı: Başlamadı
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.3 (Başlangıç ürün verileri) adımı başarıyla tamamlanmıştır.
+Bölüm 10 kapsamındaki Supabase Development Altyapısının Faz 4.4 (RLS politikaları) adımı başarıyla tamamlanmıştır.
 
 Son tamamlanan ana iş:
 
 ```text
-Faz 4.3 tamamlandı: supabase/seed.sql dosyası hazırlandı, 25 adet doğrulanmış altın ürünü (Gram, Çeyrek, Yarım, Tam, Ata vb.), ALTIN_API birincil kaynağı ve test şablon yasal metinleri development veritabanına uygulandı.
+Faz 4.4 tamamlandı: 12 tablonun tamamında RLS etkinleştirildi; handle_new_user tetikleyicisi, BEFORE UPDATE kolon koruma kuralları ve DATABASE.md Bölüm 14 erişim matrisiyle birebir uyumlu politikalar development veritabanına uygulandı; anon okuma ve yazma koruması doğrulandı.
 ```
 
 Mevcut geçiş durumu:
 
 ```text
-Faz 4.3 (Başlangıç ürün verileri) tamamlandı; Faz 4.4 (RLS politikaları) aşamasına geçiş
+Faz 4.4 (RLS politikaları) tamamlandı; Faz 4.5 (RLS güvenlik testleri) aşamasına geçiş
 ```
 
 ---
@@ -1122,14 +1122,10 @@ Faz 4.3 (Başlangıç ürün verileri) tamamlandı; Faz 4.4 (RLS politikaları) 
 Sıradaki teknik görev:
 
 ```text
-Faz 4.4: RLS politikaları
+Faz 4.5: RLS güvenlik testleri
 ```
 
-Bu görevde veritabanı tablolarının tamamı için satır bazlı güvenlik (Row Level Security - RLS) politikaları tanımlanacaktır:
-- `auth.users` kaydı oluştuğunda tetikleyici ile `user_profiles` ve `user_preferences` oluşturulması
-- Kullanıcıların yalnızca kendi profil, tercih, portföy ve hesap silme kayıtlarına erişebilmesi
-- Ürün kataloğu, fiyat kaynakları ve geçerli fiyatların `anon` ve `authenticated` rollerine güvenle salt okunur (SELECT) açılması
-- Hileli veri güncellemelerinin `BEFORE UPDATE` tetikleyicileriyle engellenmesi
+Bu görevde iki farklı test kullanıcısı (Test Kullanıcısı A ve Test Kullanıcısı B) üzerinden çapraz erişim testleri gerçekleştirilecek; A'nın B'nin portföyünü okuyamadığı/değiştiremediği, normal kullanıcının ürün veya fiyat yazamadığı test komutlarıyla teyit edilecek ve güvenlik test sonuçları belgelenecektir.
 
 ---
 

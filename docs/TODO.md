@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.11 Taslak  
+**Belge sürümü:** 1.12 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Supabase development altyapısı (Faz 4.3 tamamlandı, Faz 4.4 sıradaki)  
-**Kodlama durumu:** Başlangıç ürün kataloğu (25 ürün), kaynak ve yasal şablonlar seed edildi
+**Proje aşaması:** Supabase development altyapısı (Faz 4.4 tamamlandı, Faz 4.5 sıradaki)  
+**Kodlama durumu:** RLS politikaları, kullanıcı ve kolon koruma tetikleyicileri uygulandı
 
 ---
 
@@ -626,45 +626,45 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ### Kullanıcı profili
 
-- [ ] `auth.users` kaydı oluştuğunda `SECURITY DEFINER` tetikleyicisi ile `user_profiles` ve `user_preferences` kayıtlarını otomatik oluştur.
-- [ ] Kullanıcı yalnızca kendi profilini okuyabilsin (`SELECT`).
-- [ ] Kullanıcı olası tetikleyici hatasında eksik profil kaydını yalnızca kendi `auth.uid()` kimliği ve `active` durumuyla oluşturabilsin (`INSERT` fallback).
-- [ ] Kullanıcı yalnızca izin verilen profil alanlarını (`display_name`) güncelleyebilsin (`UPDATE`).
-- [ ] Kullanıcının `user_id`, `account_status` ve `created_at` alanlarını değiştirmesini `BEFORE UPDATE` tetikleyicisiyle veritabanı seviyesinde engelle.
+- [x] `auth.users` kaydı oluştuğunda `SECURITY DEFINER` tetikleyicisi ile `user_profiles` ve `user_preferences` kayıtlarını otomatik oluştur.
+- [x] Kullanıcı yalnızca kendi profilini okuyabilsin (`SELECT`).
+- [x] Kullanıcı olası tetikleyici hatasında eksik profil kaydını yalnızca kendi `auth.uid()` kimliği ve `active` durumuyla oluşturabilsin (`INSERT` fallback).
+- [x] Kullanıcı yalnızca izin verilen profil alanlarını (`display_name`) güncelleyebilsin (`UPDATE`).
+- [x] Kullanıcının `user_id`, `account_status` ve `created_at` alanlarını değiştirmesini `BEFORE UPDATE` tetikleyicisiyle veritabanı seviyesinde engelle.
 
 ### Kullanıcı tercihleri
 
-- [ ] Kullanıcı yalnızca kendi tercihlerini okuyabilsin (`SELECT`).
-- [ ] Kullanıcı eksik tercih kaydını yalnızca kendi `auth.uid()` kimliğiyle oluşturabilsin (`INSERT` fallback).
-- [ ] Kullanıcı kendi tercih kaydında yalnızca `theme` alanını güncelleyebilsin (`UPDATE`).
-- [ ] Kullanıcının `user_id`, `language_code`, `currency_code` ve `created_at` alanlarını değiştirmesini `BEFORE UPDATE` tetikleyicisiyle veritabanı seviyesinde engelle.
+- [x] Kullanıcı yalnızca kendi tercihlerini okuyabilsin (`SELECT`).
+- [x] Kullanıcı eksik tercih kaydını yalnızca kendi `auth.uid()` kimliğiyle oluşturabilsin (`INSERT` fallback).
+- [x] Kullanıcı kendi tercih kaydında yalnızca `theme` alanını güncelleyebilsin (`UPDATE`).
+- [x] Kullanıcının `user_id`, `language_code`, `currency_code` ve `created_at` alanlarını değiştirmesini `BEFORE UPDATE` tetikleyicisiyle veritabanı seviyesinde engelle.
 
 ### Portföy
 
-- [ ] Kullanıcı yalnızca kendi kayıtlarını okuyabilsin.
-- [ ] Kullanıcı yalnızca kendi adına kayıt oluşturabilsin.
-- [ ] Kullanıcı yalnızca kendi kaydını güncelleyebilsin.
-- [ ] Kullanıcı yalnızca kendi kaydını silebilsin.
-- [ ] Kullanıcı kayıt sahibini değiştiremesin.
+- [x] Kullanıcı yalnızca kendi kayıtlarını okuyabilsin.
+- [x] Kullanıcı yalnızca kendi adına kayıt oluşturabilsin.
+- [x] Kullanıcı yalnızca kendi kaydını güncelleyebilsin.
+- [x] Kullanıcı yalnızca kendi kaydını silebilsin.
+- [x] Kullanıcı kayıt sahibini değiştiremesin.
 
 ### Ortak fiyat tabloları
 
-- [ ] Normal kullanıcı aktif altın ürünlerini okuyabilsin.
-- [ ] Normal kullanıcı ürün ekleyemesin.
-- [ ] Normal kullanıcı ürün değiştiremesin.
-- [ ] Normal kullanıcı fiyat ekleyemesin.
-- [ ] Normal kullanıcı fiyat değiştiremesin.
-- [ ] Normal kullanıcı fiyat silemesin.
-- [ ] Normal kullanıcı sağlayıcı eşleştirmesi değiştiremesin.
-- [ ] Normal kullanıcı fiyat çekme çalışma kayıtlarını okuyamasın.
-- [ ] Normal kullanıcı güvenlik olaylarını okuyamasın.
+- [x] Normal kullanıcı aktif altın ürünlerini okuyabilsin.
+- [x] Normal kullanıcı ürün ekleyemesin.
+- [x] Normal kullanıcı ürün değiştiremesin.
+- [x] Normal kullanıcı fiyat ekleyemesin.
+- [x] Normal kullanıcı fiyat değiştiremesin.
+- [x] Normal kullanıcı fiyat silemesin.
+- [x] Normal kullanıcı sağlayıcı eşleştirmesi değiştiremesin.
+- [x] Normal kullanıcı fiyat çekme çalışma kayıtlarını okuyamasın.
+- [x] Normal kullanıcı güvenlik olaylarını okuyamasın.
 
 ### Yasal belgeler ve hesap silme talepleri
 
-- [ ] Kullanıcı aktif ve yürürlükteki belgeleri okuyabilsin (`SELECT`).
-- [ ] Normal kullanıcı belge metnini değiştiremesin.
-- [ ] `user_legal_events`: Kullanıcı yalnızca kendi olaylarını okuyabilsin (`SELECT`); doğrudan istemci `INSERT`, `UPDATE` ve `DELETE` işlemleri kapalı olsun; yeni yasal olay yalnızca güvenli PostgreSQL RPC veya `record-legal-event` Edge Function üzerinden append-only olarak oluşturulsun.
-- [ ] `account_deletion_requests`: Kullanıcı yalnızca kendi silme talebini okuyabilsin (`SELECT`); oluşturma ve durum güncellemeleri yalnızca `delete-account` Edge Function (service role) tarafından yapılsın (`INSERT`, `UPDATE`, `DELETE` istemciye kapalı olsun).
+- [x] Kullanıcı aktif ve yürürlükteki belgeleri okuyabilsin (`SELECT`).
+- [x] Normal kullanıcı belge metnini değiştiremesin.
+- [x] `user_legal_events`: Kullanıcı yalnızca kendi olaylarını okuyabilsin (`SELECT`); doğrudan istemci `INSERT`, `UPDATE` ve `DELETE` işlemleri kapalı olsun; yeni yasal olay yalnızca güvenli PostgreSQL RPC veya `record-legal-event` Edge Function üzerinden append-only olarak oluşturulsun.
+- [x] `account_deletion_requests`: Kullanıcı yalnızca kendi silme talebini okuyabilsin (`SELECT`); oluşturma ve durum güncellemeleri yalnızca `delete-account` Edge Function (service role) tarafından yapılsın (`INSERT`, `UPDATE`, `DELETE` istemciye kapalı olsun).
 
 ---
 

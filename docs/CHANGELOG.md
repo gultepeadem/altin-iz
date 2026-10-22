@@ -56,6 +56,26 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.16] - 22.10.2026
+
+### Added
+
+- Faz 4.4 RLS Politikaları ve Güvenlik Tetikleyicileri tamamlandı:
+  - `20261022000006_rls_and_security_policies.sql` migration dosyası hazırlandı ve veritabanına uygulandı.
+  - 12 tablonun tamamında Row Level Security (RLS) etkinleştirildi.
+  - `handle_new_user` tetikleyicisi (`auth.users AFTER INSERT`) oluşturuldu; yeni kullanıcılarda profil ve tercihler otomatik oluşturulur hale getirildi.
+  - `BEFORE UPDATE` kolon koruma tetikleyicileri uygulandı (`user_profiles`, `user_preferences`, `portfolio_entries` tablolarında yetkisiz kimlik, durum ve zaman damgası değişiklikleri engellendi).
+  - Kullanıcı verisi izolasyonu (`auth.uid() = user_id`) politikaları tanımlandı (`user_profiles`, `user_preferences`, `portfolio_entries`, `user_legal_events`, `account_deletion_requests`).
+  - Ortak tablolar (`gold_products`, `price_sources`, `gold_prices`, `legal_documents`) `anon` ve `authenticated` rollerine salt-okunur (`SELECT`) açıldı, yazma işlemleri engellendi.
+  - Append-only yasal olay kaydı için `record_user_legal_event` RPC fonksiyonu oluşturuldu.
+  - REST API üzerinden RLS okuma ve yazma koruma testleri başarıyla doğrulandı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 4.4 tamamlandı olarak işaretlendi; sıradaki görev Faz 4.5 (RLS güvenlik testleri) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.15] - 22.10.2026
 
 ### Added
