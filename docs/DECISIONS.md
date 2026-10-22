@@ -2,8 +2,8 @@
 
 **Belge adı:** `DECISIONS.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1  
-**Son güncelleme:** 19.10.2026  
+**Belge sürümü:** 1.3  
+**Son güncelleme:** 22.10.2026  
 **Durum:** Aktif
 
 ---
@@ -1109,6 +1109,68 @@ Altın İz V1 geliştirme ve doğrulama sürecinde ücretli altyapı, ücretli A
 
 ---
 
+# ADR-033: Hesap ve veri silme teknik tasarımı ve kısmi hata telafisi
+
+**Tarih:** 22.10.2026  
+**Durum:** Aktif  
+**İlgili Belgeler:** `docs/DATA_RETENTION.md`, `docs/DATABASE.md`, `docs/TODO.md` (Faz 12)  
+**Çözülen Açık Sorun:** `KI-018: Hesap silme işleminin kısmi hata telafisi kesinleşmedi`
+
+## Bağlam
+
+Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme hakkı (KVKK md. 11, Apple App Store 5.1.1(v) ve Google Play Veri Güvenliği gereksinimleri) yasal ve platform zorunluluğudur. Hesap silme yıkıcı (irreversible) bir işlem olduğundan, kaza eseri başlatılmaması, ilişkisel verilerin doğru sırada temizlenmesi, kısmi sistem arızalarında tutarsız veya hayalet hesap bırakılmaması ve yasal ispat kayıtlarının kişisel veriden arındırılarak saklanması gerekmektedir.
+
+## Alınan Kararlar
+
+1. **Yeniden Kimlik Doğrulama (Re-authentication) Zorunluluğu:**
+   - Hesap silme ekranında kullanıcı parolasını doğrulamak zorundadır (`password`).
+   - Parola doğrulaması Supabase Auth üzerinden gerçekleştirilir. Kimlik doğrulanamazsa silme süreci derhal kesilir (`INVALID_CREDENTIALS`).
+   - Bu sayede cihazın başkasının eline geçmesi veya dalgınlıkla butona dokunulması durumunda veri kaybı önlenir.
+
+2. **Silme İşlem Sırası ve Tablo Hiyerarşisi:**
+   İlişkisel verilerin bütünlüğü ve yetki kısıtları gözetilerek işlem sırası şu şekilde uygulanacaktır:
+   ```text
+   Adım 1: account_deletion_requests tablosunda talep oluşturulur (status = 'processing')
+           ↓
+   Adım 2: portfolio_entries tablosundaki tüm portföy kayıtları fiziksel silinir (DELETE)
+           ↓
+   Adım 3: user_preferences tablosundaki kullanıcı tercihleri fiziksel silinir (DELETE)
+           ↓
+   Adım 4: user_legal_events ve security_events kayıtlarındaki user_id alanı NULL yapılır (ANONİMLEŞTİRME)
+           ↓
+   Adım 5: user_profiles tablosundaki kullanıcı profil kaydı fiziksel silinir (DELETE)
+           ↓
+   Adım 6: account_deletion_requests kaydı tamamlandı olarak güncellenir (status = 'completed', completed_at = NOW())
+           ↓
+   Adım 7: Supabase Auth (auth.users) hesabı admin API veya cascade tetikleyiciyle silinir (DELETE)
+           ↓
+   Adım 8: Mobil cihazdaki yerel oturum (tokens, safeStorage) temizlenir ve kullanıcı karşılama ekranına yönlendirilir
+   ```
+
+3. **Fiziksel Olarak Silinen (Purged) Tablolar:**
+   - `public.portfolio_entries`: Kullanıcının sahip olduğu altın varlıkları, alım fiyatları, tarihleri ve adetleri tamamen silinir.
+   - `public.user_preferences`: Kullanıcının tema, bildirim ve arayüz tercihleri tamamen silinir.
+   - `public.user_profiles`: Görünen ad, avatar baş harfleri ve profil kaydı tamamen silinir.
+   - `auth.users`: Supabase kimlik doğrulama hesabı, şifre karması ve oturumları tamamen silinir.
+
+4. **Anonimleştirilerek Saklanan Tablolar:**
+   - `public.user_legal_events`: Hukuki ispat (KVKK md. 5, 10, 11) gereğince sözleşme/politika sürümleri ve olay zamanları saklanır; ancak `user_id` alanı `NULL` yapılarak kimliği belirli/belirlenebilir kişiyle bağlantısı tamamen koparılır.
+   - `public.security_events`: Bilgi güvenliği denetimleri (KVKK md. 12) gereğince 1 yıl süreyle saklanır; `user_id` alanı `NULL` yapılarak anonimleştirilir.
+   - `public.account_deletion_requests`: Silme talebinin kanıtı olarak saklanır; `user_id` alanı `NULL` yapılır; kesinlikle e-posta, isim veya portföy verisi barındırmaz.
+
+5. **Kısmi Başarısızlık ve Telafi Stratejisi (KI-018 Çözümü):**
+   - Veritabanı tablolarındaki silme adımları atomik bir işlem olarak yürütülür.
+   - Veritabanı tablolarının silinmesinde bir hata oluşursa işlem anında `ROLLBACK` edilir; profil ve auth kullanıcısı silinmez.
+   - `account_deletion_requests.status` alanı `'failed'` olarak işaretlenir ve güvenli hata kodu (`failure_code`) kaydedilir.
+   - Kullanıcıya işlemin tamamlanamadığı dürüstçe bildirilir; hesap silinmiş gibi yanıltıcı başarı mesajı verilmez.
+   - Auth silme adımında üçüncü taraf bağlantı hatası oluşursa, arka plan telafi işi (`retry / compensating job`) ile auth silme işlemi tamamlanır.
+
+6. **Tamamlanma Kaydının Kişisel Veri İçermemesi:**
+   - Tamamlanan `account_deletion_requests` kaydı yalnızca talep kimliğini (UUID), talep zamanını, tamamlanma zamanını ve durumunu içerir.
+   - Kayıtta e-posta adresi, kullanıcı adı, telefon numarası veya portföy toplamı ASLA saklanmaz (KVKK veri minimizasyonu).
+
+---
+
 # Açık kararlar
 
 Aşağıdaki konular henüz tam kesinleşmemiştir:
@@ -1127,8 +1189,8 @@ Aşağıdaki konular henüz tam kesinleşmemiştir:
 12. Reşat ve Hamit ürün desteği
 13. Fiyat geçmişinin saklama süresi
 14. Güvenlik olaylarının saklama süresi
-15. Yasal olay kayıtlarının saklama ve anonimleştirme yöntemi
-16. Hesap silme işlemindeki telafi yöntemi
+15. Yasal olay kayıtlarının saklama ve anonimleştirme yöntemi (ADR-033 uyarınca user_id = NULL yapılarak anonimleştirme kararlaştırıldı)
+16. Hesap silme işlemindeki telafi yöntemi (ADR-033 uyarınca atomik transaction, ROLLBACK ve failed durumu kararlaştırıldı)
 17. Portföy hesaplamasının SQL görünümü, RPC veya servis katmanında yapılması
 18. Altın İz marka adının kesin kullanılabilirliği
 19. Android ve iOS teknik uygulama kimlikleri
@@ -1139,6 +1201,10 @@ Bu kararlar kesinleştiğinde yeni ADR bölümleri eklenir veya ilgili koşullu 
 ---
 
 # Sürüm geçmişi
+
+## 1.3 - 22.10.2026
+
+- ADR-033 ile hesap ve veri silme teknik tasarımı, silinecek tablolar, anonimleştirme kuralları ve kısmi hata telafi stratejisi (KI-018) karara bağlandı.
 
 ## 1.2 - 22.10.2026
 

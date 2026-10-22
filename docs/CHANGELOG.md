@@ -56,6 +56,30 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.50] - 22.10.2026
+
+### Added
+
+- Bölüm 18: Hesap ve veri silme — Faz 12: Hesap silme teknik tasarımı tamamlandı:
+  - `src/models/accountDeletion.ts`:
+    - `AccountDeletionStatus` ('requested', 'identity_verification_required', 'processing', 'completed', 'failed', 'cancelled') ve `ACCOUNT_DELETION_STATUSES` tanımlandı.
+    - `DELETION_TABLE_ORDER`: Katı hiyerarşik silme sırası belirlendi (`account_deletion_requests` -> `portfolio_entries` -> `user_preferences` -> `user_legal_events` -> `security_events` -> `user_profiles` -> `auth.users`).
+    - `PURGED_TABLES`: Fiziksel olarak silinecek tablolar (`portfolio_entries`, `user_preferences`, `user_profiles`, `auth.users`) tanımlandı.
+    - `ANONYMIZED_TABLES`: `user_id = NULL` ile anonimleştirilerek saklanacak tablolar (`user_legal_events`, `security_events`, `account_deletion_requests`) tanımlandı.
+    - `validateDeletionRecordPiiFree`: Tamamlanan silme kayıtlarının PII (kişisel veri: e-posta, isim, parola, telefon, portföy detayı) içermediğini denetleyen doğrulayıcı kodlandı.
+    - `mapRowToAccountDeletionRequest`: Veritabanı satırını modele dönüştüren yardımcı kodlandı.
+  - `docs/DECISIONS.md`: `ADR-033: Hesap ve veri silme teknik tasarımı ve kısmi hata telafisi` kararı eklendi.
+  - `docs/DATA_RETENTION.md`: Bölüm 16 (Hesap silme talepleri) durumu Kesinleşti (ADR-033) ve 3 yıllık zamanaşımı saklama süresi olarak güncellendi; Bölüm 37 kesinleşen fiziksel silinen ve anonimleştirilen tablolarla yenilendi.
+  - `docs/KNOWN_ISSUES.md`: `KI-018: Hesap silme işleminin kısmi hata telafisi kesinleşmedi` sorunu atomik transaction ve rollback güvencesiyle `Resolved` olarak çözüldü.
+  - `supabase/tests/test-faz12-account-deletion-design.ts`: 10/10 senaryoyla yeniden kimlik doğrulama, silme işlem sırası, silinen ve anonimleşen tablolar, kısmi hata telafisi (KI-018), PII-free tamamlama kontrolü, durum geçişleri, veritabanı foreign key sözleşmesi (CASCADE / SET NULL) ve dokümantasyon senkronizasyonunu doğrulayan test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`: Faz 12 maddeleri `[x]` olarak işaretlendi; sıradaki görev Faz 12.1 (`delete-account` Edge Function) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.43 / 1.38 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.49] - 22.10.2026
 
 ### Added

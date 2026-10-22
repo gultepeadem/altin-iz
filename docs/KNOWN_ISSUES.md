@@ -823,11 +823,12 @@ E-posta doğrulama ve şifre sıfırlama iletilerinin production ortamında hang
 
 ## KI-018: Hesap silme işleminin kısmi hata telafisi kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Critical  
 **Kategori:** Hesap silme ve veri bütünlüğü  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 22.10.2026  
+**Çözüm referansı:** ADR-033, `docs/DATA_RETENTION.md`, `src/models/accountDeletion.ts`, Faz 12
 
 ### Açıklama
 
@@ -840,6 +841,14 @@ Portföy silindi
 Profil henüz silinmedi
 Auth hesabı silinemedi
 ```
+
+### Çözüm
+
+Faz 12 kapsamında ADR-033 karara bağlandı:
+1. `DELETION_TABLE_ORDER` hiyerarşisi belirlendi (`account_deletion_requests` -> `portfolio_entries` -> `user_preferences` -> `user_legal_events` (anonimleştirme) -> `security_events` (anonimleştirme) -> `user_profiles` -> `auth.users`).
+2. Veritabanı adımları atomik transaction içinde yürütülür; ara adımlarda hata oluşursa rollback edilir, profil ve auth hesabı silinmez.
+3. Hata durumunda talep `failed` olarak işaretlenir ve kullanıcıya net hata mesajı gösterilir; hayalet hesap oluşumu engellenir.
+4. `test-faz12-account-deletion-design.ts` ile 10/10 test senaryosuyla doğrulandı.
 
 ### Etki
 

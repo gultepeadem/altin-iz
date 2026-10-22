@@ -12,3 +12,4 @@ export * from './portfolio';
 export * from './home';
 export * from './preferences';
 export * from './legal';
+export * from './accountDeletion';

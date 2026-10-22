@@ -2,10 +2,10 @@
 
 **Belge adı:** `DATA_RETENTION.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0 Taslak  
-**Son güncelleme:** 19.10.2026 
-**Proje aşaması:** Planlama ve dokümantasyon  
-**Kodlama durumu:** Henüz başlanmadı  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 22.10.2026 
+**Proje aşaması:** Bölüm 18: Hesap ve veri silme (Faz 12)  
+**Kodlama durumu:** Teknik tasarım ve veri modelleri hazırlandı  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -447,31 +447,33 @@ C. Belirli hukuki süre boyunca sınırlı ve erişimi kısıtlı saklama
 
 ### Kapsam
 
-- Talep kimliği
-- Kullanıcı kimliği
-- Talep zamanı
-- İşlem durumu
-- Tamamlanma zamanı
-- Sınırlı güvenli hata kodu
+- Talep kimliği (UUID)
+- Kullanıcı kimliği (Silme tamamlandığında `NULL` yapılır / anonimleştirilir)
+- Talep zamanı (`requested_at`)
+- İşlem durumu (`requested`, `identity_verification_required`, `processing`, `completed`, `failed`, `cancelled`)
+- Tamamlanma zamanı (`completed_at`)
+- Sınırlı güvenli hata kodu (`failure_code`)
 
 ### Süre durumu
 
 ```text
-Durum: Karar bekliyor
-Başlangıç: Talebin tamamlanması veya kalıcı başarısızlık durumu
-Bitiş: İşlem kanıtı, güvenlik ve hukuki ihtiyacın sona ermesi
+Durum: Kesinleşti (ADR-033)
+Başlangıç: Talebin tamamlanması (completed_at)
+Süre: 3 yıl (Hukuki uyuşmazlık zamanaşımı ve mağaza denetim süresi)
+Bitiş: Süre sonunda kaydın veritabanından tamamen silinmesi
 ```
 
 ### İmha yaklaşımı
 
-- İşlem devam ederken gerekli alanlar tutulur.
-- İşlem tamamlandıktan sonra kişisel bağlantı mümkün olan en kısa sürede kaldırılır veya hukukça gerekli süreyle kısıtlı saklanır.
+- İşlem devam ederken gerekli durum alanları güncellenir.
+- İşlem tamamlandığında `auth.users` silindiği için `account_deletion_requests.user_id` alanı `ON DELETE SET NULL` ile otomatik olarak `NULL` yapılır; kayıt kimliği belirli/belirlenebilir kişiden tamamen koparılır (anonimleştirilir).
+- Kayıt kesinlikle e-posta, isim, parola veya portföy bilgisi içermez (PII içermez).
 - Tam hata metni, token veya secret tutulmaz.
-- Silme kaydı kullanıcı verisini yeniden oluşturacak içerik barındırmaz.
+- Silme kaydı kullanıcı verisini yeniden oluşturacak hiçbir içerik barındırmaz.
 
-### Açık konu
+### Çözülen konu
 
-Kısmi başarısızlık telafisi ve tamamlanmış talebin ne kadar saklanacağı `KI-018` ve `KI-019` kapsamında kesinleştirilecektir.
+Kısmi başarısızlık telafisi `KI-018` ve `ADR-033` kapsamında atomik PostgreSQL transaction ve ROLLBACK güvencesiyle kesinleştirilmiştir.
 
 ---
 
@@ -1003,23 +1005,24 @@ Kullanıcı uygulama içinden hesabını ve ilişkili verilerini silme işlemini
 
 ## 37. Hesap silme sonrası saklanabilecek sınırlı veriler
 
-Bu bölüm hukuk uzmanı doğrulaması beklemektedir.
+Bu bölüm ADR-033 teknik tasarımı uyarınca kesinleştirilmiştir:
 
-Potansiyel olarak sınırlı tutulabilecek kategoriler:
+### Fiziksel Olarak Silinen (Purged) Tablolar:
+- `public.portfolio_entries`: Portföy altın kayıtları, adet, fiyat ve alış tarihleri geri getirilemez biçimde silinir (`DELETE`).
+- `public.user_preferences`: Kullanıcı tema ve ayar tercihleri silinir (`DELETE`).
+- `public.user_profiles`: Görünen ad, avatar baş harfleri ve profil kaydı silinir (`DELETE`).
+- `auth.users`: Supabase kimlik kaydı ve tüm oturum belirteçleri silinir (`DELETE`).
 
-- Silme işleminin tamamlandığını gösteren kişisel verisi azaltılmış teknik kayıt
-- Yasal belge olaylarının gerekli kısmı
-- Güvenlik ihlali veya kötüye kullanım kanıtının gerekli kısmı
-- Hukuki uyuşmazlıkla doğrudan ilgili sınırlı kayıt
+### Anonimleştirilerek Saklanan Sınırlı Tablolar:
+- `public.user_legal_events`: Hukuki ispat (KVKK md. 5, 10, 11) gereğince sözleşme/politika sürümleri ve onay/görüntüleme tarihleri saklanır; `user_id` alanı `NULL` yapılarak kimliği belirli/belirlenebilir kişiyle bağlantısı tamamen koparılır (anonimleştirilir).
+- `public.security_events`: Bilgi güvenliği denetimleri (KVKK md. 12) gereğince 1 yıl saklanır; `user_id` alanı `NULL` yapılır.
+- `public.account_deletion_requests`: Silme talebinin kanıtı olarak 3 yıl saklanır; `user_id` alanı `NULL` yapılır; hiçbir kişisel veri (PII: e-posta, isim, parola, portföy detayı) İÇERMEZ.
 
-Şunlar varsayılan olarak tutulmamalıdır:
-
-- Aktif profil
-- Tam portföy
-- Kullanıcı notları
-- Tema tercihi
-- Aktif oturum
-- Pazarlama listesi
+### Kesinlikle Tutulmayanlar:
+- Aktif profil veya görünen ad
+- Portföy altın kayıtları ve işlem tutarları
+- Kullanıcı notları veya tercihleri
+- Aktif oturumlar veya yenileme belirteçleri (refresh tokens)
 
 ---
 
@@ -1267,6 +1270,13 @@ Değişiklik `CHANGELOG.md` içinde kaydedilmeli, önemli karar değişikliği `
 ---
 
 ## 48. Sürüm geçmişi
+
+### 1.1 Taslak - 22.10.2026
+
+- Bölüm 18 Hesap ve veri silme (Faz 12) kapsamında ADR-033 kararları işlendi.
+- Bölüm 16 (Hesap silme talepleri) durumu Kesinleşti (ADR-033) olarak güncellendi; 3 yıllık saklama süresi belirlendi.
+- Bölüm 37 (Hesap silme sonrası saklanabilecek sınırlı veriler) kesinleştirildi; fiziksel silinen ve anonimleştirilen tablolar netleştirildi.
+- KI-018 kısmi hata telafisi konusu atomik transaction ve rollback yaklaşımıyla çözüldü.
 
 ### 1.0 Taslak - 03.09.2026
 

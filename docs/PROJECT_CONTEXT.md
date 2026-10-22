@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.37 Taslak  
+**Belge sürümü:** 1.38 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 17: Yasal belgeler ve gizlilik TAMAMLANDI - Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) sıradaki  
-**Kodlama durumu:** legalService.ts yasal olay kayıt fonksiyonları (presented, viewed, accepted, declined, withdrawn) ve KVKK md. 10 aydınlatma-açık rıza ayrım kontrolüyle bağlandı; 10/10 test başarılı
+**Proje durumu:** Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) TAMAMLANDI - Faz 12.1 (delete-account Edge Function) sıradaki  
+**Kodlama durumu:** accountDeletion.ts modelleri, ADR-033 kararı, DATA_RETENTION.md güncellemeleri ve KI-018 çözümü hazırlandı; 10/10 test başarılı
 
 ---
 
@@ -1262,6 +1262,14 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ---
 
 ## 44. Sürüm geçmişi
+
+### 1.38 Taslak - 22.10.2026
+
+- Bölüm 18 Hesap ve veri silme - Faz 12 Hesap silme teknik tasarımı tamamlandı.
+- `src/models/accountDeletion.ts` modelleri, silme hiyerarşisi (`DELETION_TABLE_ORDER`), fiziksel silinen ve anonimleşen tablolar belirlendi.
+- ADR-033 kararı oluşturuldu; `DATA_RETENTION.md` Bölüm 16 ve 37 güncellendi; KI-018 kısmi hata telafisi çözüldü.
+- `supabase/tests/test-faz12-account-deletion-design.ts` 10/10 test ile doğrulandı.
+- Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.1 (`delete-account` Edge Function) olarak güncellendi.
 
 ### 1.37 Taslak - 22.10.2026
 

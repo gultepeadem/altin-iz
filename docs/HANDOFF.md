@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.42 Taslak  
+**Belge sürümü:** 1.43 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 17: Yasal belgeler ve gizlilik TAMAMLANDI - Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) sıradaki  
-**Kodlama durumu:** legalService.ts yasal olay metotları (presented, viewed, accepted, declined, withdrawn, getUserLegalEvents) ve validateConsentSeparation doğrulayıcısı hazırlandı; 10/10 test başarılı  
-**Son çalışma durumu:** Faz 11.2 ve Bölüm 17 başarıyla tamamlandı; kullanıcı yasal olay kayıtları güvenli RPC (record_user_legal_event) üzerinden append-only bağlandı; KVKK aydınlatma metnini rıza onayına dönüştürmeme ilkesi ve auth.uid() kullanıcı izolasyonu doğrulandı. Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı)
+**Proje aşaması:** Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) TAMAMLANDI - Faz 12.1 (delete-account Edge Function) sıradaki  
+**Kodlama durumu:** accountDeletion.ts modelleri, ADR-033 kararı, DATA_RETENTION.md güncellemeleri ve KI-018 çözümü hazırlandı; 10/10 test başarılı  
+**Son çalışma durumu:** Faz 12 başarıyla tamamlandı; hesap silme teknik tasarımı (yeniden kimlik doğrulama, silme sırası, fiziksel silinen ve anonimleşen tablolar, kısmi hata telafisi KI-018 ve PII-free kayıt sözleşmesi) kesinleştirildi. Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.1 (delete-account Edge Function)
 
 ---
 
@@ -767,6 +767,15 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.43 Taslak - 22.10.2026
+- Bölüm 18 Hesap ve veri silme - Faz 12 Hesap silme teknik tasarımı tamamlandı.
+- `src/models/accountDeletion.ts` oluşturuldu; `DELETION_TABLE_ORDER`, `PURGED_TABLES` (`portfolio_entries`, `user_preferences`, `user_profiles`, `auth.users`), `ANONYMIZED_TABLES` (`user_legal_events`, `security_events`, `account_deletion_requests`) ve `validateDeletionRecordPiiFree` doğrulayıcısı kodlandı.
+- `docs/DECISIONS.md` belgesine `ADR-033: Hesap ve veri silme teknik tasarımı ve kısmi hata telafisi` kararı eklendi.
+- `docs/DATA_RETENTION.md` belgesinde Bölüm 16 ve Bölüm 37 güncellendi (3 yıllık saklama ve tablo tasnifi).
+- `docs/KNOWN_ISSUES.md` belgesindeki `KI-018` sorunu atomik transaction ve rollback mimarisiyle `Resolved` olarak çözüldü.
+- `supabase/tests/test-faz12-account-deletion-design.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12.1 (`delete-account` Edge Function) olarak güncellendi.
 
 ### 1.42 Taslak - 22.10.2026
 - Bölüm 17 Yasal belgeler ve gizlilik - Faz 11.2 Kullanıcı yasal olayları tamamlandı (Bölüm 17: Yasal belgeler ve gizlilik %100 tamamlandı).

@@ -1252,14 +1252,14 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 12: Hesap silme teknik tasarımı
 
-- [ ] Yeniden kimlik doğrulama yöntemini kesinleştir.
-- [ ] Silme işlem sırasını migration ve function yapısıyla doğrula.
-- [ ] Silinecek tabloları kesinleştir.
-- [ ] Saklanacak veya anonimleştirilecek kayıtları hukuk uzmanıyla belirle.
-- [ ] Kısmi başarısızlık telafi stratejisini belirle.
-- [ ] Tamamlanma kaydının kişisel veri içerip içermeyeceğini belirle.
-- [ ] Kararı `DATA_RETENTION.md` içine ekle.
-- [ ] Kararı `DECISIONS.md` içine ekle.
+- [x] Yeniden kimlik doğrulama yöntemini kesinleştir.
+- [x] Silme işlem sırasını migration ve function yapısıyla doğrula.
+- [x] Silinecek tabloları kesinleştir.
+- [x] Saklanacak veya anonimleştirilecek kayıtları hukuk uzmanıyla belirle.
+- [x] Kısmi başarısızlık telafi stratejisini belirle.
+- [x] Tamamlanma kaydının kişisel veri içerip içermeyeceğini belirle.
+- [x] Kararı `DATA_RETENTION.md` içine ekle.
+- [x] Kararı `DECISIONS.md` içine ekle.
 
 ---
 
