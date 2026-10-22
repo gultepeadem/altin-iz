@@ -173,6 +173,25 @@ export const authService = {
   },
 
   /**
+   * Aktif oturumdaki kullanıcının şifresini günceller (Şifre sıfırlama veya değiştirme).
+   *
+   * @param newPassword Yeni şifre
+   */
+  async updatePassword(newPassword: string): Promise<void> {
+    try {
+      const { error } = await supabase.auth.updateUser({
+        password: newPassword,
+      });
+
+      if (error) {
+        throw normalizeError(error);
+      }
+    } catch (error) {
+      throw normalizeError(error);
+    }
+  },
+
+  /**
    * Derin bağlantıdan (deep link) gelen auth kodunu oturuma dönüştürür (PKCE akışı).
    *
    * @param code Supabase Auth doğrulama kodu

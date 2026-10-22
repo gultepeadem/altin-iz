@@ -591,22 +591,23 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 5.6: Şifre sıfırlama
+Faz 5.7: Çıkış yapma
 ```
 
-Bu görevde `src/app/(public)/forgot-password.tsx` (Şifremi Unuttum) ve `src/app/(public)/reset-password.tsx` (Yeni Şifre Belirleme) ekranları kodlanacak; güvenli genel sonuç mesajı, e-posta gönderme, reset callback akışı, şifre politikası gösterimi, süresi dolmuş bağlantı yönetimi ve başarı sonrası giriş ekranına yönlendirme uygulanacaktır.
+Bu görevde çıkış onay penceresi / uyarısı, Supabase oturumunu kapatma (`authService.signOut`), yerel cihaz oturum ve hassas kullanıcı önbelleğini temizleme ve korunan navigasyon geçmişini güvenle sıfırlayarak giriş/karşılama ekranına yönlendirme uygulanacaktır.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 5.6 şu koşullarda tamamlanmış sayılır:
+Faz 5.7 şu koşullarda tamamlanmış sayılır:
 
-- `forgot-password.tsx` ekranında kullanıcı varlığını ifşa etmeyen genel mesajla şifre sıfırlama e-postası tetiklenmeli.
-- `reset-password.tsx` ekranında yeni şifre ve şifre tekrar alanları ile şifre politikası kontrolü uygulanmalı.
-- Süresi dolmuş veya geçersiz bağlantıda güvenli hata sunulmalı.
-- Başarılı şifre güncellemesi sonrası kullanıcı bilgilendirilip `sign-in` ekranına yönlendirilmeli.
-- `docs/TODO.md` içindeki Faz 5.6 maddeleri güncellenmeli.
+- Çıkış işlemi öncesinde kullanıcıya onay penceresi (Alert / Modal) sunulmalı.
+- `authService.signOut()` başarıyla çağrılmalı.
+- `AuthProvider` oturum durumu `unauthenticated` olarak güncellenmeli.
+- Yerel hassas kullanıcı verisi ve önbelleği temizlenmeli.
+- Kullanıcı `/(public)/welcome` veya `/(public)/sign-in` rotasına yönlendirilip geri tuşuyla korunan alana dönmesi engellenmeli.
+- `docs/TODO.md` içindeki Faz 5.7 maddeleri güncellenmeli.
 
 ---
 
@@ -636,7 +637,8 @@ Faz 5.6 şu koşullarda tamamlanmış sayılır:
 - [x] AuthProvider, oturum yaşam döngüsü ve sonsuz döngü koruması uygulandı (Faz 5.2: 54814ab).
 - [x] Kayıt ekranı (sign-up), istemci doğrulamaları ve yasal bağlantılar uygulandı (Faz 5.3: 0388e7a).
 - [x] E-posta doğrulama akışı, hız sınırı (cooldown) ve auth-callback derin bağlantıları uygulandı (Faz 5.4: 6765aa0).
-- [x] Giriş ekranı (sign-in), hesap durumu yönlendirmeleri ve hata maskelemesi uygulandı (Faz 5.5).
+- [x] Giriş ekranı (sign-in), hesap durumu yönlendirmeleri ve hata maskelemesi uygulandı (Faz 5.5: 02b85da).
+- [x] Şifre sıfırlama ekranları, kurtarma oturumu ve şifre güncelleme uygulandı (Faz 5.6).
 
 ---
 

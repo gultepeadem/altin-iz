@@ -56,6 +56,23 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.24] - 22.10.2026
+
+### Added
+
+- Faz 5.6 Şifre sıfırlama tamamlandı:
+  - `src/services/authService.ts` servisine şifre güncelleme (`updatePassword`) metodu eklendi.
+  - `src/app/(public)/forgot-password.tsx` ekranı kodlandı; e-posta doğrulama, `altiniz://auth-callback?type=recovery` derin bağlantısı tetikleme ve kullanıcı hesabının varlığını ifşa etmeyen genel güvenli başarı mesajı uygulandı.
+  - `src/app/(public)/reset-password.tsx` ekranı kodlandı; kurtarma oturumu kontrolü, süresi dolmuş veya geçersiz bağlantı durumunda açıklayıcı hata ve yönlendirme butonları, en az 6 karakterlik şifre politikası kontrolü ve şifre eşleşme doğrulaması eklendi.
+  - Şifre başarıyla güncellendikten sonra güvenlik kuralları uyarınca eski kurtarma oturumu kapatıldı ve kullanıcı güvenli biçimde `sign-in` ekranına yönlendirildi.
+  - Şifre sıfırlama akışını, derin bağlantı yönlendirmesini, süresi dolmuş bağlantıyı ve yeni şifre politikasını kapsayan 5/5 test başarıyla çalıştırıldı.
+
+### Changed
+
+- `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` güncellenerek Faz 5.6 tamamlandı olarak işaretlendi; sıradaki görev Faz 5.7 (Çıkış yapma) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.23] - 22.10.2026
 
 ### Added

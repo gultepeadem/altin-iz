@@ -793,16 +793,16 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 5.6: Şifre sıfırlama
 
-- [ ] Şifremi Unuttum ekranını oluştur.
-- [ ] Genel güvenli sonuç mesajını ekle.
-- [ ] Şifre sıfırlama e-postasını gönder.
-- [ ] Reset callback akışını yapılandır.
-- [ ] Yeni şifre belirleme ekranını oluştur.
-- [ ] Şifre politikasını göster.
-- [ ] Süresi dolmuş bağlantıyı yönet.
-- [ ] Başarılı işlem sonrası giriş ekranına yönlendir.
-- [ ] Android derin bağlantısını test et.
-- [ ] iOS derin bağlantısını test et.
+- [x] Şifremi Unuttum ekranını oluştur.
+- [x] Genel güvenli sonuç mesajını ekle.
+- [x] Şifre sıfırlama e-postasını gönder.
+- [x] Reset callback akışını yapılandır.
+- [x] Yeni şifre belirleme ekranını oluştur.
+- [x] Şifre politikasını göster.
+- [x] Süresi dolmuş bağlantıyı yönet.
+- [x] Başarılı işlem sonrası giriş ekranına yönlendir.
+- [x] Android derin bağlantısını test et.
+- [x] iOS derin bağlantısını test et.
 
 ---
 
