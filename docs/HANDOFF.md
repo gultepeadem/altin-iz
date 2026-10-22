@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.33 Taslak  
+**Belge sürümü:** 1.34 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) - Faz 8.5 tamamlandı, Faz 8.6 (Portföyüm ekranı) sıradaki  
-**Kodlama durumu:** portfolioSummary.ts eski fiyat sayımı (staleEntries), kısmi portföy izolasyonu (ADR-013), eksik ve eski fiyat tespiti (ADR-014), yanıltıcı yüzde koruması ve ağırlıklı getiri formülüyle tamamlandı  
-**Son çalışma durumu:** Faz 8.5 başarıyla tamamlandı; tam/kısmi portföy değerlemesi, eksik fiyat izolasyonu, eski fiyat sayımı, sıfıra bölme güvenliği ve ağırlıklı getiri hesabı 10/10 test ile onaylandı. Sıradaki görev Faz 8.6 (Portföyüm ekranı)
+**Proje aşaması:** Bölüm 14 (Portföy sistemi) TAMAMLANDI - Bölüm 15 (Ana Sayfa) Faz 9 sıradaki  
+**Kodlama durumu:** tabs/portfolio.tsx canlı Supabase servisi, özet kartı (ADR-010), sıralı kart listesi, renk/işaret gösterimleri, ADR-013 kısmi uyarı, ADR-014 eski fiyat uyarısı, EmptyState, useFocusEffect ve pull-to-refresh ile tamamlandı  
+**Son çalışma durumu:** Faz 8.6 başarıyla tamamlandı; Bölüm 14 (Portföy sistemi) eksiksiz bitirildi, canlı portföy listesi, konsolide özet kartı, uyarı banner'ları ve navigasyon 10/10 test ile onaylandı. Sıradaki görev Bölüm 15: Ana Sayfa - Faz 9 (Ana Sayfa veri modeli)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8.5 kapsamında src/domain/calculations/portfolioSummary.ts hesaplama motorunu; portföy kayıtlarının fiyatlarla eşleştirilmesi, tekil kayıt değerleme ve kâr-zarar hesabı, toplam ödenen tutar, tam portföy özeti, kısmi portföy özeti (ADR-013), eksik ve eski fiyat sayımları (ADR-014), yanıltıcı yüzde koruması ve tekil yüzdelerin toplanmadığı ağırlıklı portföy getiri oranının hesaplanması ve 10/10 test ile doğrulanması
+Faz 8.6 kapsamında src/app/(protected)/(tabs)/portfolio.tsx ekranını sahte verilerden arındırarak; canlı Supabase portföy verileriyle bağlamak, konsolide özet kartı (ADR-010), en yeni alıştan eskiye sıralı liste, kâr/zarar gösterimleri, ADR-013 kısmi portföy uyarısı, ADR-014 eski fiyat uyarısı, EmptyState, useFocusEffect ile canlı yenileme ve pull-to-refresh akışını hayata geçirmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8.5 tamamlandı: src/domain/calculations/portfolioSummary.ts modeline staleEntries alanı eklendi, kısmi portföy izolasyonu, eski fiyat sayımı, sıfıra bölme koruması ve ağırlıklı getiri hesabı kodlandı; 10/10 otomatik test ile doğrulandı
+Faz 8.6 tamamlandı: src/app/(protected)/(tabs)/portfolio.tsx ekranı canlı servis, özet kartı, kayıt kartları, uyarı şeritleri ve yenileme kontrolleriyle kodlandı; 10/10 otomatik test ile doğrulandı. Bölüm 14 (Portföy sistemi) eksiksiz tamamlandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 14 - Portföy sistemi (Faz 8.6 sıradaki)
+Bölüm 15 - Ana Sayfa (Faz 9 sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.34 Taslak - 22.10.2026
+- Faz 8.6 Portföyüm ekranı tamamlandı (Bölüm 14: Portföy sistemi başarıyla sonuçlandırıldı).
+- `tabs/portfolio.tsx` ekranı canlı Supabase verileriyle entegre edildi, konsolide özet kartı (ADR-010), kayıt kartları listesi, ADR-013 kısmi toplam uyarısı, ADR-014 eski fiyat uyarısı, EmptyState, FlatList optimizasyonu, useFocusEffect ve pull-to-refresh uygulandı.
+- `supabase/tests/test-faz8-6-portfolio-screen.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Bölüm 15: Ana Sayfa - Faz 9 (Ana Sayfa veri modeli) olarak güncellendi.
 
 ### 1.33 Taslak - 22.10.2026
 - Faz 8.5 Portföy özet hesaplaması tamamlandı.

@@ -1110,21 +1110,21 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 8.6: Portföyüm ekranı
 
-- [ ] Toplam ödenen tutarı göster.
-- [ ] Tahmini toplam bozdurma değerini göster.
-- [ ] Toplam tahmini kâr veya zararı göster.
-- [ ] Toplam değişim yüzdesini göster.
-- [ ] Toplam kayıt sayısını göster.
-- [ ] Yeni Altın Ekle butonunu göster.
-- [ ] Kayıt kartlarını listele.
-- [ ] En yeni alış tarihinden eskiye sırala.
-- [ ] Kâr ve zararı yazı, işaret ve renkle göster.
-- [ ] Portföy boş durumunu ekle.
-- [ ] Kısmi toplam uyarısını ekle.
-- [ ] Eski fiyat uyarısını ekle.
-- [ ] Yenile davranışını ekle.
-- [ ] Kayıt detayına geçiş ekle.
-- [ ] Uzun listede performansı kontrol et.
+- [x] Toplam ödenen tutarı göster.
+- [x] Tahmini toplam bozdurma değerini göster.
+- [x] Toplam tahmini kâr veya zararı göster.
+- [x] Toplam değişim yüzdesini göster.
+- [x] Toplam kayıt sayısını göster.
+- [x] Yeni Altın Ekle butonunu göster.
+- [x] Kayıt kartlarını listele.
+- [x] En yeni alış tarihinden eskiye sırala.
+- [x] Kâr ve zararı yazı, işaret ve renkle göster.
+- [x] Portföy boş durumunu ekle.
+- [x] Kısmi toplam uyarısını ekle.
+- [x] Eski fiyat uyarısını ekle.
+- [x] Yenile davranışını ekle.
+- [x] Kayıt detayına geçiş ekle.
+- [x] Uzun listede performansı kontrol et.
 
 ---
 

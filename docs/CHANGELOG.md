@@ -56,6 +56,30 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.41] - 22.10.2026
+
+### Added
+
+- Faz 8.6 Portföyüm ekranı tamamlandı (Bölüm 14: Portföy sistemi başarıyla tamamlandı):
+  - `src/app/(protected)/(tabs)/portfolio.tsx`: Geliştirme amaçlı sahte veri ve toggle butonu kaldırılarak canlı Supabase servisi (`portfolioService.getEntriesWithValuation()`) ile bağlandı:
+    - Konsolide Özet Kartı: Tahmini Güncel Bozdurma Değeri (ADR-010), ödenen toplam maliyet, net kâr/zarar tutarı, getiri yüzdesi ve toplam kayıt sayısı rozeti gösterildi.
+    - Kâr/zarar gösterimi: Pozitif durumlarda yeşil renk ve `+` işareti, negatif durumlarda kırmızı renk ve `-` işareti, başa baş durumlarda nötr, fiyatsız durumlarda "Hesaplanamıyor" (ADR-013) gösterildi.
+    - Kayıt Kartları Listesi: En yeni alış tarihinden eskiye (`purchase_date DESC`) sıralı listeleme uygulandı.
+    - Kart Detayları: Altın adı, kısa adı, miktar ve birim (`Adet`/`Gram`), alış tarihi, alış yeri, ödenen maliyet, tahmini bozdurma değeri ve kâr/zarar alanları yerleştirildi.
+    - ADR-013 Kısmi Toplam Uyarısı: Fiyatı bulunamayan kayıt varsa `PartialDataBanner` ile kullanıcı bilgilendirildi.
+    - ADR-014 Eski Fiyat Uyarısı: 15 dakikadan eski fiyatla hesaplanan kayıtlar varsa `StaleDataBanner` ve kayıt bazında `🕒 Eski Fiyat` rozeti gösterildi.
+    - Boş Durum: Portföyde kayıt yokken `EmptyState` ve `+ İlk Altınını Ekle` yönlendirmesi sunuldu.
+    - Sayfa Yenileme: `RefreshControl` ile çekip yenileme (pull-to-refresh) ve `useFocusEffect` ile sekmeye dönüldüğünde otomatik canlı güncelleme eklendi.
+    - Dinamik Yönlendirme: Kayıt kartlarına tıklandığında `/(protected)/portfolio/[entryId]` detay ekranına, butonlara tıklandığında `/(protected)/portfolio/add` ekranına geçiş bağlandı.
+    - Performans: Uzun listeler için `FlatList` pencereli render optimizasyonu uygulandı.
+  - `supabase/tests/test-faz8-6-portfolio-screen.ts`: 10/10 senaryoyu kapsayan sıralama kuralı, özet kartı formatları, renk/işaret doğrulaması, kart detayları, ADR-013 kısmi uyarı, ADR-014 eski fiyat uyarısı, boş durum, ekleme rotası, detay rotası ve FlatList performans parametrelerini doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Bölüm 14 (Portföy sistemi) ve Faz 8.6 tamamlandı olarak işaretlendi; sıradaki görev Bölüm 15: Ana Sayfa - Faz 9 (Ana Sayfa veri modeli) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.40] - 22.10.2026
 
 ### Added

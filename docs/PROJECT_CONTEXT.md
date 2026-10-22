@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.28 Taslak  
+**Belge sürümü:** 1.29 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) - Faz 8.5 tamamlandı, Faz 8.6 (Portföyüm ekranı) sıradaki  
-**Kodlama durumu:** portfolioSummary.ts eski fiyat sayımı (staleEntries), kısmi portföy izolasyonu (ADR-013), eksik ve eski fiyat tespiti (ADR-014), yanıltıcı yüzde koruması ve ağırlıklı getiri formülüyle tamamlandı
+**Proje durumu:** Bölüm 14 (Portföy sistemi) TAMAMLANDI - Bölüm 15 (Ana Sayfa) Faz 9 sıradaki  
+**Kodlama durumu:** tabs/portfolio.tsx canlı Supabase servisi, özet kartı (ADR-010), sıralı kart listesi, renk/işaret gösterimleri, ADR-013 kısmi uyarı, ADR-014 eski fiyat uyarısı, EmptyState, useFocusEffect ve pull-to-refresh ile tamamlandı
 
 ---
 
