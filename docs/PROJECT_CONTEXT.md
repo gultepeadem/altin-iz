@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.29 Taslak  
+**Belge sürümü:** 1.30 Taslak  
 **Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 14 (Portföy sistemi) TAMAMLANDI - Bölüm 15 (Ana Sayfa) Faz 9 sıradaki  
-**Kodlama durumu:** tabs/portfolio.tsx canlı Supabase servisi, özet kartı (ADR-010), sıralı kart listesi, renk/işaret gösterimleri, ADR-013 kısmi uyarı, ADR-014 eski fiyat uyarısı, EmptyState, useFocusEffect ve pull-to-refresh ile tamamlandı
+**Proje durumu:** Bölüm 15 (Ana Sayfa) - Faz 9 tamamlandı, Faz 9.1 (Ana Sayfa arayüzü) sıradaki  
+**Kodlama durumu:** home.ts ve homeService.ts GRAM_GOLD, QUARTER_GOLD_NEW, OUNCE_GOLD eşleştirmesi, portföy özeti, zaman tespiti ve konsolide durum yönetimiyle (fresh/stale/partial/unavailable) tamamlandı
 
 ---
 

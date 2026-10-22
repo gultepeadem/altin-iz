@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.34 Taslak  
+**Belge sürümü:** 1.35 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 14 (Portföy sistemi) TAMAMLANDI - Bölüm 15 (Ana Sayfa) Faz 9 sıradaki  
-**Kodlama durumu:** tabs/portfolio.tsx canlı Supabase servisi, özet kartı (ADR-010), sıralı kart listesi, renk/işaret gösterimleri, ADR-013 kısmi uyarı, ADR-014 eski fiyat uyarısı, EmptyState, useFocusEffect ve pull-to-refresh ile tamamlandı  
-**Son çalışma durumu:** Faz 8.6 başarıyla tamamlandı; Bölüm 14 (Portföy sistemi) eksiksiz bitirildi, canlı portföy listesi, konsolide özet kartı, uyarı banner'ları ve navigasyon 10/10 test ile onaylandı. Sıradaki görev Bölüm 15: Ana Sayfa - Faz 9 (Ana Sayfa veri modeli)
+**Proje aşaması:** Bölüm 15 (Ana Sayfa) - Faz 9 tamamlandı, Faz 9.1 (Ana Sayfa arayüzü) sıradaki  
+**Kodlama durumu:** home.ts ve homeService.ts GRAM_GOLD, QUARTER_GOLD_NEW, OUNCE_GOLD eşleştirmesi, portföy özeti, zaman tespiti ve konsolide durum yönetimiyle (fresh/stale/partial/unavailable) tamamlandı  
+**Son çalışma durumu:** Faz 9 başarıyla tamamlandı; öne çıkan altın ürünleri, canlı fiyat eşleştirmeleri, portföy izolasyonu, zaman tespiti ve konsolide piyasa/portföy durumları 10/10 test ile onaylandı. Sıradaki görev Faz 9.1 (Ana Sayfa arayüzü)
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Faz 8.6 kapsamında src/app/(protected)/(tabs)/portfolio.tsx ekranını sahte verilerden arındırarak; canlı Supabase portföy verileriyle bağlamak, konsolide özet kartı (ADR-010), en yeni alıştan eskiye sıralı liste, kâr/zarar gösterimleri, ADR-013 kısmi portföy uyarısı, ADR-014 eski fiyat uyarısı, EmptyState, useFocusEffect ile canlı yenileme ve pull-to-refresh akışını hayata geçirmek
+Bölüm 15 (Ana Sayfa) kapsamında Faz 9 Ana Sayfa veri modelini; GRAM_GOLD, QUARTER_GOLD_NEW ve OUNCE_GOLD ürünlerinin öncelikli canlı fiyatlarının getirilmesi, kullanıcının portföy özetiyle birleştirilmesi, en son fiyat zamanının tespiti ve tam, kısmi, eski ve kullanılamıyor durumlarının konsolide edilmesi ve 10/10 test ile doğrulanması
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 8.6 tamamlandı: src/app/(protected)/(tabs)/portfolio.tsx ekranı canlı servis, özet kartı, kayıt kartları, uyarı şeritleri ve yenileme kontrolleriyle kodlandı; 10/10 otomatik test ile doğrulandı. Bölüm 14 (Portföy sistemi) eksiksiz tamamlandı
+Faz 9 tamamlandı: src/models/home.ts ve src/services/homeService.ts modelleri ve servisi oluşturuldu; öne çıkan fiyatlar, portföy özeti, son zaman tespiti ve durum konsolidasyonları 10/10 otomatik test ile doğrulandı
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 15 - Ana Sayfa (Faz 9 sıradaki)
+Bölüm 15 - Ana Sayfa (Faz 9.1 sıradaki)
 ```
 
 ### Uygulama kodu durumu
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.35 Taslak - 22.10.2026
+- Bölüm 15 Ana Sayfa - Faz 9 Ana Sayfa veri modeli tamamlandı.
+- `src/models/home.ts` ve `src/services/homeService.ts` hazırlandı; GRAM_GOLD, QUARTER_GOLD_NEW, OUNCE_GOLD ürünleri canlı fiyatlarıyla eşleştirildi, portföy özeti güvenle birleştirildi, son fiyat zamanı tespiti ve konsolide durum kuralları (fresh/stale/partial/unavailable) kodlandı.
+- `supabase/tests/test-faz9-home-model.ts` otomatik test paketi (10/10) başarıyla tamamlandı.
+- Sıradaki görev Faz 9.1 (Ana Sayfa arayüzü) olarak güncellendi.
 
 ### 1.34 Taslak - 22.10.2026
 - Faz 8.6 Portföyüm ekranı tamamlandı (Bölüm 14: Portföy sistemi başarıyla sonuçlandırıldı).

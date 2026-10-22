@@ -56,6 +56,29 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.42] - 22.10.2026
+
+### Added
+
+- Bölüm 15 Ana Sayfa - Faz 9 Ana Sayfa veri modeli tamamlandı:
+  - `src/models/home.ts`:
+    - `HomeFeaturedPrice`: Öne çıkarılan altın fiyat kartı modeli (`product`, `price`, `isStale`, `hasPrice`).
+    - `HomeData`: Konsolide Ana Sayfa veri modeli (`gramGold`, `quarterGold`, `ounceGold`, `portfolioSummary`, `lastPriceTime`, `priceStatus`, `portfolioStatus`, `isPriceStale`, `hasMissingPrice`).
+    - `consolidatePriceStatus`: Fiyat durumlarını konsolide eden pure fonksiyon (`fresh`, `stale`, `partial`, `unavailable` - ADR-013 & ADR-014).
+    - `consolidatePortfolioStatus`: Portföy durumunu konsolide eden pure fonksiyon (`empty`, `fresh`, `partial`, `stale`).
+    - `determineLastPriceTime`: Öne çıkan fiyatlar arasındaki en güncel zaman damgasını tespit eden fonksiyon.
+    - `FEATURED_PRODUCT_CODES`: `GRAM_GOLD`, `QUARTER_GOLD_NEW`, `OUNCE_GOLD` sabitleri.
+  - `src/services/homeService.ts`:
+    - `getFeaturedProductsWithPrices`: Gram Altın (`GRAM_GOLD`), Yeni Tarihli Çeyrek Altın (`QUARTER_GOLD_NEW`) ve Ons Altın (`OUNCE_GOLD`) ürünlerini ve en güncel fiyatlarını paralel çeken servis.
+    - `getHomeData`: Öne çıkan altın fiyatlarını, kullanıcının portföy özetini (oturum yoksa veya boşsa güvenli varsayılan), en son fiyat zamanını ve konsolide durumları tek bir çağrıda toplayan ana sayfa motoru.
+  - `supabase/tests/test-faz9-home-model.ts`: 10/10 senaryoyu kapsayan Gram Altın önceliği, Yeni Çeyrek doğrulaması, Ons Altın entegrasyonu, portföy izolasyonu, zaman tespiti, tam durum, kısmi durum (ADR-013), eski fiyat durumu (ADR-014), kullanılamıyor durumu ve portföy durumlarını doğrulayan otomatik test paketi yazıldı ve başarıyla çalıştırıldı.
+
+### Changed
+
+- `docs/TODO.md`, `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` güncellenerek Faz 9 tamamlandı olarak işaretlendi; sıradaki görev Faz 9.1 (Ana Sayfa arayüzü) olarak belirlendi.
+
+---
+
 ## [0.0.0-planning.41] - 22.10.2026
 
 ### Added

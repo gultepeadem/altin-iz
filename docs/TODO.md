@@ -1132,12 +1132,12 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 9: Ana Sayfa veri modeli
 
-- [ ] Gram Altın (`GRAM_GOLD`) için öncelikli fiyatı getir.
-- [ ] Çeyrek Altın kartı için Yeni Tarihli (`QUARTER_GOLD_NEW`) ürün fiyatını getir.
-- [ ] Ons Altın (`OUNCE_GOLD`) fiyatını getir.
-- [ ] Portföy özetini getir.
-- [ ] Son fiyat zamanını belirle.
-- [ ] Tam, kısmi, eski ve kullanılamıyor durumlarını birleştir.
+- [x] Gram Altın (`GRAM_GOLD`) için öncelikli fiyatı getir.
+- [x] Çeyrek Altın kartı için Yeni Tarihli (`QUARTER_GOLD_NEW`) ürün fiyatını getir.
+- [x] Ons Altın (`OUNCE_GOLD`) fiyatını getir.
+- [x] Portföy özetini getir.
+- [x] Son fiyat zamanını belirle.
+- [x] Tam, kısmi, eski ve kullanılamıyor durumlarını birleştir.
 
 ---
 
