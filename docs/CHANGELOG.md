@@ -56,6 +56,34 @@ Sürüm henüz yayımlanmamışsa:
 
 ---
 
+## [0.0.0-planning.56] - 22.10.2026
+
+### Added
+
+- Bölüm 20: Test aşaması — Faz 14.1: Entegrasyon testleri tamamlandı:
+  - `supabase/tests/test-faz14-1-integration-tests.ts`: 14 uçtan uca entegrasyon senaryosu ve 22 ayrıntılı iddia ile kapsamlı test paketi oluşturuldu:
+    1. Hesap oluşturma testi (`authService.signUp` sözleşmesi, girdi kuralları ve profil parametreleri).
+    2. E-posta doğrulama testi (`authService.resendVerificationEmail` ve kayıt akışı).
+    3. Giriş testi (`authService.signInWithPassword` doğru giriş ve hatalı parola durumunda `AUTH_INVALID_CREDENTIALS` maskelemesi).
+    4. Şifre sıfırlama testi (`authService.resetPasswordForEmail` ve `authService.updatePassword`).
+    5. Oturum yenileme testi (`authService.getSession` ve `authService.setSession`).
+    6. Çıkış testi (`authService.signOut` ve yerel önbellek temizliği).
+    7. Ürün listesi testi (`goldProductService.getPortfolioProducts` aktif ve portföye açık ürün filtrelemesi).
+    8. Güncel fiyat sorgusu testi (`goldPriceService.getLatestPrices` ve `getLatestPriceForProduct` geçerli fiyat ve null kuralı).
+    9. Portföy ekleme testi (`portfolioService.createEntry` veri doğrulama, kuruşa çevirme ve `user_id` oturum bağı).
+    10. Portföy listeleme testi (`portfolioService.listEntries`, tarih sıralaması ve `getEntriesWithValuation` entegrasyonu).
+    11. Portföy düzenleme testi (`portfolioService.updateEntry` ve RLS kullanıcı izolasyonu).
+    12. Portföy silme testi (`portfolioService.deleteEntry` fiziksel silme akışı).
+    13. Yasal belge sorgusu testi (`legalService.getDocumentByType`, RPC ile `record_user_legal_event` ve çevrimdışı fallback).
+    14. Hesap silme testi (`authService.deleteAccount` Edge Function çağrısı, parola doğrulama ve `signOut` entegrasyonu).
+
+### Changed
+
+- `docs/TODO.md`: Faz 14.1 maddeleri `[x]` olarak işaretlendi; sıradaki görev Bölüm 20: Test aşaması — Faz 14.2 (RLS güvenlik testleri) olarak güncellendi.
+- `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md`: 1.49 / 1.44 Taslak sürümlerine yükseltildi.
+
+---
+
 ## [0.0.0-planning.55] - 22.10.2026
 
 ### Added

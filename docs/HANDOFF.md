@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.48 Taslak  
+**Belge sürümü:** 1.49 Taslak  
 **Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 20: Test aşaması - Faz 14 (Birim testleri) TAMAMLANDI - Faz 14.1 (Entegrasyon testleri) sıradaki  
-**Kodlama durumu:** supabase/tests/test-faz14-unit-tests.ts 12 ana başlık ve 93/93 iddia ile çalıştırıldı; tüm matematik, doğrulama ve biçimlendirme kuralları doğrulandı  
-**Son çalışma durumu:** Faz 14 başarıyla tamamlandı; para dönüştürme, para biçimlendirme, miktar doğrulama, tarih kontrolü, satın alma/bozdurma tahminleri, kâr-zarar, yüzde, ADR-013 kısmi portföy toplamları, hata normalizasyonu, ürün etkinliği ve eski fiyat kuralları test edildi. Sıradaki görev Bölüm 20: Test aşaması - Faz 14.1 (Entegrasyon testleri)
+**Proje aşaması:** Bölüm 20: Test aşaması - Faz 14.1 (Entegrasyon testleri) TAMAMLANDI - Faz 14.2 (RLS güvenlik testleri) sıradaki  
+**Kodlama durumu:** supabase/tests/test-faz14-1-integration-tests.ts 14 senaryo ve 22/22 iddia ile çalıştırıldı; auth, portföy, fiyat, ürün, yasal ve silme servis entegrasyonları doğrulandı  
+**Son çalışma durumu:** Faz 14.1 başarıyla tamamlandı; hesap oluşturma, giriş, e-posta doğrulama, şifre sıfırlama, oturum yönetimi, ürün listeleme, güncel fiyat okuma, portföy CRUD döngüsü, yasal belge işlemleri ve hesap silme uçtan uca test edildi. Sıradaki görev Bölüm 20: Test aşaması - Faz 14.2 (RLS güvenlik testleri)
 
 ---
 
@@ -767,6 +767,12 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.49 Taslak - 22.10.2026
+- Bölüm 20: Test aşaması — Faz 14.1: Entegrasyon testleri tamamlandı.
+- `supabase/tests/test-faz14-1-integration-tests.ts` oluşturuldu; 14 entegrasyon senaryosu ve 22 ayrıntılı iddia (assertion) ile servisler arası sözleşmeler ve veri akışları doğrulandı.
+- Hesap oluşturma (`signUp`), e-posta doğrulama (`resendVerificationEmail`), giriş (`signInWithPassword`), şifre sıfırlama (`resetPasswordForEmail`, `updatePassword`), oturum yönetimi (`getSession`, `setSession`), çıkış (`signOut`), aktif ürün listeleme (`getPortfolioProducts`), güncel fiyat okuma (`getLatestPrices`), portföy ekleme (`createEntry`), listeleme ve özet değerleme (`listEntries`, `getEntriesWithValuation`), düzenleme (`updateEntry`), silme (`deleteEntry`), yasal belge sorgusu (`getDocumentByType`, `record_user_legal_event`) ve hesap silme (`deleteAccount`) uçtan uca test edildi (22/22 başarılı).
+- Sıradaki görev Bölüm 20: Test aşaması — Faz 14.2 (RLS güvenlik testleri) olarak güncellendi.
 
 ### 1.48 Taslak - 22.10.2026
 - Bölüm 20: Test aşaması — Faz 14: Birim testleri tamamlandı.

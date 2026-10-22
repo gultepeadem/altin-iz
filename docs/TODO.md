@@ -1361,20 +1361,20 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 14.1: Entegrasyon testleri
 
-- [ ] Hesap oluşturma testi.
-- [ ] E-posta doğrulama testi.
-- [ ] Giriş testi.
-- [ ] Şifre sıfırlama testi.
-- [ ] Oturum yenileme testi.
-- [ ] Çıkış testi.
-- [ ] Ürün listesi testi.
-- [ ] Güncel fiyat sorgusu testi.
-- [ ] Portföy ekleme testi.
-- [ ] Portföy listeleme testi.
-- [ ] Portföy düzenleme testi.
-- [ ] Portföy silme testi.
-- [ ] Yasal belge sorgusu testi.
-- [ ] Hesap silme testi.
+- [x] Hesap oluşturma testi.
+- [x] E-posta doğrulama testi.
+- [x] Giriş testi.
+- [x] Şifre sıfırlama testi.
+- [x] Oturum yenileme testi.
+- [x] Çıkış testi.
+- [x] Ürün listesi testi.
+- [x] Güncel fiyat sorgusu testi.
+- [x] Portföy ekleme testi.
+- [x] Portföy listeleme testi.
+- [x] Portföy düzenleme testi.
+- [x] Portföy silme testi.
+- [x] Yasal belge sorgusu testi.
+- [x] Hesap silme testi.
 
 ---
 
