@@ -13,9 +13,13 @@ export interface AppEnvironment {
 }
 
 function resolveEnvironment(): AppEnvironment {
-  const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL;
-  const supabasePublishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY;
-  const appEnvRaw = process.env.EXPO_PUBLIC_APP_ENV || 'development';
+  const supabaseUrl =
+    process.env.EXPO_PUBLIC_SUPABASE_URL ||
+    'https://hoqujzhcjeaudmkyqgpc.supabase.co';
+  const supabasePublishableKey =
+    process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    'sb_publishable_pzljVglpjdO2f9aK9CTw6w_IYvJZhDA';
+  const appEnvRaw = process.env.EXPO_PUBLIC_APP_ENV || 'production';
 
   if (!supabaseUrl || !supabaseUrl.trim()) {
     throw new Error(
