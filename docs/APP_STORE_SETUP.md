@@ -110,9 +110,12 @@ npx eas-cli@latest submit --platform ios --profile production
 App Store Connect -> **Version Information** -> **App Review Information** alanına yazılacak resmi denetçi metni:
 
 ### 6.1. Giriş Bilgileri (Sign-In Information)
+> [!NOTE]
+> Bu bilgiler şirket e-posta şifresi DEĞİLDİR. Apple App Review denetçisinin mobil uygulamaya test girişi yapabilmesi için oluşturulacak örnek uygulama içi demo kullanıcı hesabıdır.
+
 - **Giriş Gerekli mi (Sign-in required):** `İşaretli (Evet)`
-- **Kullanıcı Adı (Username):** `reviewer-apple@altiniz.app`
-- **Şifre (Password):** `AppleReview2026!`
+- **Demo Kullanıcı Adı (Demo E-posta):** `reviewer-apple@altiniz.app`
+- **Demo Uygulama Şifresi:** `AppleReview2026!`
 
 ### 6.2. İnceleme Notları (Notes for Reviewer)
 ```text

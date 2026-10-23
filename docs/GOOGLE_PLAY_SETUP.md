@@ -67,10 +67,12 @@ Google Play Console -> **Politika ve Programlar** -> **Uygulama İçeriği** -> 
 1. **Gizlilik Politikası:**
    - URL: `https://altiniz.app/gizlilik`
 2. **Uygulama Erişimi (App Access - Google Denetçi Girişi):**
+   > [!NOTE]
+   > Bu bilgiler kurumsal e-posta şifresi DEĞİLDİR. Google Play denetçisinin mobil uygulamaya test girişi yapabilmesi için oluşturulacak örnek uygulama içi demo kullanıcı hesabıdır.
    - Seçenek: *"Bazı işlevler kısıtlanmıştır"* (Giriş gerektiren portföy ve hesap ekranları).
    - Talimat Adı: `Google Play İnceleme Test Hesabı`
-   - Kullanıcı Adı / E-posta: `reviewer-play@altiniz.app`
-   - Şifre: `TestReviewer2026!`
+   - Demo Kullanıcı Adı: `reviewer-play@altiniz.app`
+   - Demo Uygulama Şifresi: `TestReviewer2026!`
    - Ek Talimatlar: *"Uygulamaya doğrudan giriş yapabilirsiniz; test hesabı için e-posta doğrulaması önceden tamamlanmıştır. Portföy ekleme, fiyat izleme ve hesap ayarlarını test edebilirsiniz."*
 3. **Reklamlar:**
    - *"Hayır, uygulamam reklam içermiyor"*
