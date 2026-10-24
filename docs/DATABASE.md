@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.4  
+**Belge sürümü:** 1.5  
 **Son güncelleme:** 24.10.2026 
-**Durum:** 9 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Durum:** 10 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -2244,7 +2244,7 @@ CREATE OR REPLACE FUNCTION public.execute_account_deletion(
 ) RETURNS JSONB;
 ```
 
-Bu fonksiyon (`Migration 008`), `portfolio_entries`, `user_preferences`, `user_legal_events` (anonimleştirme), `security_events` (anonimleştirme) ve `user_profiles` silme adımlarını tek bir transaction bloğunda (`BEGIN ... EXCEPTION ROLLBACK`) yürüterek yüzde yüz atomiklik sağlar (`ADR-033`).
+Bu fonksiyon (`Migration 008` ve `Migration 010`), `portfolio_entries`, `user_preferences`, `user_legal_events` (anonimleştirme), `security_events` (anonimleştirme), `user_profiles` ve `auth.users` silme adımlarını tek bir transaction bloğunda (`BEGIN ... EXCEPTION ROLLBACK`) yürüterek yüzde yüz atomiklik sağlar (`ADR-033`). `price_source_product_mappings` tablosundaki genel okuma politikası Migration 010 ile kaldırılarak yalnızca `service_role` erişimine kilitlenmiştir.
 
 ## 14.10. Tablo Erişim Matrisi (Özet)
 

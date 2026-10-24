@@ -162,7 +162,7 @@ Amaç: Doğrulanmamış hesapların korunan alana erişimini engellemek
 ```text
 Kaynak: Supabase Auth
 Amaç: Güvenli oturumun sürdürülmesi
-Yer: Doğrulanmış mobil güvenli saklama yöntemi (AsyncStorage)
+Yer: Doğrulanmış donanımsal güvenli saklama yöntemi (expo-secure-store / iOS Keychain & Android Keystore — ADR-034)
 Uygulama veritabanında kalıcı alan: Hayır
 Loglama: Yasak
 ```

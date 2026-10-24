@@ -134,8 +134,17 @@ export async function processAccountDeletion(params: {
     const { error: authDeleteError } = await adminClient.auth.admin.deleteUser(userId);
 
     if (authDeleteError) {
-      safeError('Auth kullanıcısı silinirken hata oluştu (Arka plan temizleme gerekecek).', authDeleteError);
-      // DB kayıtları zaten silindiği için kullanıcıya başarılı dönülebilir
+      // Eğer kullanıcı execute_account_deletion RPC'si içinde doğrudan auth.users'dan silindiyse (tam atomiklik),
+      // auth.admin.deleteUser 'User not found' (404) dönebilir; bu beklenen ve başarılı bir durumdur.
+      const isAlreadyDeleted =
+        authDeleteError.message?.toLowerCase().includes('not found') ||
+        (authDeleteError as any).status === 404;
+
+      if (!isAlreadyDeleted) {
+        safeError('Auth kullanıcısı silinirken ek uyarı oluştu (KI-018 telafi kontrolü).', authDeleteError);
+      } else {
+        safeLog('Auth kullanıcısı atomik RPC transaction bloğunda başarıyla silindi.', { userId });
+      }
     } else {
       safeLog('Supabase Auth hesabı başarıyla silindi.', { userId });
     }

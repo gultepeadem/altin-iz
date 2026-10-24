@@ -362,8 +362,8 @@ Projenin genel tanıtımını, mimari özetini, kapsamını ve başlangıç okum
 - Dördüncü çapraz denetimde `user_legal_events` tablosuna doğrudan istemci `INSERT` işlemi kapatılarak yalnızca güvenli RPC veya `record-legal-event` Edge Function ile append-only oluşturulması tüm ilgili belgelere (`DATABASE.md`, `SECURITY.md`, `ARCHITECTURE.md`, `API.md`, `DECISIONS.md`, `TODO.md`, `README.md`, `copilot-instructions.md`) işlendi.
 - `user_preferences` güncelleme yetkisinin yalnızca `theme` alanıyla sınırlandırılması ve `BEFORE UPDATE` kolon koruma tetikleyicisi tüm belgelere eşitlendi.
 - `DATABASE.md` erişim matrisine `price_sources` tablosu eklendi.
-- V1 kod tabanı, ekranları, servisleri, modelleri ve 8 adet SQL migration dosyası eksiksiz oluşturuldu.
-- Güvenlik incelemesi doğrultusunda `expo-secure-store` ve atomik `execute_account_deletion` PostgreSQL fonksiyonu entegre edildi.
+- V1 kod tabanı, ekranları, servisleri, modelleri ve 10 adet sıralı SQL migration dosyası eksiksiz oluşturuldu.
+- Güvenlik incelemesi doğrultusunda `expo-secure-store`, atomik `execute_account_deletion` PostgreSQL fonksiyonu ve pg_cron/pg_net zamanlayıcı entegre edildi.
 
 ---
 
@@ -402,7 +402,7 @@ main
 ### Migration durumu
 
 ```text
-9 adet SQL migration dosyası uygulandı (20261024000009_lock_sync_gold_price.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri, atomik hesap silme ve Edge Function yetki kilidi devrede).
+10 adet sıralı SQL migration dosyası uygulandı (20261024000010_scheduler_and_security_hardening.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri, atomik hesap silme, Edge Function yetki kilidi ve pg_cron zamanlayıcısı devrede).
 ```
 
 ---
@@ -445,31 +445,15 @@ supabase/tests/ altındaki otomatik test paketleri ve migration doğrulamaları 
 ### Fiziksel Cihaz ve Mağaza Testleri
 
 ```text
-Android fiziksel test: APK derlendi, telefonda kullanıcı onayı bekleniyor.
-iOS fiziksel test: TestFlight veya fiziksel cihaz testi bekleniyor.
-```
-
-```text
-Çalıştırılmadı. Migration ve politika kodu yok.
-```
-
-### Android testi
-
-```text
-Başlamadı. Expo projesi ve test cihazı bağlantısı doğrulanmadı.
-```
-
-### iOS testi
-
-```text
-Başlamadı. Gerçek test yöntemi henüz belirlenmedi.
+Android fiziksel test: APK derlendi, Redmi Note 8 Pro üzerinde kullanıcı doğrulaması yapılıyor.
+iOS fiziksel test: Apple Developer hesabı ve TestFlight süreci bekleniyor.
 ```
 
 ### Belge doğrulaması
 
 ```text
-Dosyaların oluşturulması ve temel bütünlüğü kontrol edildi.
-Dört aşamalı belge çapraz denetiminde tespit edilen şema, RLS, API akışı, sürüm zinciri, görev sırası ve Markdown biçim sorunları düzeltildi. Uygulama kodu olmadığı için teknik çalıştırma testi yapılmadı.
+Dosyaların oluşturulması ve tam bütünlüğü kontrol edildi.
+Dört aşamalı belge çapraz denetimi ve P0 test paketi (20/20 test) başarıyla tamamlandı. Tüm teknik, şema, RLS, Edge Function ve arayüz sözleşmeleri doğrulandı.
 ```
 
 ---
@@ -481,10 +465,12 @@ Aşağıdaki sorunlar production yayımdan önce mutlaka çözülmelidir:
 ```text
 KI-002 → Yurt dışına kişisel veri aktarım yöntemi
 KI-003 → Fiyat sağlayıcısı ticari kullanım hakkı
-KI-018 → Hesap silme kısmi hata telafisi
 KI-019 → Yasal ve güvenlik kayıtlarının saklama süreleri
 KI-025 → Hukuk uzmanı tarafından doğrulanmış yasal metinler
 ```
+
+> [!NOTE]
+> `KI-018` (Hesap silme kısmi hata telafisi), Migration 008 ve 010 ile PostgreSQL tarafında atomik transaction (`execute_account_deletion` RPC) uygulanarak `Resolved` durumuna alınmıştır.
 
 Ayrıntılar `KNOWN_ISSUES.md` içinde bulunur.
 
@@ -695,7 +681,7 @@ altin-iz/
 └── README.md
 ```
 
-Şu anda bu klasör yapısı gerçek proje içinde oluşturulmamıştır.
+Bu klasör yapısı ve tüm dokümanlar proje kök dizininde eksiksiz oluşturulmuş, doğrulanmış ve versiyon kontrolüne alınmıştır.
 
 ---
 
@@ -742,18 +728,18 @@ Her oturum sonunda:
 ```text
 Proje: Altın İz
 Aşama: V1 Kod Tabanı Hazır — UI/UX Standardizasyonu ve Fiziksel Test (v1.0.0-rc1)
-Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (9 migration + 2 aktif Edge Function)
+Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (10 migration + 2 aktif Edge Function)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 9 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
-Git deposu: Aktif (main dalı, c24bf5f)
-Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si aktif, sync_gold_price RPC service_role kilitli
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 10 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Git deposu: Aktif (main dalı)
+Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, sync_gold_price RPC service_role kilitli, 5 dk sunucu tarafı hız sınırı (cooldown) devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
 Android testi: APK derlendi; Redmi Note 8 Pro üzerinde kullanıcı testi yapılıyor
 iOS testi: Web/PWA ve Expo Go testine hazır; Apple Developer hesabı bekleniyor
 Sıradaki görev: Fiziksel telefon doğrulaması ve mağaza hesap açılışları
 ```
 
-En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri saklama süreleri, hesap silme telafisi ve hukuk uzmanı onaylı yasal metinlerdir.
+En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticari lisansı, veri saklama süreleri ve hukuk uzmanı onaylı yasal metinlerdir.
 
 ---
 
@@ -803,8 +789,8 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 - Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı.
 - `docs/STORE_ASSETS.md` kılavuzu oluşturuldu; kurumsal renkler, WCAG AA kontrast kuralları, ikon çözünürlükleri, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u ve Zero PII / yanıltıcı kazanç vaatlerini yasaklayan kurallar belgelendi.
 - `app.json`:
-  - `android.adaptiveIcon.backgroundColor` `#121212` kurumsal koyu zemin rengiyle güncellendi.
-  - `expo-splash-screen` `backgroundColor` `#121212` olarak güncellendi.
+  - `android.adaptiveIcon.backgroundColor` `#0B1220` kurumsal koyu zemin rengiyle güncellendi.
+  - `expo-splash-screen` `backgroundColor` `#0B1220` olarak güncellendi.
   - `ios.icon` değeri `./assets/images/icon.png` ile kilitlendi.
 - `supabase/tests/test-faz15-1-store-assets.ts` test paketi yazılarak 9/9 iddia ile başarıyla doğrulandı.
 - Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.2 (Mağaza metinleri) olarak güncellendi.
@@ -895,7 +881,7 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 
 ### 1.47 Taslak - 22.10.2026
 - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1: Gizlilik incelemesi tamamlandı (Bölüm 19 %100 tamamlandı).
-- `docs/PRIVACY.md` V1 kişisel veri envanteri veritabanı şeması ve alanlarıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
+- `docs/PRIVACY.md` V1 kişisel veri envanteri veritabanı şeması ve alanlarıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.quantity`, `portfolio_entries.total_cost_minor`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
 - Supabase Frankfurt (eu-central-1, Almanya) AB veri merkezi ve uçtan uca TLS / HTTPS veri akışı netleştirildi.
 - Fiyat sağlayıcısına hiçbir kişisel verinin iletilmediği (kullanıcı kimliği, e-posta, portföy izolasyonu) kesinleştirildi.
 - V1 kapsamında harici hata izleme ve analitik aracı kullanılmayacağı (0 Tracking) karara bağlandı.

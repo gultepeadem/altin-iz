@@ -32,13 +32,18 @@ export const authService = {
   async signUp(credentials: SignUpCredentials): Promise<AuthSuccessResult> {
     try {
       const email = credentials.email.trim();
+      const metadata: Record<string, any> = {
+        ...(credentials.metadata || {}),
+      };
+      if (credentials.displayName?.trim()) {
+        metadata.display_name = credentials.displayName.trim();
+      }
+
       const { data, error } = await supabase.auth.signUp({
         email,
         password: credentials.password,
         options: {
-          data: credentials.displayName?.trim()
-            ? { display_name: credentials.displayName.trim() }
-            : undefined,
+          data: Object.keys(metadata).length > 0 ? metadata : undefined,
         },
       });
 

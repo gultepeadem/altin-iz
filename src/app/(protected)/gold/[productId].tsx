@@ -483,7 +483,7 @@ export default function GoldDetailScreen() {
                 Fiyat Kaynağı
               </Text>
               <Text style={[styles.metaValue, { color: theme.colors.textPrimary }]}>
-                {price?.sourceId ? 'Serbest Piyasa' : 'Piyasa Verisi'}
+                {price?.sourceId ? 'Kapalıçarşı (Truncgil)' : 'Piyasa Verisi'}
               </Text>
             </View>
           </View>

@@ -1240,6 +1240,8 @@ Mobil istemcinin (`anon` veya `authenticated` belirteçleriyle) doğrudan verita
 2. Yalnızca `service_role` (Edge Function ve arka plan yöneticisi) fiyat yazabilir.
 3. Mobil istemci (`goldPriceService.ts`) salt-okunur (read-only) kılındı.
 4. Manuel veya bayatlık sonrası fiyat yenileme ihtiyacında istemci yalnızca sunucu tarafındaki `fetch-gold-prices` Edge Function'ını tetikler; fiyat doğrulaması ve veritabanı kaydı sunucu üzerinde gerçekleşir.
+5. Sunucu tarafında 5 dakikalık hız sınırı (cooldown) uygulanarak istemci tetiklemelerinin dış API'yi gereksiz yere boğması engellenir; son 5 dakika içinde başarılı güncelleme yapılmışsa yeni dış istek atılmadan mevcut durum döndürülür.
+6. Fiyat güncellemeleri kullanıcı tetiklemesine bağımlı kalmaksızın `pg_cron` ve `pg_net` ile hafta içi piyasa saatlerinde 15 dakikada bir otomatik icra edilir (Migration 010).
 
 ---
 

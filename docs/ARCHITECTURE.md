@@ -311,7 +311,6 @@ altin-iz/
 │   ├── tests/
 │   └── functions/
 │       ├── fetch-gold-prices/
-│       ├── record-legal-event/
 │       └── delete-account/
 │
 ├── tests/
@@ -1198,24 +1197,22 @@ Bilinmeyen sembol otomatik ürün oluşturmaz.
 ### V1 fonksiyonları
 
 ```text
-fetch-gold-prices
-record-legal-event
-delete-account
+fetch-gold-prices (Edge Function)
+delete-account (Edge Function)
+record_user_legal_event (PostgreSQL RPC)
 ```
 
 ### `fetch-gold-prices`
 
-- Son kullanıcı tarafından kontrolsüz çağrılamaz
-- Zamanlanmış görev veya yetkili geliştirme çağrısıyla çalışır
+- Son kullanıcı tarafından kontrolsüz çağrılamaz; 5 dakikalık sunucu tarafı hız sınırı (cooldown) ile korunur
+- `pg_cron` ve `pg_net` zamanlanmış görevi veya yetkili geliştirme çağrısıyla çalışır
 - Fiyat API anahtarını secret store üzerinden alır
-- Fiyat doğrulama işleminden geçirir
-- Sonucu veritabanına yazar
+- Fiyat doğrulama işleminden geçirir ve aykırı değişim filtresi uygular ([-50%, +50%])
+- Sonucu `service_role` yetkisiyle veritabanına yazar
 
-### `record-legal-event`
+### `record_user_legal_event` (PostgreSQL RPC)
 
-Yasal belge görüntüleme, kabul, reddetme veya açık rıza geri çekme olaylarını güvenli biçimde oluşturur.
-
-Bu ad taslaktır. Uygulama sırasında PostgreSQL RPC tercih edilirse aynı güvenlik sınırları RPC tarafından uygulanır.
+Yasal belge görüntüleme, kabul, reddetme veya açık rıza geri çekme olaylarını doğrudan PostgreSQL `SECURITY DEFINER` RPC fonksiyonu üzerinden append-only olarak güvenle oluşturur. Kayıt anında (`handle_new_user`) veya aktif oturumda (`record_user_legal_event`) çalışır.
 
 Akış:
 
@@ -2036,7 +2033,7 @@ Mimaride yapılan önemli değişiklik:
 
 ### 0.2 Taslak - 19.10.2026 
 
-- `record-legal-event` güvenli sunucu işlemi mimariye eklendi. 
+- `record_user_legal_event` güvenli PostgreSQL RPC işlemi mimariye eklendi. 
 - Yasal olayların doğrudan mobil istemciden tabloya yazılmaması kararlaştırıldı. 
 - Belge sürümü ve olay zamanının sunucudan üretilmesi mimari kurala bağlandı.
 

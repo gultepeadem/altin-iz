@@ -499,9 +499,9 @@ Bu testler yalnızca mobil arayüzde buton gizleme testi olarak yapılmamalıdı
 Planlanan temel fonksiyonlar (veya güvenli sunucu RPC işlemleri):
 
 ```text
-fetch-gold-prices
-record-legal-event
-delete-account
+fetch-gold-prices (Edge Function)
+record_user_legal_event (PostgreSQL RPC)
+delete-account (Edge Function)
 ```
 
 Genel kurallar:
@@ -1214,7 +1214,7 @@ Bu bilgiler proje ilerledikçe `HANDOFF.md` ve `PROJECT_CONTEXT.md` üzerinden g
 
 - `user_legal_events` ve `account_deletion_requests` için doğrudan istemci yazma yasağı RLS ve güvenlik testi kurallarına eklendi.
 - `user_preferences` güncelleme yetkisi `theme` alanıyla sınırlandırıldı.
-- `record-legal-event` güvenli sunucu işlemi fonksiyon listesine eklendi.
+- `record_user_legal_event` güvenli PostgreSQL RPC işlemi fonksiyon listesine eklendi.
 
 ### 1.0 Taslak - 03.09.2026
 

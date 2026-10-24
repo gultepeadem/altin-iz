@@ -2,10 +2,10 @@
 
 **Belge adı:** `KNOWN_ISSUES.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3 Taslak 
+**Belge sürümü:** 1.5 Taslak 
 **Son güncelleme:** 24.10.2026 
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
-**Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC ve mimari düzeltmeleri uygulandı.
+**Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC, zamanlayıcı ve mimari düzeltmeleri uygulandı.
 
 ---
 
@@ -106,11 +106,13 @@ Kaydın ne zaman çözüldü sayılacağı.
 
 ## KI-001: Supabase production bölgesi kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Altyapı ve gizlilik  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 22.10.2026 (Doğrulandı: 24.10.2026)  
+**Çözüm:** Supabase Frankfurt (`eu-central-1`, Almanya) Avrupa Birliği veri merkezi bölgesi seçilerek proje yapılandırıldı (`hoqujzhcjeaudmkyqgpc`). KVKK ve GDPR uyumlu veri aktarım mimarisi kilitlendi.
 
 ### Açıklama
 
@@ -467,11 +469,13 @@ Normal gram altın fiyatının paketli ürün için kullanılması ambalaj, ür�
 
 ## KI-009: Üretim fiyat çekme sıklığı kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Performans ve maliyet  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 24.10.2026  
+**Çözüm:** Migration 010 ile `pg_cron` ve `pg_net` uzantıları kurularak hafta içi piyasa saatlerinde her 15 dakikada bir otomatik `fetch-gold-prices` Edge Function tetiklemesi bağlandı. `fetch-gold-prices` içinde 5 dakikalık sunucu tarafı hız sınırı (cooldown) ve yinelenen kayıt koruması (`skipIdenticalPrices`) devreye alındı.
 
 ### Açıklama
 
@@ -507,11 +511,13 @@ Fiyatların production ortamında kaç dakikada bir çekileceği kesinleşmemiş
 
 ## KI-010: Fiyatın eski sayılacağı süre kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Fiyat doğruluğu  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 24.10.2026  
+**Çözüm:** `ADR-014` kararı ve `STALE_PRICE_THRESHOLD_MINUTES = 15` dakika olarak sabitlendi. Arayüzde ve portföy özetinde en son fiyatın `source_price_at` / `fetched_at` zamanı 15 dakikayı aştığında sistem otomatik olarak sarı `● Gecikmeli Veri` durumuna geçer ve kullanıcıya şeffaf bildirim sunar.
 
 ### Açıklama
 
@@ -592,11 +598,13 @@ Bozuk fiyat kabul edilirse kullanıcıların tahmini portföy değerleri ve kâr
 
 ## KI-012: Portföy hesaplamasının çalışacağı katman kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Mimari  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 22.10.2026  
+**Çözüm:** `ADR-010` ve `ADR-013` kararlarıyla portföy hesaplama motoru mobil istemci tarafında saf etki alanı fonksiyonları (`src/models/portfolioSummary.ts` ve `calculations.ts`) olarak uygulandı. Kısmi portföy kâr-zarar izolasyonu sağlandı; 93/93 birim testiyle tam doğrulandı.
 
 ### Açıklama
 
@@ -638,11 +646,13 @@ neden olabilir.
 
 ## KI-013: JavaScript sayısal hassasiyet yaklaşımı kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Finansal hesaplama  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 22.10.2026  
+**Çözüm:** `ADR-032` kararı ve `src/utils/money.ts` ile `calculations.ts` içinde tam kuruş bazlı BIGINT integer modeli uygulandı. Kuruş dönüşümü için `parseMoneyInputToMinor`, `formatMoney`, `parseQuantity` fonksiyonları yazılarak kayan nokta hassasiyet kayıpları sıfırlandı.
 
 ### Açıklama
 
@@ -1003,11 +1013,13 @@ Ortamlar ayrılmazsa:
 
 ## KI-021: Expo projesi ve gerçek paket sürümleri henüz oluşturulmadı
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Geliştirme ortamı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 21.10.2026  
+**Çözüm:** Expo SDK 58 (~58.0.19), React 19.3.0, React Native 0.88.0, Expo Router ~58.0.26 ve TypeScript ~6.0.3 paket sürümleriyle proje başarıyla oluşturuldu ve kilitlendi. `npx expo-doctor` 20/20 test ile onaylandı.
 
 ### Açıklama
 
@@ -1113,11 +1125,13 @@ Expo projesi oluşturulduğunda uygulamanın telefonda açılamaması geliştirm
 
 ## KI-024: Altın İz marka adı ve teknik uygulama kimlikleri doğrulanmadı
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Marka ve mağaza  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm tarihi:** 22.10.2026  
+**Çözüm:** `com.altiniz.app` paket kimliği (Android package ve iOS bundle identifier) kilitlendi; `https://altiniz.app` alan adı ve web sitesi yayına alındı; marka kimliği ve logolar `#0B1220` ve `#D4A72C` renkleriyle tamamlandı.
 
 ### Açıklama
 

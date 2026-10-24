@@ -144,6 +144,13 @@ export default function SignUpScreen() {
       await authService.signUp({
         email: email.trim(),
         password,
+        metadata: {
+          terms_accepted: true,
+          terms_version: '1.0.0',
+          kvkk_presented: true,
+          kvkk_version: '1.0.0',
+          signup_app_version: '1.0.0',
+        },
       });
 
       // Yasal Olay Kaydı (Hukuki dayanak: KVKK md. 5/2-c ve md. 10)

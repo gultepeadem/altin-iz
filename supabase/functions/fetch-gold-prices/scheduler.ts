@@ -152,6 +152,50 @@ export async function checkQuotaUsage(
 }
 
 /**
+ * 2.5. Sunucu Tarafı Fiyat Çekme Hız Sınırı (Cooldown Check)
+ * Eğer veritabanındaki son başarılı fiyat çekme işlemi cooldownMinutes (varsayılan 5 dk)
+ * içindeyse, dış API'ye gereksiz istek atılmasını engeller.
+ */
+export async function checkFetchCooldown(
+  client: DatabaseClient,
+  sourceId: string,
+  cooldownMinutes = 5
+): Promise<{ canRun: boolean; lastCompletedAt?: string; reason?: string }> {
+  try {
+    const { data, error } = await client
+      .from('price_fetch_runs')
+      .select('id, completed_at, status')
+      .eq('source_id', sourceId)
+      .eq('status', 'success')
+      .order('completed_at', { ascending: false })
+      .limit(1);
+
+    if (error || !data || data.length === 0) {
+      return { canRun: true };
+    }
+
+    const lastRun = data[0];
+    if (!lastRun.completed_at) return { canRun: true };
+
+    const lastCompleted = new Date(lastRun.completed_at).getTime();
+    const elapsedMinutes = (Date.now() - lastCompleted) / (60 * 1000);
+
+    if (elapsedMinutes < cooldownMinutes) {
+      return {
+        canRun: false,
+        lastCompletedAt: lastRun.completed_at,
+        reason: `Fiyatlar son ${cooldownMinutes} dakika içinde zaten güncellendi (${elapsedMinutes.toFixed(1)} dk önce). Sunucu tarafı hız sınırı (cooldown) nedeniyle yeni dış API isteği engellendi.`,
+      };
+    }
+
+    return { canRun: true };
+  } catch (err) {
+    safeWarn('Cooldown denetiminde hata:', { error: String(err) });
+    return { canRun: true };
+  }
+}
+
+/**
  * 3. Değişmeyen Veri İçin Yinelenen Kayıt Önleme
  * Yeni gelen geçerli fiyatlar veritabanındaki en son fiyatlarla birebir aynı ise
  * gereksiz satır basımını önler.
@@ -295,6 +339,27 @@ export async function executePriceFetchRun(
         success: false,
         status: 'quota_exceeded',
         message: quotaCheck.warning ?? 'Aylık API kotası aşıldı.',
+      };
+    }
+  }
+
+  // 2.5. Hız sınırı (Cooldown denetimi)
+  if (!force) {
+    const cooldownCheck = await checkFetchCooldown(
+      client,
+      sourceId,
+      schedulerConfig.cooldownMinutes ?? 5
+    );
+    if (!cooldownCheck.canRun) {
+      safeLog(cooldownCheck.reason ?? 'Cooldown aktif, dış istek engellendi.');
+      return {
+        success: true,
+        status: 'cooldown_active',
+        message: cooldownCheck.reason ?? 'Fiyatlar yakın zamanda güncellendi.',
+        data: {
+          cooldownActive: true,
+          lastCompletedAt: cooldownCheck.lastCompletedAt,
+        },
       };
     }
   }

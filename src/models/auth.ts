@@ -11,6 +11,7 @@ export interface SignUpCredentials {
   email: string;
   password: string;
   displayName?: string;
+  metadata?: Record<string, any>;
 }
 
 export interface SignInCredentials {

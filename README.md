@@ -14,10 +14,10 @@ Altın İz, kullanıcıların güncel altın alış ve satış fiyatlarını gö
 Proje aşaması: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
 Uygulama kodu: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 58)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (9 migration, RLS, 2 deployed Edge Function, 25 altın ürünü ve canlı piyasa fiyatları)
+Supabase projesi: Aktif (10 migration, RLS, 2 deployed Edge Function, 23 aktif ürün ve canlı piyasa fiyatları)
 Git deposu: Aktif (main dalı)
 GitHub deposu: Aktif ve eşitlendi (https://github.com/gultepeadem/altin-iz.git)
-Web Sitesi: website/ altında statik HTML olarak hazır (alan adı tescili ve DNS bekleniyor)
+Web Sitesi: Aktif ve yayında (https://altiniz.app)
 Android testi: APK üretildi; fiziksel cihaz (Redmi Note 8 Pro) testi sürüyor
 iOS testi: Web/PWA ve Expo Go ile test edilebilir; Apple hesabı bekleniyor
 Gerçek kullanıcı verisi: Geliştirme ve test aşamasında
@@ -375,7 +375,7 @@ altin-iz/
 └── README.md
 ```
 
-Bu yapı henüz gerçek proje içinde oluşturulmamıştır. Güncel Expo projesinin varsayılan yapısı incelenmeden klasörler toplu biçimde oluşturulmamalıdır.
+Bu klasör yapısı proje dizininde eksiksiz oluşturulmuş, doğrulanmış ve versiyon kontrolüne alınmıştır.
 
 ---
 
@@ -591,9 +591,9 @@ Birden fazla bağımsız özellik tek değişiklik grubuna karıştırılmamalı
 
 ## Git yaklaşımı
 
-Git deposu henüz oluşturulmamıştır.
+Git deposu yerel ve GitHub uzak deposu (`main` dalı) olarak aktif ve eşitlenmiştir.
 
-Oluşturulduktan sonra:
+Depo ve commit kuralları:
 
 - Her commit tek ve anlaşılır amaç taşımalıdır.
 - Commit öncesi ilgili testler çalıştırılmalıdır.

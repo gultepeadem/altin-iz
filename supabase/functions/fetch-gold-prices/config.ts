@@ -48,6 +48,7 @@ export function getSchedulerConfig(overrides?: Partial<SchedulerConfig>): Schedu
   const concurrencyTimeoutMinutes = overrides?.concurrencyTimeoutMinutes ?? Number(getEnv('CONCURRENCY_TIMEOUT_MINUTES', '5'));
   const quotaMonthlyLimit = overrides?.quotaMonthlyLimit ?? Number(getEnv('GOLD_API_MONTHLY_QUOTA_LIMIT', '500'));
   const skipIdenticalPrices = overrides?.skipIdenticalPrices ?? (getEnv('SKIP_IDENTICAL_PRICES', 'true').toLowerCase() === 'true');
+  const cooldownMinutes = overrides?.cooldownMinutes ?? Number(getEnv('PRICE_FETCH_COOLDOWN_MINUTES', '5'));
 
   return {
     enabled,
@@ -55,6 +56,7 @@ export function getSchedulerConfig(overrides?: Partial<SchedulerConfig>): Schedu
     concurrencyTimeoutMinutes: Number.isFinite(concurrencyTimeoutMinutes) && concurrencyTimeoutMinutes > 0 ? concurrencyTimeoutMinutes : 5,
     quotaMonthlyLimit: Number.isFinite(quotaMonthlyLimit) && quotaMonthlyLimit > 0 ? quotaMonthlyLimit : 500,
     skipIdenticalPrices,
+    cooldownMinutes: Number.isFinite(cooldownMinutes) && cooldownMinutes > 0 ? cooldownMinutes : 5,
   };
 }
 

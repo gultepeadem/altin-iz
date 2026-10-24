@@ -239,7 +239,7 @@ export default function PortfolioAddScreen() {
       submittingRef.current = true;
       setIsSubmitting(true);
 
-      await portfolioService.createEntry({
+      const newEntry = await portfolioService.createEntry({
         productId: selectedProduct.id,
         quantity: parsedQty!,
         purchaseDate: isoDate,
@@ -251,9 +251,13 @@ export default function PortfolioAddScreen() {
 
       setSubmitSuccess(true);
 
-      // Başarılı işlem sonrası portföy sekmesine yönlendir
+      // Başarılı işlem sonrası eklenen kaydın detay ekranına yönlendir (ARCHITECTURE.md Bölüm 18.2)
       setTimeout(() => {
-        router.replace('/(protected)/(tabs)/portfolio');
+        if (newEntry?.id) {
+          router.replace(`/(protected)/portfolio/${newEntry.id}`);
+        } else {
+          router.replace('/(protected)/(tabs)/portfolio');
+        }
       }, 750);
     } catch (err: any) {
       setSubmitError(

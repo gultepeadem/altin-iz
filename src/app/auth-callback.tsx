@@ -20,6 +20,7 @@ import { PrimaryButton } from '@/components/common/PrimaryButton';
 import { SecondaryButton } from '@/components/common/SecondaryButton';
 import { useAuth } from '@/hooks/useAuth';
 import { authService } from '@/services/authService';
+import { legalService } from '@/services/legalService';
 import { normalizeError } from '@/utils/normalizeError';
 
 type CallbackStatus = 'processing' | 'success' | 'expired' | 'error';
@@ -136,6 +137,22 @@ export default function AuthCallbackScreen() {
         // Oturumu ve profili güncelle
         await refreshProfile();
         setStatus('success');
+
+        // İlk doğrulanmış oturum açılışında kullanım koşulları kabulünü garanti altına al (KVKK md. 5/2-c)
+        if (callbackType !== 'recovery') {
+          try {
+            const termsDoc = await legalService.getDocumentByType('terms_of_use');
+            if (termsDoc) {
+              await legalService.recordTermsAccepted({
+                documentId: termsDoc.id,
+                source: 'registration',
+                appVersion: '1.0.0',
+              });
+            }
+          } catch {
+            // Sessizce geç; trigger ile yazıldıysa veya hata verirse akış kesilmez
+          }
+        }
 
         // Şifre sıfırlama (recovery) mi yoksa kayıt doğrulaması mı?
         if (callbackType === 'recovery') {

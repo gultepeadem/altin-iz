@@ -109,8 +109,8 @@ Sürüm henüz yayımlanmamışsa:
 ## [0.0.0-planning.65] - 22.10.2026
 
 - **Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (P0 Kontrol Listesi):**
-  - **P0 Kontrol Doğrulama Paketi:** `supabase/tests/test-faz22-p0-checklist.ts` altında 20 kritik yayımlama kriterini (V1 hedefleri, Android/iOS testleri, RLS, hesap silme, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, 0 TL dönmeme ADR-013, kısmi portföy özeti, test/gerçek fiyat ayrımı, gizli anahtar taraması, log maskeleme, KVKK ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, hesap silme URL, yedekleme/rollback, 7 migration doğrulaması, v1.0.0 sürüm bilgileri) denetleyen test paketi yazıldı ve 20/20 başarıyla geçti.
-  - **Canlıya Çıkış ve Geri Dönüş Kılavuzu:** `docs/RELEASE_RUNBOOK.md` belgesi oluşturuldu; 7 adet sıralı migration uygulama adımı, Supabase PITR ve bağımsız `pg_dump` yedekleme yönergeleri, JS hatalarında acil EAS Update OTA dağıtımı, mağaza konsollarında (Play Console / App Store Connect) aşamalı dağıtımı durdurma ve Edge Function geri alma prosedürleri belgelendi.
+  - **P0 Kontrol Doğrulama Paketi:** `supabase/tests/test-faz22-p0-checklist.ts` altında 20 kritik yayımlama kriterini (V1 hedefleri, Android/iOS testleri, RLS, hesap silme, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, 0 TL dönmeme ADR-013, kısmi portföy özeti, test/gerçek fiyat ayrımı, gizli anahtar taraması, log maskeleme, KVKK ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, hesap silme URL, yedekleme/rollback, 10 migration doğrulaması, v1.0.0 sürüm bilgileri) denetleyen test paketi yazıldı ve 20/20 başarıyla geçti.
+  - **Canlıya Çıkış ve Geri Dönüş Kılavuzu:** `docs/RELEASE_RUNBOOK.md` belgesi oluşturuldu; 10 adet sıralı migration uygulama adımı, Supabase PITR ve bağımsız `pg_dump` yedekleme yönergeleri, JS hatalarında acil EAS Update OTA dağıtımı, mağaza konsollarında (Play Console / App Store Connect) aşamalı dağıtımı durdurma ve Edge Function geri alma prosedürleri belgelendi.
   - **Destek E-postası Eşitlemesi:** `src/app/(protected)/support.tsx` dosyasında yer alan iletişim e-posta adresi mağaza vitrin metinleri ve yasal belgelerle uyumlu olarak `destek@altiniz.app` olarak eşitlendi.
   - **TODO Senkronizasyonu:** `docs/TODO.md` Bölüm 22 altındaki 20 P0 kontrol listesi maddesi tamamlandı olarak işaretlendi.
 
@@ -192,10 +192,10 @@ Sürüm henüz yayımlanmamışsa:
 ### Added
 
 - Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı:
-  - `docs/STORE_ASSETS.md`: Kurumsal renk paleti (`#D4AF37`, `#121212`, `#FFFFFF`), WCAG AA kontrast kuralları, ikon çözünürlük matrisi, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u, Zero PII (kişisel veri kullanmama) ve finansal yanıltıcı kazanç vaatlerini yasaklayan ilkeleri içeren kapsamlı kılavuz oluşturuldu.
+  - `docs/STORE_ASSETS.md`: Kurumsal renk paleti (`#E0B84F`, `#0B1220`, `#FFFFFF`), WCAG AA kontrast kuralları, ikon çözünürlük matrisi, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u, Zero PII (kişisel veri kullanmama) ve finansal yanıltıcı kazanç vaatlerini yasaklayan ilkeleri içeren kapsamlı kılavuz oluşturuldu.
   - `app.json`:
-    - `android.adaptiveIcon.backgroundColor` kurumsal koyu zemin rengi olan `#121212` olarak ayarlandı.
-    - `expo-splash-screen` eklentisindeki `backgroundColor` `#121212` olarak güncellendi.
+    - `android.adaptiveIcon.backgroundColor` kurumsal koyu zemin rengi olan `#0B1220` olarak ayarlandı.
+    - `expo-splash-screen` eklentisindeki `backgroundColor` `#0B1220` olarak güncellendi.
     - `ios.icon` değeri `./assets/images/icon.png` (1024×1024 px PNG) ile kilitlendi.
   - `supabase/tests/test-faz15-1-store-assets.ts`: Uygulama logosu, Android adaptive icon katmanları (foreground, background, monochrome), iOS ikonu, splash screen, kontrast kuralları, ekran görüntüsü storyboard'ları ve yasal uyumluluk ilkelerini denetleyen 9 testlik paket yazıldı ve 9/9 başarıyla doğrulandı.
 
@@ -374,7 +374,7 @@ Sürüm henüz yayımlanmamışsa:
 
 - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1: Gizlilik incelemesi tamamlandı (Bölüm 19 %100 tamamlandı):
   - `docs/PRIVACY.md`:
-    - Toplanan veriler veritabanı şeması ve alanlarıyla birebir eşleştirildi (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`).
+    - Toplanan veriler veritabanı şeması ve alanlarıyla birebir eşleştirildi (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.quantity`, `portfolio_entries.total_cost_minor`, `user_legal_events`, `account_deletion_requests`).
     - Supabase AB veri merkezi (Frankfurt, Almanya - eu-central-1) ve TLS / HTTPS uçtan uca şifreli veri akışı kesinleştirildi.
     - Fiyat sağlayıcısına hiçbir kişisel verinin (kullanıcı kimliği, e-posta, portföy kaydı) aktarılmadığı doğrulandı.
     - Harici hata izleme servisi ve harici analitik/reklam kütüphanelerinin kullanılmayacağı (0 Tracking) karara bağlandı.
@@ -1785,7 +1785,7 @@ Yeni uygulama sürümü yayımlanmadan önce:
 
 ## 8. Bilinen mevcut sınırlar ve dağıtım öncesi adımlar
 
-- V1 kod tabanı, ekranları, servisleri, 8 SQL migration dosyası ve Expo SDK 58 uygulaması tamamlanmıştır.
+- V1 kod tabanı, ekranları, servisleri, 10 sıralı SQL migration dosyası ve Expo SDK 58 uygulaması tamamlanmıştır.
 - Bağımsız Android APK çıktısı üretilmiştir; fiziksel cihaz (Redmi Note 8 Pro) üzerinde son kullanıcı onayı devam etmektedir.
 - iOS sürümü EAS Build ile derlenmeye hazırdır; Apple Developer Program ($99/yıl) hesabı açılışı ve TestFlight yüklemesi beklenmektedir.
 - Google Play Console ($25) geliştirici hesabı açılışı ve kapalı test süreci beklenmektedir.

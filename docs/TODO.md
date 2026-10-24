@@ -261,7 +261,7 @@ Bu bölümdeki Faz 0.2-0.4 araştırmaları, geliştirme ortamı hazırlığıyl
 - [ ] `Altın İz` adına ilişkin Türk Patent ve Marka Kurumu araştırması yap.
 - [ ] Google Play'de aynı veya karıştırılabilir adı araştır.
 - [ ] App Store'da aynı veya karıştırılabilir adı araştır.
-- [ ] Alan adı uygunluğunu araştır.
+- [x] Alan adı uygunluğunu araştır (altiniz.app tescil edildi ve bağlandı).
 - [ ] Sosyal medya kullanıcı adlarını araştır.
 - [ ] Android uygulama kimliği adaylarını oluştur.
 - [ ] iOS bundle identifier adaylarını oluştur.
@@ -1516,10 +1516,10 @@ Migration görevleri küçük dosyalara ayrılabilir:
 - [!] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi (KI-025 - Hukukçu son onayı beklemede).
 - [x] Google Play Data Safety beyanları gerçek davranışla eşitlendi.
 - [x] App Store App Privacy beyanları gerçek davranışla eşitlendi.
-- [ ] Destek kanalı ve e-posta adresi (destek@altiniz.app - Alan adı tescili ve DNS bekleniyor).
-- [ ] Hesap silme web bağlantısı (https://altiniz.app/hesap-silme - website/ altında HTML hazır, alan adı yayını bekleniyor).
+- [x] Destek kanalı ve e-posta adresi (`destek@altiniz.app` - Yapılandırıldı ve doğrulandı).
+- [x] Hesap silme web bağlantısı (`https://altiniz.app/hesap-silme` - Aktif ve yayında).
 - [x] Son production yedeği ve geri dönüş planı hazır (RELEASE_RUNBOOK.md).
-- [x] Production migrationları doğrulandı (9 migration sıralı uygulandı).
+- [x] Production migrationları doğrulandı (10 migration sıralı uygulandı).
 - [x] Son Git etiketi veya sürüm kaydı oluşturuldu (v1.0.0-rc1).
 
 ---

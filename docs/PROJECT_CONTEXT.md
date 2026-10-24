@@ -1052,31 +1052,31 @@ Başlangıç belge setinde eksik belge bulunmamaktadır.
 
 ## 35. Henüz kesinleşmeyen önemli konular
 
-- [ ] Supabase veri merkezi bölgesi
-- [ ] Yurt dışına veri aktarımının kesin hukuki yöntemi
-- [ ] Üretim e-posta gönderim hizmeti
-- [ ] Kesin şifre politikası
-- [ ] AltinAPI gerçek test hesabı
-- [ ] AltinAPI gerçek sembol listesi
-- [ ] AltinAPI ticari paket ve lisans şartları
-- [ ] Fiyatları uygulamada gösterme hakkı
-- [ ] Fiyat geçmişini saklama hakkı ve süresi
-- [ ] Üretim fiyat çekme sıklığı
-- [ ] Fiyatın eski sayılacağı kesin süre
-- [ ] Olağan dışı fiyat değişim eşiği
-- [ ] Cumhuriyet Altını ve Ata Altını kesin ürün ayrımı
-- [ ] 18 Ayar desteği
-- [ ] Reşat Altını desteği
-- [ ] Hamit Altını desteği
-- [ ] Güvenlik olaylarının saklama süresi
-- [ ] Yasal olayların saklama ve anonimleştirme yöntemi
-- [ ] Hesap silme başarısızlık telafi yöntemi
-- [ ] Portföy hesaplamasının SQL, RPC veya servis katmanı seçimi
-- [ ] Altın İz marka kullanılabilirliği
-- [ ] Android uygulama kimliği
-- [ ] iOS uygulama kimliği
-- [ ] Uygulama logosunun son tasarımı
-- [ ] Mağaza geliştirici hesapları
+- [x] Supabase veri merkezi bölgesi (eu-central-1 Frankfurt seçildi)
+- [ ] Yurt dışına veri aktarımının kesin hukuki yöntemi (Hukukçu onayı beklemede)
+- [ ] Üretim e-posta gönderim hizmeti (Resmi SMTP sağlayıcısı beklemede)
+- [x] Kesin şifre politikası (En az 6 karakter ve biçim doğrulaması)
+- [x] AltinAPI / Truncgil gerçek test hesabı ve canlı entegrasyon
+- [x] AltinAPI / Truncgil gerçek sembol listesi (23 aktif ürün test edildi)
+- [ ] AltinAPI ticari paket ve lisans şartları (Sözleşme beklemede)
+- [ ] Fiyatları uygulamada gösterme hakkı (Ticari izin beklemede)
+- [ ] Fiyat geçmişini saklama hakkı ve süresi (Sözleşme beklemede)
+- [x] Üretim fiyat çekme sıklığı (pg_cron ile 15 dk, 5 dk cooldown)
+- [x] Fiyatın eski sayılacağı kesin süre (15 dk bayatlık eşiği - ADR-014)
+- [x] Olağan dışı fiyat değişim eşiği ([-50%, +50%] outlier filtresi - KI-011)
+- [x] Cumhuriyet Altını ve Ata Altını kesin ürün ayrımı (ADR-017)
+- [x] 18 Ayar desteği (AYAR18 eşleştirmesi)
+- [x] Reşat Altını desteği (RESAT_ALTIN eşleştirmesi)
+- [x] Hamit Altını desteği (HAMIT_ALTIN eşleştirmesi)
+- [x] Güvenlik olaylarının saklama süresi (3 yıl saklama kuralı)
+- [x] Yasal olayların saklama ve anonimleştirme yöntemi (Append-only ve SET NULL)
+- [x] Hesap silme başarısızlık telafi yöntemi (execute_account_deletion atomik RPC ve auth.users silimi - ADR-033)
+- [x] Portföy hesaplamasının SQL, RPC veya servis katmanı seçimi (İstemci saf etki alanı - ADR-010)
+- [x] Altın İz marka kullanılabilirliği (altiniz.app aktif ve yayında)
+- [x] Android uygulama kimliği (com.altiniz.app)
+- [x] iOS uygulama kimliği (com.altiniz.app)
+- [x] Uygulama logosunun son tasarımı (#0B1220 ve #D4A72C)
+- [ ] Mağaza geliştirici hesapları (Google Play $25 ve Apple $99 açılışları bekleniyor)
 
 ---
 
@@ -1088,9 +1088,9 @@ Kodlama: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
 Git deposu: Aktif (main dalı)
 GitHub deposu: Aktif ve senkronize (https://github.com/gultepeadem/altin-iz.git)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 8 migration, RLS, 25 ürün ve canlı fiyatlar)
-Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si aktif
-Web Sitesi: Aktif ve GitHub Pages üzerinde yayında (https://altiniz.app)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 10 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, 5 dk cooldown devrede
+Web Sitesi: Aktif ve yayında (https://altiniz.app)
 Android testi: APK derlemesi üretildi; fiziksel cihaz (Redmi Note 8 Pro) doğrulaması sürüyor
 iOS testi: Web/PWA ve Expo Go testine hazır; App Store Connect hesabı bekleniyor
 Mağaza hazırlığı: Kılavuzlar, ekran storyboard'ları ve vitrin metinleri hazırlandı; resmi hesap açılışları bekleniyor
@@ -1124,16 +1124,16 @@ Sıradaki operasyonel ve doğrulama görevleri:
 
 - [x] Bütün başlangıç proje belgeleri hazırlandı.
 - [x] Dört aşamalı çapraz tutarlılık kontrolü ve şema, RLS, API akışı, kapsam ve görev sırası düzeltmeleri tamamlandı.
-- [ ] Supabase bölgesi değerlendirilmelidir.
-- [ ] Fiyat sağlayıcısına gönderilecek ticari kullanım soruları hazırlanmalıdır.
-- [ ] V1 ürün kataloğunun koşullu başlangıç listesi oluşturulmalıdır.
-- [ ] Proje klasör yapısı kesinleştirilmelidir.
-- [ ] Kullanılacak programların kurulum sırası hazırlanmalıdır.
-- [ ] Bilgisayarın işletim sistemi ve mevcut kurulumları kontrol edilmelidir.
-- [ ] Android fiziksel test cihazı belirlenmelidir.
-- [ ] iOS test yöntemi belirlenmelidir.
-- [ ] GitHub ve Expo hesapları hazırlanmalıdır.
-- [ ] Supabase hesabı hazırlanmalıdır.
+- [x] Supabase bölgesi değerlendirildi (eu-central-1 Frankfurt).
+- [x] Fiyat sağlayıcısına yönelik entegrasyon ve veri akışı tasarlandı.
+- [x] V1 ürün kataloğunun başlangıç listesi oluşturuldu (gold_products 23 aktif ürün).
+- [x] Proje klasör yapısı kesinleştirildi.
+- [x] Geliştirme ortamı kurulum adımları tamamlandı.
+- [x] Bilgisayarın işletim sistemi ve araç kurulumları doğrulandı (Faz 1).
+- [x] Android fiziksel test cihazı (Redmi Note 8 Pro) belirlendi ve APK yüklendi.
+- [x] iOS test yöntemi (Expo Go & Web/PWA) belirlendi.
+- [x] GitHub ve Expo hesapları bağlandı ve eşitlendi.
+- [x] Supabase hesabı ve projesi (hoqujzhcjeaudmkyqgpc) bağlandı.
 
 ---
 
@@ -1289,8 +1289,8 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 - Bölüm 21: Mağaza hazırlığı — Faz 15.1: Görsel mağaza varlıkları tamamlandı.
 - `docs/STORE_ASSETS.md` kılavuzu oluşturuldu; kurumsal renkler, WCAG AA kontrast kuralları, ikon çözünürlükleri, Google Play (1080×2400) ve App Store (1290×2796) 5 ekranlı vitrin storyboard'u ve Zero PII / yanıltıcı kazanç vaatlerini yasaklayan kurallar belgelendi.
 - `app.json`:
-  - `android.adaptiveIcon.backgroundColor` `#121212` kurumsal koyu zemin rengiyle güncellendi.
-  - `expo-splash-screen` `backgroundColor` `#121212` olarak güncellendi.
+  - `android.adaptiveIcon.backgroundColor` `#0B1220` kurumsal koyu zemin rengiyle güncellendi.
+  - `expo-splash-screen` `backgroundColor` `#0B1220` olarak güncellendi.
   - `ios.icon` değeri `./assets/images/icon.png` ile kilitlendi.
 - `supabase/tests/test-faz15-1-store-assets.ts` test paketi yazılarak 9/9 iddia ile başarıyla doğrulandı.
 - Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.2 (Mağaza metinleri) olarak güncellendi.
@@ -1388,7 +1388,7 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ### 1.42 Taslak - 22.10.2026
 
 - Bölüm 19: Güvenlik ve gizlilik sertleştirmesi — Faz 13.1: Gizlilik incelemesi tamamlandı (Bölüm 19 %100 tamamlandı).
-- `docs/PRIVACY.md` V1 kişisel veri envanteri veritabanı şeması ve alanlarıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
+- `docs/PRIVACY.md` V1 kişisel veri envanteri veritabanı şeması ve alanlarıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.quantity`, `portfolio_entries.total_cost_minor`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
 - Supabase Frankfurt (eu-central-1, Almanya) AB veri merkezi ve uçtan uca TLS / HTTPS veri akışı netleştirildi.
 - Fiyat sağlayıcısına hiçbir kişisel verinin iletilmediği (kullanıcı kimliği, e-posta, portföy izolasyonu) kesinleştirildi.
 - V1 kapsamında harici hata izleme ve analitik aracı kullanılmayacağı (0 Tracking) karara bağlandı.

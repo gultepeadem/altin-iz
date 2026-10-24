@@ -429,12 +429,12 @@ async function runTests() {
     const migrationsDir = path.join(projectRoot, 'supabase/migrations');
     const migrationFiles = fs.readdirSync(migrationsDir).filter((f: string) => f.endsWith('.sql'));
 
-    const expectedCount = 7;
+    const expectedCount = 10;
     const hasAllMigrations = migrationFiles.length === expectedCount;
 
     assert(
       hasAllMigrations,
-      `P0-19: Production migration zinciri (7 adet sıralı SQL migration dosyası) doğrulandı.`
+      `P0-19: Production migration zinciri (10 adet sıralı SQL migration dosyası) doğrulandı.`
     );
   } catch (err: any) {
     console.error('P0-19 hatası:', err.message);

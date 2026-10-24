@@ -363,7 +363,7 @@ export default function SettingsScreen() {
               </Text>
             </View>
             <Text style={[styles.menuValue, { color: theme.colors.textSecondary }]}>
-              Kapalıçarşı Serbest Piyasa
+              Kapalıçarşı (Truncgil Finance)
             </Text>
           </View>
         </View>

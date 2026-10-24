@@ -1001,9 +1001,9 @@ Production imzalama anahtarları Git deposuna eklenmemelidir.
 10. Yerel önbellek temizlenmelidir.
 11. Veri saklama politikası uygulanmalıdır.
 
-### Açık konu
+### Çözülen Güvenlik Konusu (KI-018 & ADR-033)
 
-Kısmi başarısızlık telafisi `KI-018` olarak açık durumdadır. Production hesap silme bu konu çözülmeden tamamlanmış sayılmaz.
+Hesap silme işlemindeki kısmi hata telafisi `KI-018`, Migration 008 ve Migration 010 ile PostgreSQL tarafında atomik transaction yürüten `execute_account_deletion` RPC fonksiyonu kurularak çözülmüştür. İşlem sırasında `portfolio_entries`, `user_preferences`, `user_profiles` ve `auth.users` kayıtları tek bir SQL transaction bloğunda silinir; herhangi bir hata durumunda tüm adımlar otomatik olarak `ROLLBACK` edilir. `delete-account` Edge Function'ı ise `account_deletion_requests` tablosu üzerinden durum takibini yürütür.
 
 ---
 

@@ -128,6 +128,7 @@ export interface SchedulerConfig {
   concurrencyTimeoutMinutes: number;
   quotaMonthlyLimit: number;
   skipIdenticalPrices: boolean;
+  cooldownMinutes?: number;
 }
 
 export interface ConcurrencyCheckResult {
