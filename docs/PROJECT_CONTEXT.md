@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.54 Taslak  
+**Belge sürümü:** 1.55 Taslak  
 **Son güncelleme:** 24.10.2026 
-**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama ve güvenlik düzeltmeleri tamamlandı; fiziksel cihaz doğrulaması ve mağaza hesap açılışları bekleniyor  
-**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si (Migration 008), canlı yasal olay bağlamı, EAS Build yapılandırması ve mağaza dökümanları hazırlandı.
+**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, güvenlik ve UI/UX düzeltmeleri tamamlandı; fiziksel cihaz doğrulaması ve mağaza hesap açılışları bekleniyor  
+**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si (Migration 008), sync_gold_price kilitlenmesi (Migration 009), Edge Function canlı dağıtımları, UI/UX ve Header/StatusBar tema standardizasyonu, otomatik tutar aktarımı ve özel silme onay modalı uygulandı.
 
 ---
 
@@ -1437,6 +1437,17 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 - `legalService.ts` kullanıcı yasal olay metotları (presented, viewed, accepted, declined, withdrawn, getUserLegalEvents) ve `validateConsentSeparation` doğrulayıcısı ile genişletildi.
 - `supabase/tests/test-faz11-2-legal-events.ts` 10/10 test ile doğrulandı.
 - Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) olarak güncellendi.
+
+### 1.55 Taslak - 24.10.2026
+
+- Fiziksel cihaz testleri sonrası tespit edilen UI/UX eksiklikleri ve bug paketi giderildi:
+  - Header ve StatusBar tema uyumu (`expo-status-bar` + `RNStatusBar`) ile açık/koyu modlar kusursuzlaştırıldı.
+  - Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi.
+  - Truncgil kamu veri akışı ile 23 aktif ürün eşleştirildi (`price_source_product_mappings`), aykırı değişim filtresi (`[-50%, +50%]`) uygulandı.
+  - `useMarketStatus` ve `prices.tsx` bayatlık mantığı feed tazeliğine (15 dk) bağlandı.
+  - Hesaplama -> portföy tutar aktarımı (`estimatedTotal`) ve binlik ayracı canlı önizleme rozeti uygulandı.
+  - Portföy kartlarında vektörel altın ikonları ve özel silme onay modalı (`Modal`) uygulandı.
+  - Ayarlar ekranında mükerrer çıkış butonu kaldırıldı, koyu tema seçici kontrastı artırıldı.
 
 ### 1.36 Taslak - 22.10.2026
 

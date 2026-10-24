@@ -2731,6 +2731,17 @@ legal_documents
 - `20261024000008_atomic_account_deletion.sql` migration'ı uygulandı: `execute_account_deletion` PostgreSQL RPC'si eklendi.
 - ADR-033 uyarınca hesap silme adımları tek bir atomik transaction (ROLLBACK garantili) içine alındı; KI-018 çözüldü.
 
+### 1.5 - 24.10.2026
+
+- `price_source_product_mappings` tablosuna 5 yeni dış sembol eşleştirmesi tanımlandı ve canlıya alındı:
+  - `HAMIT_GOLD` -> `HAMIT_ALTIN` (Hamit Altın)
+  - `REPUBLIC_GOLD` -> `CUMHURIYET_ALTINI` (Cumhuriyet Altını)
+  - `GOLD_18K` -> `AYAR18` (18 Ayar Altın Gram)
+  - `PACKAGED_GOLD_1G` -> `KULCE_1G` (1 Gram Paketli Külçe Altın)
+  - `PACKAGED_GOLD_2_5G` -> `KULCE_2_5G` (2.5 Gram Paketli Külçe Altın)
+- `sync_gold_price` fonksiyonu yetkileri revize edildi; istemci (anon/authenticated) yazma yetkileri tamamen kapatılarak yalnızca `service_role` rolüne kilitlendi.
+- `gold_prices` tablosundaki `chk_at_least_one_price` kısıtı uyarınca `fetch-gold-prices` yürütücüsünde alış veya satış fiyatı olmayan boş/geçersiz satırların filtrelenmesi uygulandı.
+
 ### 1.2 - 19.10.2026
 
 - Normal kullanıcının `user_legal_events` tablosuna doğrudan kayıt eklemesi kapatıldı.

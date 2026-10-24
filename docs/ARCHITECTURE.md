@@ -570,6 +570,12 @@ portfolio.tsx  → Portföyüm
 settings.tsx   → Ayarlar
 ```
 
+Kurallar ve Bileşenler:
+
+- **CustomTabHeader:** Beş tab ekranı için ortak, marka amblemi (44×44 altın külçesi ikonu), ekran başlığı, sayfa alt başlığı ve dinamik piyasa canlılık rozeti (`● Canlı Piyasa` / `● Gecikmeli Veri`) içeren ferah üst bar kullanılır.
+- **Dinamik StatusBar:** `ThemeProvider.tsx` içinde `expo-status-bar` ve yerel `RNStatusBar` bağlanarak Açık temada beyaz header zeminine uyumlu koyu ikonlar (`dark-content`), Koyu temada ise koyu zemin ve beyaz ikonlar (`light-content`) uygulanır.
+- **Vektörel İkon Standardı:** Tüm alt menü sekmelerinde, arama çubuklarında ve ayarlar ekranında sistem emojileri yerine `@expo/vector-icons` (`Feather`, `MaterialCommunityIcons`) kullanılır.
+
 ### 7.6. Dinamik altın detayı
 
 ```text
@@ -597,6 +603,10 @@ Kurallar:
 - `entryId` ile erişilen kayıt kullanıcıya ait olmalıdır.
 - RLS ana güvenlik katmanıdır.
 - Yetkisiz veya bulunmayan kayıt aynı güvenli kullanıcı mesajına dönüştürülebilir.
+- `portfolio/add` rotası opsiyonel olarak `productId`, `quantity` ve `estimatedTotal` parametrelerini kabul eder (hesaplama sayfasından aktarım).
+- `portfolio/add` ekranında kullanıcının basamak hatası yapmasını önlemek amacıyla girilen toplam maliyet altında binlik ayracı canlı önizleme rozeti sunulur.
+- `portfolio/[entryId]` ve `portfolio.tsx` ekranlarında kayıt silme işlemleri için yerel OS alert yerine Altın İz marka kimliğine uygun özel onay modalı (`Modal`) kullanılır.
+- `ModalHeader`: Modal sunulan form sayfaları için 24px geri okuna, merkezlenmiş başlığa ve safe-area uyumlu dikey boşluklara sahip özel başlık bileşeni kullanılır.
 
 ### 7.8. Auth callback rotası
 

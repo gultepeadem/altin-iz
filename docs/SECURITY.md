@@ -2,10 +2,10 @@
 
 **Belge adı:** `SECURITY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2 Taslak  
-**Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13 (Güvenlik incelemesi) TAMAMLANDI  
-**Kodlama durumu:** src/utils/logger.ts güvenli loglayıcı kodlandı, loglarda şifre/token maskelemesi sağlandı, RLS ve Edge Function yetkileri doğrulandı; 11/11 güvenlik testi başarılı  
+**Belge sürümü:** 1.3 Taslak  
+**Son güncelleme:** 24.10.2026  
+**Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi (Güvenlik İncelemesi ve Sertleştirme TAMAMLANDI)  
+**Kodlama durumu:** `expo-secure-store` chunking (parçalama) adaptörü uygulandı; `execute_account_deletion` atomik RPC kuruldu (Migration 008); `sync_gold_price` RPC yetkisi yalnızca `service_role` rolüne kilitlendi (Migration 009); `src/utils/logger.ts` ile hassas veri maskelemesi sağlandı; RLS politikaları ve Edge Function yetkileri %100 doğrulandı.  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -414,6 +414,10 @@ price_fetch_runs
 legal_documents
 security_events
 ```
+
+> [!IMPORTANT]
+> **Fiyat Tablolarına İstemciden Yazma Yasağı (Migration 009):**
+> `sync_gold_price` PostgreSQL RPC fonksiyonunun yürütme yetkisi (`EXECUTE`) `PUBLIC`, `anon` ve `authenticated` rollerinden geri alınmış (`REVOKE`), yalnızca `service_role` rolüne kilitlenmiştir. Fiyat yazma yetkisi yalnızca sunucu tarafında çalışan ve gizli anahtarla korunan `fetch-gold-prices` Supabase Edge Function'ına aittir. Mobil istemci üzerinden hiçbir koşulda doğrudan fiyat güncellemesi yapılamaz.
 
 Okuma erişimi yalnızca uygulamanın ihtiyaç duyduğu alan ve satırlarla sınırlandırılmalıdır.
 

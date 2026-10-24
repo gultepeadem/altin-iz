@@ -1092,6 +1092,18 @@ created_at DESC
 
 ## 16.2. Portföy kaydı oluştur
 
+### İstemci İçi Rota Parametreleri (portfolio/add)
+
+Hesapla (`calculator.tsx`) veya Altın Detayı (`gold/[productId].tsx`) ekranlarından yönlendirme yapılırken aşağıdaki opsiyonel parametreler aktarılabilir:
+
+```text
+productId?: string       → Seçili altın ürününün UUID'si
+quantity?: string        → Önceden hesaplanmış miktar
+estimatedTotal?: string  → Hesaplama motorunun bulduğu tahmini toplam tutar (TL cinsinden)
+```
+
+Form açıldığında `estimatedTotal` mevcutsa "Ödenen Toplam Tutar (TL)" alanına otomatik yerel formatta doldurulur ve hemen altında binlik ayracı canlı önizleme rozeti görüntülenir.
+
 ### Mobil istemcinin gönderdiği alanlar
 
 ```json

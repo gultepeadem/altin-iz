@@ -63,7 +63,33 @@ Sürüm henüz yayımlanmamışsa:
 - `delete-account` Edge Function'ı uzak Supabase projesine (`hoqujzhcjeaudmkyqgpc`) deploy edildi ve `ACTIVE` duruma alındı.
 - `fetch-gold-prices` Edge Function'ı uzak projeye deploy edildi; sunucu tarafında Truncgil Finance kamu veri akışı ile entegre edilerek tüm 20 altın ürününü canlı fiyatlarla doğrulayıp `gold_prices` tablosuna başarıyla yazdı.
 
-### Kullanıcı Deneyimi ve Varlıklar (24.10.2026)
+### Mobil UI/UX, Bug Düzeltmeleri ve Tasarım Standardizasyonu (24.10.2026 - Gece Oturumu)
+
+- **Header ve StatusBar Entegrasyonu (ADR-038):**
+  - Tüm tab ekranlarında (`_layout.tsx`) üst bar iç boşluğu `paddingTop: Math.max(insets.top, 12) + 10` ve `paddingBottom: 14` olarak artırıldı; dikey basıklık ve telefon durum çubuğuna yapışma sorunu giderildi.
+  - `ThemeProvider.tsx` içerisine `expo-status-bar` ve Android `RNStatusBar` bağlanarak Açık temada beyaz header zeminine uyumlu koyu ikonlar (`dark-content`), Koyu temada ise koyu zemin ve beyaz ikonlar (`light-content`) sağlandı; durum çubuğunun siyah kalması ve yuvarlatılmış ekran köşelerinin basık görünmesi engellendi.
+  - Sol üst logo kutusu 44×44 boyutuna büyütüldü (`borderWidth: 1.5`, altın sarısı çerçeve), içerisine `MaterialCommunityIcons` `gold` (altın külçesi) ikonu yerleştirildi.
+  - `ProtectedLayout` (`_layout.tsx`) içinde `portfolio/add` ve `portfolio/[entryId]/edit` sayfaları için standart, 24px geri okuna ve merkezlenmiş başlığa sahip özel `ModalHeader` oluşturuldu.
+- **Kritik Bug Düzeltmeleri:**
+  - **Ana Sayfa + Altın Ekle Beyaz Ekranı:** `index.tsx` içindeki özet kartını kaplayan ve modal açılışında çift tıklama/dokunma çakışmasına yol açarak ekranı beyaz sayfaya düşüren devasa `Pressable` sarmalayıcısı statik `View` yapıldı; buton çağrısına `isNavigatingRef` koruması eklendi.
+  - **Ana Sayfa Çek-Yenile:** `index.tsx` içerisindeki iç içe ScrollView çakışması kaldırılarak sayfa kaydırması ve çek-yenile doğrudan `ScreenContainer` yerleşik `refreshControl` mekanizmasına bağlandı.
+  - **Gecikmeli Veri Uyarısı (ADR-014):** `useMarketStatus.ts` ve `prices.tsx` içindeki bayatlık mantığı revize edildi; piyasa tazeliği tekil ikincil ürünlerin eski olmasına değil, birincil veri akışının 15 dakikadan yeni olmasına bağlandı. Ekran yenilendiğinde rozet anında yeşil `● Canlı Piyasa`ya dönüp sarı uyarı şeridinin kaybolması sağlandı.
+  - **Hamit Altın ve Aykırı Değişim Oranları:** `validator.ts` içine aykırı değer filtresi eklendi (`Math.abs(cNum) <= 50`); `fetcher.ts` içinde Truncgil'in `Değişim` verileri gerçek formatıyla (`%-0,55` -> `-0.55`) doğru parse edilerek tüm sarrafiye ve ziynet kartlarına yansıtıldı.
+- **Fiyat Kartlarının Standardizasyonu (`prices.tsx`):**
+  - Fiyatlar ekranındaki kartlar Ana Sayfa ile birebir eşitlendi: Sol tarafa yuvarlak zeminli altın ikonu (`productIconWrap`), başlık yanına büyük harfli kategori rozeti (`GRAM`, `ÇEYREK`, `ATA`, `ONS`, `KÜLÇE`), hemen altına ise ayar ve gramaj açıklama alt metni eklendi.
+  - Kart başlıklarındaki satır kaydıran mükerrer `Gecikmeli Veri` mini rozetleri kaldırıldı.
+- **Hesaplama ve Ekleme Entegrasyonu:**
+  - `calculator.tsx` ekranındaki "Bu Alışı Portföye Ekle" butonu hesaplanan tutarı (`estimatedTotal`) parametre olarak `portfolio/add.tsx` ekranına aktaracak şekilde bağlandı ve "Ödenen Toplam Tutar (TL)" alanına otomatik dolduruldu.
+  - `portfolio/add.tsx` tutar alanının hemen altına binlik ayracı içeren yeşil canlı önizleme rozeti (`Önizleme: 154.500,00 TL`) eklendi.
+- **Portföy İyileştirmeleri ve Özel Silme Modalı:**
+  - `portfolio.tsx` kart başlıklarındaki kırpık ve mükerrer gri rozet (`Eski Yar...`) kaldırıldı; yerine yuvarlak zeminli altın vektörel ikonu (`productIconWrap`) eklendi.
+  - Portföy kaydı silinirken açılan sistem Alert penceresi yerine Altın İz marka kimliğine uygun gece laciverti/altın vurgulu, kırmızı çöp kutusu ikonlu ve iki butonlu (`Vazgeç` / `Evet, Sil`) özel silme onay modalı uygulandı.
+- **Ayarlar ve Koyu Tema Düzenlemeleri:**
+  - `settings.tsx` içindeki mükerrer "Çıkış Yap" menü satırı kaldırılarak sayfa altındaki "Güvenli Çıkış Yap" butonu tek çıkış noktası olarak korundu.
+  - Koyu temada aktif tema seçici butonuna gece mavisi zemin (`#1E293B`), altın rengi sınır çizgisi (`borderColor: theme.colors.gold`, `borderWidth: 1.5`) ve altın rengi ikon/metin verilerek seçili buton belirginleştirildi.
+- **Edge Function ve Veritabanı Güncellemesi:**
+  - `price_source_product_mappings` tablosuna eksik olan 5 ürünün (`HAMIT_GOLD` -> `HAMIT_ALTIN`, `REPUBLIC_GOLD` -> `CUMHURIYET_ALTINI`, `GOLD_18K` -> `AYAR18`, `PACKAGED_GOLD_1G` -> `KULCE_1G`, `PACKAGED_GOLD_2_5G` -> `KULCE_2_5G`) eşleştirmeleri eklendi.
+  - `fetch-gold-prices` Edge Function'ı yeniden deploy edildi ve tetiklenerek veritabanındaki 23 aktif ürünün tamamı güncel canlı fiyatlarla (`fetched_at`) güncellendi.
 
 - **Çevrimdışı Durum Takibi (ADR-037):** `src/hooks/useNetworkStatus.ts` kancası ve `src/components/feedback/OfflineBanner.tsx` bileşeni oluşturularak kök düzene (`src/app/_layout.tsx`) eklendi.
 - **Tarih Maskelemesi:** Portföy alış tarihi alanına `applyDateMask` ile otomatik `GG.AA.YYYY` nokta koyma desteği eklendi.

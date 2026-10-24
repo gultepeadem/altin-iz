@@ -1709,6 +1709,17 @@ Görev tamamlandı olarak işaretlenirken:
 
 # 29. Sürüm geçmişi
 
+## 1.16 Taslak - 24.10.2026
+
+- Fiziksel cihaz testlerinde tespit edilen UI/UX eksiklikleri ve bug paketi tamamlandı:
+  - Header ve StatusBar tema uyumu (`expo-status-bar` + `RNStatusBar`) sağlandı; üst bar ferahlatıldı.
+  - Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları çözüldü.
+  - Truncgil kamu veri akışı ile 23 aktif ürün eşleştirildi (`price_source_product_mappings`), aykırı değişim yüzdesi filtresi (`[-50%, +50%]`) uygulandı.
+  - Gecikmeli veri bayatlık denetimi genel akış tazeliğine (15 dk) bağlandı.
+  - Hesaplama -> portföy tutar aktarımı (`estimatedTotal`) ve binlik ayracı canlı önizleme rozeti uygulandı.
+  - Portföy kartlarında vektörel altın ikonları ve özel silme onay modalı (`Modal`) uygulandı.
+  - Ayarlar ekranında mükerrer çıkış butonu kaldırıldı, koyu tema seçici kontrastı artırıldı.
+
 ## 1.2 Taslak - 19.10.2026
 
 - Üçüncü ve dördüncü belge çapraz denetim görevleri tamamlandı olarak işaretlendi.

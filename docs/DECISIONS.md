@@ -1278,7 +1278,48 @@ Mobil cihazlarda internet bağlantısının aniden kesilmesi durumunda kullanıc
 
 ---
 
+# ADR-038: Mobil UI/UX Standardizasyonu, Tematik Header/StatusBar ve Tutarlı Veri Gösterimi
+
+- **Durum:** Aktif
+- **Tarih:** 24.10.2026
+- **Karar vericiler:** Antigravity / Proje Sahibi
+
+## Bağlam
+
+Fiziksel cihaz testlerinde tespit edilen kullanıcı deneyimi, tema uyumu ve veri formatlama tutarsızlıkları:
+1. Telefon durum çubuğunun (StatusBar) Açık temada siyah kalması ve üst barın (Header) basık durması.
+2. Ana Sayfa özet kartının tümünü kaplayan `Pressable` bileşeninin modal açılışında touch event çakışması ve çift yönlendirme yaparak beyaz ekrana yol açması.
+3. `useMarketStatus` ve `prices.tsx` kancalarının tek bir ikincil/pasif ürünün eski olması halinde tüm piyasayı kalıcı olarak bayat (`isStale = true`) sayması ve sayfa yenilense dahi sarı uyarının gitmemesi.
+4. Sağlayıcı kaynaklı aykırı değişim değerlerinin (örn: -%90,55) arayüze sızması ve fiyat kartlarında görsel hiyerarşi eksikliği.
+5. Hesap makinesinden portföye aktarımda hesaplanan tutarın forma taşınmaması ve binlik ayracı eksikliği nedeniyle basamak hatası riski.
+6. Portföy kaydı silme işleminde çirkin sistem alert penceresinin çıkması ve Ayarlar ekranında mükerrer çıkış butonu bulunması.
+
+## Karar
+
+1. **Header & StatusBar Entegrasyonu:**
+   - `ThemeProvider.tsx` içerisine `expo-status-bar` ve Android `RNStatusBar` entegre edilerek durum çubuğu aktif temaya bağlandı (Açık temada beyaz zemin + koyu ikonlar; Koyu temada gece laciverti + açık ikonlar).
+   - `CustomTabHeader` dikey iç boşlukları genişletildi (`paddingTop: Math.max(insets.top, 12) + 10`, `paddingBottom: 14`), logo amblemi 44×44 boyutunda altın çerçeveli kutu içine `MaterialCommunityIcons` `gold` (altın külçesi) ikonuyla zenginleştirildi.
+   - `portfolio/add` ve `portfolio/[entryId]/edit` sayfaları için standart, 24px geri okuna ve merkezlenmiş başlığa sahip özel `ModalHeader` uygulandı.
+2. **Dokunma ve Çek-Yenile Güvenliği:**
+   - Ana Sayfa özet kartı statik `View` yapıldı, sadece `Kayıt ›` rozeti portföy sekmesine yönlendirme yetkisine bağlandı. Buton tıklamasına `isNavigatingRef` koruması eklendi.
+   - `index.tsx` iç içe ScrollView çakışmasından arındırılarak kaydırma ve çek-yenile doğrudan `ScreenContainer` mekanizmasına bağlandı.
+3. **Piyasa Canlılığı ve Bayatlık Kriteri (ADR-014 Tamamlayıcısı):**
+   - Piyasa genel canlılığı, tekil ikincil ürünlerin durumuna değil, birincil veri akışının son 15 dakika içinde güncellenmiş olmasına (`Date.now() - latestTime <= 15 dk`) bağlandı. Yenileme sonrasında rozet anında `● Canlı Piyasa`ya döner ve sarı banner gizlenir.
+4. **Veri Doğrulama ve Aykırı Değer Filtresi:**
+   - `validator.ts` içine `[-50, +50]` değişim yüzdesi aralığı kuralı eklendi, bu aralık dışındaki bozuk sağlayıcı verileri `null` yapılarak elendi. Truncgil `Değişim` verileri tüm sarrafiye ürünleriyle eşleştirildi.
+5. **Hesaplama -> Portföy Akışı:**
+   - `calculator.tsx` üzerinden "Bu Alışı Portföye Ekle" tıklandığında `estimatedTotal` parametresi `portfolio/add` rotasına iletilir ve "Ödenen Toplam Tutar (TL)" alanına otomatik doldurulur. Tutar alanının hemen altına binlik ayracı içeren yeşil canlı önizleme rozeti (`Önizleme: 154.500,00 TL`) eklendi.
+6. **Özel Onay Modalı ve Ayarlar Sadeleştirmesi:**
+   - Portföy kaydı silinirken yerel OS Alert penceresi yerine Altın İz temasına uygun, gece laciverti zeminli, kırmızı çöp kutusu ikonlu ve iki butonlu (`Vazgeç` / `Evet, Sil`) özel modal entegre edildi.
+   - Ayarlar ekranındaki mükerrer "Çıkış Yap" menü satırı kaldırılarak sayfa altındaki "Güvenli Çıkış Yap" butonu tek ve belirgin çıkış noktası olarak korundu. Koyu temada aktif tema butonu altın rengi sınır çizgisiyle (`borderColor: theme.colors.gold`, `borderWidth: 1.5`) belirginleştirildi.
+
+---
+
 # Sürüm geçmişi
+
+## 1.5 - 24.10.2026
+
+- ADR-038 ile Mobil UI/UX standardizasyonu, tematik Header/StatusBar, feed bazlı piyasa tazeliği, aykırı değer filtresi, otomatik tutar aktarımı ve özel silme modalı karara bağlandı.
 
 ## 1.4 - 24.10.2026
 

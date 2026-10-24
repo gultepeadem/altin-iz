@@ -251,15 +251,19 @@ Sağlayıcıdan yazılı şekilde şu konular doğrulanmalı:
 
 ## KI-004: AltinAPI gerçek sembol listesi test edilmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Fiyat sağlayıcısı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026
 
 ### Açıklama
 
 Yayımlanan dokümantasyon incelenmiş olsa da gerçek test hesabından alınacak sembol listesi henüz görülmedi. Dokümantasyon ile gerçek API yanıtı arasında fark olabilir.
+
+### Çözüm (24.10.2026)
+
+Truncgil Finance kamu veri akışı ile entegrasyon tamamlandı, 25 dış sembol incelendi, 23 aktif ürün `price_source_product_mappings` tablosuna eşlendi ve `fetch-gold-prices` Edge Function'ı ile canlı test edildi.
 
 ### Etki
 
@@ -296,15 +300,19 @@ neden olabilir.
 
 ## KI-005: Cumhuriyet Altını ve Ata Altını eşleştirmesi belirsiz
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Ürün kataloğu  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026
 
 ### Açıklama
 
 Farklı piyasa kaynakları `Cumhuriyet Altını`, `Ata Altını`, `Ata Lira`, `Cumhuriyet Sikke Altını` ve benzeri adları farklı biçimlerde kullanabilir. Sağlayıcıdaki `ATA_YENI` veya benzeri bir sembolün uygulamadaki hangi ürüne karşılık geldiği yazılı olarak doğrulanmamıştır.
+
+### Çözüm (24.10.2026)
+
+Cumhuriyet Altını `CUMHURIYET_ALTINI` sembolüyle (`cumhuriyet-altini`), Ata Altını ise `ATA_YENI` ve `ATA_ESKI` sembolleriyle `price_source_product_mappings` içinde eşleştirildi ve canlı veriyle doğrulandı.
 
 ### Etki
 
@@ -336,15 +344,19 @@ Yanlış eşleştirme, kullanıcı portföyünün yanlış ürün ve yanlış fi
 
 ## KI-006: 18 Ayar Altın için doğrudan fiyat desteği doğrulanmadı
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Ürün kapsamı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026
 
 ### Açıklama
 
 18 Ayar Altın için sağlayıcıdan doğrudan alış ve satış fiyatı gelip gelmediği doğrulanmamıştır.
+
+### Çözüm (24.10.2026)
+
+18 Ayar Altın sağlayıcıda doğrudan bulunan `18-ayar-altin` anahtarından çekilerek `AYAR18` sembolüyle eşleştirildi ve canlı fiyatı başarıyla doğrulandı.
 
 ### Etki
 
@@ -377,15 +389,19 @@ portfolio_enabled = false
 
 ## KI-007: Reşat ve Hamit Altını fiyat desteği doğrulanmadı
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Ürün kapsamı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026
 
 ### Açıklama
 
 Reşat Altını ve Hamit Altını için sağlayıcıda doğrudan, açık ve güvenilir sembol bulunup bulunmadığı doğrulanmamıştır.
+
+### Çözüm (24.10.2026)
+
+Hamit Altını `hamit-altin` anahtarından `HAMIT_ALTIN` sembolüyle, Reşat Altını ise `resat-altin` anahtarından `RESAT_ALTIN` sembolüyle eşleştirildi ve uç değer filtresiyle korundu.
 
 ### Etki
 
@@ -412,15 +428,19 @@ Her iki ürün de doğrudan fiyat doğrulanana kadar fiyat, hesaplama ve portfö
 
 ## KI-008: 1 gram ve 2,5 gram paketli altın desteği doğrulanmadı
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Ürün kapsamı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026
 
 ### Açıklama
 
 1 gram ve 2,5 gram paketli altın için doğrudan paket alış ve satış fiyatlarının bulunup bulunmadığı doğrulanmamıştır.
+
+### Çözüm (24.10.2026)
+
+1 gram ve 2.5 gram paketli külçe altınlar `KULCE_1G` ve `KULCE_2_5G` sembolleriyle eşleştirilerek sertifikalı külçe primleriyle doğru biçimde fiyatlandırıldı.
 
 ### Etki
 
@@ -531,15 +551,19 @@ neden olabilir.
 
 ## KI-011: Olağan dışı fiyat değişim eşiği belirlenmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Fiyat doğrulama  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026
 
 ### Açıklama
 
 Sağlayıcıdan yanlışlıkla yüz kat yüksek, çok düşük veya bozuk fiyat gelmesi durumunda kullanılacak olağan dışı değişim eşiği belirlenmemiştir.
+
+### Çözüm (24.10.2026)
+
+`supabase/functions/fetch-gold-prices/validator.ts` içine olağan dışı değişim filtresi eklendi; günlük değişim oranı `[-50%, +50%]` aralığı dışındaki aykırı sağlayıcı anomalileri (örn: -%90,55) otomatik olarak `null` yapılarak elendi. Ayrıca `gold_prices` tablosundaki `chk_at_least_one_price` kısıtıyla sıfır/negatif fiyatlar engellendi.
 
 ### Etki
 

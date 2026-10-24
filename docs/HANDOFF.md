@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.59 Taslak  
+**Belge sürümü:** 1.60 Taslak  
 **Son güncelleme:** 24.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, atomik execute_account_deletion RPC'si (Migration 008), canlı yasal olay bağlamı, EAS Build APK çıktısı ve mağaza vitrin metinleri hazırlandı.  
-**Son çalışma durumu:** Denetim raporu eksikleri giderildi: AsyncStorage yerine expo-secure-store entegre edildi, hesap silme atomik SQL RPC'sine bağlandı, sign-up yasal olay kaydı yapıldı, mağaza metinlerindeki 15 saniye ve 18 ayar vaatleri temizlendi, dökümanlar arasındaki faz tutarsızlıkları giderildi. Fiziksel cihaz kullanıcı onayı ve mağaza hesap açılışları bekleniyor.
+**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, atomik execute_account_deletion RPC'si (Migration 008), sync_gold_price yetki kilidi (Migration 009), 2 adet aktif Edge Function canlı dağıtımı, UI/UX Header/StatusBar tema standardizasyonu, otomatik tutar aktarımı, özel silme modalı ve EAS Build APK çıktısı hazırlandı.  
+**Son çalışma durumu:** Fiziksel test geri bildirimleri eksiksiz çözüldü: Header ve StatusBar temaya bağlandı, Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi, Truncgil 23 aktif ürünle eşleştirildi, aykırı değişim filtresi (`[-50%, +50%]`) uygulandı, piyasa bayatlığı 15 dk akış tazeliğine bağlandı, hesap makinesinden portföye otomatik tutar aktarımı ve binlik ayracı canlı önizlemesi eklendi, portföy silme onayında özel Altın İz modalı uygulandı, ayarlar ekranı sadeleştirildi. TypeScript ve ESLint 0 hata ile doğrulandı.
 
 ---
 
@@ -63,19 +63,19 @@ Yeni güncellemede:
 ### Oturumun ana amacı
 
 ```text
-Denetim raporu doğrultusunda teknik açıkları gidermek, SecureStore ile donanımsal token saklamaya geçmek, atomik PostgreSQL execute_account_deletion RPC'si kurmak, sign-up yasal entegrasyonunu sağlamak, mağaza metinlerindeki yanıltıcı vaatleri temizlemek ve dökümanlar arasındaki faz kopukluklarını gidermek
+Mobil testlerde tespit edilen UI/UX tutarsızlıklarını, Header/StatusBar uyumsuzluklarını, Ana Sayfa Altın Ekle beyaz ekran ve pull-to-refresh hatalarını, Truncgil fiyat eşleştirmelerini, Hamit Altın aykırı değişim yüzdesini, Hesap Makinesinden portföye otomatik tutar aktarımını ve portföy silme özel modalını çözmek ve docs/ altındaki tüm belgeleri güncellemek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Supabase CLI bağlantısı ile Migration 008 (atomik hesap silme) ve Migration 009 (sync_gold_price yetkisinin service_role'a kilitlenmesi) uzak veritabanına uygulandı. fetch-gold-prices ve delete-account Edge Function'ları uzak sunucuya deploy edildi ve test edildi. Mobil istemci salt-okunur hale getirilerek SECURITY.md 8.6 sağlandı. expo-secure-store chunking eklendi, useNetworkStatus + OfflineBanner kök düzene bağlandı, tarih maskelemesi yapıldı ve Material You uyumlu android-icon-monochrome dahil tüm mağaza varlıkları üretildi.
+UI/UX ve işlevsel hata düzeltmeleri (ADR-038) tamamlandı; 23 aktif ürün için Truncgil API eşleştirmesi yapıldı; aykırı değişim filtresi konuldu; StatusBar/Header tema uyumu sağlandı; Hesapla sayfasından portföye otomatik maliyet aktarımı ve binlik ayracı canlı önizlemesi eklendi; özel silme modalı uygulandı; ayarlar temizlendi; TypeScript ve ESLint sıfır hata ile geçti; docs/ altındaki ARCHITECTURE.md, DECISIONS.md, CHANGELOG.md, KNOWN_ISSUES.md, DATABASE.md, API.md, TODO.md, PROJECT_CONTEXT.md ve HANDOFF.md dosyaları tam senkronize edildi.
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test Adımına Geçiş (v1.0.0-rc1)
+V1 Kod Tabanı ve Backend Tamamlandı — UI/UX Standardizasyonu ve Fiziksel Test (v1.0.0-rc1)
 ```
 
 ### Uygulama kodu durumu
@@ -87,7 +87,7 @@ V1 mobil istemci kodu ve Supabase backend (9 migration + 2 aktif Edge Function) 
 ### Çalışan uygulama durumu
 
 ```text
-EAS Cloud üzerinde bağımsız Android APK derlemesi üretildi; canlı Supabase veritabanından 25 altın ürününün gerçek piyasa fiyatları başarıyla çekiliyor.
+EAS Cloud üzerinde bağımsız Android APK derlemesi üretildi; canlı Supabase veritabanından 23 aktif altın ürününün gerçek Kapalıçarşı piyasa fiyatları başarıyla çekiliyor.
 ```
 
 ### Gerçek kullanıcı durumu
@@ -390,7 +390,7 @@ Bağlandı ve eşitlendi: https://github.com/gultepeadem/altin-iz.git (main dal�
 ### Son commit
 
 ```text
-13f6271 (fix(store): implement Phase 2 - align store copy, theme colors (#0B1220), age ratings, and product scopes)
+c24bf5f (fix(ui): polish header, status bar, fix add gold white screen, live format preview, and clamp outlier price change)
 ```
 
 ### Aktif dal
@@ -402,7 +402,7 @@ main
 ### Migration durumu
 
 ```text
-8 adet SQL migration dosyası hazırlandı ve veritabanında çalıştırıldı (Tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri ve atomik hesap silme RPC'si).
+9 adet SQL migration dosyası uygulandı (20261024000009_lock_sync_gold_price.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri, atomik hesap silme ve Edge Function yetki kilidi devrede).
 ```
 
 ---
@@ -494,12 +494,9 @@ Ayrıntılar `KNOWN_ISSUES.md` içinde bulunur.
 
 ```text
 KI-001 → Supabase production bölgesi
-KI-004 → Gerçek fiyat sembol listesi
-KI-005 → Cumhuriyet ve Ata ürün eşleştirmesi
 KI-010 → Fiyatın eski sayılacağı süre
-KI-011 → Olağan dışı fiyat doğrulama eşiği
 KI-013 → JavaScript sayısal hassasiyet yöntemi
-KI-014 → Mobil Supabase oturum saklama yöntemi
+KI-014 → Mobil Supabase oturum saklama yöntemi (SecureStore chunking ile çözüldü)
 KI-015 → Auth derin bağlantıları
 KI-017 → Production e-posta hizmeti
 KI-020 → Development, Preview ve Production ortam ayrımı
@@ -508,6 +505,9 @@ KI-022 → iOS test yöntemi
 KI-026 → Google Play ve App Store gizlilik beyanları
 KI-030 → Git deposu ve geri dönüş noktaları
 ```
+
+> [!NOTE]
+> `KI-004` (Sembol listesi doğrulaması), `KI-005` (Cumhuriyet/Ata eşleştirmesi), `KI-006` (18 Ayar), `KI-007` (Reşat/Hamit), `KI-008` (1g ve 2.5g paketli altınlar) ve `KI-011` (Olağan dışı fiyat dalgalanması) bu oturumda çözülmüştür (`KNOWN_ISSUES.md`).
 
 ---
 
@@ -741,14 +741,14 @@ Her oturum sonunda:
 
 ```text
 Proje: Altın İz
-Aşama: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
-Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı
+Aşama: V1 Kod Tabanı Hazır — UI/UX Standardizasyonu ve Fiziksel Test (v1.0.0-rc1)
+Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (9 migration + 2 aktif Edge Function)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 8 migration, RLS, 25 ürün ve canlı fiyatlar)
-Git deposu: Aktif (main dalı, GitHub'a push edildi)
-Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si aktif
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 9 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Git deposu: Aktif (main dalı, c24bf5f)
+Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si aktif, sync_gold_price RPC service_role kilitli
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
-Android testi: APK derlendi; Redmi Note 8 Pro üzerinde kullanıcı testi bekleniyor
+Android testi: APK derlendi; Redmi Note 8 Pro üzerinde kullanıcı testi yapılıyor
 iOS testi: Web/PWA ve Expo Go testine hazır; Apple Developer hesabı bekleniyor
 Sıradaki görev: Fiziksel telefon doğrulaması ve mağaza hesap açılışları
 ```
@@ -758,6 +758,20 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri sak
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.60 Taslak - 24.10.2026
+- Fiziksel test geri bildirimleri doğrultusunda kapsamlı UI/UX iyileştirmesi ve hata düzeltmesi gerçekleştirildi (`ADR-038`):
+  1. Header ve StatusBar tematik uyumu sağlandı (`CustomTabHeader`, `ModalHeader`, `expo-status-bar` + `RNStatusBar`).
+  2. Ana Sayfa `+ Altın Ekle` butonundaki çift render ve beyaz ekran çökmesi giderildi.
+  3. Ana Sayfa `ScrollView` bileşenine aktif `RefreshControl` eklendi.
+  4. Truncgil veri kaynağı 23 aktif ürünle eşleştirildi; `chk_at_least_one_price` veritabanı kuralı korunarak eksik ürünlerin tablolara yazılması engellendi.
+  5. Hamit Altın ve diğer ürünlerdeki aykırı anlık fiyat değişimleri için `[-50%, +50%]` sınır filtresi uygulandı (`KI-011` çözüldü).
+  6. Piyasa bayatlık kontrolü en güncel fiyat kaydının tazeliğine (15 dk) bağlandı.
+  7. Hesap Makinesi ekranından `portfolio/add` rotasına `estimatedTotal` parametresiyle otomatik maliyet aktarımı eklendi.
+  8. Portföy ekleme ve düzenleme ekranlarında canlı binlik ayracı maliyet önizlemesi eklendi.
+  9. Portföy silme onayında Android ve iOS için modern, tematik Altın İz özel onay modalı (`DeleteConfirmationModal`) uygulandı.
+  10. Ayarlar ekranı sadeleştirildi; gereksiz test/yedek düğmeleri kaldırılarak sadece aktif ayar seçenekleri bırakıldı.
+- `docs/` altındaki `CHANGELOG.md`, `DECISIONS.md`, `KNOWN_ISSUES.md`, `DATABASE.md`, `ARCHITECTURE.md`, `API.md`, `TODO.md`, `PROJECT_CONTEXT.md` ve `HANDOFF.md` belgeleri tam senkronize edildi.
 
 ### 1.58 Taslak - 22.10.2026
 - Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) %100 tamamlandı ve V1 Sürüm Adayı `v1.0.0-rc1` etiketi oluşturularak GitHub'a gönderildi.
