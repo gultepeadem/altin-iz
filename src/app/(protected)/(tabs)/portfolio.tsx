@@ -85,7 +85,7 @@ export default function PortfolioScreen() {
   // İlk yükleme esnasında yükleme göstergesi
   if (loading && items.length === 0) {
     return (
-      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+      <ScreenContainer scrollable={false} edges={['left', 'right']}>
         <LoadingState message="Portföyünüz yükleniyor..." fullScreen />
       </ScreenContainer>
     );
@@ -94,7 +94,7 @@ export default function PortfolioScreen() {
   // Hata durumu ve henüz liste yüklenmemişse
   if (error && items.length === 0) {
     return (
-      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+      <ScreenContainer scrollable={false} edges={['left', 'right']}>
         <ErrorState
           title="Portföy Yüklenemedi"
           message={error}
@@ -107,7 +107,7 @@ export default function PortfolioScreen() {
   // Portföy tamamen boş ise
   if (!loading && items.length === 0) {
     return (
-      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+      <ScreenContainer scrollable={false} edges={['left', 'right']}>
         <ScrollView
           contentContainerStyle={styles.emptyScroll}
           refreshControl={
@@ -132,12 +132,14 @@ export default function PortfolioScreen() {
     );
   }
 
-  // Özet kartındaki kâr/zarar rengi ve metin formatı
+  // Özet kartındaki kâr/zarar rengi ve metin formatı (Yan yana sığacak biçimde ayrık)
   const getSummaryProfitLossDisplay = () => {
     if (!summary || summary.totalProfitLossMinor === null) {
       return {
-        text: 'Hesaplanamıyor',
+        amountText: 'Hesaplanamıyor',
+        percentText: null,
         color: theme.colors.warning,
+        badgeBg: 'transparent',
       };
     }
 
@@ -149,12 +151,24 @@ export default function PortfolioScreen() {
     const formattedRate = formatPercent(summary.totalProfitLossPercentage);
 
     return {
-      text: `${sign}${formattedAmount} (${formattedRate})`,
+      amountText: `${sign}${formattedAmount}`,
+      percentText: `${sign}${formattedRate}`,
       color: isProfit
         ? theme.colors.profit
         : isLoss
           ? theme.colors.loss
           : theme.colors.textPrimary,
+      badgeBg: isProfit
+        ? isDark
+          ? '#13281d'
+          : '#e8f5e9'
+        : isLoss
+          ? isDark
+            ? '#3b1c1c'
+            : '#ffebee'
+          : isDark
+            ? theme.colors.surfaceElevated
+            : '#f0f0f0',
     };
   };
 
@@ -207,7 +221,7 @@ export default function PortfolioScreen() {
                 : 'Hesaplanamıyor'}
           </Text>
 
-          {/* Maliyet ve Kâr/Zarar İstatistikleri */}
+          {/* Maliyet ve Kâr/Zarar İstatistikleri (Satır kaymasını önleyen yan yana tasarım) */}
           <View style={[styles.summaryDetailsRow, { borderTopColor: theme.colors.divider }]}>
             <View style={styles.statColumn}>
               <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
@@ -222,14 +236,24 @@ export default function PortfolioScreen() {
               <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
                 Kâr / Zarar
               </Text>
-              <Text
-                style={[
-                  styles.statValue,
-                  { color: plDisplay.color, fontWeight: '700' },
-                ]}
-              >
-                {plDisplay.text}
-              </Text>
+              <View style={styles.plValueRow}>
+                <Text
+                  style={[
+                    styles.statValue,
+                    { color: plDisplay.color, fontWeight: '700' },
+                  ]}
+                  numberOfLines={1}
+                >
+                  {plDisplay.amountText}
+                </Text>
+                {plDisplay.percentText ? (
+                  <View style={[styles.plPercentBadge, { backgroundColor: plDisplay.badgeBg }]}>
+                    <Text style={[styles.plPercentBadgeText, { color: plDisplay.color }]}>
+                      {plDisplay.percentText}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
 
@@ -277,19 +301,27 @@ export default function PortfolioScreen() {
     const isStale = latestPrice ? latestPrice.status === 'stale' || latestPrice.isProviderStale : false;
     const unitLabel = entry.product?.measurementUnit === 'gram' ? 'Gram' : 'Adet';
 
-    // Kayıt bazında kâr/zarar rengi ve gösterimi
-    let profitLossText = 'Hesaplanamıyor';
+    // Kayıt bazında kâr/zarar rengi ve gösterimi (Yan yana ve rozetli: satır kaymasını önler)
+    let profitLossAmountText = 'Hesaplanamıyor';
+    let profitLossPercentText: string | null = null;
     let profitLossColor = theme.colors.warning;
+    let profitLossBadgeBg = 'transparent';
 
     if (valuation.status === 'profit') {
-      profitLossText = `+${formatMoney(valuation.profitLossMinor)} (${formatPercent(valuation.profitLossPercentage)})`;
+      profitLossAmountText = `+${formatMoney(valuation.profitLossMinor)}`;
+      profitLossPercentText = `+${formatPercent(valuation.profitLossPercentage)}`;
       profitLossColor = theme.colors.profit;
+      profitLossBadgeBg = isDark ? '#13281d' : '#e8f5e9';
     } else if (valuation.status === 'loss') {
-      profitLossText = `${formatMoney(valuation.profitLossMinor)} (${formatPercent(valuation.profitLossPercentage)})`;
+      profitLossAmountText = `${formatMoney(valuation.profitLossMinor)}`;
+      profitLossPercentText = `${formatPercent(valuation.profitLossPercentage)}`;
       profitLossColor = theme.colors.loss;
+      profitLossBadgeBg = isDark ? '#3b1c1c' : '#ffebee';
     } else if (valuation.status === 'even') {
-      profitLossText = '0,00 TL (%0,00)';
+      profitLossAmountText = '0,00 TL';
+      profitLossPercentText = '%0,00';
       profitLossColor = theme.colors.textPrimary;
+      profitLossBadgeBg = isDark ? theme.colors.surfaceElevated : '#f0f0f0';
     }
 
     return (
@@ -365,40 +397,57 @@ export default function PortfolioScreen() {
           ) : null}
         </View>
 
-        {/* Değerleme ve Maliyet Tablosu */}
+        {/* Değerleme ve Maliyet Tablosu (2 satırlı düzen: Kâr/Zarar satır atlamaz) */}
         <View style={[styles.entryMetricsGrid, { borderTopColor: theme.colors.divider }]}>
-          <View style={styles.metricItem}>
-            <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
-              Ödenen Maliyet
-            </Text>
-            <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
-              {formatMoney(entry.totalCostMinor)}
-            </Text>
+          <View style={styles.entryMetricsTopRow}>
+            <View style={styles.metricItem}>
+              <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
+                Ödenen Maliyet
+              </Text>
+              <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
+                {formatMoney(entry.totalCostMinor)}
+              </Text>
+            </View>
+
+            <View style={styles.metricItemRight}>
+              <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
+                Tahmini Değer
+              </Text>
+              <Text style={[styles.metricValue, { color: theme.colors.textPrimary, fontWeight: '700' }]}>
+                {valuation.currentValueMinor !== null
+                  ? formatMoney(valuation.currentValueMinor)
+                  : 'Fiyat Yok'}
+              </Text>
+            </View>
           </View>
 
-          <View style={styles.metricItem}>
+          <View style={[styles.entryMetricsBottomRow, { borderTopColor: theme.colors.divider }]}>
             <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
-              Tahmini Değer
+              Net Kâr / Zarar
             </Text>
-            <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
-              {valuation.currentValueMinor !== null
-                ? formatMoney(valuation.currentValueMinor)
-                : 'Fiyat Yok'}
-            </Text>
-          </View>
-
-          <View style={styles.metricItemRight}>
-            <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
-              Kâr / Zarar
-            </Text>
-            <Text
-              style={[
-                styles.metricValue,
-                { color: profitLossColor, fontWeight: '700' },
-              ]}
-            >
-              {profitLossText}
-            </Text>
+            <View style={styles.plValueRow}>
+              <Text
+                style={[
+                  styles.metricValue,
+                  { color: profitLossColor, fontWeight: '700' },
+                ]}
+                numberOfLines={1}
+              >
+                {profitLossAmountText}
+              </Text>
+              {profitLossPercentText ? (
+                <View
+                  style={[
+                    styles.plPercentBadge,
+                    { backgroundColor: profitLossBadgeBg },
+                  ]}
+                >
+                  <Text style={[styles.plPercentBadgeText, { color: profitLossColor }]}>
+                    {profitLossPercentText}
+                  </Text>
+                </View>
+              ) : null}
+            </View>
           </View>
         </View>
       </Pressable>
@@ -406,7 +455,7 @@ export default function PortfolioScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+    <ScreenContainer scrollable={false} edges={['left', 'right']}>
       <FlatList
         data={items}
         renderItem={renderItem}
@@ -474,16 +523,35 @@ const styles = StyleSheet.create({
   summaryDetailsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     paddingTop: 12,
     borderTopWidth: 1,
     marginBottom: 16,
   },
   statColumn: {
-    flex: 1,
+    minWidth: 100,
   },
   statColumnRight: {
     flex: 1,
     alignItems: 'flex-end',
+  },
+  plValueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexWrap: 'nowrap',
+    gap: 6,
+  },
+  plPercentBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plPercentBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
   },
   statLabel: {
     fontSize: 12,
@@ -580,10 +648,21 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   entryMetricsGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
     borderTopWidth: 1,
     paddingTop: 10,
+  },
+  entryMetricsTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  entryMetricsBottomRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    paddingTop: 8,
   },
   metricItem: {
     flex: 1,

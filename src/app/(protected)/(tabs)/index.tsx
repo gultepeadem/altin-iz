@@ -79,7 +79,7 @@ export default function HomeScreen() {
   // İlk yükleme esnasında gösterge
   if (loading && !homeData) {
     return (
-      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+      <ScreenContainer scrollable={false} edges={['left', 'right']}>
         <LoadingState message="Piyasa ve portföy verileri yükleniyor..." fullScreen />
       </ScreenContainer>
     );
@@ -88,7 +88,7 @@ export default function HomeScreen() {
   // Hata durumu ve henüz veri yüklenmemişse
   if (error && !homeData) {
     return (
-      <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+      <ScreenContainer scrollable={false} edges={['left', 'right']}>
         <ErrorState
           title="Veriler Alınamadı"
           message={error}
@@ -112,12 +112,14 @@ export default function HomeScreen() {
 
   const summary = homeData?.portfolioSummary;
 
-  // Portföy kâr/zarar metni ve rengi
+  // Portföy kâr/zarar metni ve rengi (Ayrık tutar ve yüzde rozeti: satır kaymasını önler)
   const getPortfolioPL = () => {
     if (!summary || summary.totalProfitLossMinor === null) {
       return {
-        text: 'Hesaplanamıyor',
+        amountText: 'Hesaplanamıyor',
+        percentText: null,
         color: theme.colors.warning,
+        badgeBg: 'transparent',
       };
     }
 
@@ -126,12 +128,24 @@ export default function HomeScreen() {
     const sign = isProfit ? '+' : '';
 
     return {
-      text: `${sign}${formatMoney(summary.totalProfitLossMinor)} (${formatPercent(summary.totalProfitLossPercentage)})`,
+      amountText: `${sign}${formatMoney(summary.totalProfitLossMinor)}`,
+      percentText: `${sign}${formatPercent(summary.totalProfitLossPercentage)}`,
       color: isProfit
         ? theme.colors.profit
         : isLoss
           ? theme.colors.loss
           : theme.colors.textPrimary,
+      badgeBg: isProfit
+        ? isDark
+          ? '#13281d'
+          : '#e8f5e9'
+        : isLoss
+          ? isDark
+            ? '#3b1c1c'
+            : '#ffebee'
+          : isDark
+            ? theme.colors.surfaceElevated
+            : '#f0f0f0',
     };
   };
 
@@ -245,7 +259,7 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false} edges={['top', 'left', 'right']}>
+    <ScreenContainer scrollable={false} edges={['left', 'right']}>
       <ScrollView
         contentContainerStyle={styles.scrollContent}
         refreshControl={
@@ -340,7 +354,7 @@ export default function HomeScreen() {
                 : 'Hesaplanamıyor'}
           </Text>
 
-          {/* Maliyet ve Kâr/Zarar Gösterimi */}
+          {/* Maliyet ve Kâr/Zarar Gösterimi (Satır kaymasını önleyen yan yana tasarım) */}
           <View style={[styles.metricsRow, { borderTopColor: theme.colors.divider }]}>
             <View style={styles.metricItem}>
               <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
@@ -355,9 +369,21 @@ export default function HomeScreen() {
               <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
                 Kâr / Zarar
               </Text>
-              <Text style={[styles.metricValue, { color: plDisplay.color, fontWeight: '700' }]}>
-                {plDisplay.text}
-              </Text>
+              <View style={styles.plValueRow}>
+                <Text
+                  style={[styles.metricValue, { color: plDisplay.color, fontWeight: '700' }]}
+                  numberOfLines={1}
+                >
+                  {plDisplay.amountText}
+                </Text>
+                {plDisplay.percentText ? (
+                  <View style={[styles.plPercentBadge, { backgroundColor: plDisplay.badgeBg }]}>
+                    <Text style={[styles.plPercentBadgeText, { color: plDisplay.color }]}>
+                      {plDisplay.percentText}
+                    </Text>
+                  </View>
+                ) : null}
+              </View>
             </View>
           </View>
 
@@ -498,15 +524,34 @@ const styles = StyleSheet.create({
   metricsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'flex-start',
     paddingTop: 12,
     borderTopWidth: 1,
   },
   metricItem: {
-    flex: 1,
+    minWidth: 100,
   },
   metricItemRight: {
     flex: 1,
     alignItems: 'flex-end',
+  },
+  plValueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexWrap: 'nowrap',
+    gap: 6,
+  },
+  plPercentBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plPercentBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
   },
   metricLabel: {
     fontSize: 11,

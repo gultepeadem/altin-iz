@@ -194,149 +194,7 @@ export default function PricesScreen() {
     });
   }, [items, search, sortMode]);
 
-  // Liste başlığı bileşeni (Header)
-  const renderHeader = () => (
-    <View style={styles.headerContainer}>
-      {/* Ekran Başlığı ve Durum Göstergesi */}
-      <View style={styles.titleRow}>
-        <View style={styles.titleColumn}>
-          <Text style={[styles.screenTitle, { color: theme.colors.textPrimary }]}>
-            Canlı Altın Fiyatları
-          </Text>
-          <Text style={[styles.screenSubtitle, { color: theme.colors.textSecondary }]}>
-            {latestUpdatedTime
-              ? `Son Güncelleme: ${formatDateTime(latestUpdatedTime)}`
-              : 'Piyasa verileri güncelleniyor...'}
-          </Text>
-        </View>
 
-        <View
-          style={[
-            styles.statusPill,
-            {
-              backgroundColor: hasStale
-                ? theme.colors.warningLight
-                : isDark
-                ? '#1e382b'
-                : '#e8f5e9',
-              borderColor: hasStale ? theme.colors.warning : theme.colors.profit,
-            },
-          ]}
-        >
-          <View
-            style={[
-              styles.statusDot,
-              {
-                backgroundColor: hasStale ? theme.colors.warning : theme.colors.profit,
-              },
-            ]}
-          />
-          <Text
-            style={[
-              styles.statusText,
-              {
-                color: hasStale ? theme.colors.warning : theme.colors.profit,
-              },
-            ]}
-          >
-            {hasStale ? 'Gecikmeli' : 'Canlı Piyasa'}
-          </Text>
-        </View>
-      </View>
-
-      {/* Eski Veri Şeridi (ADR-014) */}
-      {hasStale && (
-        <StaleDataBanner
-          lastUpdatedAt={latestUpdatedTime ? formatDateTime(latestUpdatedTime) : undefined}
-          onRefresh={() => handleRefresh(true)}
-          style={styles.bannerSpacing}
-        />
-      )}
-
-      {/* Kısmi Veri Şeridi (ADR-013) */}
-      {!hasStale && hasPartial && (
-        <PartialDataBanner
-          message="Bazı altın türlerinin güncel piyasa fiyatı henüz temin edilemedi veya kısmi olarak yayınlandı."
-          style={styles.bannerSpacing}
-        />
-      )}
-
-      {/* Arama Alanı */}
-      <TextField
-        placeholder="Altın türü ara (ör. Gram, Çeyrek, Ata)..."
-        value={search}
-        onChangeText={setSearch}
-        leftIcon={<Text style={styles.searchIcon}>🔍</Text>}
-        rightIcon={
-          search.length > 0 ? (
-            <Pressable
-              onPress={() => setSearch('')}
-              hitSlop={8}
-              accessibilityLabel="Aramayı temizle"
-              accessibilityRole="button"
-            >
-              <Text style={[styles.clearIcon, { color: theme.colors.textSecondary }]}>✕</Text>
-            </Pressable>
-          ) : undefined
-        }
-        containerStyle={styles.searchContainer}
-      />
-
-      {/* Sıralama Kontrolleri */}
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.sortChipsContainer}
-      >
-        {SORT_OPTIONS.map((opt) => {
-          const isSelected = sortMode === opt.id;
-          return (
-            <Pressable
-              key={opt.id}
-              onPress={() => setSortMode(opt.id)}
-              style={[
-                styles.sortChip,
-                {
-                  backgroundColor: isSelected
-                    ? isDark
-                      ? theme.colors.surfaceElevated
-                      : theme.colors.goldLight
-                    : theme.colors.card,
-                  borderColor: isSelected ? theme.colors.gold : theme.colors.border,
-                },
-              ]}
-              accessible={true}
-              accessibilityRole="button"
-              accessibilityState={{ selected: isSelected }}
-              accessibilityLabel={`Sıralama seçeneği: ${opt.label}`}
-            >
-              <Text
-                style={[
-                  styles.sortChipText,
-                  {
-                    color: isSelected ? theme.colors.gold : theme.colors.textSecondary,
-                    fontWeight: isSelected ? '700' : '500',
-                  },
-                ]}
-              >
-                {opt.label}
-              </Text>
-            </Pressable>
-          );
-        })}
-      </ScrollView>
-
-      {/* Tablo Sütun Başlıkları */}
-      <View style={styles.tableHeader}>
-        <Text style={[styles.headerCol, { color: theme.colors.textSecondary }]}>
-          Altın Türü & Ayar
-        </Text>
-        <Text style={[styles.headerColRight, { color: theme.colors.textSecondary }]}>
-          Alış / Satış Fiyatı
-        </Text>
-      </View>
-    </View>
-  );
 
   // Tekil Ürün Kartı Bileşeni
   const renderItem = ({ item }: { item: ProductWithPrice }) => {
@@ -516,7 +374,111 @@ export default function PricesScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false} withPadding={true} edges={['top', 'left', 'right']}>
+    <ScreenContainer scrollable={false} withPadding={true} edges={['left', 'right']}>
+      {/* Sabit Arama, Filtreleme ve Tablo Başlığı (Klavye kapanmasını önler) */}
+      <View style={styles.fixedTopSection}>
+        {latestUpdatedTime ? (
+          <View style={styles.timeInfoRow}>
+            <Text style={[styles.timeInfoText, { color: theme.colors.textTertiary }]}>
+              🕒 Son Fiyat Güncellemesi: {formatDateTime(latestUpdatedTime)}
+            </Text>
+          </View>
+        ) : null}
+
+        {/* Eski Veri Şeridi (ADR-014) */}
+        {hasStale && (
+          <StaleDataBanner
+            lastUpdatedAt={latestUpdatedTime ? formatDateTime(latestUpdatedTime) : undefined}
+            onRefresh={() => handleRefresh(true)}
+            style={styles.bannerSpacing}
+          />
+        )}
+
+        {/* Kısmi Veri Şeridi (ADR-013) */}
+        {!hasStale && hasPartial && (
+          <PartialDataBanner
+            message="Bazı altın türlerinin güncel piyasa fiyatı henüz temin edilemedi veya kısmi olarak yayınlandı."
+            style={styles.bannerSpacing}
+          />
+        )}
+
+        {/* Arama Alanı (FlatList dışındadır, yeniden render olduğunda odağı kaybetmez) */}
+        <TextField
+          placeholder="Altın türü ara (ör. Gram, Çeyrek, Ata)..."
+          value={search}
+          onChangeText={setSearch}
+          leftIcon={<Text style={styles.searchIcon}>🔍</Text>}
+          rightIcon={
+            search.length > 0 ? (
+              <Pressable
+                onPress={() => setSearch('')}
+                hitSlop={8}
+                accessibilityLabel="Aramayı temizle"
+                accessibilityRole="button"
+              >
+                <Text style={[styles.clearIcon, { color: theme.colors.textSecondary }]}>✕</Text>
+              </Pressable>
+            ) : undefined
+          }
+          containerStyle={styles.searchContainer}
+        />
+
+        {/* Sıralama Kontrolleri */}
+        <ScrollView
+          horizontal
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.sortChipsContainer}
+        >
+          {SORT_OPTIONS.map((opt) => {
+            const isSelected = sortMode === opt.id;
+            return (
+              <Pressable
+                key={opt.id}
+                onPress={() => setSortMode(opt.id)}
+                style={[
+                  styles.sortChip,
+                  {
+                    backgroundColor: isSelected
+                      ? isDark
+                        ? theme.colors.surfaceElevated
+                        : theme.colors.goldLight
+                      : theme.colors.card,
+                    borderColor: isSelected ? theme.colors.gold : theme.colors.border,
+                  },
+                ]}
+                accessible={true}
+                accessibilityRole="button"
+                accessibilityState={{ selected: isSelected }}
+                accessibilityLabel={`Sıralama seçeneği: ${opt.label}`}
+              >
+                <Text
+                  style={[
+                    styles.sortChipText,
+                    {
+                      color: isSelected ? theme.colors.gold : theme.colors.textSecondary,
+                      fontWeight: isSelected ? '700' : '500',
+                    },
+                  ]}
+                >
+                  {opt.label}
+                </Text>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
+
+        {/* Tablo Sütun Başlıkları */}
+        <View style={styles.tableHeader}>
+          <Text style={[styles.headerCol, { color: theme.colors.textSecondary }]}>
+            Altın Türü & Ayar
+          </Text>
+          <Text style={[styles.headerColRight, { color: theme.colors.textSecondary }]}>
+            Alış / Satış Fiyatı
+          </Text>
+        </View>
+      </View>
+
+      {/* Liste Gövdesi */}
       {loading && !refreshing && items.length === 0 ? (
         <LoadingState message="Canlı altın fiyatları yükleniyor..." fullScreen={false} />
       ) : error && items.length === 0 ? (
@@ -533,7 +495,6 @@ export default function PricesScreen() {
           data={filteredAndSortedItems}
           keyExtractor={(item) => item.product.id}
           renderItem={renderItem}
-          ListHeaderComponent={renderHeader}
           ListEmptyComponent={
             <EmptyState
               title={search ? 'Sonuç Bulunamadı' : 'Altın Fiyatı Bulunamadı'}
@@ -559,6 +520,7 @@ export default function PricesScreen() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
           keyboardShouldPersistTaps="handled"
+          keyboardDismissMode="on-drag"
         />
       )}
     </ScreenContainer>
@@ -566,6 +528,18 @@ export default function PricesScreen() {
 }
 
 const styles = StyleSheet.create({
+  fixedTopSection: {
+    paddingTop: 8,
+    marginBottom: 4,
+  },
+  timeInfoRow: {
+    marginBottom: 8,
+    paddingHorizontal: 2,
+  },
+  timeInfoText: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
   listContent: {
     paddingBottom: 24,
   },
