@@ -49,7 +49,7 @@ import {
   isFutureDate,
   parseMoneyInputToMinor,
 } from '@/domain/validation';
-import { formatDate } from '@/utils/formatters';
+import { formatDate, applyDateMask } from '@/utils/formatters';
 
 export default function PortfolioEditScreen() {
   const { entryId } = useLocalSearchParams<{ entryId?: string }>();
@@ -403,9 +403,12 @@ export default function PortfolioEditScreen() {
           placeholder="GG.AA.YYYY (Örn: 22.10.2026)"
           value={purchaseDateInput}
           onChangeText={(val) => {
-            setPurchaseDateInput(val);
+            const masked = applyDateMask(val, purchaseDateInput);
+            setPurchaseDateInput(masked);
             if (dateError) setDateError(null);
           }}
+          keyboardType="numeric"
+          maxLength={10}
           error={dateError ?? undefined}
           hint="Satın aldığınız tarihi giriniz. Bugünden ileri bir tarih olamaz."
         />

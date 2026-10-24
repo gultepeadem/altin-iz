@@ -105,7 +105,7 @@ export default function PricesScreen() {
     setError(null);
 
     try {
-      const data = await goldPriceService.getProductsWithPrices();
+      const data = await goldPriceService.getProductsWithPrices(15, true);
       setItems(data);
     } catch (err: any) {
       setError(err?.message || 'Altın fiyatları yüklenirken bir sorun oluştu.');

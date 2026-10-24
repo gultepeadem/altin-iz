@@ -95,3 +95,25 @@ export function formatQuantity(quantity: number | null | undefined): string {
   });
 }
 
+/**
+ * Rakam girişine göre otomatik GG.AA.YYYY formatında maskeleme yapar (otomatik nokta ekler).
+ * Kullanıcı rakam yazdıkça gün ve ay sonrasına otomatik '.' ekler; silme durumunu destekler.
+ * Örnek: "24102026" -> "24.10.2026"
+ */
+export function applyDateMask(text: string, previousText?: string): string {
+  let cleanText = text;
+  if (previousText && text.length < previousText.length && previousText.endsWith('.') && !text.endsWith('.')) {
+    cleanText = text.slice(0, -1);
+  }
+
+  const digits = cleanText.replace(/\D/g, '').slice(0, 8);
+
+  if (digits.length <= 2) {
+    return digits;
+  }
+  if (digits.length <= 4) {
+    return `${digits.slice(0, 2)}.${digits.slice(2)}`;
+  }
+  return `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4)}`;
+}
+

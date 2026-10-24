@@ -43,6 +43,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { goldProductService } from '@/services/goldProductService';
 import { portfolioService } from '@/services/portfolioService';
 import { logger } from '@/utils/logger';
+import { applyDateMask } from '@/utils/formatters';
 import type { GoldProduct } from '@/models/goldProduct';
 import {
   parseQuantity,
@@ -349,9 +350,12 @@ export default function PortfolioAddScreen() {
           placeholder="GG.AA.YYYY (Örn: 22.10.2026)"
           value={purchaseDateInput}
           onChangeText={(val) => {
-            setPurchaseDateInput(val);
+            const masked = applyDateMask(val, purchaseDateInput);
+            setPurchaseDateInput(masked);
             if (dateError) setDateError(null);
           }}
+          keyboardType="numeric"
+          maxLength={10}
           error={dateError ?? undefined}
           hint="Altını satın aldığınız gerçek tarihi giriniz. Bugünden ileri bir tarih olamaz."
         />
