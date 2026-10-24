@@ -7,3 +7,4 @@ export * from './EmptyState';
 export * from './ErrorState';
 export * from './StaleDataBanner';
 export * from './PartialDataBanner';
+export * from './OfflineBanner';

@@ -11,6 +11,7 @@ import * as SplashScreen from 'expo-splash-screen';
 
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { AuthProvider } from '@/providers/AuthProvider';
+import { OfflineBanner } from '@/components/feedback/OfflineBanner';
 
 SplashScreen.preventAutoHideAsync().catch(() => {});
 
@@ -23,6 +24,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider>
       <AuthProvider>
+        <OfflineBanner />
         <Stack screenOptions={{ headerShown: false, animation: 'fade' }}>
           <Stack.Screen name="index" />
           <Stack.Screen name="(public)" />

@@ -262,9 +262,9 @@ export const authService = {
   /**
    * Kullanıcı hesabını ve tüm ilişkili verilerini kalıcı olarak siler (Faz 12.1 Edge Function).
    * ADR-033 uyarınca yeniden kimlik doğrulama parolası zorunludur.
+   * Silme işlemi sunucu tarafındaki delete-account Edge Function ve
+   * PostgreSQL atomik execute_account_deletion RPC'si üzerinden yürütülür.
    * Silme başarılı olduğunda yerel oturum ve önbellekler temizlenir.
-   * Edge Function henüz deploy edilmemişse (404), güvenli şifre doğrulaması sonrası
-   * kullanıcı verilerini temizleyip yerel oturumu sonlandıran yedek akış devreye girer.
    */
   async deleteAccount(params: { password: string; reason?: string }): Promise<void> {
     try {
@@ -276,31 +276,6 @@ export const authService = {
       });
 
       if (error) {
-        // Eğer Edge Function uzak sunucuda henüz deploy edilmemişse (404 NOT_FOUND)
-        const isNotFound =
-          (error as any)?.context?.status === 404 ||
-          (error as any)?.message?.includes('404') ||
-          (error as any)?.message?.includes('NOT_FOUND');
-
-        if (isNotFound) {
-          const { data: userData } = await supabase.auth.getUser();
-          const user = userData?.user;
-          if (user?.email) {
-            // Şifreyi yeniden doğrula (Re-authentication)
-            const { error: verifyErr } = await supabase.auth.signInWithPassword({
-              email: user.email,
-              password: params.password,
-            });
-            if (verifyErr) {
-              throw normalizeError(new Error('Girdiğiniz şifre hatalı. Lütfen tekrar deneyin.'));
-            }
-            // Kullanıcının kendi portföy kayıtlarını sil
-            await supabase.from('portfolio_entries').delete().eq('user_id', user.id);
-            await this.signOut();
-            return;
-          }
-        }
-
         throw normalizeError(error);
       }
 

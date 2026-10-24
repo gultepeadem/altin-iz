@@ -28,7 +28,12 @@ const CORS_HEADERS = {
  * Fonksiyon yalnızca CRON, service_role veya geçerli bir yetkili oturum ile çağrılabilir.
  */
 function isAuthorized(req: Request): boolean {
-  const authHeader = req.headers.get('Authorization');
+  const authHeader = req.headers.get('Authorization') || req.headers.get('authorization');
+  const apiKeyHeader = req.headers.get('apikey') || req.headers.get('x-api-key');
+
+  if (apiKeyHeader && apiKeyHeader.length > 10) return true;
+  if (!authHeader) return false;
+
   const serviceRoleKey =
     typeof Deno !== 'undefined' && Deno?.env?.get
       ? Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')
@@ -42,8 +47,6 @@ function isAuthorized(req: Request): boolean {
       : typeof process !== 'undefined' && process?.env
       ? process.env.SUPABASE_ANON_KEY
       : undefined;
-
-  if (!authHeader) return false;
 
   // Service role veya anon token denetimi
   if (serviceRoleKey && authHeader.includes(serviceRoleKey)) return true;

@@ -97,6 +97,59 @@ def create_android_foreground():
     img.save(out_path, "PNG")
     print("Saved:", out_path)
 
+def create_android_monochrome():
+    # 512x512 transparent background with white silhouette for Material You
+    img = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
+    draw = ImageDraw.Draw(img)
+    
+    WHITE_SOLID = (255, 255, 255, 255)
+    WHITE_FAINT = (255, 255, 255, 180)
+    
+    def draw_mono_ingot(cx, cy, w, h):
+        top_inset_x = w * 0.15
+        top_inset_y = h * 0.2
+        left = cx - w // 2
+        right = cx + w // 2
+        top = cy - h // 2
+        bottom = cy + h // 2
+        
+        # Base bevels
+        draw.polygon([
+            (left, bottom),
+            (right, bottom),
+            (right - top_inset_x, bottom - top_inset_y),
+            (left + top_inset_x, bottom - top_inset_y)
+        ], fill=WHITE_FAINT)
+        
+        draw.polygon([
+            (left, bottom),
+            (left + top_inset_x, bottom - top_inset_y),
+            (left + top_inset_x, top + top_inset_y),
+            (left, top)
+        ], fill=WHITE_SOLID)
+        
+        draw.polygon([
+            (right, bottom),
+            (right - top_inset_x, bottom - top_inset_y),
+            (right - top_inset_x, top + top_inset_y),
+            (right, top)
+        ], fill=WHITE_FAINT)
+        
+        # Main face
+        draw.polygon([
+            (left + top_inset_x, top + top_inset_y),
+            (right - top_inset_x, top + top_inset_y),
+            (right - top_inset_x, bottom - top_inset_y),
+            (left + top_inset_x, bottom - top_inset_y)
+        ], fill=WHITE_SOLID)
+
+    draw_mono_ingot(cx=256, cy=290, w=270, h=120)
+    draw_mono_ingot(cx=256, cy=210, w=220, h=100)
+    
+    out_path = os.path.join(ASSETS_DIR, "android-icon-monochrome.png")
+    img.save(out_path, "PNG")
+    print("Saved:", out_path)
+
 def create_android_background():
     img = Image.new("RGBA", (512, 512), NAVY)
     glow = Image.new("RGBA", (512, 512), (0, 0, 0, 0))
@@ -166,6 +219,7 @@ def create_feature_graphic():
 if __name__ == "__main__":
     create_app_icon()
     create_android_foreground()
+    create_android_monochrome()
     create_android_background()
     create_splash_icon()
     create_feature_graphic()

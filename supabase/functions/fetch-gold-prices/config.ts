@@ -23,8 +23,8 @@ export function getEnv(key: string, defaultValue = ''): string {
 }
 
 export function getFetchPricesConfig(overrides?: Partial<FetchPricesConfig>): FetchPricesConfig {
-  const apiKey = overrides?.apiKey ?? getEnv('GOLD_PRICE_API_KEY', 'dev_mock_gold_api_key_2026');
-  const baseUrl = overrides?.baseUrl ?? getEnv('GOLD_PRICE_API_BASE_URL', 'https://api.altin.in/v1/prices');
+  const apiKey = overrides?.apiKey ?? getEnv('GOLD_PRICE_API_KEY', 'free_tier_truncgil');
+  const baseUrl = overrides?.baseUrl ?? getEnv('GOLD_PRICE_API_BASE_URL', 'https://finans.truncgil.com/today.json');
   const sourceCode = overrides?.sourceCode ?? getEnv('GOLD_PRICE_SOURCE_CODE', 'ALTIN_API');
   const timeoutMs = overrides?.timeoutMs ?? Number(getEnv('FETCH_TIMEOUT_MS', '8000'));
   const maxRetries = overrides?.maxRetries ?? Number(getEnv('MAX_RETRIES', '2'));

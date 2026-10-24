@@ -24,8 +24,8 @@ export function toMinorUnits(amount: unknown): number | null {
   if (typeof amount === 'number') {
     num = amount;
   } else if (typeof amount === 'string') {
-    // Virgül ayracını noktaya çevirip temizle
-    const cleaned = amount.trim().replace(',', '.');
+    // Binlik ayracı olan noktaları temizle ve ondalık virgülü noktaya çevir
+    const cleaned = amount.trim().replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
     num = parseFloat(cleaned);
   } else {
     return null;
@@ -104,7 +104,7 @@ export function extractPriceList(rawResponse: unknown): {
 
   const obj = rawResponse as Record<string, unknown>;
 
-  // 2. data veya items veya result altında dizi olarak gelmişse
+  // 2. data, items, result veya rates altında dizi olarak gelmişse
   if (Array.isArray(obj.data)) {
     return { success: true, items: obj.data as RawPriceItem[] };
   }
@@ -113,6 +113,9 @@ export function extractPriceList(rawResponse: unknown): {
   }
   if (Array.isArray(obj.result)) {
     return { success: true, items: obj.result as RawPriceItem[] };
+  }
+  if (Array.isArray(obj.rates)) {
+    return { success: true, items: obj.rates as RawPriceItem[] };
   }
 
   // 3. rates veya data nesne olarak gelmişse (örn: { "GRAM_ALTIN": { buying: 3000, ... } })
