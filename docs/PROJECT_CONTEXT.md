@@ -1088,7 +1088,7 @@ Kodlama: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
 Git deposu: Aktif (main dalı)
 GitHub deposu: Aktif ve senkronize (https://github.com/gultepeadem/altin-iz.git)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 10 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 11 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
 Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, 5 dk cooldown devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
 Android testi: APK derlemesi üretildi; fiziksel cihaz (Redmi Note 8 Pro) doğrulaması sürüyor

@@ -24,12 +24,14 @@ import { SecondaryButton } from '@/components/common/SecondaryButton';
 import { PasswordField } from '@/components/forms/PasswordField';
 import { ErrorState } from '@/components/feedback/ErrorState';
 import { LoadingState } from '@/components/feedback/LoadingState';
+import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
 import { authService } from '@/services/authService';
 import { normalizeError } from '@/utils/normalizeError';
 
 export default function ResetPasswordScreen() {
   const { theme } = useTheme();
+  const { setPasswordRecovery } = useAuth();
 
   // Oturum kontrolü durumu
   const [isCheckingSession, setIsCheckingSession] = useState(true);
@@ -125,6 +127,7 @@ export default function ResetPasswordScreen() {
 
     try {
       await authService.updatePassword(newPassword);
+      setPasswordRecovery(false);
 
       // Başarılı güncelleme: Eski oturumu temizle ve kullanıcıyı bilgilendir
       await authService.signOut();
@@ -160,12 +163,18 @@ export default function ResetPasswordScreen() {
           />
           <PrimaryButton
             title="Yeni Sıfırlama Bağlantısı İste"
-            onPress={() => router.replace('/(public)/forgot-password')}
+            onPress={() => {
+              setPasswordRecovery(false);
+              router.replace('/(public)/forgot-password');
+            }}
             style={styles.actionButton}
           />
           <SecondaryButton
             title="Giriş Ekranına Dön"
-            onPress={() => router.replace('/(public)/sign-in')}
+            onPress={() => {
+              setPasswordRecovery(false);
+              router.replace('/(public)/sign-in');
+            }}
             style={styles.actionButton}
           />
         </View>
@@ -262,7 +271,10 @@ export default function ResetPasswordScreen() {
 
             <PrimaryButton
               title="Giriş Yap"
-              onPress={() => router.replace('/(public)/sign-in')}
+              onPress={() => {
+                setPasswordRecovery(false);
+                router.replace('/(public)/sign-in');
+              }}
               style={styles.submitButton}
             />
           </View>

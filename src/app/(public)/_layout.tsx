@@ -1,5 +1,9 @@
 /**
  * Altın İz — Public Rota Grubu Düzeni
+ *
+ * Not: reset-password rotası, kullanıcının oturumu açıkken hesap/profil ekranından
+ * şifre sıfırlama linki talep ettiği senaryolarda da (PASSWORD_RECOVERY) erişilebilir olmalıdır.
+ * Bu nedenle bu düzenleyici aktif oturumu olan kullanıcıları otomatik yönlendirerek engellemez.
  */
 
 import React from 'react';

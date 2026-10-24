@@ -13,6 +13,7 @@
 
 import React, { useState, useEffect } from 'react';
 import {
+  ActivityIndicator,
   Modal,
   Platform,
   Pressable,
@@ -359,16 +360,31 @@ export default function SignUpScreen() {
           <View style={[styles.modalCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
             {currentDoc ? (
               <>
-                <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>
-                  {currentDoc.title}
-                </Text>
+                <View style={styles.modalHeaderRow}>
+                  <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>
+                    {currentDoc.title}
+                  </Text>
+                  <View
+                    style={[
+                      styles.versionPill,
+                      {
+                        backgroundColor: theme.colors.surfaceElevated,
+                        borderColor: theme.colors.border,
+                      },
+                    ]}
+                  >
+                    <Text style={[styles.versionPillText, { color: theme.colors.gold }]}>
+                      v{currentDoc.version}
+                    </Text>
+                  </View>
+                </View>
                 <ScrollView style={styles.modalScroll} showsVerticalScrollIndicator={true}>
                   <Text style={[styles.modalContent, { color: theme.colors.textSecondary }]}>
                     {currentDoc.content}
                   </Text>
                 </ScrollView>
                 <PrimaryButton
-                  title="Kapat"
+                  title="Anladım ve Kapat"
                   onPress={() => {
                     setActiveLegalModal(null);
                     setModalDocument(null);
@@ -376,7 +392,9 @@ export default function SignUpScreen() {
                   style={styles.modalCloseButton}
                 />
               </>
-            ) : null}
+            ) : (
+              <ActivityIndicator size="small" color={theme.colors.gold} style={{ marginVertical: 32 }} />
+            )}
           </View>
         </View>
       </Modal>
@@ -454,10 +472,27 @@ const styles = StyleSheet.create({
     shadowRadius: 8,
     elevation: 8,
   },
-  modalTitle: {
-    fontSize: 18,
-    fontWeight: '700',
+  modalHeaderRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
     marginBottom: 14,
+    gap: 8,
+  },
+  modalTitle: {
+    fontSize: 17,
+    fontWeight: '700',
+    flex: 1,
+  },
+  versionPill: {
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+    borderRadius: 8,
+    borderWidth: 1,
+  },
+  versionPillText: {
+    fontSize: 11,
+    fontWeight: '700',
   },
   modalScroll: {
     marginBottom: 16,

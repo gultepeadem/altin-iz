@@ -147,6 +147,7 @@ export default function GoldDetailScreen() {
   // Fiyat tazelik durumu ve kontrolleri (ADR-013 ve ADR-014)
   const hasBuyPrice = price?.buyPriceMinor !== null && price?.buyPriceMinor !== undefined;
   const hasSellPrice = price?.sellPriceMinor !== null && price?.sellPriceMinor !== undefined;
+  const itemCurrency = price?.currencyCode || (product?.code === 'OUNCE_GOLD' ? 'USD' : 'TRY');
   const isPriceUnavailable = !hasBuyPrice && !hasSellPrice;
   const isStale = price?.status === 'stale';
   const isPartial = price?.status === 'partial';
@@ -401,7 +402,7 @@ export default function GoldDetailScreen() {
                   },
                 ]}
               >
-                {hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : '-'}
+                {hasBuyPrice ? formatMoney(price?.buyPriceMinor, itemCurrency) : '-'}
               </Text>
               <Text style={[styles.priceSubHint, { color: theme.colors.textTertiary }]}>
                 Kuyumcuya bozdururken geçerli gösterge fiyat
@@ -422,7 +423,7 @@ export default function GoldDetailScreen() {
                   },
                 ]}
               >
-                {hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : '-'}
+                {hasSellPrice ? formatMoney(price?.sellPriceMinor, itemCurrency) : '-'}
               </Text>
               <Text style={[styles.priceSubHint, { color: theme.colors.textTertiary }]}>
                 Kuyumcudan satın alırken geçerli gösterge fiyat
@@ -511,7 +512,7 @@ export default function GoldDetailScreen() {
                   En Düşük Değer
                 </Text>
                 <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>
-                  {formatMoney(price?.dayLowMinor, price?.currencyCode)}
+                  {formatMoney(price?.dayLowMinor, itemCurrency)}
                 </Text>
               </View>
 
@@ -522,7 +523,7 @@ export default function GoldDetailScreen() {
                   En Yüksek Değer
                 </Text>
                 <Text style={[styles.statVal, { color: theme.colors.textPrimary }]}>
-                  {formatMoney(price?.dayHighMinor, price?.currencyCode)}
+                  {formatMoney(price?.dayHighMinor, itemCurrency)}
                 </Text>
               </View>
             </View>

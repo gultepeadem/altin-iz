@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.5  
-**Son güncelleme:** 24.10.2026 
-**Durum:** 10 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Belge sürümü:** 1.6  
+**Son güncelleme:** 25.10.2026 
+**Durum:** 11 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -2721,15 +2721,12 @@ legal_documents
 
 ## Sürüm geçmişi
 
-### 1.4 - 24.10.2026
+### 1.6 - 25.10.2026
 
-- `20261024000009_lock_sync_gold_price.sql` migration'ı uygulandı: `sync_gold_price` fonksiyonu `anon` ve `authenticated` rollerinden tamamen geri alındı (REVOKE); yalnızca `service_role` rolüne kilitlendi (SECURITY.md Bölüm 8.6 uyumu).
-- Toplam uygulanan migration sayısı 9'a ulaştı.
-
-### 1.3 - 24.10.2026
-
-- `20261024000008_atomic_account_deletion.sql` migration'ı uygulandı: `execute_account_deletion` PostgreSQL RPC'si eklendi.
-- ADR-033 uyarınca hesap silme adımları tek bir atomik transaction (ROLLBACK garantili) içine alındı; KI-018 çözüldü.
+- `20261025000011_portfolio_integrity_and_retention_cleanup.sql` migration'ı uygulandı:
+  - `validate_portfolio_entry_integrity()` BEFORE INSERT OR UPDATE tetikleyicisi `portfolio_entries` tablosuna bağlandı (Bölüm 15.1 & 21.9): Ürünün `is_active = true` ve `portfolio_enabled = true` olduğu, `measurement_unit = 'piece'` olan sikkelerde miktar değerinin tam sayı (`quantity = trunc(quantity)`) olduğu veritabanı seviyesinde zorunlu kılındı.
+  - `cleanup_old_price_records(p_retention_days INT DEFAULT 30)` RPC fonksiyonu oluşturuldu (DATA_RETENTION.md Bölüm 40): 30 günden eski bayat fiyatları (her ürünün en son geçerli fiyatını koruyarak) ve eski çalıştırma günlüklerini temizler; haftalık `pg_cron` zamanlayıcısına bağlandı.
+- Toplam uygulanan sıralı migration sayısı 11'e ulaştı.
 
 ### 1.5 - 24.10.2026
 

@@ -52,6 +52,24 @@ Sürüm henüz yayımlanmamışsa:
 
 ## [Unreleased]
 
+### Veritabanı Bütünlüğü, Edge-Case Doğrulamaları ve Ekran Standardizasyonu (25.10.2026)
+
+- **Veritabanı Seviyesinde Portföy Bütünlük Tetikleyicisi (DATABASE.md 15.1 & 21.9):**
+  - `20261025000011_portfolio_integrity_and_retention_cleanup.sql` migration'ı ile `portfolio_entries` tablosuna `validate_portfolio_entry_integrity()` BEFORE INSERT OR UPDATE tetikleyicisi eklendi.
+  - Seçilen ürünün `gold_products` tablosunda `is_active = true` ve `portfolio_enabled = true` olduğu denetlendi.
+  - Ürünün `measurement_unit = 'piece'` (sikke ve paketli külçeler) olması halinde `quantity = trunc(quantity)` kuralı veritabanı seviyesinde zorunlu kılındı.
+- **Ücretsiz Supabase Veritabanı Temizliği ve Veri Saklama (DATA_RETENTION.md 40):**
+  - `cleanup_old_price_records(p_retention_days INT DEFAULT 30)` PostgreSQL RPC fonksiyonu tanımlandı. Her ürünün en güncel geçerli fiyatı korunarak 30 günden eski bayat `gold_prices` ve `price_fetch_runs` kayıtlarının periyodik temizliği sağlandı.
+  - Haftalık Pazar 03:00 `pg_cron` zamanlayıcısına bağlanarak veritabanı kota aşımı engellendi.
+- **İnce Detay ve Uç Durum (Edge-Case) Ekran Düzeltmeleri:**
+  - **Hesap Durumu Ekranı (`account-status.tsx`):** `deletion_pending` ve `disabled` durumları ayrıştırıldı; Feather vektörel ikonlar, doğrudan `destek@altiniz.app` e-posta bağlantısı ve çalışan `signOut` butonu yerleştirildi.
+  - **Hakkında Ekranı (`about.tsx`):** Emoji yerine altın rengi `MaterialCommunityIcons` `gold` amblemi, sürüm bilgisi (v1.0.0), `altiniz.app` ve gizlilik politikası web bağlantıları, RLS güvenlik mimarisi notu ve SPK yatırım danışmanlığı yasal sorumluluk reddi metinleriyle zenginleştirildi.
+  - **Yardım ve Destek Ekranı (`support.tsx`):** `destek@altiniz.app` tek dokunuşla e-posta gönderme kartı, 24 saat SLA bilgisi, mağaza uyumlu web portalı ve hesap silme formu bağlantısı (`altiniz.app/hesap-silme`) ve 6 maddelik kapsamlı SSS rehberi entegre edildi.
+  - **Ons Altın (OUNCE_GOLD) Para Birimi Düzeltmesi:** `prices.tsx`, `gold/[productId].tsx` ve `index.tsx` ekranlarında `OUNCE_GOLD` için para birimi gösterimi `USD` olarak kilitlendi; `buy_price_minor` ve `sell_price_minor` değerlerinin TL sembolü alması engellendi.
+  - **Oturum Açıkken Şifre Sıfırlama (`PASSWORD_RECOVERY`) Akışı:** `AuthProvider.tsx` içerisine `isPasswordRecovery` durumu ve `PASSWORD_RECOVERY` dinleyicisi eklendi; `app/index.tsx`, `auth-callback.tsx` ve `reset-password.tsx` güncellenerek aktif oturumu olan kullanıcının şifre yenileme ekranına engelsiz erişmesi ve başarı sonrası güvenle çıkış yapması sağlandı.
+  - **Kayıt Yasal Metin Modalı (`sign-up.tsx`):** `legalService` ve `FALLBACK_LEGAL_DOCUMENTS` üzerinden dinamik yasal metin sunumu, doküman sürüm etiketi (`v{version}`) ve yüklenme animasyonu ile güçlendirildi.
+  - **P0 Kontrol Test Paketi:** `supabase/tests/test-faz22-p0-checklist.ts` 11 sıralı migration dosyası ile eşitlendi; 20/20 test %100 başarıyla geçti.
+
 ### Güvenlik ve Mimari Düzeltmeleri (24.10.2026)
 
 - **Fiyat Yazma Güvenliği (SECURITY.md 8.6):** `20261024000009_lock_sync_gold_price.sql` migration'ı ile `sync_gold_price` fonksiyonunun çalıştırma yetkisi `anon` ve `authenticated` rollerinden tamamen geri alındı (REVOKE); yalnızca `service_role` rolüne kilitlendi. İstemci (`goldPriceService.ts`) salt-okunur hale getirildi.

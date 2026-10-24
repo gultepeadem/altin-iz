@@ -174,6 +174,8 @@ export default function HomeScreen() {
     const price = featured?.price;
     const hasPrice = featured?.hasPrice ?? false;
     const isStale = featured?.isStale ?? false;
+    const effectiveCurrency =
+      price?.currencyCode || (product?.code === 'OUNCE_GOLD' ? 'USD' : currency);
 
     const changePercent = price?.dailyChangePercent;
     const isChangePositive = changePercent !== null && changePercent !== undefined && changePercent > 0;
@@ -269,7 +271,7 @@ export default function HomeScreen() {
               Alış (Bozdurma)
             </Text>
             <Text style={[styles.priceColValue, { color: theme.colors.textPrimary }]}>
-              {hasPrice ? formatMoney(price?.buyPriceMinor, currency) : 'Fiyat Yok'}
+              {hasPrice ? formatMoney(price?.buyPriceMinor, effectiveCurrency) : 'Fiyat Yok'}
             </Text>
           </View>
 
@@ -280,7 +282,7 @@ export default function HomeScreen() {
               Satış (Satın Alma)
             </Text>
             <Text style={[styles.priceColValueRight, { color: theme.colors.textPrimary }]}>
-              {hasPrice ? formatMoney(price?.sellPriceMinor, currency) : 'Fiyat Yok'}
+              {hasPrice ? formatMoney(price?.sellPriceMinor, effectiveCurrency) : 'Fiyat Yok'}
             </Text>
           </View>
         </View>

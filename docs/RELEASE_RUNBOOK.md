@@ -6,7 +6,7 @@ Bu doküman, **Altın İz** uygulamasının canlı üretim (production) ortamın
 
 ## 1. Production Veritabanı ve Migration Doğrulaması
 
-Supabase production veritabanına uygulanması gereken 10 adet sıralı migration dosyası bulunmaktadır:
+Supabase production veritabanına uygulanması gereken 11 adet sıralı migration dosyası bulunmaktadır:
 
 1. `supabase/migrations/20261022000001_extensions_and_helpers.sql` (UUID, pgcrypto ve tetikleyici fonksiyonlar)
 2. `supabase/migrations/20261022000002_user_tables.sql` (Profiller ve kullanıcı tercihleri)
@@ -18,6 +18,7 @@ Supabase production veritabanına uygulanması gereken 10 adet sıralı migratio
 8. `supabase/migrations/20261024000008_atomic_account_deletion.sql` (Atomik hesap silme ve anonimleştirme RPC fonksiyonu — ADR-033)
 9. `supabase/migrations/20261024000009_lock_sync_gold_price.sql` (Fiyat yazma yetkisini service_role'a kilitleme — SECURITY.md 8.6)
 10. `supabase/migrations/20261024000010_scheduler_and_security_hardening.sql` (Eşleştirme RLS kilidi, Truncgil sağlayıcı adı, atomik auth.users silimi ve pg_cron zamanlayıcısı)
+11. `supabase/migrations/20261025000011_portfolio_integrity_and_retention_cleanup.sql` (Portföy ürün/miktar doğrulama tetikleyicisi, 30 günlük bayat fiyat temizliği RPC ve haftalık pg_cron)
 
 ### Edge Functions Dağıtımı
 Uzak Supabase projesinde deploy edilmiş ve aktif olan 2 adet Edge Function:

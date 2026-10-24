@@ -362,8 +362,8 @@ Projenin genel tanıtımını, mimari özetini, kapsamını ve başlangıç okum
 - Dördüncü çapraz denetimde `user_legal_events` tablosuna doğrudan istemci `INSERT` işlemi kapatılarak yalnızca güvenli RPC veya `record-legal-event` Edge Function ile append-only oluşturulması tüm ilgili belgelere (`DATABASE.md`, `SECURITY.md`, `ARCHITECTURE.md`, `API.md`, `DECISIONS.md`, `TODO.md`, `README.md`, `copilot-instructions.md`) işlendi.
 - `user_preferences` güncelleme yetkisinin yalnızca `theme` alanıyla sınırlandırılması ve `BEFORE UPDATE` kolon koruma tetikleyicisi tüm belgelere eşitlendi.
 - `DATABASE.md` erişim matrisine `price_sources` tablosu eklendi.
-- V1 kod tabanı, ekranları, servisleri, modelleri ve 10 adet sıralı SQL migration dosyası eksiksiz oluşturuldu.
-- Güvenlik incelemesi doğrultusunda `expo-secure-store`, atomik `execute_account_deletion` PostgreSQL fonksiyonu ve pg_cron/pg_net zamanlayıcı entegre edildi.
+- V1 kod tabanı, ekranları, servisleri, modelleri ve 11 adet sıralı SQL migration dosyası eksiksiz oluşturuldu.
+- Güvenlik incelemesi doğrultusunda `expo-secure-store`, atomik `execute_account_deletion` PostgreSQL fonksiyonu, portföy bütünlük tetikleyicisi, 30 günlük bayat veri temizliği RPC'si ve pg_cron/pg_net zamanlayıcı entegre edildi.
 
 ---
 
@@ -402,7 +402,7 @@ main
 ### Migration durumu
 
 ```text
-10 adet sıralı SQL migration dosyası uygulandı (20261024000010_scheduler_and_security_hardening.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri, atomik hesap silme, Edge Function yetki kilidi ve pg_cron zamanlayıcısı devrede).
+11 adet sıralı SQL migration dosyası uygulandı (20261025000011_portfolio_integrity_and_retention_cleanup.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri, atomik hesap silme, Edge Function yetki kilidi, portföy kısıt tetikleyicisi, 30 günlük bayat fiyat temizliği RPC'si ve pg_cron zamanlayıcısı devrede).
 ```
 
 ---
@@ -728,9 +728,9 @@ Her oturum sonunda:
 ```text
 Proje: Altın İz
 Aşama: V1 Kod Tabanı Hazır — UI/UX Standardizasyonu ve Fiziksel Test (v1.0.0-rc1)
-Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (10 migration + 2 aktif Edge Function)
+Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (11 migration + 2 aktif Edge Function)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 10 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 11 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
 Git deposu: Aktif (main dalı)
 Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, sync_gold_price RPC service_role kilitli, 5 dk sunucu tarafı hız sınırı (cooldown) devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)

@@ -397,6 +397,7 @@ export default function PricesScreen() {
       const hasBuyPrice = price?.buyPriceMinor !== null && price?.buyPriceMinor !== undefined;
       const hasSellPrice = price?.sellPriceMinor !== null && price?.sellPriceMinor !== undefined;
       const isPriceUnavailable = !hasBuyPrice && !hasSellPrice;
+      const itemCurrency = price?.currencyCode || (product.code === 'OUNCE_GOLD' ? 'USD' : 'TRY');
 
       return (
         <Pressable
@@ -412,9 +413,9 @@ export default function PricesScreen() {
           accessible={true}
           accessibilityRole="button"
           accessibilityLabel={`${product.name}, Alış: ${
-            hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : 'Fiyat yok'
+            hasBuyPrice ? formatMoney(price?.buyPriceMinor, itemCurrency) : 'Fiyat yok'
           }, Satış: ${
-            hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : 'Fiyat yok'
+            hasSellPrice ? formatMoney(price?.sellPriceMinor, itemCurrency) : 'Fiyat yok'
           }`}
         >
           {/* Üst Kısım: Ürün Adı, İkon, Kategori Rozeti ve Günlük Değişim */}
@@ -524,7 +525,7 @@ export default function PricesScreen() {
                   },
                 ]}
               >
-                {hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : '-'}
+                {hasBuyPrice ? formatMoney(price?.buyPriceMinor, itemCurrency) : '-'}
               </Text>
             </View>
 
@@ -544,7 +545,7 @@ export default function PricesScreen() {
                   },
                 ]}
               >
-                {hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : '-'}
+                {hasSellPrice ? formatMoney(price?.sellPriceMinor, itemCurrency) : '-'}
               </Text>
             </View>
           </View>

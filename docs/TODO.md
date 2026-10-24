@@ -1519,7 +1519,7 @@ Migration görevleri küçük dosyalara ayrılabilir:
 - [x] Destek kanalı ve e-posta adresi (`destek@altiniz.app` - Yapılandırıldı ve doğrulandı).
 - [x] Hesap silme web bağlantısı (`https://altiniz.app/hesap-silme` - Aktif ve yayında).
 - [x] Son production yedeği ve geri dönüş planı hazır (RELEASE_RUNBOOK.md).
-- [x] Production migrationları doğrulandı (10 migration sıralı uygulandı).
+- [x] Production migrationları doğrulandı (11 migration sıralı uygulandı).
 - [x] Son Git etiketi veya sürüm kaydı oluşturuldu (v1.0.0-rc1).
 
 ---

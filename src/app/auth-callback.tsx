@@ -37,7 +37,7 @@ export default function AuthCallbackScreen() {
   }>();
 
   const url = Linking.useURL();
-  const { refreshProfile } = useAuth();
+  const { refreshProfile, setPasswordRecovery } = useAuth();
 
   const [status, setStatus] = useState<CallbackStatus>('processing');
   const [errorMessage, setErrorMessage] = useState<string>('');
@@ -156,6 +156,7 @@ export default function AuthCallbackScreen() {
 
         // Şifre sıfırlama (recovery) mi yoksa kayıt doğrulaması mı?
         if (callbackType === 'recovery') {
+          setPasswordRecovery(true);
           router.replace('/(public)/reset-password');
         } else {
           router.replace('/(protected)/(tabs)');
@@ -179,7 +180,7 @@ export default function AuthCallbackScreen() {
     return () => {
       isCancelled = true;
     };
-  }, [params, url, refreshProfile]);
+  }, [params, url, refreshProfile, setPasswordRecovery]);
 
   return (
     <ScreenContainer style={styles.container}>

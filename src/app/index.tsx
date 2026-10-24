@@ -18,7 +18,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useTheme } from '@/hooks/useTheme';
 
 export default function Index() {
-  const { status, isLoading } = useAuth();
+  const { status, isLoading, isPasswordRecovery } = useAuth();
   const { theme } = useTheme();
 
   React.useEffect(() => {
@@ -34,6 +34,11 @@ export default function Index() {
         <ActivityIndicator size="large" color={theme.colors.gold} />
       </View>
     );
+  }
+
+  // Kullanıcı şifre kurtarma akışındaysa doğrudan şifre belirleme ekranına yönlendirilir
+  if (isPasswordRecovery) {
+    return <Redirect href="/(public)/reset-password" />;
   }
 
   if (status === 'unverified') {

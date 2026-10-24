@@ -50,6 +50,10 @@ export interface AuthContextValue {
   isAuthenticated: boolean;
   /** E-posta adresi doğrulanmış mı */
   isEmailVerified: boolean;
+  /** Şifre kurtarma akışında mı (kullanıcı şifre sıfırlama bağlantısıyla geldiyse) */
+  isPasswordRecovery: boolean;
+  /** Şifre kurtarma durumunu ayarlar */
+  setPasswordRecovery: (active: boolean) => void;
   /** Kullanıcı profilini sunucudan yeniden çeker */
   refreshProfile: () => Promise<void>;
   /** Oturumu sonlandırır */
@@ -67,6 +71,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
   const [session, setSession] = useState<Session | null>(null);
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<UserProfile | null>(null);
+  const [isPasswordRecovery, setIsPasswordRecovery] = useState(false);
 
   /**
    * Belirtilen kullanıcı için veritabanından güncel profil bilgilerini çeker
@@ -151,6 +156,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       setSession(null);
       setUser(null);
       setProfile(null);
+      setIsPasswordRecovery(false);
       setStatus('unauthenticated');
     }
   }, []);
@@ -183,10 +189,16 @@ export function AuthProvider({ children }: AuthProviderProps) {
       async (event, currentSession) => {
         if (!isMounted) return;
 
+        // Şifre kurtarma bağlantısıyla gelindiğinde bayrağı kaldır
+        if (event === 'PASSWORD_RECOVERY') {
+          setIsPasswordRecovery(true);
+        }
+
         if (event === 'SIGNED_OUT' || !currentSession) {
           setSession(null);
           setUser(null);
           setProfile(null);
+          setIsPasswordRecovery(false);
           setStatus('unauthenticated');
         } else if (
           event === 'SIGNED_IN' ||
@@ -220,6 +232,8 @@ export function AuthProvider({ children }: AuthProviderProps) {
       isLoading,
       isAuthenticated,
       isEmailVerified,
+      isPasswordRecovery,
+      setPasswordRecovery: setIsPasswordRecovery,
       refreshProfile,
       signOut,
     }),
@@ -231,6 +245,7 @@ export function AuthProvider({ children }: AuthProviderProps) {
       isLoading,
       isAuthenticated,
       isEmailVerified,
+      isPasswordRecovery,
       refreshProfile,
       signOut,
     ]
