@@ -2,9 +2,9 @@
 
 **Belge adı:** `API.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 0.2 Taslak  
-**Son güncelleme:** 19.10.2026
-**Durum:** Taslak, gerçek servis hesapları ve test yanıtları alındıktan sonra güncellenecek  
+**Belge sürümü:** 1.0  
+**Son güncelleme:** 24.10.2026
+**Durum:** V1 Supabase REST, RPC (record_user_legal_event, execute_account_deletion) ve Edge Function sözleşmeleriyle eşitlendi ve doğrulandı  
 **Mobil istemci:** React Native + Expo + TypeScript  
 **Backend:** Supabase  
 **Fiyat sağlayıcısı adayı:** AltinAPI  

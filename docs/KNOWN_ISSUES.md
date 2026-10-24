@@ -2,10 +2,10 @@
 
 **Belge adı:** `KNOWN_ISSUES.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2 Taslak 
-**Son güncelleme:** 19.10.2026 
-**Proje aşaması:** Planlama ve dokümantasyon  
-**Kodlama durumu:** Henüz başlanmadı
+**Belge sürümü:** 1.3 Taslak 
+**Son güncelleme:** 24.10.2026 
+**Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
+**Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC ve mimari düzeltmeleri uygulandı.
 
 ---
 
@@ -1514,90 +1514,41 @@ KI-031 → İkinci çapraz denetimde bulunan şema ve akış tutarsızlıkları 
 KI-032 → Üçüncü çapraz denetimde bulunan kapsam ve özet tutarsızlıkları giderildi 
 ```
 
-## Açık Critical kayıtlar
+## Çözülen Temel Mimari ve Güvenlik Kayıtları
 
 ```text
-KI-002 → Yurt dışına kişisel veri aktarım yöntemi
-KI-003 → Fiyat sağlayıcısı ticari kullanım hakkı
-KI-018 → Hesap silme kısmi hata telafisi
-KI-019 → Yasal ve güvenlik kayıtlarının saklama süreleri
-KI-025 → Nihai yasal metinler
+KI-013 → Sayısal hassasiyet (BIGINT kuruş ve NUMERIC(18,3) gram ile çözüldü - ADR-032)
+KI-014 → Mobil oturum saklama (expo-secure-store ile donanımsal şifreleme sağlandı)
+KI-018 → Hesap silme atomiklik sorunu (execute_account_deletion SQL RPC rollback ile çözüldü - Migration 008)
+KI-021 → Expo proje ve paket sürümleri (Expo SDK 58 ile kilitlendi)
+KI-024 → Teknik kimlikler (com.altiniz.app ve altiniz.app alan adı yapılandırıldı)
+KI-030 → Git ve GitHub deposu (Bağlandı ve eşitlendi)
+KI-001 → Supabase bölgesi (AB eu-central-1 Frankfurt seçildi)
+KI-012 → Portföy hesaplama motoru (Kısmi portföy özeti ve ADR-013 asla 0 TL dönmeme kuralı)
 ```
 
-## Açık High kayıtlar
+## Açık ve Dış Bağımlılığı Olan Kayıtlar
 
 ```text
-KI-001 → Supabase production bölgesi
-KI-004 → Gerçek fiyat sembol listesi
-KI-005 → Cumhuriyet ve Ata ürün eşleştirmesi
-KI-010 → Eski fiyat süresi
-KI-011 → Olağan dışı fiyat eşiği
-KI-013 → Sayısal hassasiyet
-KI-014 → Mobil oturum saklama
-KI-015 → Auth derin bağlantıları
-KI-017 → Üretim e-posta hizmeti
-KI-020 → Ortamların ayrılması
-KI-021 → Expo proje ve paket sürümleri
-KI-022 → iOS test yöntemi
-KI-026 → Mağaza gizlilik beyanları
-KI-030 → Git deposu
-```
-
-## Açık Medium kayıtlar
-
-```text
-KI-006 → 18 Ayar desteği
-KI-007 → Reşat ve Hamit desteği
-KI-008 → 1 ve 2,5 gram paket desteği
-KI-009 → Fiyat çekme sıklığı
-KI-012 → Portföy hesaplama katmanı
-KI-016 → Şifre politikası
-KI-023 → Android test bağlantısı
-KI-024 → Marka ve uygulama kimlikleri
-```
-
-## Açık Low kayıtlar
-
-```text
-Yok
+KI-003 → Fiyat sağlayıcısı ticari kullanım hakkı (Sözleşme / izin süreci beklemede)
+KI-025 → Hukuk uzmanı tarafından nihai yasal metin onayı (Hukukçu incelemesi beklemede)
+KI-022 → iOS fiziksel cihaz testi (Apple Developer Program $99 hesabı ve TestFlight bekleniyor)
+KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından Redmi Note 8 Pro'da doğrulanıyor)
 ```
 
 ---
 
-## 5. Kodlamaya başlamadan önce çözülmesi gerekenler
+## 5. Dağıtımdan önce tamamlanması gereken son adımlar
 
-Aşağıdaki sorunların tamamının kapanması gerekmez, ancak güvenli geliştirme için belirtilen asgari durum sağlanmalıdır:
+### Kullanıcı ve Geliştirici Tarafı Doğrulamaları
 
-### Mutlaka çözülmesi gerekenler
+- [~] KI-023: Android fiziksel cihazda (Redmi Note 8 Pro) üretilen APK'nın kullanıcı tarafından test edilip onaylanması.
+- [ ] KI-022: Apple Developer Program hesabı açılarak TestFlight veya fiziksel iOS testi yapılması.
 
-- [ ] KI-021: Expo proje ve paket sürümleri doğrulanmalı.
-- [ ] KI-023: Android fiziksel cihaz bağlantısı doğrulanmalı.
-- [ ] KI-030: Git deposu ilk çalışan proje aşamasında oluşturulmalı.
+### Hukuki ve Ticari Dış Onaylar
 
-### Development projesinden önce çözülmesi gerekenler
-
-- [ ] KI-001: En az Development Supabase bölgesi değerlendirilmiş olmalı.
-- [ ] KI-014: Mobil oturum yaklaşımı güncel dokümantasyonla doğrulanmalı.
-- [ ] KI-020: Ortam adlandırma ve ayrım stratejisi belirlenmeli.
-
-### Production yayından önce mutlaka çözülmesi gerekenler
-
-- [ ] KI-002: Yurt dışına veri aktarımı.
-- [ ] KI-003: Fiyat sağlayıcısı ticari kullanım hakkı.
-- [ ] KI-004: Gerçek fiyat sembolleri.
-- [ ] KI-005: Cumhuriyet ve Ata ürün ayrımı.
-- [ ] KI-009: Fiyat çekme sıklığı.
-- [ ] KI-010: Eski fiyat süresi.
-- [ ] KI-011: Bozuk fiyat koruması.
-- [ ] KI-013: Sayısal hassasiyet.
-- [ ] KI-015: Android ve iOS derin bağlantıları.
-- [ ] KI-017: Üretim e-posta hizmeti.
-- [ ] KI-018: Hesap silme telafisi.
-- [ ] KI-019: Veri saklama süreleri.
-- [ ] KI-022: iOS gerçek test yöntemi.
-- [ ] KI-024: Marka ve uygulama kimlikleri.
-- [ ] KI-025: Hukuk uzmanı onaylı metinler.
-- [ ] KI-026: Mağaza gizlilik beyanları.
+- [!] KI-003: Fiyat sağlayıcısının ticari kullanım lisansı ve sözleşmesi.
+- [!] KI-025: KVKK ve Kullanım Koşulları metinlerinin hukuk uzmanı tarafından son onayı.
 
 ---
 

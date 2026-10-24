@@ -4,22 +4,23 @@
 
 Altın İz, kullanıcıların güncel altın alış ve satış fiyatlarını görüntüleyebileceği, satın alma veya bozdurma hesabı yapabileceği ve kişisel altın portföyünü takip edebileceği Android ve iOS uyumlu bir mobil uygulama projesidir.
 
-> Proje şu anda proje iskeleti (Faz 2) aşamasındadır. Expo uygulaması ve yerel Git deposu oluşturulmuş; belgeler gerçek klasör yapısıyla eşitlenmiştir. Supabase projesi henüz oluşturulmamıştır.
+> Altın İz V1 kod tabanı, ekranları, servisleri, veritabanı şeması ve güvenlik katmanı tamamlanmıştır. Uygulama bağımsız Android APK olarak derlenmiş; canlı Supabase altyapısıyla çalışmaktadır.
 
 ---
 
 ## Proje durumu
 
 ```text
-Proje aşaması: Proje iskeleti (Faz 2)
-Uygulama kodu: Varsayılan Expo Router iskeleti oluşturuldu
-Expo projesi: Oluşturuldu (Expo SDK 58, TypeScript)
-Supabase projesi: Henüz oluşturulmadı
-Git deposu: Başlatıldı (Yerel repo / main dalı)
-Gerçek fiyat API hesabı: Henüz oluşturulmadı
-Android testi: Hazır (Expo Go)
-iOS testi: Planlandı (EAS Build / Expo Go)
-Gerçek kullanıcı verisi: Yok
+Proje aşaması: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
+Uygulama kodu: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 58)
+Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
+Supabase projesi: Aktif (8 migration, RLS, 25 altın ürünü ve canlı serbest piyasa fiyatları)
+Git deposu: Aktif (main dalı)
+GitHub deposu: Aktif ve eşitlendi (https://github.com/gultepeadem/altin-iz.git)
+Web Sitesi: Aktif ve yayında (https://altiniz.app)
+Android testi: APK üretildi; fiziksel cihaz (Redmi Note 8 Pro) testi sürüyor
+iOS testi: Web/PWA ve Expo Go ile test edilebilir; Apple hesabı bekleniyor
+Gerçek kullanıcı verisi: Geliştirme ve test aşamasında
 ```
 
 Güncel çalışma durumu için önce şu dosyayı okuyun:
@@ -447,49 +448,40 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 
 ## Kurulum durumu
 
-### Şu anda kurulum yapılabilir mi?
+### Projenin Kurulumu ve Çalıştırılması
 
-Henüz hayır. Başlangıç belgelerinin çapraz kontrolü tamamlanmıştır; şimdi sırasıyla:
+Projeyi yerel makinenizde çalıştırmak için aşağıdaki adımları izleyin:
 
-1. Bilgisayardaki mevcut geliştirme araçları kontrol edilmelidir.
-2. Güncel Expo SDK ve proje oluşturma yöntemi resmî dokümantasyondan doğrulanmalıdır.
-3. Android fiziksel test cihazı belirlenmelidir.
-4. iOS test yöntemi planlanmalıdır.
+```bash
+# 1. Bağımlılıkları yükleyin
+npm install
 
-### Gelecekte eklenecek kurulum alanı
+# 2. Geliştirici sunucusunu başlatın
+npx expo start
 
-Expo projesi oluşturulduktan sonra bu bölümde aşağıdakiler yer alacaktır:
+# 3. Tip kontrolü ve Lint çalıştırın
+npx tsc --noEmit
+npm run lint
 
-```text
-Gerekli Node.js sürümü
-Gerekli npm sürümü
-Projeyi klonlama komutu
-Paket kurulum komutu
-Ortam dosyası hazırlığı
-Development uygulamasını başlatma komutu
-Android çalıştırma adımları
-iOS çalıştırma adımları
-Supabase yerel geliştirme adımları
-Test komutları
+# 4. Bağımsız Android APK derlemesi alın (EAS Build)
+npx eas-cli build --platform android --profile preview
 ```
-
-Doğrulanmamış komutlar bu README dosyasına eklenmemelidir.
 
 ---
 
 ## Geliştirme gereksinimleri
 
-Gerçek sürümler Expo projesi oluşturulduktan sonra doldurulacaktır:
+Projede kullanılan doğrulanmış sürüm bilgileri:
 
 ```text
 Node.js: v24.18.0
 npm: 11.16.0
-Expo SDK: 58.0.16
+Expo SDK: 58.0.17
 React Native: 0.88.0
 TypeScript: 6.0.3
-Expo Router: 58.0.24
-Supabase JavaScript istemcisi: BELİRLENMEDİ (Faz 5'te kurulacak)
-Supabase CLI: GEREKLİLİĞİ VE SÜRÜMÜ BELİRLENMEDİ (Faz 4.1)
+Expo Router: 58.0.25
+Supabase JavaScript İstemcisi: @supabase/supabase-js 2.118.0
+Güvenli Depolama: expo-secure-store 15.0.8
 ```
 
 Gereksinimler güncel resmî kaynaklardan doğrulanmadan kullanıcıya eski sürümler kurdurulmamalıdır.

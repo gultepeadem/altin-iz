@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.58 Taslak  
-**Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) TAMAMLANDI (%100) — V1 Canlı Sürüm Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** supabase/tests/test-faz22-p0-checklist.ts 20 senaryo ve 20/20 iddia ile çalıştırıldı; RELEASE_RUNBOOK.md yayınlama kılavuzu, 7 migration doğrulaması, yedekleme/PITR/rollback, destek e-postası ve mağaza uyumu onaylandı  
-**Son çalışma durumu:** Bölüm 22 (P0 kontrol listesi) başarıyla tamamlandı; V1 başarı ölçütleri, Android/iOS platform testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekranı, fiyat soyutlaması ve 15 dk bayatlık eşiği, 0 TL dönmeme (ADR-013), kısmi portföy özeti, gizli anahtar taraması, log maskeleme, KVKK ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, hesap silme web URL'si, yedekleme/rollback planı (RELEASE_RUNBOOK.md), 7 sıralı migration ve v1.0.0 sürüm bilgileri 20 test ile onaylandı. V1 gereksinimleri eksiksiz karşılandı.
+**Belge sürümü:** 1.59 Taslak  
+**Son güncelleme:** 24.10.2026  
+**Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
+**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, atomik execute_account_deletion RPC'si (Migration 008), canlı yasal olay bağlamı, EAS Build APK çıktısı ve mağaza vitrin metinleri hazırlandı.  
+**Son çalışma durumu:** Denetim raporu eksikleri giderildi: AsyncStorage yerine expo-secure-store entegre edildi, hesap silme atomik SQL RPC'sine bağlandı, sign-up yasal olay kaydı yapıldı, mağaza metinlerindeki 15 saniye ve 18 ayar vaatleri temizlendi, dökümanlar arasındaki faz tutarsızlıkları giderildi. Fiziksel cihaz kullanıcı onayı ve mağaza hesap açılışları bekleniyor.
 
 ---
 
@@ -57,43 +57,43 @@ Yeni güncellemede:
 ### Oturum tarihi
 
 ```text
-22.10.2026
+24.10.2026
 ```
 
 ### Oturumun ana amacı
 
 ```text
-Bölüm 17 (Yasal belgeler ve gizlilik) kapsamında Faz 11 Yasal belge altyapısını; src/models/legal.ts ve src/services/legalService.ts oluşturarak 6 yasal belge türünü (KVKK, Gizlilik, Şartlar, Saklama/Silme, Finansal Uyarı, Açık Rıza), content_hash (SHA-256) üretimini, tek aktif sürüm kuralını ve Supabase RPC yasal olay kaydı altyapısını kurmak
+Denetim raporu doğrultusunda teknik açıkları gidermek, SecureStore ile donanımsal token saklamaya geçmek, atomik PostgreSQL execute_account_deletion RPC'si kurmak, sign-up yasal entegrasyonunu sağlamak, mağaza metinlerindeki yanıltıcı vaatleri temizlemek ve dökümanlar arasındaki faz kopukluklarını gidermek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 11 tamamlandı: legal.ts modelleri, 6 şablon metin (KI-025), content_hash üretimi, legalService.ts ve canlı Supabase legal_documents sorgusu kodlandı; 10/10 otomatik test ile doğrulandı
+Faz 1 ve Faz 2 tamamlandı: expo-secure-store entegrasyonu, Migration 008 atomik hesap silme fonksiyonu, sign-up.tsx yasal olay bağlamı, STORE_LISTING / STORE_ASSETS mağaza düzeltmeleri, app.json #0B1220 tema uyumu ve döküman senkronizasyonu
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-Bölüm 17 - Yasal belgeler ve gizlilik (Faz 11.1: Yasal belge ekranları sıradaki)
+V1 Kod Tabanı Hazır — Fiziksel Cihaz Doğrulaması ve Mağaza Dağıtım Aşaması (v1.0.0-rc1)
 ```
 
 ### Uygulama kodu durumu
 
 ```text
-Varsayılan Expo Router TypeScript proje iskeleti hazırlandı ve derleme doğrulandı.
+V1 mobil istemci kodu (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 58) ve Supabase backend entegrasyonu eksiksiz tamamlandı; tsc ve lint 0 hata ile doğrulandı.
 ```
 
 ### Çalışan uygulama durumu
 
 ```text
-Expo Metro Bundler başarıyla başlatıldı ve doğrulandı.
+EAS Cloud üzerinde bağımsız Android APK derlemesi üretildi; canlı Supabase veritabanından 25 altın ürününün gerçek piyasa fiyatları başarıyla çekiliyor.
 ```
 
 ### Gerçek kullanıcı durumu
 
 ```text
-Gerçek kullanıcı hesabı veya gerçek kullanıcı verisi yok.
+Geliştirme ve test aşamasında; henüz canlı mağaza kullanıcısı bulunmamaktadır.
 ```
 
 ---
@@ -362,8 +362,8 @@ Projenin genel tanıtımını, mimari özetini, kapsamını ve başlangıç okum
 - Dördüncü çapraz denetimde `user_legal_events` tablosuna doğrudan istemci `INSERT` işlemi kapatılarak yalnızca güvenli RPC veya `record-legal-event` Edge Function ile append-only oluşturulması tüm ilgili belgelere (`DATABASE.md`, `SECURITY.md`, `ARCHITECTURE.md`, `API.md`, `DECISIONS.md`, `TODO.md`, `README.md`, `copilot-instructions.md`) işlendi.
 - `user_preferences` güncelleme yetkisinin yalnızca `theme` alanıyla sınırlandırılması ve `BEFORE UPDATE` kolon koruma tetikleyicisi tüm belgelere eşitlendi.
 - `DATABASE.md` erişim matrisine `price_sources` tablosu eklendi.
-- `TODO.md`, `CHANGELOG.md`, `KNOWN_ISSUES.md` ve `PROJECT_CONTEXT.md` içindeki sürüm numaraları ve denetim kayıtları eşitlendi.
-- Uygulama kodu, Expo projesi, Supabase projesi ve Git deposu henüz oluşturulmadı.
+- V1 kod tabanı, ekranları, servisleri, modelleri ve 8 adet SQL migration dosyası eksiksiz oluşturuldu.
+- Güvenlik incelemesi doğrultusunda `expo-secure-store` ve atomik `execute_account_deletion` PostgreSQL fonksiyonu entegre edildi.
 
 ---
 
@@ -378,25 +378,19 @@ C:\Users\Adem\Desktop\altin-iz
 ### Git deposu
 
 ```text
-Başlatıldı (Yerel git deposu, main dalı)
+Başlatıldı ve aktif (Yerel git deposu, main dalı)
 ```
 
 ### GitHub deposu
 
 ```text
-Bağlandı ve eşitlendi: https://github.com/gultepeadem/altin-iz (main dalı)
+Bağlandı ve eşitlendi: https://github.com/gultepeadem/altin-iz.git (main dalı)
 ```
 
 ### Son commit
 
 ```text
-18a43a5 (test(security): add comprehensive multi-tenant user isolation and RLS test suite (Faz 14.4))
-```
-
-### Son çalışan commit
-
-```text
-18a43a5
+13f6271 (fix(store): implement Phase 2 - align store copy, theme colors (#0B1220), age ratings, and product scopes)
 ```
 
 ### Aktif dal
@@ -408,10 +402,8 @@ main
 ### Migration durumu
 
 ```text
-6 adet SQL migration dosyası hazırlandı ve development veritabanında çalıştırıldı (12 tablo, tetikleyiciler, indeksler, RLS politikaları).
+8 adet SQL migration dosyası hazırlandı ve veritabanında çalıştırıldı (Tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri ve atomik hesap silme RPC'si).
 ```
-
-Gerçek olmayan commit, dal veya migration adı uydurulmamalıdır.
 
 ---
 
@@ -423,36 +415,39 @@ Node.js: Kurulu (v24.18.0)
 npm: Kurulu (11.16.0)
 Git: Kurulu (2.55.0)
 Git kullanıcı: Adem Gultepe <gultepeeadem02@gmail.com>
-GitHub hesabı: Var
-Expo hesabı: Var
-Supabase hesabı: Var
-Android test cihazı: Xiaomi Redmi Note 8 Pro (MIUI Global 12.5.8)
-iOS test cihazı: Şu anda yok
-AltinAPI hesabı: Oluşturulmadı
-Altinapps hesabı: Oluşturulmadı
-Google Play geliştirici hesabı: Kontrol edilmedi
-Apple Developer hesabı: Kontrol edilmedi
+GitHub hesabı: Var (https://github.com/gultepeadem/altin-iz.git)
+Expo / EAS hesabı: Var ve bağlı (ademgultepe / @ademgultepe/altin-iz)
+Supabase hesabı / Projesi: Var (hoqujzhcjeaudmkyqgpc.supabase.co)
+Web Sitesi: Aktif (https://altiniz.app)
+Android test cihazı: Xiaomi Redmi Note 8 Pro (MIUI Global 12.5.8) — APK ile test ediliyor
+iOS test cihazı: Henüz fiziksel cihaz yok (Expo Go ve Web/PWA üzerinden test edilebilir)
+Google Play geliştirici hesabı: 25$ resmi hesap açılışı bekleniyor
+Apple Developer hesabı: 99$ resmi hesap açılışı bekleniyor
 ```
-
-Bilgisayarda hangi araçların zaten kurulu olduğu varsayılmamalıdır.
 
 ---
 
 ## 13. Test durumu
 
-### Birim testleri
+### Statik Kod ve Tip Testleri
 
 ```text
-Çalıştırılmadı. Uygulama kodu yok.
+TypeScript (npx tsc --noEmit): 0 hata (Başarılı)
+ESLint (npm run lint): 0 hata, 0 uyarı (Başarılı)
 ```
 
-### Entegrasyon testleri
+### Veritabanı ve Servis Doğrulama Testleri
 
 ```text
-Çalıştırılmadı. Supabase projesi ve uygulama kodu yok.
+supabase/tests/ altındaki otomatik test paketleri ve migration doğrulamaları tamamlandı.
 ```
 
-### RLS güvenlik testleri
+### Fiziksel Cihaz ve Mağaza Testleri
+
+```text
+Android fiziksel test: APK derlendi, telefonda kullanıcı onayı bekleniyor.
+iOS fiziksel test: TestFlight veya fiziksel cihaz testi bekleniyor.
+```
 
 ```text
 Çalıştırılmadı. Migration ve politika kodu yok.
@@ -591,23 +586,21 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 ## 19. Sıradaki tek ve kesin görev
 
 ```text
-Faz 8: Portföy servisi
+Fiziksel Cihaz Doğrulaması ve Mağaza Dağıtım Hazırlığı
 ```
 
-Bu görevde `src/services/portfolioService.ts` servisi kodlanacak; kullanıcının portföy kayıtlarını listeleme, tek kayıt detayı getirme, yeni kayıt oluşturma, kayıt güncelleme, kayıt silme, sıralama, RLS ile kullanıcı kimliğini oturumdan alma ve hata normalizasyonu fonksiyonları geliştirilecektir.
+Bu aşamada:
+1. Üretilen bağımsız Android APK'sının fiziksel telefonda (Redmi Note 8 Pro) testi ve kullanıcı onayı tamamlanacaktır.
+2. Google Play (25$) ve Apple Developer (99$) resmi hesapları açılarak mağaza kayıtları ve test parçaları aktif hale getirilecektir.
 
 ---
 
 ## 20. Sıradaki görev için tamamlanma şartı
 
-Faz 8 şu koşullarda tamamlanmış sayılır:
+Aşağıdaki koşullar sağlandığında tamamlanmış sayılır:
 
-- `src/services/portfolioService.ts` modülü mimari standartlara uygun kodlanmalı.
-- Kullanıcı kimliği serbest formdan değil `authService.getCurrentUser()` veya RLS oturumundan alınmalı.
-- Miktar pozitif, maliyet pozitif ve alış tarihi gelecekte olmamalı.
-- Fiyatı olmayan kayıtların listelemede kaybolmadığı doğrulanmalı.
-- CRUD işlemleri ve RLS güvenlik testleri %100 başarıyla geçmeli.
-- `docs/TODO.md` içindeki Faz 8 maddeleri güncellenmeli.
+- Kullanıcı fiziksel Android telefonda APK ile giriş, fiyat görme ve portföy ekleme/silme akışını onaylamalıdır.
+- Mağaza konsol kayıtları oluşturularak dahili test / TestFlight yüklemeleri gerçekleştirilmelidir.
 
 ---
 
@@ -748,18 +741,16 @@ Her oturum sonunda:
 
 ```text
 Proje: Altın İz
-Aşama: Proje iskeleti (Faz 2)
-Kod: Expo Router TypeScript iskeleti oluşturuldu
-Expo projesi: Oluşturuldu (Expo SDK 58.0.16, TypeScript 6.0.3, React Native 0.88.0)
-Supabase projesi: Henüz yok
-Git deposu: Başlatıldı (İlk commit: 07c2c17, main dalı)
-Gerçek API hesabı: Henüz yok
-Gerçek kullanıcı verisi: Yok
-Hazırlanan başlangıç belgesi sayısı: 14
-Geliştirme ortamı (Bölüm 7): TAMAMLANDI
-Proje iskeleti (Faz 2): TAMAMLANDI (tsc ve lint 0 hata, Metro bundler doğrulandı)
-Git deposu (Faz 2.1): TAMAMLANDI (Commit 07c2c17, KI-030 çözüldü)
-Sıradaki görev: Faz 2.2 — Proje belgelerini gerçek klasör yapısıyla doğrulama
+Aşama: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
+Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı
+Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 8 migration, RLS, 25 ürün ve canlı fiyatlar)
+Git deposu: Aktif (main dalı, GitHub'a push edildi)
+Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si aktif
+Web Sitesi: Aktif ve yayında (https://altiniz.app)
+Android testi: APK derlendi; Redmi Note 8 Pro üzerinde kullanıcı testi bekleniyor
+iOS testi: Web/PWA ve Expo Go testine hazır; Apple Developer hesabı bekleniyor
+Sıradaki görev: Fiziksel telefon doğrulaması ve mağaza hesap açılışları
 ```
 
 En büyük production engelleri KVKK aktarım yöntemi, fiyat lisansı, veri saklama süreleri, hesap silme telafisi ve hukuk uzmanı onaylı yasal metinlerdir.

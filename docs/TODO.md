@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.14 Taslak  
-**Son güncelleme:** 22.10.2026  
-**Proje aşaması:** Kullanıcı hesabı geliştirmesi (Faz 5 tamamlandı, Faz 5.1 sıradaki)  
-**Kodlama durumu:** Supabase JS istemcisi (singleton), ortam değişkenleri ve AsyncStorage adaptörü kuruldu
+**Belge sürümü:** 1.15 Taslak  
+**Son güncelleme:** 24.10.2026  
+**Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
+**Kodlama durumu:** Tamamlandı. expo-secure-store, atomik execute_account_deletion RPC'si, canlı yasal olay bağlamı, EAS Build bağımsız APK derlemesi ve mağaza dökümanları hazırlandı.
 
 ---
 
@@ -414,10 +414,10 @@ Geçici iOS kimliği: Belirlenmedi
 - [x] İlk çalışan sürümü Git'e ekle.
 - [x] İlk commit kaydını oluştur.
 - [x] Commit kimliğini `HANDOFF.md` içine yaz.
-- [ ] GitHub'da özel depo oluştur.
-- [ ] Yerel projeyi GitHub deposuna bağla.
-- [ ] Ana dalı gönder.
-- [ ] GitHub üzerinde gizli dosya olmadığını kontrol et.
+- [x] GitHub'da özel depo oluştur.
+- [x] Yerel projeyi GitHub deposuna bağla.
+- [x] Ana dalı gönder.
+- [x] GitHub üzerinde gizli dosya olmadığını kontrol et.
 
 ### Önerilen ilk commit amacı
 
@@ -1380,47 +1380,32 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 14.2: Android cihaz testleri
 
-- [x] Uygulama açılışı.
-- [x] Kayıt formu.
-- [x] E-posta bağlantısı.
-- [x] Giriş formu.
-- [x] Şifre sıfırlama bağlantısı.
-- [x] Alt menü.
-- [x] Fiyat listesi.
-- [x] Altın detay ekranı.
-- [x] Hesaplama klavyesi.
-- [x] Tarih seçici.
-- [x] Portföy ekleme.
-- [x] Portföy düzenleme.
-- [x] Portföy silme.
-- [x] Tema değiştirme.
-- [x] Çıkış.
-- [x] Hesap silme.
-- [x] İnternet kapalı durumu.
-- [x] Yavaş bağlantı.
-- [x] Uygulama arka plan ve ön plan geçişi.
-- [x] Farklı yazı boyutları.
+> [!NOTE]
+> Bileşen ve mantık testleri `test-faz14-2-android-tests.ts` ile kod düzeyinde doğrulanmıştır. Fiziksel cihaz (Xiaomi Redmi Note 8 Pro) üzerindeki manuel doğrulama süreci devam etmektedir.
+
+- [x] Kaynak kod Android rota ve bileşen kontrolleri tamamlandı.
+- [~] Fiziksel telefonda bağımsız APK ile uygulama açılışı ve açılış ekranı geçişi.
+- [~] Fiziksel telefonda kayıt, e-posta doğrulama ve giriş akışı.
+- [~] Fiziksel telefonda alt menü sekmeleri ve ekran geçişleri.
+- [~] Fiziksel telefonda canlı fiyat listesi ve çekip-yenileme (pull-to-refresh).
+- [~] Fiziksel telefonda hesaplama ve portföye ekleme.
+- [~] Fiziksel telefonda portföy düzenleme ve silme.
+- [~] Fiziksel telefonda açık/koyu tema değişimi.
+- [~] Fiziksel telefonda güvenli çıkış ve hesap silme akışı.
 
 ---
 
 ## Faz 14.3: iOS testleri
 
-- [x] Uygulama açılışı.
-- [x] Safe Area.
-- [x] Kayıt ve giriş klavyesi.
-- [x] E-posta bağlantısı.
-- [x] Şifre sıfırlama bağlantısı.
-- [x] Alt menü.
-- [x] Geri kaydırma hareketi.
-- [x] Hesaplama klavyesi.
-- [x] Tarih seçici.
-- [x] Portföy işlemleri.
-- [x] Tema değiştirme.
-- [x] Secure storage.
-- [x] Çıkış sonrası önbellek.
-- [x] Hesap silme.
-- [x] İnternet kapalı durumu.
-- [x] Uygulama arka plan ve ön plan geçişi.
+> [!NOTE]
+> Bileşen, Safe Area ve klavye uyumluluk kuralları `test-faz14-3-ios-tests.ts` ile kod düzeyinde doğrulanmıştır. Fiziksel iPhone veya TestFlight üzerindeki manuel doğrulama henüz yapılmamıştır.
+
+- [x] Kaynak kod iOS uyumluluk ve Safe Area kontrolleri tamamlandı.
+- [ ] Fiziksel iPhone veya TestFlight üzerinde açılış ve Safe Area doğrulaması.
+- [ ] iOS klavye (KeyboardAvoidingView) ve form etkileşimi.
+- [ ] iOS yerel geri kaydırma (swipe back) jesti.
+- [ ] iOS Keychain donanımsal token saklama (expo-secure-store).
+- [ ] iOS sistem temasıyla dinamik senkronizasyon.
 
 ---
 
@@ -1484,33 +1469,31 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## Faz 15.3: Google Play hazırlığı
 
-- [x] Google Play geliştirici hesabını hazırla.
-- [x] Uygulama kaydını oluştur.
-- [x] Kapalı test gereksinimlerini doğrula.
-- [x] Data Safety formunu doldur.
-- [x] Hesap silme bilgisini ekle.
-- [x] Gizlilik politikası bağlantısını ekle.
-- [x] Uygulama erişim talimatlarını hazırla.
-- [x] Test hesabı gerekiyorsa güvenli test hesabı oluştur.
-- [x] İç test sürümünü yükle.
-- [x] Kapalı test sürümünü yükle.
-- [x] Mağaza uyarılarını çöz.
+- [ ] Google Play geliştirici hesabını satın al ($25).
+- [ ] Google Play Console'da uygulama kaydını oluştur.
+- [x] Kapalı test gereksinimlerini doğrula (20 test kullanıcısı / 14 gün kuralı).
+- [x] Data Safety beyan matrisini hazırla (docs/GOOGLE_PLAY_SETUP.md).
+- [x] Hesap silme web bağlantısını ve açıklamasını ekle (https://altiniz.app/hesap-silme).
+- [x] Gizlilik politikası bağlantısını ekle (https://altiniz.app/gizlilik).
+- [x] Uygulama erişim talimatlarını ve denetçi demo hesabını hazırla.
+- [ ] Dahili test sürümünü (.aab) Google Play Console'a yükle.
+- [ ] Kapalı test sürecini başlat.
+- [ ] Mağaza uyarılarını çöz.
 
 ---
 
 ## Faz 15.4: App Store hazırlığı
 
-- [x] Apple Developer hesabını hazırla.
-- [x] App Store Connect uygulama kaydını oluştur.
-- [x] App Privacy beyanını doldur.
-- [x] Hesap silme akışını inceleme için açıkla.
-- [x] Gizlilik politikası bağlantısını ekle.
-- [x] TestFlight sürümünü yükle.
-- [x] Test kullanıcılarını ekle.
-- [x] iPhone ekran görüntülerini yükle.
-- [x] App Review açıklamalarını hazırla.
-- [x] İnceleme test hesabını hazırla.
-- [x] Mağaza uyarılarını çöz.
+- [ ] Apple Developer Program üyeliğini satın al ($99/yıl).
+- [ ] App Store Connect uygulama kaydını oluştur.
+- [x] App Privacy beyan formunu hazırla (docs/APP_STORE_SETUP.md).
+- [x] Hesap silme akışını inceleme için açıkla (Apple Kural 5.1.1(v)).
+- [x] Gizlilik politikası bağlantısını ekle (https://altiniz.app/gizlilik).
+- [ ] TestFlight sürümünü EAS Build ile yükle.
+- [ ] Dahili ve harici test kullanıcılarını ekle.
+- [ ] iPhone ekran görüntülerini App Store Connect'e yükle.
+- [x] App Review açıklamalarını ve denetçi demo hesabını hazırla.
+- [ ] Mağaza uyarılarını çöz.
 
 ---
 
@@ -1518,26 +1501,26 @@ Migration görevleri küçük dosyalara ayrılabilir:
 
 ## P0 kontrol listesi
 
-- [x] Bütün V1 başarı ölçütleri karşılanıyor.
-- [x] Android testleri tamamlandı.
-- [x] iOS testleri tamamlandı.
-- [x] RLS güvenlik testleri tamamlandı.
-- [x] Hesap silme testi tamamlandı.
-- [x] Fiyat sağlayıcısı ticari kullanımı doğrulandı.
-- [x] Eski fiyat davranışı test edildi.
-- [x] Fiyat yok davranışı test edildi.
+- [x] Bütün V1 temel mimari başarı ölçütleri karşılanıyor.
+- [~] Android fiziksel cihaz testleri (APK derlendi; kullanıcı tarafından test ediliyor).
+- [ ] iOS gerçek cihaz/TestFlight testi (Apple hesabı bekleniyor).
+- [x] Çok kullanıcılı RLS güvenlik testleri tamamlandı.
+- [x] Hesap silme atomik RPC ve kullanıcı akışı tamamlandı.
+- [!] Fiyat sağlayıcısı ticari kullanım sözleşmesi doğrulandı (KI-003 - Hukuki süreç beklemede).
+- [x] Eski fiyat davranışı ve bayatlık eşiği (15 dk) test edildi.
+- [x] Fiyat yok davranışı test edildi (Asla 0 TL dönmeme - ADR-013).
 - [x] Kısmi portföy özeti test edildi.
 - [x] Gerçek fiyat ile test fiyatı karıştırılmıyor.
-- [x] Gizli anahtar taraması temiz.
-- [x] Üretim loglarında hassas veri yok.
-- [x] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi.
-- [x] Google Play Data Safety gerçek davranışla uyumlu.
-- [x] App Store App Privacy gerçek davranışla uyumlu.
-- [x] Destek kanalı çalışıyor.
-- [x] Hesap silme bağlantısı ve uygulama içi akış çalışıyor.
-- [x] Son production yedeği ve geri dönüş planı hazır.
-- [x] Production migrationları doğrulandı.
-- [x] Son Git etiketi veya sürüm kaydı oluşturuldu.
+- [x] Gizli anahtar taraması temiz (İstemcide service_role yok).
+- [x] Üretim loglarında hassas veri ve şifre maskelemesi tamamlandı.
+- [!] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi (KI-025 - Hukukçu son onayı beklemede).
+- [x] Google Play Data Safety beyanları gerçek davranışla eşitlendi.
+- [x] App Store App Privacy beyanları gerçek davranışla eşitlendi.
+- [x] Destek kanalı ve e-posta adresi aktif (destek@altiniz.app).
+- [x] Hesap silme web bağlantısı yayında (https://altiniz.app/hesap-silme).
+- [x] Son production yedeği ve geri dönüş planı hazır (RELEASE_RUNBOOK.md).
+- [x] Production migrationları doğrulandı (8 migration sıralı hazır).
+- [x] Son Git etiketi veya sürüm kaydı oluşturuldu (v1.0.0-rc1).
 
 ---
 
@@ -1674,30 +1657,25 @@ Aşağıdaki görevler V1'e alınmayacaktır:
 
 ---
 
-# 26. Engellenen işler
+# 26. Engellenen ve beklemede olan işler
 
-Şu anda kodlamadan önce tamamlanması gereken doğrudan hazırlıklar:
+Şu anda dağıtım öncesi tamamlanması gereken doğrudan adımlar:
 
-- Bilgisayardaki mevcut geliştirme araçlarının kontrolü
-- Güncel Expo gereksinimlerinin resmî kaynaktan doğrulanması
-- İlk çalışan proje ile birlikte Git deposunun oluşturulması
+- Fiziksel Android cihazda (Redmi Note 8 Pro) üretilen APK'nın kullanıcı tarafından test edilip onaylanması
+- Google Play Console ($25) geliştirici hesabının açılması
+- Apple Developer Program ($99/yıl) geliştirici hesabının açılması
 
-Production yayımlama aşamasını ayrıca engelleyen konular:
+Production yayını öncesinde dış bağımlılığı olan hukuki ve ticari konular:
 
-- Supabase production bölgesi ve yurt dışına veri aktarımı kararı
-- Fiyat sağlayıcısının ticari lisansı ve gerçek sembolleri
-- Veri saklama süreleri
-- Hesap silme kısmi hata telafisi
-- Hukuk uzmanı onaylı yasal metinler
-
-Bu ayrım geliştirme ortamı hazırlığı ile production engellerinin birbirine karıştırılmaması için yapılmıştır.
+- KI-003: Fiyat sağlayıcısının ticari lisans sözleşmesi ve kullanım izni
+- KI-025: Yasal metinlerin ve KVKK aydınlatma belgelerinin hukuk uzmanı tarafından son incelemesi
 
 ---
 
 # 27. Sıradaki kesin görev
 
 ```text
-Bölüm 22 (P0 kontrol listesi) tamamlandı. V1 canlı sürüm adımları (etiketleme ve EAS production build) yürütülebilir.
+Fiziksel Android telefonda APK ile kullanıcı onayı alınması ve Google Play / Apple Developer geliştirici hesaplarının açılması.
 ```
 
 ---

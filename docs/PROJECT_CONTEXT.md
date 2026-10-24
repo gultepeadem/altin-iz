@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.53 Taslak  
-**Son güncelleme:** 22.10.2026 
-**Proje durumu:** Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) TAMAMLANDI (%100) — V1 Canlı Sürüm (v1.0.0-rc1)  
-**Kodlama durumu:** supabase/tests/test-faz22-p0-checklist.ts 20 senaryo ve 20/20 iddia ile çalıştırıldı; RELEASE_RUNBOOK.md operasyonel rehberi, 7 migration zinciri, PITR/rollback ve mağaza uyumu eksiksiz doğrulandı
+**Belge sürümü:** 1.54 Taslak  
+**Son güncelleme:** 24.10.2026 
+**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama ve güvenlik düzeltmeleri tamamlandı; fiziksel cihaz doğrulaması ve mağaza hesap açılışları bekleniyor  
+**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si (Migration 008), canlı yasal olay bağlamı, EAS Build yapılandırması ve mağaza dökümanları hazırlandı.
 
 ---
 
@@ -1083,49 +1083,40 @@ Başlangıç belge setinde eksik belge bulunmamaktadır.
 ## 36. Mevcut proje durumu
 
 ```text
-Aşama: Planlama ve dokümantasyon
-Kodlama: Başlamadı
-Expo projesi: Oluşturulmadı
-Git deposu: Oluşturulmadı
-GitHub deposu: Oluşturulmadı
-Supabase projesi: Oluşturulmadı
-Fiyat API hesabı: Oluşturulmadı
-Android testi: Başlamadı
-iOS testi: Başlamadı
-Mağaza hazırlığı: Başlamadı
+Aşama: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
+Kodlama: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 58)
+Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
+Git deposu: Aktif (main dalı)
+GitHub deposu: Aktif ve senkronize (https://github.com/gultepeadem/altin-iz.git)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 8 migration, RLS, 25 ürün ve canlı fiyatlar)
+Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si aktif
+Web Sitesi: Aktif ve GitHub Pages üzerinde yayında (https://altiniz.app)
+Android testi: APK derlemesi üretildi; fiziksel cihaz (Redmi Note 8 Pro) doğrulaması sürüyor
+iOS testi: Web/PWA ve Expo Go testine hazır; App Store Connect hesabı bekleniyor
+Mağaza hazırlığı: Kılavuzlar, ekran storyboard'ları ve vitrin metinleri hazırlandı; resmi hesap açılışları bekleniyor
 ```
-
-Şu anda gerçek kullanıcı verisi, gerçek portföy kaydı veya üretim anahtarı bulunmamaktadır.
 
 ---
 
 ## 37. Şu anda üzerinde çalışılan konu
 
-Bölüm 17 (Yasal belgeler ve gizlilik) kapsamındaki Faz 11 (Yasal belge altyapısı) adımı başarıyla tamamlanmıştır.
-
-Son tamamlanan ana iş:
-
-```text
-Faz 11 tamamlandı: legal.ts modelleri, 6 şablon metin (KI-025), content_hash SHA-256 üretimi, legalService.ts ve canlı Supabase legal_documents sorgusu kodlandı; 10/10 otomatik test ile doğrulandı.
-```
-
-Mevcut geçiş durumu:
-
-```text
-Faz 11 (Yasal belge altyapısı) tamamlandı; Bölüm 17 (Yasal belgeler ve gizlilik) - Faz 11.1 (Yasal belge ekranları) aşamasına geçiş
-```
+Faz 1 ve Faz 2 teknik ve mağaza düzeltmeleri tamamlanmıştır:
+- `expo-secure-store` ile oturum belirteçlerinin iOS Keychain ve Android EncryptedSharedPreferences üzerinde donanımsal saklanması sağlandı.
+- PostgreSQL atomik `execute_account_deletion` RPC fonksiyonu oluşturularak hesap silme işlemine %100 transaction/rollback garantisi verildi (`ADR-033`).
+- `sign-up.tsx` kayıt ekranı `legalService` ile bağlandı; KVKK aydınlatma sunumu ve şartlar kabulü hukuki ayrım kurallarına uygun olarak sisteme işlendi.
+- Mağaza metinlerindeki 15 saniye ve 18 ayar vaatleri temizlendi, renk kodları `#0B1220` ile eşitlendi.
 
 ---
 
 ## 38. Sıradaki kesin görev
 
-Sıradaki teknik görev:
+Sıradaki operasyonel ve doğrulama görevleri:
 
 ```text
-Faz 11.1: Yasal belge ekranları
+1. Fiziksel Android Cihaz Doğrulaması: Üretilen APK'nın cihazda (Redmi Note 8 Pro) test edilmesi
+2. Belgeler Arası Senkronizasyon: Yapılmamış dış dünya işlerinin [ ] durumuna çekilmesi
+3. Dış Servis ve Mağaza Hesapları: Google Play ($25) ve Apple ($99) geliştirici hesaplarının açılması
 ```
-
-Bu görevde src/app/(protected)/legal/index.tsx (Yasal belge listesi ekranı) ve src/app/(protected)/legal/[documentType].tsx (Belge detay ekranı) ekranları canlı legalService servisiyle bağlanacak; KVKK Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve Silme ve Finansal Bilgilendirme metinleri kullanıcıya sunulacaktır.
 
 ---
 

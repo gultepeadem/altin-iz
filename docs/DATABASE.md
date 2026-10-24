@@ -2,10 +2,10 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2  
-**Son güncelleme:** 19.10.2026 
-**Durum:** Taslak, Supabase Development projesi oluşturulup migrationlar çalıştırıldıktan sonra teknik olarak doğrulanacak  
-**Hedef veritabanı:** Supabase PostgreSQL
+**Belge sürümü:** 1.3  
+**Son güncelleme:** 24.10.2026 
+**Durum:** 8 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
 
@@ -2210,28 +2210,41 @@ Normal kullanıcı:
 - Mevcut yasal olay kayıtlarını güncelleyemez (`UPDATE` kapalı).
 - Mevcut yasal olay kayıtlarını silemez (`DELETE` kapalı).
 
-Yeni yasal olay yalnızca güvenli PostgreSQL RPC veya Edge Function üzerinden oluşturulur.
+Yeni yasal olay yalnızca güvenli PostgreSQL RPC fonksiyonu (`record_user_legal_event`) üzerinden oluşturulur:
+
+```sql
+CREATE OR REPLACE FUNCTION public.record_user_legal_event(
+    p_document_id UUID,
+    p_event_type TEXT,
+    p_source TEXT,
+    p_app_version VARCHAR DEFAULT NULL
+) RETURNS UUID;
+```
 
 Güvenli sunucu işlemi:
 
-1. `user_id` değerini doğrulanmış kullanıcı oturumundan alır.
-2. İstek gövdesinden gönderilen `user_id` değerini güvenilir kabul etmez.
-3. İlgili belgeyi `legal_documents` tablosundan okur.
-4. Belgenin etkin ve istenen olay türü için geçerli olduğunu doğrular.
-5. `document_id` değerini doğrulanmış belge kaydından alır.
-6. `document_version` değerini `legal_documents.version` alanından alır.
-7. `event_at` değerini veritabanı veya güvenli sunucu zamanı ile oluşturur.
-8. `document_type` ile `event_type` birleşiminin geçerli olduğunu doğrular.
-9. Olayı append-only, yani sonradan değiştirilemeyen yeni bir kayıt olarak oluşturur.
+1. `user_id` değerini doğrulanmış kullanıcı oturumundan (`auth.uid()`) alır.
+2. İstek gövdesinden gönderilen serbest `user_id` parametresini güven kaynağı kabul etmez.
+3. İlgili belgeyi `legal_documents` tablosundan okur ve aktif olduğunu doğrular.
+4. `document_version` değerini aktif belgeden otomatik çeker.
+5. `event_at` değerini veritabanı zamanıyla (`NOW()`) oluşturur.
+6. Olayı `user_legal_events` tablosuna append-only olarak ekler.
 
-Kullanıcının daha sonraki tercihi önceki olayın değiştirilmesiyle temsil edilmez. Örneğin açık rıza geri çekilecekse eski `accepted` kaydı güncellenmez veya silinmez; yeni bir `withdrawn` olayı oluşturulur.
-
-## 14.9. `account_deletion_requests`
+## 14.9. `account_deletion_requests` ve Atomik Hesap Silme RPC'si
 
 Kullanıcı:
 
 - Yalnızca kendi `user_id = auth.uid()` silme taleplerini okuyabilir (`SELECT`).
-- Doğrudan istemciden `INSERT`, `UPDATE` veya `DELETE` yapamaz; silme talebi oluşturma ve durum güncelleme işlemleri yalnızca `delete-account` güvenli sunucu fonksiyonu (service role) tarafından yürütülür.
+- Doğrudan istemciden `INSERT`, `UPDATE` veya `DELETE` yapamaz; silme talebi ve veritabanı silme adımları atomik PostgreSQL RPC fonksiyonu üzerinden yürütülür:
+
+```sql
+CREATE OR REPLACE FUNCTION public.execute_account_deletion(
+    p_user_id UUID,
+    p_request_id UUID DEFAULT NULL
+) RETURNS JSONB;
+```
+
+Bu fonksiyon (`Migration 008`), `portfolio_entries`, `user_preferences`, `user_legal_events` (anonimleştirme), `security_events` (anonimleştirme) ve `user_profiles` silme adımlarını tek bir transaction bloğunda (`BEGIN ... EXCEPTION ROLLBACK`) yürüterek yüzde yüz atomiklik sağlar (`ADR-033`).
 
 ## 14.10. Tablo Erişim Matrisi (Özet)
 

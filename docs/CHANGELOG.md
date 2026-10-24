@@ -2,10 +2,10 @@
 
 **Belge adı:** `CHANGELOG.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.4 Taslak  
-**Son güncelleme:** 21.10.2026  
-**Proje aşaması:** Proje iskeleti (Faz 2)  
-**Uygulama sürümü:** Henüz oluşturulmadı
+**Belge sürümü:** 1.5 Taslak  
+**Son güncelleme:** 24.10.2026  
+**Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
+**Uygulama sürümü:** 1.0.0 (v1.0.0-rc1)
 
 ---
 
@@ -1742,18 +1742,13 @@ Yeni uygulama sürümü yayımlanmadan önce:
 
 ---
 
-## 8. Bilinen mevcut sınırlar
+## 8. Bilinen mevcut sınırlar ve dağıtım öncesi adımlar
 
-- Expo projesi henüz oluşturulmadı.
-- Git deposu henüz oluşturulmadı.
-- Gerçek commit kimliği bulunmuyor.
-- Supabase projesi henüz oluşturulmadı.
-- Veritabanı migrationları henüz yazılmadı.
-- Gerçek fiyat API hesabı henüz oluşturulmadı.
-- Gerçek uygulama sürümü ve build numarası bulunmuyor.
-- Android veya iOS uygulama testi henüz yapılmadı.
-
-Bu nedenle mevcut kayıtlar planlama ve belge değişikliklerini temsil eder, çalışan uygulama sürümü iddiası taşımaz.
+- V1 kod tabanı, ekranları, servisleri, 8 SQL migration dosyası ve Expo SDK 58 uygulaması tamamlanmıştır.
+- Bağımsız Android APK çıktısı üretilmiştir; fiziksel cihaz (Redmi Note 8 Pro) üzerinde son kullanıcı onayı devam etmektedir.
+- iOS sürümü EAS Build ile derlenmeye hazırdır; Apple Developer Program ($99/yıl) hesabı açılışı ve TestFlight yüklemesi beklenmektedir.
+- Google Play Console ($25) geliştirici hesabı açılışı ve kapalı test süreci beklenmektedir.
+- Fiyat sağlayıcısının resmi ticari lisans sözleşmesi (KI-003) ve yasal metinlerin hukukçu son onayı (KI-025) tamamlanmalıdır.
 
 ---
 
