@@ -21,11 +21,11 @@ Altın İz görsel dili; altının zenginliğini ve modern finansal arayüzün s
 
 | Öğe | Renk Adı | Hex Kodu | Kullanım Amacı | Kontrast Oranı (WCAG) |
 |---|---|---|---|---|
-| **Ana Vurgu (Gold)** | Altın Sarısı | `#D4AF37` / `#F59E0B` | Logo, külçe motifleri, birincil aksiyonlar | `#121212` zemin üzerinde > 8.5:1 (AAA) |
-| **Koyu Zemin (Dark)** | Gece Siyahı | `#121212` / `#1A1A1A` | Koyu tema arka planı, adaptive icon zemini | Temel arka plan |
+| **Ana Vurgu (Gold)** | Mat Altın | `#E0B84F` / `#D4A72C` | Logo, külçe motifleri, birincil aksiyonlar | `#0B1220` zemin üzerinde > 8.5:1 (AAA) |
+| **Koyu Zemin (Dark)** | Gece Laciverti | `#0B1220` / `#111C2F` | Koyu tema arka planı, adaptive icon zemini | Temel arka plan |
 | **Açık Zemin (Light)** | Saf Beyaz | `#FFFFFF` / `#F8F9FA` | Açık tema arka planı, açık logo testi | Temel arka plan |
-| **Kazanç (Profit)** | Zümrüt Yeşili | `#12B76A` | Kâr göstergeleri, olumlu piyasa hareketleri | Zeminle uyumlu kontrast |
-| **Kayıp (Loss)** | Yakut Kırmızısı | `#F04438` | Zarar göstergeleri, negatif makas/fiyat | Zeminle uyumlu kontrast |
+| **Kazanç (Profit)** | Zümrüt Yeşili | `#22C55E` | Kâr göstergeleri, olumlu piyasa hareketleri | Zeminle uyumlu kontrast |
+| **Kayıp (Loss)** | Yakut Kırmızısı | `#EF4444` | Zarar göstergeleri, negatif makas/fiyat | Zeminle uyumlu kontrast |
 
 ---
 
@@ -35,17 +35,17 @@ Altın İz görsel dili; altının zenginliğini ve modern finansal arayüzün s
 |---|---|---|---|---|
 | **Ana İkon (Evrensel)** | `assets/images/icon.png` | 1024 × 1024 px | PNG (No Alpha) | Apple App Store ve mağaza ana görseli. Şeffaflık içermez. |
 | **Android Adaptive Foreground** | `assets/images/android-icon-foreground.png` | 512 × 512 px | PNG | Katmanlı logonun ön plan külçe/iz motifi. |
-| **Android Adaptive Background** | `assets/images/android-icon-background.png` | 512 × 512 px | PNG | Katmanlı logonun arka plan dokusu (#121212 tabanlı). |
+| **Android Adaptive Background** | `assets/images/android-icon-background.png` | 512 × 512 px | PNG | Katmanlı logonun arka plan dokusu (#0B1220 tabanlı). |
 | **Android Adaptive Monochrome** | `assets/images/android-icon-monochrome.png` | 432 × 432 px | PNG | Android 13+ Material You temalı dinamik simge desteği. |
-| **Açılış Ekranı (Splash)** | `assets/images/splash-icon.png` | 228 × 213 px | PNG | `#121212` koyu zemin üzerinde ortalanmış açılış ikonu. |
+| **Açılış Ekranı (Splash)** | `assets/images/splash-icon.png` | 228 × 213 px | PNG | `#0B1220` koyu zemin üzerinde ortalanmış açılış ikonu. |
 | **Web Favicon** | `assets/images/favicon.png` | 48 × 48 px | PNG | Web ve dokümantasyon önizleme ikonu. |
 
 ---
 
 ## 4. Açık ve Koyu Arka Planda Logo Uyumluluğu
 
-1. **Koyu Arka Plan (#121212):**
-   - Altın motif (`#D4AF37`) koyu zemin üzerinde doğal parlaklık kazanır.
+1. **Koyu Arka Plan (#0B1220):**
+   - Altın motif (`#E0B84F`) koyu zemin üzerinde doğal parlaklık kazanır.
    - Metinler beyaz (`#FFFFFF`) ve açık gri (`#E0E0E0`) olarak yüksek okunurluk sağlar.
 2. **Açık Arka Plan (#FFFFFF):**
    - Altın külçe çizgileri koyu altın ve kontur hatlarıyla desteklenir; beyaz zemin üzerinde silikleşmez.
@@ -59,9 +59,9 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
 
 ### Pano 1: Canlı Altın Piyasası (Ana Sayfa & Fiyatlar)
 - **Başlık:** "Kapalıçarşı ve Serbest Piyasa Fiyatları Cebinizde"
-- **Alt Başlık:** "Gram, Çeyrek, Yarım, Cumhuriyet ve 14-22 Ayar anlık canlı kurlar."
+- **Alt Başlık:** "Gram, Çeyrek, Yarım, Tam, Ata ve 14-22 Ayar güncel kurlar."
 - **Gösterilen Ekran:** `(protected)/(tabs)/prices` listesi.
-- **Vurgu:** 15 saniyelik canlı fiyat yenilemesi ve çekip-yenileme (pull-to-refresh).
+- **Vurgu:** Serbest piyasa ve Kapalıçarşı canlı kurları ve çekip-yenileme (pull-to-refresh).
 
 ### Pano 2: Fiyat Detayı ve Makas Analizi
 - **Başlık:** "Alış-Satış Makas Farkını Şeffafça Görün"

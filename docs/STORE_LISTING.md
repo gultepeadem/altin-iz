@@ -49,8 +49,8 @@ Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda
 ÖNE ÇIKAN ÖZELLİKLER:
 
 📈 CANLI PİYASA VE KAPALIÇARŞI FİYATLARI
-• Gram Altın, Çeyrek Altın, Yarım Altın, Tam Altın, Cumhuriyet Altını, Ata Altın, 22 Ayar Bilezik, 14 Ayar ve 18 Ayar altın türlerinde anlık alış ve satış kurları.
-• Piyasa hareketlerini 15 saniyelik güncellemelerle izleyin; çekip yenileme (pull-to-refresh) ile dilediğiniz an en son veriye ulaşın.
+• Gram Altın, Çeyrek Altın, Yarım Altın, Tam Altın, Ata Altın, Gremse Altın, Reşat Altın, Hamit Altın, 22 Ayar Bilezik, 14 Ayar ve Külçe/Paketli altın türlerinde güncel alış ve satış kurları.
+• Piyasa hareketlerini güncel serbest piyasa kurlarıyla izleyin; çekip yenileme (pull-to-refresh) ile dilediğiniz an en son fiyatlara anında ulaşın.
 • Gün içi en yüksek, en düşük fiyatlar ve yüzdelik değişim trendleri.
 
 ⚖️ ŞEFFAF MAKAS VE FİYAT FARKI ANALİZİ
@@ -74,7 +74,7 @@ Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda
 • KVKK ve GDPR uyumlu şeffaf altyapı: Dilediğiniz zaman tüm hesabınızı ve verilerinizi tek tıkla kalıcı olarak silebilirsiniz.
 
 🌓 AYDINLIK VE KARANLIK TEMA DESTEĞİ
-• Gözlerinizi yormayan, kontrastı optimize edilmiş Gece Siyahı (#121212) karanlık modu ve saf beyaz aydınlık teması arasında dilediğiniz gibi geçiş yapın ya da cihazınızın sistem temasını otomatik olarak takip edin.
+• Gözlerinizi yormayan, kontrastı optimize edilmiş Gece Laciverti (#0B1220) karanlık modu ve saf aydınlık teması arasında dilediğiniz gibi geçiş yapın ya da cihazınızın sistem temasını otomatik olarak takip edin.
 
 YASAL VE FİNANSAL BİLGİLENDİRME (SORUMLULUK REDDİ):
 Altın İz bir yatırım danışmanlığı, borsa aracı kurumu veya doğrudan altın alım-satım platformu değildir. Uygulama içerisinde sunulan tüm altın fiyatları, hesaplamalar, makas oranları ve portföy değerleme sonuçları yalnızca genel bilgilendirme amacıyla serbest piyasa ve Kapalıçarşı kaynaklarından derlenmektedir.
@@ -95,7 +95,7 @@ Kullanım Koşulları: https://altiniz.app/kullanim-kosullari
 App Store'da anahtar kelimeler virgülle ayrılır, boşluk bırakılmaz ve başlıkta geçen kelimeler tekrar edilmez:
 
 ```text
-altın,fiyat,çeyrek,gram,bilezik,cumhuriyet,kapalıçarşı,makas,kuyumcu,portföy,hesaplama,kâr,zarar
+altın,fiyat,çeyrek,gram,bilezik,ata,kapalıçarşı,makas,kuyumcu,portföy,hesaplama,kâr,zarar
 ```
 *(Uzunluk: 96 karakter / 100 azami sınırına tam uyumlu)*
 

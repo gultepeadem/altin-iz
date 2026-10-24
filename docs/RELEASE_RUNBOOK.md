@@ -14,7 +14,8 @@ Supabase production veritabanına uygulanması gereken 7 adet sıralı migration
 4. `supabase/migrations/20261022000004_portfolio_tables.sql` (Kullanıcı portföy varlıkları)
 5. `supabase/migrations/20261022000005_legal_and_security_tables.sql` (KVKK metinleri, kullanıcı onayları ve denetim logları)
 6. `supabase/migrations/20261022000006_rls_and_security_policies.sql` (RLS güvenlik politikaları)
-7. `supabase/migrations/20261022000007_price_source_product_mappings.sql` (Harem Altın fiyat eşleştirme tablosu)
+7. `supabase/migrations/20261022000007_price_source_product_mappings.sql` (Altın API ve Serbest Piyasa fiyat eşleştirme tablosu)
+8. `supabase/migrations/20261024000008_atomic_account_deletion.sql` (Atomik hesap silme ve anonimleştirme RPC fonksiyonu — ADR-033)
 
 ### Migration Uygulama Komutu
 ```bash

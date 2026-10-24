@@ -77,8 +77,9 @@ Google Play Console -> **Politika ve Programlar** -> **Uygulama İçeriği** -> 
 3. **Reklamlar:**
    - *"Hayır, uygulamam reklam içermiyor"*
 4. **Hedef Kitle ve İçerik:**
-   - Hedef yaş grubu: `18 yaş ve üzeri`
-   - Çocukların ilgisini çekebilecek tasarım: `Hayır`
+   - Hedef Yaş Grubu: `18 yaş ve üzeri` (veya `13 yaş ve üzeri` genel kitle; kişisel finansal varlık takip aracı).
+   - Çocukların ilgisini çekebilecek tasarım: `Hayır` (Uygulama çocuklara yönelik pazarlanmaz).
+   - IARC İçerik Derecelendirmesi: `PEGI 3` / `Everyone` (Kumar, bahis, şiddet veya sakıncalı içerik barındırmaz; teknik olarak her yaş grubuna uygundur).
 5. **Mali Özellikler Beyanı (Financial Features):**
    - Altın İz bir banka, dijital cüzdan, kredi verme kurumu veya kripto borsası DEĞİLDİR.
    - Seçenek: *"Kişisel finans yönetimi / Varlık takip aracı"*
