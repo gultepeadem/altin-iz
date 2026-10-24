@@ -229,13 +229,13 @@ Veritabanı alanı: portfolio_entries.product_id
 Amaç: Kullanıcının sahip olduğu altını kaydetmek
 ```
 
-#### Miktar veya adet (`portfolio_entries.grams`, `portfolio_entries.quantity`)
+#### Miktar veya adet (`portfolio_entries.quantity`)
 
 ```text
 Kaynak: Kullanıcı
-Veritabanı alanı: portfolio_entries.grams, portfolio_entries.quantity
+Veritabanı alanı: portfolio_entries.quantity
 Amaç: Portföy değerini hesaplamak
-Hassasiyet: Ürüne göre adet veya azami üç ondalıklı gram
+Hassasiyet: Ürüne göre adet veya azami üç ondalıklı gram (NUMERIC(18,3))
 ```
 
 #### Alış tarihi (`portfolio_entries.purchase_date`)
@@ -247,34 +247,34 @@ Amaç: Altın alış kaydını ve geçmişini tutmak
 Saat bilgisi: V1'de alınmaz
 ```
 
-#### Ödenen toplam tutar (`portfolio_entries.purchase_price_total`)
+#### Ödenen toplam tutar (`portfolio_entries.total_cost_minor`)
 
 ```text
 Kaynak: Kullanıcı
-Veritabanı alanı: portfolio_entries.purchase_price_total
+Veritabanı alanı: portfolio_entries.total_cost_minor
 Amaç: Tahmini kâr-zarar hesaplamak
-Saklama biçimi: Kuruş cinsinden tam sayı
+Saklama biçimi: Kuruş cinsinden tam sayı (BIGINT)
 Finansal hesap veya banka verisi: Hayır
 ```
 
-#### Alış yeri (`portfolio_entries.purchase_location`)
+#### Alış yeri (`portfolio_entries.purchase_place`)
 
 ```text
 Kaynak: Kullanıcı
 Zorunlu: Hayır
-Veritabanı alanı: portfolio_entries.purchase_location
-Amaç: Kullanıcının kendi kaydını açıklaması
+Veritabanı alanı: portfolio_entries.purchase_place
+Amaç: Kullanıcının kendi kaydını açıklaması (VARCHAR(100))
 Serbest metin: Evet, sınırlı uzunluk
 ```
 
-#### Kullanıcı notu (`portfolio_entries.notes`)
+#### Kullanıcı notu (`portfolio_entries.note`)
 
 ```text
 Kaynak: Kullanıcı
 Zorunlu: Hayır
-Veritabanı alanı: portfolio_entries.notes
+Veritabanı alanı: portfolio_entries.note
 Amaç: Kullanıcının kendi portföy kaydına açıklama eklemesi
-Serbest metin: Evet, azami 500 karakter
+Serbest metin: Evet, azami 500 karakter (VARCHAR(500))
 Özel nitelikli veri girmemesi kullanıcıya hatırlatılabilir
 ```
 
@@ -295,9 +295,10 @@ Saklama: 3 yıl (hesap silinirken user_id = null yapılarak anonimleştirilir)
 ```text
 Kaynak: Kullanıcı / delete-account Edge Function
 Veritabanı tablosu: public.account_deletion_requests
-Alanlar: requested_at, status, identity_verified_at, completed_at, reason (opsiyonel max 500 karakter)
+Alanlar: requested_at, status, identity_verified_at, processing_started_at, completed_at, failure_code, failure_message
+Not: ADR-033 uyarınca PII oluşmasını önlemek amacıyla bu tabloda serbest metin gerekçe (reason) alanı kalıcı olarak saklanmaz.
 Amaç: Hesap silme taleplerinin takibi, mağaza denetimi ve ispatı
-Saklama: 3 yıl (PII içermez, user_id = null yapılır)
+Saklama: 3 yıl (PII içermez, işlem tamamlandığında user_id = null yapılır)
 ```
 
 #### İşçilik dâhil bilgisi
@@ -1071,7 +1072,7 @@ Değişiklik ayrıca `CHANGELOG.md` içine kaydedilmeli, karar değişiyorsa `DE
 ### 1.1 Taslak - 22.10.2026
 
 - Faz 13.1 Gizlilik incelemesi tamamlandı.
-- V1 kişisel veri envanteri veritabanı şemasıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.grams`, `portfolio_entries.purchase_price_total`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
+- V1 kişisel veri envanteri veritabanı şemasıyla (`auth.users.email`, `user_profiles.display_name`, `user_preferences.theme`, `portfolio_entries.quantity`, `portfolio_entries.total_cost_minor`, `portfolio_entries.purchase_place`, `portfolio_entries.note`, `user_legal_events`, `account_deletion_requests`) tam olarak eşleştirildi.
 - Supabase Frankfurt (eu-central-1, Almanya) AB veri merkezi ve uçtan uca TLS / HTTPS veri akışı netleştirildi.
 - Fiyat sağlayıcısına hiçbir kişisel verinin iletilmediği (kullanıcı kimliği, e-posta, portföy izolasyonu) kesinleştirildi.
 - V1 kapsamında harici hata izleme ve analitik aracı kullanılmayacağı (0 Tracking) karara bağlandı.

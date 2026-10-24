@@ -111,75 +111,24 @@ export async function processAccountDeletion(params: {
     };
   }
 
-  // 4. ADR-033 Silme Adımları (İlişkisel Hiyerarşi)
+  // 4. ADR-033 Silme Adımları (Tek bir atomik PostgreSQL Transaction RPC ile)
   try {
-    // Adım A: Portföy kayıtlarını sil (portfolio_entries)
-    const { error: portfolioError } = await adminClient
-      .from('portfolio_entries')
-      .delete()
-      .eq('user_id', userId);
+    const { data: deletionResult, error: rpcError } = await adminClient.rpc(
+      'execute_account_deletion',
+      {
+        p_user_id: userId,
+        p_request_id: deletionRequestId,
+      }
+    );
 
-    if (portfolioError) {
-      throw new Error(`PORTFOLIO_DELETE_FAILED: ${portfolioError.message}`);
+    if (rpcError) {
+      throw new Error(`ATOMIC_DELETION_FAILED: ${rpcError.message}`);
     }
-    safeLog('Portföy kayıtları silindi.', { userId });
 
-    // Adım B: Kullanıcı tercihlerini sil (user_preferences)
-    const { error: prefError } = await adminClient
-      .from('user_preferences')
-      .delete()
-      .eq('user_id', userId);
-
-    if (prefError) {
-      throw new Error(`PREFERENCES_DELETE_FAILED: ${prefError.message}`);
-    }
-    safeLog('Kullanıcı tercihleri silindi.', { userId });
-
-    // Adım C: Yasal olayları saklama politikasına göre anonimleştir (user_id -> NULL)
-    const { error: legalError } = await adminClient
-      .from('user_legal_events')
-      .update({ user_id: null })
-      .eq('user_id', userId);
-
-    if (legalError) {
-      throw new Error(`LEGAL_EVENTS_ANONYMIZE_FAILED: ${legalError.message}`);
-    }
-    safeLog('Yasal olaylar anonimleştirildi.', { userId });
-
-    // Adım D: Güvenlik olaylarını saklama politikasına göre anonimleştir (user_id -> NULL)
-    const { error: secError } = await adminClient
-      .from('security_events')
-      .update({ user_id: null })
-      .eq('user_id', userId);
-
-    if (secError) {
-      throw new Error(`SECURITY_EVENTS_ANONYMIZE_FAILED: ${secError.message}`);
-    }
-    safeLog('Güvenlik olayları anonimleştirildi.', { userId });
-
-    // Adım E: Profil kaydını sil (user_profiles)
-    const { error: profileError } = await adminClient
-      .from('user_profiles')
-      .delete()
-      .eq('id', userId);
-
-    if (profileError) {
-      throw new Error(`PROFILE_DELETE_FAILED: ${profileError.message}`);
-    }
-    safeLog('Kullanıcı profili silindi.', { userId });
-
-    // Adım F: Silme talebi durumunu 'completed' olarak güncelle
-    const completedIso = new Date().toISOString();
-    await adminClient
-      .from('account_deletion_requests')
-      .update({
-        status: 'completed',
-        completed_at: completedIso,
-        user_id: null, // PII bağlantısını kopar
-      })
-      .eq('id', deletionRequestId);
-
-    safeLog('Silme talebi tamamlandı olarak işaretlendi.', { deletionRequestId });
+    safeLog('Veritabanı ilişkisel verileri atomik olarak silindi ve anonimleştirildi.', {
+      userId,
+      result: deletionResult,
+    });
 
     // Adım G: Supabase Auth hesabını sil ve oturumları sonlandır
     const { error: authDeleteError } = await adminClient.auth.admin.deleteUser(userId);

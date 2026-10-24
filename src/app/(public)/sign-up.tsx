@@ -11,7 +11,7 @@
  * - Güvenlik: Asla şifre loglamaz, hassas hataları normalizeError ile Türkçe verir
  */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   Modal,
   Platform,
@@ -29,28 +29,16 @@ import { TextField } from '@/components/forms/TextField';
 import { PasswordField } from '@/components/forms/PasswordField';
 import { useTheme } from '@/hooks/useTheme';
 import { authService } from '@/services/authService';
+import { legalService } from '@/services/legalService';
+import type { LegalDocument, LegalDocumentType } from '@/models/legal';
 import { normalizeError } from '@/utils/normalizeError';
 
-// Yasal belge önizleme metinleri (Modal için)
-const LEGAL_DOCS: Record<string, { title: string; content: string }> = {
-  'kullanim-kosullari': {
-    title: 'Kullanım Koşulları',
-    content:
-      'Altın İz uygulamasına hoş geldiniz.\n\n' +
-      '1. Altın İz, altın varlıklarınızı ve portföy kâr-zarar durumunuzu takip etmeniz amacıyla sunulan kişisel bir takip uygulamasıdır.\n\n' +
-      '2. Uygulama içerisinde sunulan altın fiyatları ve portföy değerlemeleri yalnızca bilgilendirme amaçlıdır. Hiçbir şekilde yatırım tavsiyesi, alım-satım önerisi veya finansal taahhüt içermez.\n\n' +
-      '3. Kullanıcı, hesap güvenliğinden ve oturum bilgilerinin korunmasından bizzat sorumludur.\n\n' +
-      '4. Hesap silme talebinde bulunulduğunda tüm kişisel veriler yasal saklama süreleri haricinde kalıcı olarak silinir.',
-  },
-  'gizlilik-politikasi': {
-    title: 'Gizlilik Politikası ve KVKK',
-    content:
-      'Kişisel Verilerin Korunması Hakkında Bilgilendirme:\n\n' +
-      '1. Altın İz, veri minimizasyonu ilkesi gereğince yalnızca hesap oluşturma (e-posta, şifre karması) ve portföy kayıtlarınızı işler.\n\n' +
-      '2. T.C. kimlik numarası, açık ev adresi, banka veya kredi kartı bilgileri kesinlikle talep edilmez ve toplanmaz.\n\n' +
-      '3. Şifreler sunucularımızda asla düz metin olarak saklanmaz, yüksek güvenlikli şifreleme algoritmaları ile korunur.\n\n' +
-      '4. Dilediğiniz zaman hesap ayarlarından hesabınızı ve tüm portföy verilerinizi kalıcı olarak silebilirsiniz.',
-  },
+type LegalModalKey = 'kullanim-kosullari' | 'gizlilik-politikasi' | 'kvkk-aydinlatma';
+
+const MODAL_TO_DOC_TYPE: Record<LegalModalKey, LegalDocumentType> = {
+  'kullanim-kosullari': 'terms_of_use',
+  'gizlilik-politikasi': 'privacy_policy',
+  'kvkk-aydinlatma': 'kvkk_notice',
 };
 
 export default function SignUpScreen() {
@@ -69,7 +57,30 @@ export default function SignUpScreen() {
 
   // Gönderim ve yasal belge modal durumu
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [activeLegalModal, setActiveLegalModal] = useState<'kullanim-kosullari' | 'gizlilik-politikasi' | null>(null);
+  const [activeLegalModal, setActiveLegalModal] = useState<LegalModalKey | null>(null);
+  const [modalDocument, setModalDocument] = useState<LegalDocument | null>(null);
+
+  const currentDocType = activeLegalModal ? MODAL_TO_DOC_TYPE[activeLegalModal] : null;
+  const currentDoc = currentDocType
+    ? (modalDocument ?? legalService.getFallbackDocument(currentDocType))
+    : null;
+
+  // Modal açıldığında belgeyi legalService üzerinden canlı çek ve sunum olayını kaydet
+  useEffect(() => {
+    if (!activeLegalModal) return;
+    const docType = MODAL_TO_DOC_TYPE[activeLegalModal];
+
+    legalService.getDocumentByType(docType).then((liveDoc) => {
+      if (liveDoc) {
+        setModalDocument(liveDoc);
+        legalService.recordDocumentViewed({
+          documentId: liveDoc.id,
+          source: 'registration',
+          documentType: docType,
+        });
+      }
+    });
+  }, [activeLegalModal]);
 
   /**
    * İstemci tarafı doğrulama kontrolleri
@@ -134,6 +145,30 @@ export default function SignUpScreen() {
         email: email.trim(),
         password,
       });
+
+      // Yasal Olay Kaydı (Hukuki dayanak: KVKK md. 5/2-c ve md. 10)
+      // Kullanım koşulları kabulü ve aydınlatma sunumu arka planda güvenle kaydedilir
+      try {
+        const termsDoc = await legalService.getDocumentByType('terms_of_use');
+        if (termsDoc) {
+          await legalService.recordTermsAccepted({
+            documentId: termsDoc.id,
+            source: 'registration',
+            appVersion: '1.0.0',
+          });
+        }
+        const kvkkDoc = await legalService.getDocumentByType('kvkk_notice');
+        if (kvkkDoc) {
+          await legalService.recordDocumentPresented({
+            documentId: kvkkDoc.id,
+            source: 'registration',
+            documentType: 'kvkk_notice',
+            appVersion: '1.0.0',
+          });
+        }
+      } catch {
+        // Yasal kayıt hatası kullanıcı akışını engellememelidir
+      }
 
       // Başarılı kayıt sonrası e-posta doğrulama ekranına yönlendir
       router.replace({
@@ -257,7 +292,7 @@ export default function SignUpScreen() {
             >
               Kullanım Koşulları
             </Text>
-            {' '}ve{' '}
+            {', '}
             <Text
               style={[styles.legalLink, { color: theme.colors.primary }]}
               onPress={() => setActiveLegalModal('gizlilik-politikasi')}
@@ -265,7 +300,15 @@ export default function SignUpScreen() {
             >
               Gizlilik Politikası
             </Text>
-            {"'nı kabul etmiş sayılırsınız."}
+            {' ve '}
+            <Text
+              style={[styles.legalLink, { color: theme.colors.primary }]}
+              onPress={() => setActiveLegalModal('kvkk-aydinlatma')}
+              accessibilityRole="link"
+            >
+              KVKK Aydınlatma Metni
+            </Text>
+            {"'ni okuduğunuzu ve şartları kabul ettiğinizi beyan edersiniz."}
           </Text>
         </View>
 
@@ -300,23 +343,29 @@ export default function SignUpScreen() {
         visible={activeLegalModal !== null}
         animationType="slide"
         transparent={true}
-        onRequestClose={() => setActiveLegalModal(null)}
+        onRequestClose={() => {
+          setActiveLegalModal(null);
+          setModalDocument(null);
+        }}
       >
         <View style={styles.modalOverlay}>
           <View style={[styles.modalCard, { backgroundColor: theme.colors.card, borderColor: theme.colors.border }]}>
-            {activeLegalModal ? (
+            {currentDoc ? (
               <>
                 <Text style={[styles.modalTitle, { color: theme.colors.textPrimary }]}>
-                  {LEGAL_DOCS[activeLegalModal].title}
+                  {currentDoc.title}
                 </Text>
                 <ScrollView style={styles.modalScroll} showsVerticalScrollIndicator={true}>
                   <Text style={[styles.modalContent, { color: theme.colors.textSecondary }]}>
-                    {LEGAL_DOCS[activeLegalModal].content}
+                    {currentDoc.content}
                   </Text>
                 </ScrollView>
                 <PrimaryButton
                   title="Kapat"
-                  onPress={() => setActiveLegalModal(null)}
+                  onPress={() => {
+                    setActiveLegalModal(null);
+                    setModalDocument(null);
+                  }}
                   style={styles.modalCloseButton}
                 />
               </>
