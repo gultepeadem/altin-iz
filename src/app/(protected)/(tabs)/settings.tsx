@@ -177,6 +177,7 @@ export default function SettingsScreen() {
           <View style={styles.themeSelector}>
             {themeOptions.map((opt) => {
               const isSelected = preference === opt.value;
+              const activeColor = isDark ? theme.colors.gold : '#FFFFFF';
               return (
                 <Pressable
                   key={opt.value}
@@ -185,13 +186,16 @@ export default function SettingsScreen() {
                     styles.themeButton,
                     {
                       backgroundColor: isSelected
-                        ? theme.colors.primary
+                        ? isDark
+                          ? '#1E293B'
+                          : theme.colors.primary
                         : isDark
                         ? theme.colors.surfaceElevated
                         : '#F1F5F9',
                       borderColor: isSelected
-                        ? theme.colors.primary
+                        ? theme.colors.gold
                         : theme.colors.border,
+                      borderWidth: isSelected ? 1.5 : 1,
                     },
                   ]}
                   accessibilityRole="button"
@@ -201,7 +205,7 @@ export default function SettingsScreen() {
                   <Feather
                     name={opt.icon}
                     size={16}
-                    color={isSelected ? '#FFFFFF' : theme.colors.textSecondary}
+                    color={isSelected ? activeColor : theme.colors.textSecondary}
                     style={{ marginBottom: 4 }}
                   />
                   <Text
@@ -209,7 +213,7 @@ export default function SettingsScreen() {
                       styles.themeButtonText,
                       {
                         color: isSelected
-                          ? '#FFFFFF'
+                          ? activeColor
                           : theme.colors.textSecondary,
                         fontWeight: isSelected ? '700' : '500',
                       },
@@ -256,26 +260,6 @@ export default function SettingsScreen() {
               </Text>
             </View>
             <Feather name="chevron-right" size={16} color={theme.colors.textTertiary} />
-          </Pressable>
-
-          {/* Çıkış Yap Bağlantısı */}
-          <Pressable
-            onPress={handleSignOutPress}
-            style={[
-              styles.menuRow,
-              styles.divider,
-              { borderBottomColor: theme.colors.border },
-            ]}
-            accessibilityRole="button"
-            accessibilityLabel="Oturumu Kapat / Çıkış Yap"
-          >
-            <View style={styles.menuLeft}>
-              <Feather name="log-out" size={17} color={theme.colors.loss} />
-              <Text style={[styles.menuText, { color: theme.colors.loss }]}>
-                Çıkış Yap
-              </Text>
-            </View>
-            <Feather name="chevron-right" size={16} color={theme.colors.loss} />
           </Pressable>
 
           {/* Hesap Silme Bağlantısı */}

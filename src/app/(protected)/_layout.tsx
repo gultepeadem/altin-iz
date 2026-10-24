@@ -3,9 +3,59 @@
  */
 
 import React from 'react';
+import { Pressable, Text, View } from 'react-native';
 import { Stack } from 'expo-router';
+import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Feather } from '@expo/vector-icons';
 
 import { useTheme } from '@/hooks/useTheme';
+
+interface ModalHeaderProps {
+  title: string;
+  navigation: any;
+}
+
+function ModalHeader({ title, navigation }: ModalHeaderProps) {
+  const { theme } = useTheme();
+  const insets = useSafeAreaInsets();
+
+  return (
+    <View
+      style={{
+        backgroundColor: theme.colors.card,
+        borderBottomWidth: 1,
+        borderBottomColor: theme.colors.border,
+        paddingTop: Math.max(insets.top, 12) + 8,
+        paddingBottom: 14,
+        paddingHorizontal: 16,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+      }}
+    >
+      <Pressable
+        onPress={() => navigation.goBack()}
+        hitSlop={{ top: 12, bottom: 12, left: 12, right: 12 }}
+        style={{ flexDirection: 'row', alignItems: 'center', padding: 6 }}
+        accessibilityRole="button"
+        accessibilityLabel="Geri dön"
+      >
+        <Feather name="arrow-left" size={24} color={theme.colors.textPrimary} />
+      </Pressable>
+      <Text
+        style={{
+          fontSize: 18,
+          fontWeight: '700',
+          color: theme.colors.textPrimary,
+          textAlign: 'center',
+        }}
+      >
+        {title}
+      </Text>
+      <View style={{ width: 36 }} />
+    </View>
+  );
+}
 
 export default function ProtectedLayout() {
   const { theme } = useTheme();
@@ -31,7 +81,10 @@ export default function ProtectedLayout() {
       />
       <Stack.Screen
         name="portfolio/add"
-        options={{ title: 'Altın Ekle', presentation: 'modal' }}
+        options={{
+          header: ({ navigation }) => <ModalHeader title="Altın Ekle" navigation={navigation} />,
+          presentation: 'modal',
+        }}
       />
       <Stack.Screen
         name="portfolio/[entryId]"
@@ -39,7 +92,10 @@ export default function ProtectedLayout() {
       />
       <Stack.Screen
         name="portfolio/[entryId]/edit"
-        options={{ title: 'Kaydı Düzenle', presentation: 'modal' }}
+        options={{
+          header: ({ navigation }) => <ModalHeader title="Kaydı Düzenle" navigation={navigation} />,
+          presentation: 'modal',
+        }}
       />
       <Stack.Screen
         name="account/index"

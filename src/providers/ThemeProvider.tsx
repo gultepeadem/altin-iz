@@ -7,7 +7,8 @@
  */
 
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { useColorScheme as useRNColorScheme } from 'react-native';
+import { Platform, StatusBar as RNStatusBar, useColorScheme as useRNColorScheme } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
 import {
   DarkTheme as NavDarkTheme,
   DefaultTheme as NavDefaultTheme,
@@ -67,6 +68,17 @@ export function ThemeProvider({
     return resolvedScheme === 'dark' ? darkTheme : lightTheme;
   }, [resolvedScheme]);
 
+  // Android durum çubuğu rengini ve ikon kontrastını aktif temayla anında eşitle
+  useEffect(() => {
+    if (Platform.OS === 'android') {
+      (RNStatusBar as any).setBackgroundColor?.(activeTheme.colors.card, true);
+      (RNStatusBar as any).setBarStyle?.(
+        resolvedScheme === 'dark' ? 'light-content' : 'dark-content',
+        true
+      );
+    }
+  }, [resolvedScheme, activeTheme.colors.card]);
+
   // React Navigation için renkleri kendi paletimizle eşler
   const navigationTheme = useMemo(() => {
     const base = resolvedScheme === 'dark' ? NavDarkTheme : NavDefaultTheme;
@@ -99,6 +111,7 @@ export function ThemeProvider({
   return (
     <ThemeContext.Provider value={contextValue}>
       <NavigationThemeProvider value={navigationTheme}>
+        <StatusBar style={resolvedScheme === 'dark' ? 'light' : 'dark'} />
         {children}
       </NavigationThemeProvider>
     </ThemeContext.Provider>

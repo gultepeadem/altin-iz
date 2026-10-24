@@ -354,11 +354,24 @@ export async function executePriceFetchRun(
       const dupCheck = await isDuplicatePriceData(client, sourceId, validation.validRecords);
       if (dupCheck.isDuplicate) {
         safeLog(dupCheck.reason ?? 'Yinelenen fiyatlar atlandı.');
+        const nowIso = new Date().toISOString();
+        try {
+          const productIds = validation.validRecords.map((r) => r.product_id);
+          await client
+            .from('gold_prices')
+            .update({ fetched_at: nowIso })
+            .in('product_id', productIds)
+            .eq('source_id', sourceId)
+            .eq('is_valid', true);
+        } catch {
+          // Güncelleme başarısız olsa da çalıştırma başarılı sayılır
+        }
+
         await client
           .from('price_fetch_runs')
           .update({
             status: 'success',
-            completed_at: new Date().toISOString(),
+            completed_at: nowIso,
             products_received: validation.productsReceived,
             products_saved: 0,
             products_rejected: 0,
@@ -376,11 +389,15 @@ export async function executePriceFetchRun(
       }
     }
 
-    // 8. Fiyatları veritabanına ekle (gold_prices)
-    if (validation.allRecords.length > 0) {
+    // 8. Fiyatları veritabanına ekle (gold_prices - chk_at_least_one_price kısıtına uygun kayıtlar)
+    const recordsToInsert = validation.allRecords.filter(
+      (r) => r.buy_price_minor !== null || r.sell_price_minor !== null
+    );
+
+    if (recordsToInsert.length > 0) {
       const { error: insertErr } = await client
         .from('gold_prices')
-        .insert(validation.allRecords);
+        .insert(recordsToInsert);
 
       if (insertErr) {
         throw new Error(`gold_prices tablosuna ekleme başarısız oldu: ${insertErr.message}`);

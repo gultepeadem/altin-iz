@@ -9,7 +9,7 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { Feather, Ionicons } from '@expo/vector-icons';
+import { Feather, Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 
 import { useTheme } from '@/hooks/useTheme';
 import { useMarketStatus } from '@/hooks/useMarketStatus';
@@ -86,7 +86,8 @@ function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
         {
           backgroundColor: theme.colors.card,
           borderBottomColor: theme.colors.border,
-          paddingTop: Math.max(insets.top, 10) + 6,
+          paddingTop: Math.max(insets.top, 12) + 10,
+          paddingBottom: 14,
         },
       ]}
     >
@@ -95,12 +96,12 @@ function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
           style={[
             styles.headerEmblem,
             {
-              backgroundColor: isDark ? theme.colors.surfaceElevated : '#FBF7EE',
+              backgroundColor: isDark ? theme.colors.surfaceElevated : '#FDF8EA',
               borderColor: theme.colors.gold,
             },
           ]}
         >
-          <Feather name="layers" size={18} color={theme.colors.gold} />
+          <MaterialCommunityIcons name="gold" size={24} color={theme.colors.gold} />
         </View>
 
         <View style={styles.headerTitleGroup}>
@@ -270,13 +271,13 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   headerEmblem: {
-    width: 38,
-    height: 38,
-    borderRadius: 10,
-    borderWidth: 1.2,
+    width: 44,
+    height: 44,
+    borderRadius: 12,
+    borderWidth: 1.5,
     alignItems: 'center',
     justifyContent: 'center',
-    marginRight: 10,
+    marginRight: 12,
   },
   headerTitleGroup: {
     flex: 1,
@@ -288,7 +289,7 @@ const styles = StyleSheet.create({
     marginBottom: 2,
   },
   headerBrandText: {
-    fontSize: 11,
+    fontSize: 12,
     fontWeight: '800',
     letterSpacing: 0.8,
   },
@@ -301,7 +302,7 @@ const styles = StyleSheet.create({
     fontWeight: '500',
   },
   headerScreenTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '700',
     letterSpacing: -0.3,
   },

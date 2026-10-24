@@ -39,8 +39,10 @@ import {
   StaleDataBanner,
 } from '@/components/feedback';
 import { useTheme } from '@/hooks/useTheme';
+import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { goldPriceService } from '@/services/goldPriceService';
 import type { ProductWithPrice } from '@/models/goldPrice';
+import type { GoldProduct } from '@/models/goldProduct';
 import { formatDateTime, formatMoney, formatPercent } from '@/utils/formatters';
 
 export type SortMode = 'default' | 'name' | 'price_asc' | 'price_desc';
@@ -64,6 +66,58 @@ function getGoldIcon(code: string): 'disc' | 'award' | 'shield' | 'globe' | 'lay
   if (c.includes('CEYREK') || c.includes('YARIM') || c.includes('TAM')) return 'award';
   if (c.includes('KULCE') || c.includes('GREMSE') || c.includes('BESLI')) return 'layers';
   return 'disc';
+}
+
+function getProductBadgeText(product: GoldProduct): string {
+  const c = product.code.toUpperCase();
+  if (c === 'GRAM_GOLD') return 'GRAM';
+  if (c.includes('QUARTER')) return 'ÇEYREK';
+  if (c.includes('HALF')) return 'YARIM';
+  if (c.includes('FULL')) return 'TAM';
+  if (c.includes('ATA')) return 'ATA';
+  if (c.includes('GREMSE')) return 'GREMSE';
+  if (c.includes('RESAT')) return 'REŞAT';
+  if (c.includes('HAMIT')) return 'HAMİT';
+  if (c.includes('REPUBLIC')) return 'CUMHURİYET';
+  if (c === 'GOLD_22K') return '22 AYAR';
+  if (c === 'GOLD_18K') return '18 AYAR';
+  if (c === 'GOLD_14K') return '14 AYAR';
+  if (c === 'OUNCE_GOLD') return 'ONS';
+  if (c.startsWith('PACKAGED_GOLD_')) {
+    const g = c.replace('PACKAGED_GOLD_', '').replace('G', '').replace('_', ',');
+    return `${g}G KÜLÇE`;
+  }
+  return (product.shortName || product.category || 'ALTIN').toUpperCase();
+}
+
+function getProductSubtitle(product: GoldProduct): string {
+  const c = product.code.toUpperCase();
+  if (c === 'GRAM_GOLD') return '24 Ayar Standart Gram Altın';
+  if (c.includes('QUARTER_GOLD_NEW')) return 'Yeni Tarihli Darphane Sikkesi (1,75g)';
+  if (c.includes('QUARTER_GOLD_OLD')) return 'Eski Tarihli Darphane Sikkesi (1,75g)';
+  if (c.includes('QUARTER')) return '22 Ayar 1,75 Gram';
+  if (c.includes('HALF_GOLD_NEW')) return 'Yeni Tarihli Darphane Sikkesi (3,50g)';
+  if (c.includes('HALF_GOLD_OLD')) return 'Eski Tarihli Darphane Sikkesi (3,50g)';
+  if (c.includes('HALF')) return '22 Ayar 3,50 Gram';
+  if (c.includes('FULL_GOLD_NEW')) return 'Yeni Tarihli Darphane Sikkesi (7,01g)';
+  if (c.includes('FULL_GOLD_OLD')) return 'Eski Tarihli Darphane Sikkesi (7,01g)';
+  if (c.includes('FULL')) return '22 Ayar 7,01 Gram';
+  if (c.includes('ATA_GOLD_NEW')) return 'Yeni Tarihli Darphane Lirası (7,21g)';
+  if (c.includes('ATA_GOLD_OLD')) return 'Eski Tarihli Darphane Lirası (7,21g)';
+  if (c.includes('ATA')) return '22 Ayar 7,21 Gram';
+  if (c.includes('GREMSE')) return '22 Ayar Darphane Sikkesi (17,53g)';
+  if (c.includes('RESAT')) return '22 Ayar 7,21 Gram Tarihi Sikke';
+  if (c.includes('HAMIT')) return '22 Ayar 7,21 Gram Tarihi Sikke';
+  if (c.includes('REPUBLIC')) return '22 Ayar 7,21 Gram Cumhuriyet';
+  if (c === 'GOLD_22K') return '22 Ayar İşlenmiş / Bilezik';
+  if (c === 'GOLD_18K') return '18 Ayar Standart Altın';
+  if (c === 'GOLD_14K') return '14 Ayar Standart Altın';
+  if (c === 'OUNCE_GOLD') return 'Uluslararası Spot Piyasa (USD/oz)';
+  if (c.startsWith('PACKAGED_GOLD_')) {
+    const g = c.replace('PACKAGED_GOLD_', '').replace('G', '').replace('_', ',');
+    return `995.0 Sertifikalı Külçe (${g} Gram)`;
+  }
+  return 'Kapalıçarşı Serbest Piyasa';
 }
 
 interface PricesHeaderProps {
@@ -200,6 +254,7 @@ const PricesListHeader = React.memo(function PricesListHeader({
 
 export default function PricesScreen() {
   const { theme, isDark } = useTheme();
+  const marketStatus = useMarketStatus();
 
   const [items, setItems] = useState<ProductWithPrice[]>([]);
   const [loading, setLoading] = useState(true);
@@ -271,23 +326,17 @@ export default function PricesScreen() {
     return latest;
   }, [items]);
 
-  // Eski (stale) ve kısmi (partial) veri durumunu analiz eder
-  const { hasStale, hasPartial } = useMemo(() => {
-    let staleCount = 0;
+  // Kısmi (partial) veri durumunu analiz eder
+  const hasPartial = useMemo(() => {
     let partialCount = 0;
 
     for (const item of items) {
-      if (item.price?.status === 'stale') {
-        staleCount++;
-      } else if (item.price === null || item.price.status === 'partial' || item.price.status === 'unavailable') {
+      if (item.price === null || item.price.status === 'partial' || item.price.status === 'unavailable') {
         partialCount++;
       }
     }
 
-    return {
-      hasStale: staleCount > 0,
-      hasPartial: partialCount > 0,
-    };
+    return partialCount > 0;
   }, [items]);
 
   // Arama ve sıralama filtresini uygular
@@ -387,43 +436,29 @@ export default function PricesScreen() {
                   >
                     {product.name}
                   </Text>
-                  {product.shortName ? (
-                    <View
+                  <View
+                    style={[
+                      styles.miniBadge,
+                      {
+                        backgroundColor: isDark
+                          ? theme.colors.surfaceElevated
+                          : '#EEF2F6',
+                      },
+                    ]}
+                  >
+                    <Text
                       style={[
-                        styles.miniBadge,
-                        {
-                          backgroundColor: isDark
-                            ? theme.colors.surfaceElevated
-                            : '#EEF2F6',
-                        },
+                        styles.miniBadgeText,
+                        { color: isDark ? theme.colors.gold : '#1E293B' },
                       ]}
                     >
-                      <Text
-                        style={[
-                          styles.miniBadgeText,
-                          { color: isDark ? theme.colors.gold : '#1E293B' },
-                        ]}
-                      >
-                        {product.shortName}
-                      </Text>
-                    </View>
-                  ) : null}
-                  {price?.status === 'stale' && (
-                    <View
-                      style={[
-                        styles.miniBadge,
-                        {
-                          backgroundColor: theme.colors.warningLight,
-                          borderColor: theme.colors.warning,
-                        },
-                      ]}
-                    >
-                      <Text style={[styles.miniBadgeText, { color: theme.colors.warning }]}>
-                        Gecikmeli Veri
-                      </Text>
-                    </View>
-                  )}
+                      {getProductBadgeText(product)}
+                    </Text>
+                  </View>
                 </View>
+                <Text style={[styles.cardSubtitleText, { color: theme.colors.textTertiary }]} numberOfLines={1}>
+                  {getProductSubtitle(product)}
+                </Text>
               </View>
             </View>
 
@@ -436,7 +471,7 @@ export default function PricesScreen() {
                     backgroundColor:
                       dailyChange > 0
                         ? isDark
-                          ? '#143825'
+                          ? '#13281d'
                           : theme.colors.profitLight
                         : dailyChange < 0
                         ? isDark
@@ -457,11 +492,10 @@ export default function PricesScreen() {
                           ? theme.colors.profit
                           : dailyChange < 0
                           ? theme.colors.loss
-                          : theme.colors.textSecondary,
+                          : theme.colors.textTertiary,
                     },
                   ]}
                 >
-                  {dailyChange > 0 ? '▲ ' : dailyChange < 0 ? '▼ ' : ''}
                   {formatPercent(dailyChange)}
                 </Text>
               </View>
@@ -533,7 +567,7 @@ export default function PricesScreen() {
     () => (
       <PricesListHeader
         latestUpdatedTime={latestUpdatedTime}
-        hasStale={hasStale}
+        hasStale={marketStatus.isStale}
         hasPartial={hasPartial}
         onRefresh={() => handleRefresh(true)}
         search={search}
@@ -544,7 +578,7 @@ export default function PricesScreen() {
         isDark={isDark}
       />
     ),
-    [latestUpdatedTime, hasStale, hasPartial, handleRefresh, search, sortMode, theme, isDark]
+    [latestUpdatedTime, marketStatus.isStale, hasPartial, handleRefresh, search, sortMode, theme, isDark]
   );
 
   return (
@@ -723,27 +757,30 @@ const styles = StyleSheet.create({
     marginRight: 10,
   },
   productIconWrap: {
-    width: 36,
-    height: 36,
-    borderRadius: 18,
+    width: 38,
+    height: 38,
+    borderRadius: 19,
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
   },
   productTextGroup: {
     flex: 1,
+    justifyContent: 'center',
   },
   productNameBadgeRow: {
     flexDirection: 'row',
     alignItems: 'center',
     gap: 6,
-    flexWrap: 'wrap',
   },
   productName: {
     fontSize: 15,
     fontWeight: '700',
     lineHeight: 20,
-    marginBottom: 4,
+  },
+  cardSubtitleText: {
+    fontSize: 12,
+    marginTop: 2,
   },
   badgeRow: {
     flexDirection: 'row',
@@ -754,12 +791,11 @@ const styles = StyleSheet.create({
   miniBadge: {
     paddingHorizontal: 6,
     paddingVertical: 2,
-    borderRadius: 4,
-    borderWidth: 1,
+    borderRadius: 6,
   },
   miniBadgeText: {
     fontSize: 10,
-    fontWeight: '600',
+    fontWeight: '700',
   },
   changeBadge: {
     paddingHorizontal: 8,

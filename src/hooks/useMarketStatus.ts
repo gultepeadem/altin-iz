@@ -33,25 +33,20 @@ export function useMarketStatus(): MarketStatus {
         const prices = await goldPriceService.getLatestPrices(15);
         if (!isMounted) return;
 
-        let hasStale = false;
         let latestTime: string | null = null;
 
         for (const p of prices) {
-          if (p.status === 'stale' || p.isProviderStale) {
-            hasStale = true;
-          }
           const time = p.sourcePriceAt || p.fetchedAt;
           if (time && (!latestTime || new Date(time).getTime() > new Date(latestTime).getTime())) {
             latestTime = time;
           }
         }
 
-        // Eğer son güncelleme 15 dakikadan eskiyse de gecikmeli say
+        // Piyasa tazeliği: En son fiyat akışı 15 dakika içindeyse piyasa canlıdır
+        let hasStale = true;
         if (latestTime) {
           const ageMinutes = (Date.now() - new Date(latestTime).getTime()) / (60 * 1000);
-          if (ageMinutes > 15) {
-            hasStale = true;
-          }
+          hasStale = ageMinutes > 15;
         }
 
         setStatus({

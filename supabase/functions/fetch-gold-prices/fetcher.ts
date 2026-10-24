@@ -189,88 +189,152 @@ export async function fetchGoldPricesFromProvider(
           return isNaN(n) ? null : n;
         };
 
+        const parseChange = (v: any): number | null => {
+          if (typeof v === 'number') return Math.abs(v) <= 50 ? v : null;
+          if (!v || typeof v !== 'string') return null;
+          const clean = v.replace('%', '').replace(/[^\d.,+-]/g, '').replace(',', '.').trim();
+          const n = parseFloat(clean);
+          return isNaN(n) || Math.abs(n) > 50 ? null : n;
+        };
+
         const gramBuy = parseNum(d['gram-altin']?.['Alış']) || 6360;
         const gramSell = parseNum(d['gram-altin']?.['Satış']) || 6361;
+        const gramChange = parseChange(d['gram-altin']?.['Değişim']);
+
         const ceyrekBuy = parseNum(d['ceyrek-altin']?.['Alış']) || 10400;
         const ceyrekSell = parseNum(d['ceyrek-altin']?.['Satış']) || 10450;
+        const ceyrekChange = parseChange(d['ceyrek-altin']?.['Değişim']);
+
         const yarimBuy = parseNum(d['yarim-altin']?.['Alış']) || 20800;
         const yarimSell = parseNum(d['yarim-altin']?.['Satış']) || 20900;
+        const yarimChange = parseChange(d['yarim-altin']?.['Değişim']);
+
         const tamBuy = parseNum(d['tam-altin']?.['Alış']) || 41600;
         const tamSell = parseNum(d['tam-altin']?.['Satış']) || 41800;
+        const tamChange = parseChange(d['tam-altin']?.['Değişim']);
+
         const ataBuy = parseNum(d['ata-altin']?.['Alış']) || 42800;
         const ataSell = parseNum(d['ata-altin']?.['Satış']) || 43000;
+        const ataChange = parseChange(d['ata-altin']?.['Değişim']);
+
+        const cumhuriyetBuy = parseNum(d['cumhuriyet-altini']?.['Alış']) || ataBuy;
+        const cumhuriyetSell = parseNum(d['cumhuriyet-altini']?.['Satış']) || ataSell;
+        const cumhuriyetChange = parseChange(d['cumhuriyet-altini']?.['Değişim']) ?? ataChange;
+
         const gremseBuy = parseNum(d['gremse-altin']?.['Alış']) || 104000;
         const gremseSell = parseNum(d['gremse-altin']?.['Satış']) || 104500;
+        const gremseChange = parseChange(d['gremse-altin']?.['Değişim']);
+
         const resatBuy = parseNum(d['resat-altin']?.['Alış']) || 42800;
         const resatSell = parseNum(d['resat-altin']?.['Satış']) || 43000;
+        const resatChange = parseChange(d['resat-altin']?.['Değişim']);
+
+        const hamitBuy = parseNum(d['hamit-altin']?.['Alış']) || ataBuy;
+        const hamitSell = parseNum(d['hamit-altin']?.['Satış']) || ataSell;
+        const hamitChange = parseChange(d['hamit-altin']?.['Değişim']);
+
         const bilezikBuy = parseNum(d['22-ayar-bilezik']?.['Alış']) || 5800;
         const bilezikSell = parseNum(d['22-ayar-bilezik']?.['Satış']) || 5850;
+        const bilezikChange = parseChange(d['22-ayar-bilezik']?.['Değişim']);
+
+        const ayar18Buy = parseNum(d['18-ayar-altin']?.['Alış']) || Math.round(gramBuy * 0.75 * 100) / 100;
+        const ayar18Sell = parseNum(d['18-ayar-altin']?.['Satış']) || Math.round(gramSell * 0.75 * 100) / 100;
+        const ayar18Change = parseChange(d['18-ayar-altin']?.['Değişim']) ?? gramChange;
+
         const ayar14Buy = parseNum(d['14-ayar-altin']?.['Alış']) || 3700;
         const ayar14Sell = parseNum(d['14-ayar-altin']?.['Satış']) || 3750;
+        const ayar14Change = parseChange(d['14-ayar-altin']?.['Değişim']);
+
         const onsBuy = parseNum(d['ons']?.['Alış']) || 2730;
         const onsSell = parseNum(d['ons']?.['Satış']) || 2735;
+        const onsChange = parseChange(d['ons']?.['Değişim']);
 
         normalizedData = {
           rates: [
-            { symbol: 'GRAM_ALTIN', buying: gramBuy, selling: gramSell },
-            { symbol: 'CEYREK_YENI', buying: ceyrekBuy, selling: ceyrekSell },
+            { symbol: 'GRAM_ALTIN', buying: gramBuy, selling: gramSell, changeRate: gramChange },
+            { symbol: 'CEYREK_YENI', buying: ceyrekBuy, selling: ceyrekSell, changeRate: ceyrekChange },
             {
               symbol: 'CEYREK_ESKI',
               buying: Math.round(ceyrekBuy * 0.985 * 100) / 100,
               selling: Math.round(ceyrekSell * 0.985 * 100) / 100,
+              changeRate: ceyrekChange,
             },
-            { symbol: 'YARIM_YENI', buying: yarimBuy, selling: yarimSell },
+            { symbol: 'YARIM_YENI', buying: yarimBuy, selling: yarimSell, changeRate: yarimChange },
             {
               symbol: 'YARIM_ESKI',
               buying: Math.round(yarimBuy * 0.985 * 100) / 100,
               selling: Math.round(yarimSell * 0.985 * 100) / 100,
+              changeRate: yarimChange,
             },
-            { symbol: 'TAM_YENI', buying: tamBuy, selling: tamSell },
+            { symbol: 'TAM_YENI', buying: tamBuy, selling: tamSell, changeRate: tamChange },
             {
               symbol: 'TAM_ESKI',
               buying: Math.round(tamBuy * 0.985 * 100) / 100,
               selling: Math.round(tamSell * 0.985 * 100) / 100,
+              changeRate: tamChange,
             },
-            { symbol: 'ATA_YENI', buying: ataBuy, selling: ataSell },
+            { symbol: 'ATA_YENI', buying: ataBuy, selling: ataSell, changeRate: ataChange },
             {
               symbol: 'ATA_ESKI',
               buying: Math.round(ataBuy * 0.985 * 100) / 100,
               selling: Math.round(ataSell * 0.985 * 100) / 100,
+              changeRate: ataChange,
             },
-            { symbol: 'GREMSE_YENI', buying: gremseBuy, selling: gremseSell },
+            { symbol: 'CUMHURIYET_ALTINI', buying: cumhuriyetBuy, selling: cumhuriyetSell, changeRate: cumhuriyetChange },
+            { symbol: 'GREMSE_YENI', buying: gremseBuy, selling: gremseSell, changeRate: gremseChange },
             {
               symbol: 'GREMSE_ESKI',
               buying: Math.round(gremseBuy * 0.985 * 100) / 100,
               selling: Math.round(gremseSell * 0.985 * 100) / 100,
+              changeRate: gremseChange,
             },
-            { symbol: 'RESAT_ALTIN', buying: resatBuy, selling: resatSell },
-            { symbol: 'AYAR22', buying: bilezikBuy, selling: bilezikSell },
-            { symbol: 'AYAR14', buying: ayar14Buy, selling: ayar14Sell },
-            { symbol: 'ONS', buying: onsBuy, selling: onsSell, currency: 'USD' },
+            { symbol: 'RESAT_ALTIN', buying: resatBuy, selling: resatSell, changeRate: resatChange },
+            { symbol: 'HAMIT_ALTIN', buying: hamitBuy, selling: hamitSell, changeRate: hamitChange },
+            { symbol: 'AYAR22', buying: bilezikBuy, selling: bilezikSell, changeRate: bilezikChange },
+            { symbol: 'AYAR18', buying: ayar18Buy, selling: ayar18Sell, changeRate: ayar18Change },
+            { symbol: 'AYAR14', buying: ayar14Buy, selling: ayar14Sell, changeRate: ayar14Change },
+            { symbol: 'ONS', buying: onsBuy, selling: onsSell, currency: 'USD', changeRate: onsChange },
+            {
+              symbol: 'KULCE_1G',
+              buying: gramBuy,
+              selling: Math.round(gramSell * 1.015 * 100) / 100,
+              changeRate: gramChange,
+            },
+            {
+              symbol: 'KULCE_2_5G',
+              buying: Math.round(gramBuy * 2.5 * 100) / 100,
+              selling: Math.round(gramSell * 2.5 * 1.012 * 100) / 100,
+              changeRate: gramChange,
+            },
             {
               symbol: 'KULCE_5G',
               buying: gramBuy * 5,
               selling: Math.round(gramSell * 5 * 1.01 * 100) / 100,
+              changeRate: gramChange,
             },
             {
               symbol: 'KULCE_10G',
               buying: gramBuy * 10,
               selling: Math.round(gramSell * 10 * 1.008 * 100) / 100,
+              changeRate: gramChange,
             },
             {
               symbol: 'KULCE_20G',
               buying: gramBuy * 20,
               selling: Math.round(gramSell * 20 * 1.006 * 100) / 100,
+              changeRate: gramChange,
             },
             {
               symbol: 'KULCE_50G',
               buying: gramBuy * 50,
               selling: Math.round(gramSell * 50 * 1.005 * 100) / 100,
+              changeRate: gramChange,
             },
             {
               symbol: 'KULCE_100G',
               buying: gramBuy * 100,
               selling: Math.round(gramSell * 100 * 1.004 * 100) / 100,
+              changeRate: gramChange,
             },
           ],
         };

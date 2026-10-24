@@ -314,13 +314,15 @@ export function validateSinglePriceItem(
     };
   }
 
-  // Kural 9: Günlük değişim ve tavan/taban fiyatları
+  // Kural 9: Günlük değişim ve tavan/taban fiyatları (aykırı > ±50% değerleri engelle)
   const rawChange = item.changeRate ?? rawItemObj.change_percent ?? rawItemObj.degisim;
   let dailyChangePercent: number | null = null;
   if (rawChange !== null && rawChange !== undefined && rawChange !== '') {
-    const cNum = typeof rawChange === 'number' ? rawChange : parseFloat(String(rawChange).replace(',', '.'));
-    if (Number.isFinite(cNum)) {
-      dailyChangePercent = cNum;
+    const cNum = typeof rawChange === 'number'
+      ? rawChange
+      : parseFloat(String(rawChange).replace('%', '').replace(/[^\d.,+-]/g, '').replace(',', '.').trim());
+    if (Number.isFinite(cNum) && Math.abs(cNum) <= 50) {
+      dailyChangePercent = Math.round(cNum * 100) / 100;
     }
   }
 

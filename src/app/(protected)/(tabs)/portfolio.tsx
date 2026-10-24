@@ -13,8 +13,8 @@
 
 import React, { useCallback, useMemo, useState } from 'react';
 import {
-  Alert,
   FlatList,
+  Modal,
   Pressable,
   RefreshControl,
   ScrollView,
@@ -45,6 +45,15 @@ import {
   formatQuantity,
 } from '@/utils/formatters';
 
+function getGoldIcon(code: string): 'disc' | 'award' | 'shield' | 'globe' | 'layers' {
+  const c = code.toUpperCase();
+  if (c.includes('ONS') || c.includes('OUNCE')) return 'globe';
+  if (c.includes('ATA') || c.includes('CUMHURIYET') || c.includes('RESAT') || c.includes('HAMIT')) return 'shield';
+  if (c.includes('CEYREK') || c.includes('YARIM') || c.includes('TAM')) return 'award';
+  if (c.includes('KULCE') || c.includes('GREMSE') || c.includes('BESLI')) return 'layers';
+  return 'disc';
+}
+
 export default function PortfolioScreen() {
   const { theme, isDark } = useTheme();
 
@@ -53,6 +62,10 @@ export default function PortfolioScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+
+  // Silme Onay Modalı Durumu
+  const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<{ id: string; name: string } | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
 
   // Portföy verilerini canlı Supabase servisinden çeker
@@ -128,28 +141,20 @@ export default function PortfolioScreen() {
     return list.sort((a, b) => b.percentage - a.percentage);
   }, [items]);
 
-  // Kayıt silme onayı
-  const handleDeletePress = useCallback((entryId: string, productName: string) => {
-    Alert.alert(
-      'Kaydı Sil',
-      `"${productName}" portföy kaydınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`,
-      [
-        { text: 'Vazgeç', style: 'cancel' },
-        {
-          text: 'Sil',
-          style: 'destructive',
-          onPress: async () => {
-            try {
-              await portfolioService.deleteEntry(entryId);
-              fetchPortfolio(false);
-            } catch (err: any) {
-              Alert.alert('Hata', err?.userMessage || err?.message || 'Kayıt silinemedi.');
-            }
-          },
-        },
-      ]
-    );
-  }, [fetchPortfolio]);
+  // Özel modal ile kayıt silme işlemi
+  const handleConfirmDelete = useCallback(async () => {
+    if (!deleteConfirmTarget || isDeleting) return;
+    setIsDeleting(true);
+    try {
+      await portfolioService.deleteEntry(deleteConfirmTarget.id);
+      setDeleteConfirmTarget(null);
+      fetchPortfolio(false);
+    } catch {
+      setDeleteConfirmTarget(null);
+    } finally {
+      setIsDeleting(false);
+    }
+  }, [deleteConfirmTarget, isDeleting, fetchPortfolio]);
 
   // İlk yükleme esnasında yükleme göstergesi
   if (loading && items.length === 0) {
@@ -468,26 +473,19 @@ export default function PortfolioScreen() {
         {/* Kart Üst Başlık Satırı */}
         <View style={styles.entryHeaderRow}>
           <View style={styles.entryTitleGroup}>
-            <Text style={[styles.entryTitle, { color: theme.colors.textPrimary }]}>
-              {entry.product?.name ?? 'Altın'}
-            </Text>
-            {entry.product?.shortName ? (
-              <View
-                style={[
-                  styles.shortNameBadge,
-                  { backgroundColor: isDark ? theme.colors.surfaceElevated : '#EEF2F6' },
-                ]}
-              >
-                <Text
-                  style={[
-                    styles.shortNameText,
-                    { color: isDark ? theme.colors.gold : '#1E293B' },
-                  ]}
-                >
-                  {entry.product.shortName}
-                </Text>
-              </View>
-            ) : null}
+            <View
+              style={[
+                styles.productIconWrap,
+                { backgroundColor: isDark ? theme.colors.surfaceElevated : '#F8FAFC' },
+              ]}
+            >
+              <Feather name={getGoldIcon(entry.product?.code ?? '')} size={18} color={theme.colors.gold} />
+            </View>
+            <View style={styles.entryNameContainer}>
+              <Text style={[styles.entryTitle, { color: theme.colors.textPrimary }]} numberOfLines={1}>
+                {entry.product?.name ?? 'Altın'}
+              </Text>
+            </View>
           </View>
 
           {/* Miktar Rozeti ve Aksiyon Butonları (Düzenle & Sil) */}
@@ -522,7 +520,7 @@ export default function PortfolioScreen() {
             <Pressable
               onPress={(e) => {
                 e.stopPropagation();
-                handleDeletePress(entry.id, entry.product?.name ?? 'Altın');
+                setDeleteConfirmTarget({ id: entry.id, name: entry.product?.name ?? 'Altın' });
               }}
               hitSlop={8}
               style={styles.cardActionIconBtn}
@@ -640,6 +638,73 @@ export default function PortfolioScreen() {
         windowSize={5}
         showsVerticalScrollIndicator={false}
       />
+
+      {/* Özel Altın İz Silme Onay Modalı */}
+      <Modal
+        visible={Boolean(deleteConfirmTarget)}
+        transparent={true}
+        animationType="fade"
+        onRequestClose={() => {
+          if (!isDeleting) setDeleteConfirmTarget(null);
+        }}
+      >
+        <View style={styles.modalBackdrop}>
+          <View
+            style={[
+              styles.deleteModalCard,
+              {
+                backgroundColor: isDark ? '#0F172A' : '#FFFFFF',
+                borderColor: isDark ? 'rgba(212, 167, 44, 0.4)' : '#E2E8F0',
+              },
+            ]}
+          >
+            <View style={styles.deleteModalIconWrap}>
+              <Feather name="trash-2" size={26} color={theme.colors.loss} />
+            </View>
+
+            <Text style={[styles.deleteModalTitle, { color: theme.colors.textPrimary }]}>
+              Kaydı Silmek İstiyor musunuz?
+            </Text>
+
+            <Text style={[styles.deleteModalDesc, { color: theme.colors.textSecondary }]}>
+              {`"${deleteConfirmTarget?.name ?? ''}" portföy kaydınız kalıcı olarak silinecektir. Bu işlem geri alınamaz.`}
+            </Text>
+
+            <View style={styles.deleteModalBtnRow}>
+              <Pressable
+                onPress={() => setDeleteConfirmTarget(null)}
+                disabled={isDeleting}
+                style={[
+                  styles.deleteModalBtnCancel,
+                  {
+                    backgroundColor: isDark ? theme.colors.surfaceElevated : '#F1F5F9',
+                    borderColor: theme.colors.border,
+                  },
+                ]}
+              >
+                <Text style={[styles.deleteModalBtnCancelText, { color: theme.colors.textPrimary }]}>
+                  Vazgeç
+                </Text>
+              </Pressable>
+              <Pressable
+                onPress={handleConfirmDelete}
+                disabled={isDeleting}
+                style={({ pressed }) => [
+                  styles.deleteModalConfirmBtn,
+                  {
+                    backgroundColor: theme.colors.loss,
+                    opacity: pressed || isDeleting ? 0.8 : 1,
+                  },
+                ]}
+              >
+                <Text style={styles.deleteModalConfirmText}>
+                  {isDeleting ? 'Siliniyor...' : 'Evet, Sil'}
+                </Text>
+              </Pressable>
+            </View>
+          </View>
+        </View>
+      </Modal>
     </ScreenContainer>
   );
 }
@@ -843,18 +908,20 @@ const styles = StyleSheet.create({
     flex: 1,
     marginRight: 8,
   },
+  productIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  entryNameContainer: {
+    flex: 1,
+    justifyContent: 'center',
+  },
   entryTitle: {
-    fontSize: 16,
-    fontWeight: '700',
-  },
-  shortNameBadge: {
-    marginLeft: 6,
-    paddingHorizontal: 6,
-    paddingVertical: 2,
-    borderRadius: 4,
-  },
-  shortNameText: {
-    fontSize: 10,
+    fontSize: 15,
     fontWeight: '700',
   },
   entryHeaderRight: {
@@ -959,5 +1026,70 @@ const styles = StyleSheet.create({
   },
   emptyIcon: {
     fontSize: 56,
+  },
+  modalBackdrop: {
+    flex: 1,
+    backgroundColor: 'rgba(0, 0, 0, 0.65)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    padding: 24,
+  },
+  deleteModalCard: {
+    width: '100%',
+    maxWidth: 360,
+    borderRadius: 20,
+    borderWidth: 1.5,
+    padding: 24,
+    alignItems: 'center',
+  },
+  deleteModalIconWrap: {
+    width: 56,
+    height: 56,
+    borderRadius: 28,
+    backgroundColor: 'rgba(239, 68, 68, 0.12)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 16,
+  },
+  deleteModalTitle: {
+    fontSize: 18,
+    fontWeight: '700',
+    textAlign: 'center',
+    marginBottom: 8,
+  },
+  deleteModalDesc: {
+    fontSize: 14,
+    lineHeight: 20,
+    textAlign: 'center',
+    marginBottom: 24,
+  },
+  deleteModalBtnRow: {
+    flexDirection: 'row',
+    gap: 12,
+    width: '100%',
+  },
+  deleteModalBtnCancel: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  deleteModalBtnCancelText: {
+    fontSize: 14,
+    fontWeight: '600',
+  },
+  deleteModalConfirmBtn: {
+    flex: 1,
+    paddingVertical: 12,
+    borderRadius: 12,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  deleteModalConfirmText: {
+    color: '#FFFFFF',
+    fontSize: 14,
+    fontWeight: '700',
   },
 });

@@ -594,6 +594,7 @@ export default function CalculatorScreen() {
                         params: {
                           productId: selectedProduct.id,
                           quantity: calculatedQuantity?.toString(),
+                          estimatedTotal: calculationResult.estimatedTotal?.toString(),
                         },
                       } as any)
                     }

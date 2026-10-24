@@ -11,11 +11,10 @@
  * - ADR-017 (Fiyat Kaynakları ve Ürün Eşleştirmesi)
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import {
   Pressable,
   RefreshControl,
-  ScrollView,
   StyleSheet,
   Text,
   View,
@@ -48,6 +47,16 @@ export default function HomeScreen() {
   const [error, setError] = useState<string | null>(null);
 
   const userId = user?.id;
+  const isNavigatingRef = useRef(false);
+
+  const handleAddGoldPress = useCallback(() => {
+    if (isNavigatingRef.current) return;
+    isNavigatingRef.current = true;
+    router.push('/(protected)/portfolio/add');
+    setTimeout(() => {
+      isNavigatingRef.current = false;
+    }, 1000);
+  }, []);
 
   // Ana sayfa verilerini canlı servis üzerinden çeker
   const fetchHomeData = useCallback(async (isPull = false) => {
@@ -280,28 +289,28 @@ export default function HomeScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false} edges={['left', 'right']}>
-      <ScrollView
-        contentContainerStyle={styles.scrollContent}
-        refreshControl={
-          <RefreshControl
-            refreshing={refreshing}
-            onRefresh={() => fetchHomeData(true)}
-            colors={[theme.colors.gold]}
-            tintColor={theme.colors.gold}
-          />
-        }
-        showsVerticalScrollIndicator={false}
-      >
-        {/* Karşılama ve Başlık Alanı */}
-        <View style={styles.greetingSection}>
-          <Text style={[styles.greetingText, { color: theme.colors.textPrimary }]}>
-            {getGreeting()} 👋
-          </Text>
-          <Text style={[styles.greetingSubtext, { color: theme.colors.textSecondary }]}>
-            Altın İz piyasa ve portföy durumunuz hazır.
-          </Text>
-        </View>
+    <ScreenContainer
+      scrollable={true}
+      edges={['left', 'right']}
+      contentContainerStyle={styles.scrollContent}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => fetchHomeData(true)}
+          colors={[theme.colors.gold]}
+          tintColor={theme.colors.gold}
+        />
+      }
+    >
+      {/* Karşılama ve Başlık Alanı */}
+      <View style={styles.greetingSection}>
+        <Text style={[styles.greetingText, { color: theme.colors.textPrimary }]}>
+          {getGreeting()} 👋
+        </Text>
+        <Text style={[styles.greetingSubtext, { color: theme.colors.textSecondary }]}>
+          Altın İz piyasa ve portföy durumunuz hazır.
+        </Text>
+      </View>
 
         {/* Kısmi Veri Uyarısı */}
         {homeData?.priceStatus === 'partial' || homeData?.hasMissingPrice ? (
@@ -321,27 +330,22 @@ export default function HomeScreen() {
         ) : null}
 
         {/* Portföy Özet Kartı (Hero Card - Gece Laciverti Vurgulu) */}
-        <Pressable
-          onPress={() => router.push('/(protected)/(tabs)/portfolio')}
-          accessible={true}
-          accessibilityRole="button"
-          accessibilityLabel="Portföy özeti, detayları görmek için dokunun"
-          style={({ pressed }) => [
-            styles.summaryCardHero,
-            {
-              opacity: pressed ? 0.92 : 1,
-            },
-          ]}
-        >
+        <View style={styles.summaryCardHero}>
           <View style={styles.summaryTopRow}>
             <Text style={styles.summaryCardSubtitleHero}>
               Tahmini Güncel Bozdurma Değeri
             </Text>
-            <View style={styles.entryCountBadgeHero}>
+            <Pressable
+              onPress={() => router.push('/(protected)/(tabs)/portfolio')}
+              hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+              style={styles.entryCountBadgeHero}
+              accessibilityRole="button"
+              accessibilityLabel="Portföy detaylarına git"
+            >
               <Text style={styles.entryCountTextHero}>
                 {summary?.totalEntries ?? 0} Kayıt ›
               </Text>
-            </View>
+            </Pressable>
           </View>
 
           {/* Ana Değer Gösterimi */}
@@ -425,14 +429,14 @@ export default function HomeScreen() {
               ℹ Bazı kayıtların fiyatı eksik olduğundan kâr-zarar kısmi hesaplanmıştır.
             </Text>
           ) : null}
-        </Pressable>
+        </View>
 
         {/* Hızlı İşlem Butonları */}
         <View style={styles.actionsRow}>
           <PrimaryButton
             title="Altın Ekle"
             icon={<Feather name="plus-circle" size={17} color="#FFFFFF" />}
-            onPress={() => router.push('/(protected)/portfolio/add')}
+            onPress={handleAddGoldPress}
             style={styles.actionButton}
           />
           <SecondaryButton
@@ -485,7 +489,6 @@ export default function HomeScreen() {
           'globe',
           'USD'
         )}
-      </ScrollView>
     </ScreenContainer>
   );
 }

@@ -29,6 +29,7 @@ import {
   View,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
@@ -43,7 +44,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { goldProductService } from '@/services/goldProductService';
 import { portfolioService } from '@/services/portfolioService';
 import { logger } from '@/utils/logger';
-import { applyDateMask } from '@/utils/formatters';
+import { applyDateMask, formatMoney } from '@/utils/formatters';
 import type { GoldProduct } from '@/models/goldProduct';
 import {
   parseQuantity,
@@ -65,8 +66,15 @@ function getTodayFormatted(): string {
 }
 
 export default function PortfolioAddScreen() {
-  const { productId: initialProductId, quantity: initialQuantity } =
-    useLocalSearchParams<{ productId?: string; quantity?: string }>();
+  const {
+    productId: initialProductId,
+    quantity: initialQuantity,
+    estimatedTotal: initialEstimatedTotal,
+  } = useLocalSearchParams<{
+    productId?: string;
+    quantity?: string;
+    estimatedTotal?: string;
+  }>();
   const { theme, isDark } = useTheme();
 
   // Veri Durumları
@@ -78,10 +86,28 @@ export default function PortfolioAddScreen() {
   // Form Alanları
   const [quantityInput, setQuantityInput] = useState(initialQuantity || '1');
   const [purchaseDateInput, setPurchaseDateInput] = useState(getTodayFormatted());
-  const [totalCostInput, setTotalCostInput] = useState('');
+  const [totalCostInput, setTotalCostInput] = useState(() => {
+    if (initialEstimatedTotal) {
+      const num = parseFloat(initialEstimatedTotal);
+      if (Number.isFinite(num) && num > 0) {
+        return num.toLocaleString('tr-TR', {
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        });
+      }
+    }
+    return '';
+  });
   const [purchasePlace, setPurchasePlace] = useState('');
   const [note, setNote] = useState('');
   const [laborIncluded, setLaborIncluded] = useState<boolean | null>(null);
+
+  // Canlı toplam tutar biçimlendirme önizlemesi
+  const parsedCostMinor = useMemo(() => {
+    if (!totalCostInput || !totalCostInput.trim()) return null;
+    const minor = parseMoneyInputToMinor(totalCostInput);
+    return minor !== null && minor > 0 ? minor : null;
+  }, [totalCostInput]);
 
   // Hata Durumları
   const [quantityError, setQuantityError] = useState<string | null>(null);
@@ -274,7 +300,7 @@ export default function PortfolioAddScreen() {
   }
 
   return (
-    <ScreenContainer scrollable={true} keyboardAvoiding={true}>
+    <ScreenContainer scrollable={true} keyboardAvoiding={true} edges={['left', 'right', 'bottom']}>
       <View style={styles.form}>
         {/* Başarı Bildirimi */}
         {submitSuccess && (
@@ -373,6 +399,27 @@ export default function PortfolioAddScreen() {
           error={costError ?? undefined}
           hint="Satın alırken ödediğiniz net tutarı giriniz (İşçilik veya komisyon dâhil toplam ödeme)."
         />
+
+        {/* Canlı Binlik Ayracı Önizleme Rozeti */}
+        {parsedCostMinor ? (
+          <View
+            style={[
+              styles.costPreviewRow,
+              {
+                backgroundColor: isDark ? theme.colors.surfaceElevated : '#F0FDF4',
+                borderColor: theme.colors.profit,
+              },
+            ]}
+          >
+            <Feather name="check-circle" size={14} color={theme.colors.profit} />
+            <Text style={[styles.costPreviewLabel, { color: theme.colors.textSecondary }]}>
+              Önizleme:
+            </Text>
+            <Text style={[styles.costPreviewValue, { color: theme.colors.profit }]}>
+              {formatMoney(parsedCostMinor)}
+            </Text>
+          </View>
+        ) : null}
 
         {/* 5. Alış Yeri (İsteğe bağlı) */}
         <TextField
@@ -745,5 +792,24 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '700',
     marginLeft: 8,
+  },
+  costPreviewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: -8,
+    marginBottom: 16,
+    gap: 6,
+  },
+  costPreviewLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  costPreviewValue: {
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

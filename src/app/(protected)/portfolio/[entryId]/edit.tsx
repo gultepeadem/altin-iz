@@ -327,7 +327,7 @@ export default function PortfolioEditScreen() {
   }
 
   return (
-    <ScreenContainer scrollable={true} keyboardAvoiding={true}>
+    <ScreenContainer scrollable={true} keyboardAvoiding={true} edges={['left', 'right', 'bottom']}>
       <View style={styles.form}>
         {/* Başarı Bildirimi */}
         {submitSuccess && (
