@@ -36,8 +36,9 @@ Altın İz görsel dili; altının zenginliğini ve modern finansal arayüzün s
 | **Ana İkon (Evrensel)** | `assets/images/icon.png` | 1024 × 1024 px | PNG (No Alpha) | Apple App Store ve mağaza ana görseli. Şeffaflık içermez. |
 | **Android Adaptive Foreground** | `assets/images/android-icon-foreground.png` | 512 × 512 px | PNG | Katmanlı logonun ön plan külçe/iz motifi. |
 | **Android Adaptive Background** | `assets/images/android-icon-background.png` | 512 × 512 px | PNG | Katmanlı logonun arka plan dokusu (#0B1220 tabanlı). |
-| **Android Adaptive Monochrome** | `assets/images/android-icon-monochrome.png` | 432 × 432 px | PNG | Android 13+ Material You temalı dinamik simge desteği. |
-| **Açılış Ekranı (Splash)** | `assets/images/splash-icon.png` | 228 × 213 px | PNG | `#0B1220` koyu zemin üzerinde ortalanmış açılış ikonu. |
+| **Android Adaptive Monochrome** | `assets/images/android-icon-monochrome.png` | 512 × 512 px | PNG | Android 13+ Material You temalı dinamik simge desteği. |
+| **Açılış Ekranı (Splash)** | `assets/images/splash-icon.png` | 512 × 512 px | PNG | `#0B1220` koyu zemin üzerinde ortalanmış açılış ikonu. |
+| **Google Play Tanıtım Afişi** | `assets/images/feature-graphic.png` | 1024 × 500 px | PNG | Google Play Store vitrin tanıtım afişi (Feature Graphic). |
 | **Web Favicon** | `assets/images/favicon.png` | 48 × 48 px | PNG | Web ve dokümantasyon önizleme ikonu. |
 
 ---

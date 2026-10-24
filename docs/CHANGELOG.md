@@ -52,7 +52,22 @@ Sürüm henüz yayımlanmamışsa:
 
 ## [Unreleased]
 
-- Henüz yayımlanmamış yeni uygulama değişikliği bulunmuyor.
+### Güvenlik ve Mimari Düzeltmeleri (24.10.2026)
+
+- **Fiyat Yazma Güvenliği (SECURITY.md 8.6):** `20261024000009_lock_sync_gold_price.sql` migration'ı ile `sync_gold_price` fonksiyonunun çalıştırma yetkisi `anon` ve `authenticated` rollerinden tamamen geri alındı (REVOKE); yalnızca `service_role` rolüne kilitlendi. İstemci (`goldPriceService.ts`) salt-okunur hale getirildi.
+- **Atomik Hesap Silme (ADR-033 / KI-018):** `20261024000008_atomic_account_deletion.sql` ile `execute_account_deletion` PostgreSQL transaction RPC'si uygulandı; `authService.ts` içindeki geçici silme yedeği kaldırılarak işlem doğrudan uzak `delete-account` Edge Function'ına bağlandı.
+- **Donanımsal Oturum Parçalama (ADR-034 / KI-014):** Android Keystore 2048 bayt sınırına takılmamak için `src/lib/supabase.ts` içerisine 1800 karakteri aşan JWT yüklerini parçalayan (`__CHUNKED__`) `secureStorage` adaptörü geliştirildi.
+
+### Edge Functions Dağıtımı (24.10.2026)
+
+- `delete-account` Edge Function'ı uzak Supabase projesine (`hoqujzhcjeaudmkyqgpc`) deploy edildi ve `ACTIVE` duruma alındı.
+- `fetch-gold-prices` Edge Function'ı uzak projeye deploy edildi; sunucu tarafında Truncgil Finance kamu veri akışı ile entegre edilerek tüm 20 altın ürününü canlı fiyatlarla doğrulayıp `gold_prices` tablosuna başarıyla yazdı.
+
+### Kullanıcı Deneyimi ve Varlıklar (24.10.2026)
+
+- **Çevrimdışı Durum Takibi (ADR-037):** `src/hooks/useNetworkStatus.ts` kancası ve `src/components/feedback/OfflineBanner.tsx` bileşeni oluşturularak kök düzene (`src/app/_layout.tsx`) eklendi.
+- **Tarih Maskelemesi:** Portföy alış tarihi alanına `applyDateMask` ile otomatik `GG.AA.YYYY` nokta koyma desteği eklendi.
+- **Marka Kimliği:** `icon.png`, `android-icon-foreground.png`, `android-icon-background.png`, `android-icon-monochrome.png` (Material You uyumlu), `splash-icon.png` ve 1024×500 Google Play `feature-graphic.png` üretildi.
 
 ---
 

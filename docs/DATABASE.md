@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3  
+**Belge sürümü:** 1.4  
 **Son güncelleme:** 24.10.2026 
-**Durum:** 8 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Durum:** 9 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -2720,6 +2720,16 @@ legal_documents
 
 
 ## Sürüm geçmişi
+
+### 1.4 - 24.10.2026
+
+- `20261024000009_lock_sync_gold_price.sql` migration'ı uygulandı: `sync_gold_price` fonksiyonu `anon` ve `authenticated` rollerinden tamamen geri alındı (REVOKE); yalnızca `service_role` rolüne kilitlendi (SECURITY.md Bölüm 8.6 uyumu).
+- Toplam uygulanan migration sayısı 9'a ulaştı.
+
+### 1.3 - 24.10.2026
+
+- `20261024000008_atomic_account_deletion.sql` migration'ı uygulandı: `execute_account_deletion` PostgreSQL RPC'si eklendi.
+- ADR-033 uyarınca hesap silme adımları tek bir atomik transaction (ROLLBACK garantili) içine alındı; KI-018 çözüldü.
 
 ### 1.2 - 19.10.2026
 

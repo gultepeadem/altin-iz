@@ -69,19 +69,19 @@ Denetim raporu doğrultusunda teknik açıkları gidermek, SecureStore ile donan
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Faz 1 ve Faz 2 tamamlandı: expo-secure-store entegrasyonu, Migration 008 atomik hesap silme fonksiyonu, sign-up.tsx yasal olay bağlamı, STORE_LISTING / STORE_ASSETS mağaza düzeltmeleri, app.json #0B1220 tema uyumu ve döküman senkronizasyonu
+Supabase CLI bağlantısı ile Migration 008 (atomik hesap silme) ve Migration 009 (sync_gold_price yetkisinin service_role'a kilitlenmesi) uzak veritabanına uygulandı. fetch-gold-prices ve delete-account Edge Function'ları uzak sunucuya deploy edildi ve test edildi. Mobil istemci salt-okunur hale getirilerek SECURITY.md 8.6 sağlandı. expo-secure-store chunking eklendi, useNetworkStatus + OfflineBanner kök düzene bağlandı, tarih maskelemesi yapıldı ve Material You uyumlu android-icon-monochrome dahil tüm mağaza varlıkları üretildi.
 ```
 
 ### Projenin mevcut aşaması
 
 ```text
-V1 Kod Tabanı Hazır — Fiziksel Cihaz Doğrulaması ve Mağaza Dağıtım Aşaması (v1.0.0-rc1)
+V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test Adımına Geçiş (v1.0.0-rc1)
 ```
 
 ### Uygulama kodu durumu
 
 ```text
-V1 mobil istemci kodu (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 58) ve Supabase backend entegrasyonu eksiksiz tamamlandı; tsc ve lint 0 hata ile doğrulandı.
+V1 mobil istemci kodu ve Supabase backend (9 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc ve lint 0 hata ile doğrulandı.
 ```
 
 ### Çalışan uygulama durumu

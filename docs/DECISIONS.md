@@ -1200,7 +1200,92 @@ Bu kararlar kesinleştiğinde yeni ADR bölümleri eklenir veya ilgili koşullu 
 
 ---
 
+# ADR-034: expo-secure-store 2048 Bayt Android Keystore Parçalama (Chunking) Mimarisi
+
+- **Durum:** Aktif
+- **Tarih:** 24.10.2026
+- **Karar vericiler:** Antigravity / Proje Sahibi
+
+## Bağlam
+
+Android SharedPreferences ve Keystore üzerinde tek bir anahtar-değer girdisi için 2048 baytlık donanımsal sınır bulunmaktadır. Supabase Auth oturum nesnesi (`access_token`, `refresh_token`, `user` meta verileri) genellikle 2 KB sınırını aşabilmekte ve doğrudan `SecureStore.setItemAsync` çağrıldığında Android ortamında uygulamanın çökmesine (`Item exceeds 2048 bytes`) neden olmaktadır.
+
+## Karar
+
+1. `src/lib/supabase.ts` içerisindeki depolama adaptörü `secureStorage` adıyla parçalama (chunking) yetenekli olarak yeniden yapılandırıldı.
+2. 1800 karakterden uzun değerler `__CHUNKED__:<sayı>` başlığıyla segmentlere ayrılarak `anahtar__chunk_0`, `anahtar__chunk_1` şeklinde kaydedilir.
+3. Okuma sırasında tüm parçalar sırayla okunup birleştirilir.
+4. Silme ve üzerine yazma durumlarında yetim (orphan) parça kalmaması için eski chunk'lar taranıp temizlenir.
+
+## Sonuçlar
+
+- Supabase oturumları Android donanımsal Keystore üzerinde güvenle ve çökme riski olmadan saklanır.
+- iOS tarafındaki Keychain ile tam uyumluluk korunur.
+
+---
+
+# ADR-035: Fiyat Yazma İşlemlerinin İstemciden Kesin Olarak Kapatılması ve service_role Kilitlenmesi
+
+- **Durum:** Aktif
+- **Tarih:** 24.10.2026
+- **Karar vericiler:** Antigravity / Proje Sahibi
+
+## Bağlam
+
+Mobil istemcinin (`anon` veya `authenticated` belirteçleriyle) doğrudan veritabanına fiyat yazabilmesi (`sync_gold_price` RPC veya doğrudan `INSERT`) finansal veri manipülasyonuna açık ciddi bir güvenlik riskidir (`SECURITY.md` Bölüm 8.6).
+
+## Karar
+
+1. `sync_gold_price` PostgreSQL fonksiyonunun çalıştırma yetkisi `anon`, `authenticated` ve `PUBLIC` rollerinden tamamen geri alındı (REVOKE - Migration 009).
+2. Yalnızca `service_role` (Edge Function ve arka plan yöneticisi) fiyat yazabilir.
+3. Mobil istemci (`goldPriceService.ts`) salt-okunur (read-only) kılındı.
+4. Manuel veya bayatlık sonrası fiyat yenileme ihtiyacında istemci yalnızca sunucu tarafındaki `fetch-gold-prices` Edge Function'ını tetikler; fiyat doğrulaması ve veritabanı kaydı sunucu üzerinde gerçekleşir.
+
+---
+
+# ADR-036: Sunucu Tarafı Fiyat Çekme ve Canlı Kamu Sağlayıcı Normalizasyonu
+
+- **Durum:** Aktif
+- **Tarih:** 24.10.2026
+- **Karar vericiler:** Antigravity / Proje Sahibi
+
+## Bağlam
+
+Henüz ticari sözleşmesi tamamlanmamış ücretli fiyat API'leri yerine uygulamanın geliştirme ve doğrulama aşamasında canlı, gerçek ve kesintisiz fiyatlarla çalışması gerekmektedir.
+
+## Karar
+
+1. `supabase/functions/fetch-gold-prices` Edge Function'ı sunucu tarafında ücretsiz piyasa veri kaynağına (`Truncgil Finance`) bağlandı.
+2. Sağlayıcıdan gelen ham veriler sunucuda doğrulanıp `price_source_product_mappings` tablosundaki resmi sembollere (`GRAM_ALTIN`, `CEYREK_YENI`, `AYAR22`, `ONS` vb.) normalize edildi.
+3. Hesaplanan kuruş (minor unit) değerleri `gold_prices` tablosuna `service_role` yetkisiyle işlendi.
+
+---
+
+# ADR-037: Çevrimdışı Durum Algılama (useNetworkStatus) ve Kök Düzey OfflineBanner
+
+- **Durum:** Aktif
+- **Tarih:** 24.10.2026
+- **Karar vericiler:** Antigravity / Proje Sahibi
+
+## Bağlam
+
+Mobil cihazlarda internet bağlantısının aniden kesilmesi durumunda kullanıcının işlem yapmaya çalışması ve sessizce hata alması kötü bir kullanıcı deneyimidir.
+
+## Karar
+
+1. `src/hooks/useNetworkStatus.ts` kancası oluşturuldu (Web online/offline dinleyicileri, mobil `AppState` ön plana dönüş dinleyicisi ve 4 saniyelik zaman aşımı korumalı hafif sunucu ping'i).
+2. `src/components/feedback/OfflineBanner.tsx` bileşeni kök düzen (`src/app/_layout.tsx`) içerisine yerleştirilerek bağlantı kesildiğinde ekranın en üstünde kırmızı uyarı şeridi ve "Tekrar Dene" butonu gösterilmesi sağlandı.
+
+---
+
 # Sürüm geçmişi
+
+## 1.4 - 24.10.2026
+
+- ADR-034 ile `expo-secure-store` 2048 bayt Android Keystore parçalama mimarisi karara bağlandı.
+- ADR-035 ile fiyat yazma yetkisi `service_role` rolüne kilitlendi; istemci doğrudan fiyat yazma yetkisi kapatıldı.
+- ADR-036 ile sunucu tarafı canlı fiyat çekme ve Truncgil normalizasyonu karara bağlandı.
+- ADR-037 ile `useNetworkStatus` kancası ve kök düzey `OfflineBanner` entegrasyonu karara bağlandı.
 
 ## 1.3 - 22.10.2026
 

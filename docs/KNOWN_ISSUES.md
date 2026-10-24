@@ -652,15 +652,20 @@ JavaScript `number` türünün sınırları veya kayan nokta davranışı nedeni
 
 ## KI-014: Mobil Supabase oturum saklama yöntemi kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Kimlik doğrulama ve güvenlik  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 24.10.2026  
+**Çözüm referansı:** ADR-034, `src/lib/supabase.ts`
 
 ### Açıklama
 
-Supabase oturumunun Expo üzerinde Android ve iOS'ta hangi güncel saklama adaptörüyle yönetileceği gerçek proje ve güncel paket sürümleri üzerinde doğrulanmamıştır.
+Supabase oturumunun Expo üzerinde Android ve iOS'ta hangi güncel saklama adaptörüyle yönetileceği ve Android Keystore 2048 bayt sınırına karşı nasıl korunacağı kesinleşmemişti.
+
+### Çözüm
+
+`src/lib/supabase.ts` içerisinde `expo-secure-store` tabanlı ve 1800 karakteri aşan JWT yüklerini otomatik olarak parçalayan (`__CHUNKED__:<sayı>`) `secureStorage` adaptörü geliştirilerek çözüldü (ADR-034). Oturum verileri donanımsal Keystore / Keychain üzerinde şifreli olarak korunmaktadır.
 
 ### Etki
 

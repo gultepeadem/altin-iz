@@ -1516,10 +1516,10 @@ Migration görevleri küçük dosyalara ayrılabilir:
 - [!] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi (KI-025 - Hukukçu son onayı beklemede).
 - [x] Google Play Data Safety beyanları gerçek davranışla eşitlendi.
 - [x] App Store App Privacy beyanları gerçek davranışla eşitlendi.
-- [x] Destek kanalı ve e-posta adresi aktif (destek@altiniz.app).
-- [x] Hesap silme web bağlantısı yayında (https://altiniz.app/hesap-silme).
+- [ ] Destek kanalı ve e-posta adresi (destek@altiniz.app - Alan adı tescili ve DNS bekleniyor).
+- [ ] Hesap silme web bağlantısı (https://altiniz.app/hesap-silme - website/ altında HTML hazır, alan adı yayını bekleniyor).
 - [x] Son production yedeği ve geri dönüş planı hazır (RELEASE_RUNBOOK.md).
-- [x] Production migrationları doğrulandı (8 migration sıralı hazır).
+- [x] Production migrationları doğrulandı (9 migration sıralı uygulandı).
 - [x] Son Git etiketi veya sürüm kaydı oluşturuldu (v1.0.0-rc1).
 
 ---
