@@ -21,6 +21,7 @@ import {
   View,
 } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
@@ -112,7 +113,7 @@ export default function HomeScreen() {
 
   const summary = homeData?.portfolioSummary;
 
-  // Portföy kâr/zarar metni ve rengi (Ayrık tutar ve yüzde rozeti: satır kaymasını önler)
+  // Portföy kâr/zarar metni ve rengi (Ayrık tutar ve tekil yüzde rozeti: çift artı hatası düzeltildi)
   const getPortfolioPL = () => {
     if (!summary || summary.totalProfitLossMinor === null) {
       return {
@@ -129,7 +130,7 @@ export default function HomeScreen() {
 
     return {
       amountText: `${sign}${formatMoney(summary.totalProfitLossMinor)}`,
-      percentText: `${sign}${formatPercent(summary.totalProfitLossPercentage)}`,
+      percentText: formatPercent(summary.totalProfitLossPercentage),
       color: isProfit
         ? theme.colors.profit
         : isLoss
@@ -157,6 +158,7 @@ export default function HomeScreen() {
     defaultTitle: string,
     badgeText: string,
     subText: string,
+    iconName: 'disc' | 'award' | 'globe',
     currency = 'TRY'
   ) => {
     const product = featured?.product;
@@ -188,23 +190,41 @@ export default function HomeScreen() {
           styles.priceCard,
           {
             backgroundColor: theme.colors.card,
-            borderColor: theme.colors.cardBorder,
+            borderColor: theme.colors.border,
             opacity: pressed ? 0.85 : 1,
           },
         ]}
       >
         <View style={styles.cardHeaderRow}>
           <View style={styles.titleWithBadge}>
-            <Text style={[styles.cardTitle, { color: theme.colors.textPrimary }]}>
-              {product?.name ?? defaultTitle}
-            </Text>
             <View
               style={[
-                styles.miniBadge,
-                { backgroundColor: isDark ? theme.colors.surfaceElevated : theme.colors.primaryLight },
+                styles.productIconWrap,
+                { backgroundColor: isDark ? theme.colors.surfaceElevated : '#F8FAFC' },
               ]}
             >
-              <Text style={styles.miniBadgeText}>{badgeText}</Text>
+              <Feather name={iconName} size={18} color={theme.colors.gold} />
+            </View>
+            <View style={styles.productNameGroup}>
+              <View style={styles.productNameBadgeRow}>
+                <Text style={[styles.cardTitle, { color: theme.colors.textPrimary }]}>
+                  {product?.name ?? defaultTitle}
+                </Text>
+                <View
+                  style={[
+                    styles.miniBadge,
+                    { backgroundColor: isDark ? theme.colors.surfaceElevated : '#EEF2F6' },
+                  ]}
+                >
+                  <Text style={[styles.miniBadgeText, { color: isDark ? theme.colors.gold : '#1E293B' }]}>
+                    {badgeText}
+                  </Text>
+                </View>
+              </View>
+              <Text style={[styles.cardSubtitleText, { color: theme.colors.textTertiary }]}>
+                {subText}
+                {isStale ? ' • Gecikmeli Veri' : ''}
+              </Text>
             </View>
           </View>
 
@@ -215,9 +235,13 @@ export default function HomeScreen() {
                 styles.changeBadge,
                 {
                   backgroundColor: isChangePositive
-                    ? theme.colors.profitLight
+                    ? isDark
+                      ? '#13281d'
+                      : theme.colors.profitLight
                     : isChangeNegative
-                      ? theme.colors.lossLight
+                      ? isDark
+                        ? '#3b1c1c'
+                        : theme.colors.lossLight
                       : theme.colors.divider,
                 },
               ]}
@@ -229,12 +253,7 @@ export default function HomeScreen() {
           ) : null}
         </View>
 
-        <Text style={[styles.cardSubtitleText, { color: theme.colors.textTertiary }]}>
-          {subText}
-          {isStale ? ' • 🕒 Eski Fiyat' : ''}
-        </Text>
-
-        {/* Alış ve Satış Fiyatları (0 TL engelli - ADR-013) */}
+        {/* Alış ve Satış Fiyatları (Aralarında ince dikey ayırıcı) */}
         <View style={[styles.cardPricesRow, { borderTopColor: theme.colors.divider }]}>
           <View style={styles.priceCol}>
             <Text style={[styles.priceColLabel, { color: theme.colors.textSecondary }]}>
@@ -245,11 +264,13 @@ export default function HomeScreen() {
             </Text>
           </View>
 
+          <View style={[styles.priceColDivider, { backgroundColor: theme.colors.divider }]} />
+
           <View style={styles.priceColRight}>
             <Text style={[styles.priceColLabel, { color: theme.colors.textSecondary }]}>
               Satış (Satın Alma)
             </Text>
-            <Text style={[styles.priceColValue, { color: theme.colors.textPrimary }]}>
+            <Text style={[styles.priceColValueRight, { color: theme.colors.textPrimary }]}>
               {hasPrice ? formatMoney(price?.sellPriceMinor, currency) : 'Fiyat Yok'}
             </Text>
           </View>
@@ -282,24 +303,15 @@ export default function HomeScreen() {
           </Text>
         </View>
 
-        {/* Son Fiyat Güncelleme Bilgisi */}
-        {homeData?.lastPriceTime ? (
-          <View style={styles.lastUpdateRow}>
-            <Text style={[styles.lastUpdateText, { color: theme.colors.textTertiary }]}>
-              🕒 Son Fiyat Güncellemesi: {formatDateTime(homeData.lastPriceTime)}
-            </Text>
-          </View>
-        ) : null}
-
-        {/* Kısmi Veri Uyarısı (ADR-013) */}
+        {/* Kısmi Veri Uyarısı */}
         {homeData?.priceStatus === 'partial' || homeData?.hasMissingPrice ? (
           <PartialDataBanner
-            message="Bazı altın türlerinin güncel piyasa fiyatı alınamadı (ADR-013)."
+            message="Bazı altın türlerinin güncel piyasa fiyatı alınamadı."
             style={styles.bannerSpacing}
           />
         ) : null}
 
-        {/* Eski Fiyat Uyarısı (ADR-014) */}
+        {/* Eski Fiyat Uyarısı */}
         {homeData?.isPriceStale || homeData?.priceStatus === 'stale' ? (
           <StaleDataBanner
             lastUpdatedAt={homeData?.lastPriceTime ? formatDateTime(homeData.lastPriceTime) : undefined}
@@ -308,45 +320,32 @@ export default function HomeScreen() {
           />
         ) : null}
 
-        {/* Portföy Özet Kartı */}
+        {/* Portföy Özet Kartı (Hero Card - Gece Laciverti Vurgulu) */}
         <Pressable
           onPress={() => router.push('/(protected)/(tabs)/portfolio')}
           accessible={true}
           accessibilityRole="button"
           accessibilityLabel="Portföy özeti, detayları görmek için dokunun"
           style={({ pressed }) => [
-            styles.summaryCard,
+            styles.summaryCardHero,
             {
-              backgroundColor: theme.colors.card,
-              borderColor: theme.colors.cardBorder,
-              opacity: pressed ? 0.9 : 1,
+              opacity: pressed ? 0.92 : 1,
             },
           ]}
         >
           <View style={styles.summaryTopRow}>
-            <Text style={[styles.summaryCardSubtitle, { color: theme.colors.textSecondary }]}>
+            <Text style={styles.summaryCardSubtitleHero}>
               Tahmini Güncel Bozdurma Değeri
             </Text>
-            <View style={styles.portfolioLinkGroup}>
-              <View
-                style={[
-                  styles.entryCountBadge,
-                  {
-                    backgroundColor: isDark ? theme.colors.surfaceElevated : theme.colors.goldLight,
-                    borderColor: theme.colors.gold,
-                  },
-                ]}
-              >
-                <Text style={[styles.entryCountText, { color: theme.colors.gold }]}>
-                  {summary?.totalEntries ?? 0} Kayıt
-                </Text>
-              </View>
-              <Text style={[styles.linkArrowText, { color: theme.colors.gold }]}>→</Text>
+            <View style={styles.entryCountBadgeHero}>
+              <Text style={styles.entryCountTextHero}>
+                {summary?.totalEntries ?? 0} Kayıt ›
+              </Text>
             </View>
           </View>
 
-          {/* Ana Değer Gösterimi (ADR-010) */}
-          <Text style={[styles.summaryHeadline, { color: theme.colors.textPrimary }]}>
+          {/* Ana Değer Gösterimi */}
+          <Text style={styles.summaryHeadlineHero}>
             {summary && summary.totalCurrentValueMinor > 0
               ? formatMoney(summary.totalCurrentValueMinor)
               : summary && summary.totalEntries === 0
@@ -355,30 +354,64 @@ export default function HomeScreen() {
           </Text>
 
           {/* Maliyet ve Kâr/Zarar Gösterimi (Satır kaymasını önleyen yan yana tasarım) */}
-          <View style={[styles.metricsRow, { borderTopColor: theme.colors.divider }]}>
+          <View style={styles.metricsRowHero}>
             <View style={styles.metricItem}>
-              <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
+              <Text style={styles.metricLabelHero}>
                 Ödenen Maliyet
               </Text>
-              <Text style={[styles.metricValue, { color: theme.colors.textPrimary }]}>
+              <Text style={styles.metricValueHero}>
                 {formatMoney(summary?.totalCostMinor ?? 0)}
               </Text>
             </View>
 
             <View style={styles.metricItemRight}>
-              <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
+              <Text style={styles.metricLabelHero}>
                 Kâr / Zarar
               </Text>
               <View style={styles.plValueRow}>
                 <Text
-                  style={[styles.metricValue, { color: plDisplay.color, fontWeight: '700' }]}
+                  style={[
+                    styles.metricValueHero,
+                    {
+                      color:
+                        summary && summary.totalProfitLossMinor && summary.totalProfitLossMinor > 0
+                          ? '#34D399'
+                          : summary && summary.totalProfitLossMinor && summary.totalProfitLossMinor < 0
+                          ? '#F87171'
+                          : '#F1F5F9',
+                    },
+                  ]}
                   numberOfLines={1}
                 >
                   {plDisplay.amountText}
                 </Text>
                 {plDisplay.percentText ? (
-                  <View style={[styles.plPercentBadge, { backgroundColor: plDisplay.badgeBg }]}>
-                    <Text style={[styles.plPercentBadgeText, { color: plDisplay.color }]}>
+                  <View
+                    style={[
+                      styles.plPercentBadge,
+                      {
+                        backgroundColor:
+                          summary && summary.totalProfitLossMinor && summary.totalProfitLossMinor > 0
+                            ? 'rgba(52, 211, 153, 0.2)'
+                            : summary && summary.totalProfitLossMinor && summary.totalProfitLossMinor < 0
+                            ? 'rgba(248, 113, 113, 0.2)'
+                            : 'rgba(255, 255, 255, 0.15)',
+                      },
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.plPercentBadgeText,
+                        {
+                          color:
+                            summary && summary.totalProfitLossMinor && summary.totalProfitLossMinor > 0
+                              ? '#34D399'
+                              : summary && summary.totalProfitLossMinor && summary.totalProfitLossMinor < 0
+                              ? '#F87171'
+                              : '#F1F5F9',
+                        },
+                      ]}
+                    >
                       {plDisplay.percentText}
                     </Text>
                   </View>
@@ -388,8 +421,8 @@ export default function HomeScreen() {
           </View>
 
           {homeData?.portfolioStatus === 'partial' ? (
-            <Text style={[styles.partialWarningText, { color: theme.colors.warning }]}>
-              ℹ Bazı kayıtların fiyatı eksik olduğundan kâr-zarar kısmi hesaplanmıştır (ADR-013).
+            <Text style={styles.partialWarningTextHero}>
+              ℹ Bazı kayıtların fiyatı eksik olduğundan kâr-zarar kısmi hesaplanmıştır.
             </Text>
           ) : null}
         </Pressable>
@@ -397,12 +430,14 @@ export default function HomeScreen() {
         {/* Hızlı İşlem Butonları */}
         <View style={styles.actionsRow}>
           <PrimaryButton
-            title="+ Altın Ekle"
+            title="Altın Ekle"
+            icon={<Feather name="plus-circle" size={17} color="#FFFFFF" />}
             onPress={() => router.push('/(protected)/portfolio/add')}
             style={styles.actionButton}
           />
           <SecondaryButton
             title="Hesapla"
+            icon={<Feather name="percent" size={16} color={theme.colors.textPrimary} />}
             onPress={() => router.push('/(protected)/(tabs)/calculator')}
             style={styles.actionButton}
           />
@@ -428,7 +463,8 @@ export default function HomeScreen() {
           homeData?.gramGold ?? null,
           'Gram Altın',
           'GRAM',
-          '24 Ayar Standart Gram Altın'
+          '24 Ayar Standart Gram Altın',
+          'disc'
         )}
 
         {/* 2. Çeyrek Altın Kartı (Yeni Tarihli) */}
@@ -436,7 +472,8 @@ export default function HomeScreen() {
           homeData?.quarterGold ?? null,
           'Çeyrek Altın',
           'ÇEYREK',
-          'Yeni Tarihli Darphane Sikkesi'
+          'Yeni Tarihli Darphane Sikkesi',
+          'award'
         )}
 
         {/* 3. Ons Altın Kartı (Uluslararası) */}
@@ -445,6 +482,7 @@ export default function HomeScreen() {
           'Ons Altın',
           'ONS',
           'Uluslararası Piyasa (USD/oz)',
+          'globe',
           'USD'
         )}
       </ScrollView>
@@ -480,60 +518,68 @@ const styles = StyleSheet.create({
   bannerSpacing: {
     marginBottom: 12,
   },
-  summaryCard: {
+  summaryCardHero: {
+    backgroundColor: '#0F172A',
+    borderColor: 'rgba(212, 167, 44, 0.3)',
+    borderWidth: 1.2,
+    borderRadius: 18,
     padding: 20,
-    borderRadius: 16,
-    borderWidth: 1,
     marginBottom: 16,
   },
-  summaryTopRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    marginBottom: 6,
-  },
-  summaryCardSubtitle: {
+  summaryCardSubtitleHero: {
+    color: '#94A3B8',
     fontSize: 13,
     fontWeight: '500',
   },
-  portfolioLinkGroup: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 6,
-  },
-  entryCountBadge: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    borderRadius: 6,
+  entryCountBadgeHero: {
+    backgroundColor: 'rgba(212, 167, 44, 0.15)',
+    borderColor: 'rgba(212, 167, 44, 0.4)',
     borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    paddingVertical: 3,
   },
-  entryCountText: {
+  entryCountTextHero: {
+    color: '#F1C40F',
     fontSize: 11,
     fontWeight: '700',
   },
-  linkArrowText: {
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  summaryHeadline: {
-    fontSize: 28,
+  summaryHeadlineHero: {
+    color: '#FFFFFF',
+    fontSize: 30,
     fontWeight: '800',
     letterSpacing: -0.5,
-    marginBottom: 16,
+    marginVertical: 12,
   },
-  metricsRow: {
+  metricsRowHero: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'flex-start',
     paddingTop: 12,
     borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
   },
-  metricItem: {
-    minWidth: 100,
+  metricLabelHero: {
+    color: '#94A3B8',
+    fontSize: 11,
+    marginBottom: 3,
   },
-  metricItemRight: {
-    flex: 1,
-    alignItems: 'flex-end',
+  metricValueHero: {
+    color: '#F1F5F9',
+    fontSize: 14,
+    fontWeight: '700',
+  },
+  partialWarningTextHero: {
+    color: '#F59E0B',
+    fontSize: 11,
+    marginTop: 10,
+    fontStyle: 'italic',
+  },
+  summaryTopRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 4,
   },
   plValueRow: {
     flexDirection: 'row',
@@ -553,18 +599,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontWeight: '700',
   },
-  metricLabel: {
-    fontSize: 11,
-    marginBottom: 3,
+  metricItem: {
+    minWidth: 100,
   },
-  metricValue: {
-    fontSize: 14,
-    fontWeight: '600',
-  },
-  partialWarningText: {
-    fontSize: 11,
-    marginTop: 10,
-    fontStyle: 'italic',
+  metricItemRight: {
+    flex: 1,
+    alignItems: 'flex-end',
   },
   actionsRow: {
     flexDirection: 'row',
@@ -573,6 +613,7 @@ const styles = StyleSheet.create({
   },
   actionButton: {
     flex: 1,
+    height: 46,
   },
   sectionHeaderRow: {
     flexDirection: 'row',
@@ -598,12 +639,28 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 4,
+    marginBottom: 6,
   },
   titleWithBadge: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
+  },
+  productIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  productNameGroup: {
+    flex: 1,
+  },
+  productNameBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 2,
   },
   cardTitle: {
     fontSize: 16,
@@ -618,7 +675,6 @@ const styles = StyleSheet.create({
   miniBadgeText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#FFFFFF',
   },
   changeBadge: {
     paddingHorizontal: 8,
@@ -631,16 +687,22 @@ const styles = StyleSheet.create({
   },
   cardSubtitleText: {
     fontSize: 12,
-    marginBottom: 12,
+    marginBottom: 10,
   },
   cardPricesRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
+    alignItems: 'center',
     borderTopWidth: 1,
     paddingTop: 10,
   },
   priceCol: {
     flex: 1,
+  },
+  priceColDivider: {
+    width: 1,
+    height: 28,
+    marginHorizontal: 12,
   },
   priceColRight: {
     flex: 1,
@@ -653,5 +715,9 @@ const styles = StyleSheet.create({
   priceColValue: {
     fontSize: 15,
     fontWeight: '700',
+  },
+  priceColValueRight: {
+    fontSize: 15,
+    fontWeight: '800',
   },
 });

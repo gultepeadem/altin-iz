@@ -27,6 +27,7 @@ import {
   View,
 } from 'react-native';
 import { router } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { TextField } from '@/components/forms/TextField';
@@ -55,6 +56,147 @@ const SORT_OPTIONS: SortChipItem[] = [
   { id: 'price_asc', label: 'Fiyat (Artan)' },
   { id: 'price_desc', label: 'Fiyat (Azalan)' },
 ];
+
+function getGoldIcon(code: string): 'disc' | 'award' | 'shield' | 'globe' | 'layers' {
+  const c = code.toUpperCase();
+  if (c.includes('ONS') || c.includes('OUNCE')) return 'globe';
+  if (c.includes('ATA') || c.includes('CUMHURIYET') || c.includes('RESAT') || c.includes('HAMIT')) return 'shield';
+  if (c.includes('CEYREK') || c.includes('YARIM') || c.includes('TAM')) return 'award';
+  if (c.includes('KULCE') || c.includes('GREMSE') || c.includes('BESLI')) return 'layers';
+  return 'disc';
+}
+
+interface PricesHeaderProps {
+  latestUpdatedTime: string | null;
+  hasStale: boolean;
+  hasPartial: boolean;
+  onRefresh: () => void;
+  search: string;
+  onSearchChange: (text: string) => void;
+  sortMode: SortMode;
+  onSortModeChange: (mode: SortMode) => void;
+  theme: any;
+  isDark: boolean;
+}
+
+// Liste ile birlikte akıcı kayan ve klavye odağını kaybetmeyen bağımsız başlık bileşeni
+const PricesListHeader = React.memo(function PricesListHeader({
+  latestUpdatedTime,
+  hasStale,
+  hasPartial,
+  onRefresh,
+  search,
+  onSearchChange,
+  sortMode,
+  onSortModeChange,
+  theme,
+  isDark,
+}: PricesHeaderProps) {
+  return (
+    <View style={styles.fixedTopSection}>
+      {latestUpdatedTime ? (
+        <View style={styles.timeInfoRow}>
+          <Feather name="clock" size={12} color={theme.colors.textTertiary} style={{ marginRight: 4 }} />
+          <Text style={[styles.timeInfoText, { color: theme.colors.textTertiary }]}>
+            Son Fiyat Güncellemesi: {formatDateTime(latestUpdatedTime)}
+          </Text>
+        </View>
+      ) : null}
+
+      {/* Eski Veri Şeridi */}
+      {hasStale && (
+        <StaleDataBanner
+          lastUpdatedAt={latestUpdatedTime ? formatDateTime(latestUpdatedTime) : undefined}
+          onRefresh={onRefresh}
+          style={styles.bannerSpacing}
+        />
+      )}
+
+      {/* Kısmi Veri Şeridi */}
+      {!hasStale && hasPartial && (
+        <PartialDataBanner
+          message="Bazı altın türlerinin güncel piyasa fiyatı henüz temin edilemedi veya kısmi olarak yayınlandı."
+          style={styles.bannerSpacing}
+        />
+      )}
+
+      {/* Arama Alanı (Vektörel ikonlarla) */}
+      <TextField
+        placeholder="Altın türü ara (ör. Gram, Çeyrek, Ata)..."
+        value={search}
+        onChangeText={onSearchChange}
+        leftIcon={<Feather name="search" size={16} color={theme.colors.textSecondary} />}
+        rightIcon={
+          search.length > 0 ? (
+            <Pressable
+              onPress={() => onSearchChange('')}
+              hitSlop={8}
+              accessibilityLabel="Aramayı temizle"
+              accessibilityRole="button"
+            >
+              <Feather name="x" size={16} color={theme.colors.textSecondary} />
+            </Pressable>
+          ) : undefined
+        }
+        containerStyle={styles.searchContainer}
+      />
+
+      {/* Sıralama Kontrolleri */}
+      <ScrollView
+        horizontal
+        showsHorizontalScrollIndicator={false}
+        contentContainerStyle={styles.sortChipsContainer}
+      >
+        {SORT_OPTIONS.map((opt) => {
+          const isSelected = sortMode === opt.id;
+          return (
+            <Pressable
+              key={opt.id}
+              onPress={() => onSortModeChange(opt.id)}
+              style={[
+                styles.sortChip,
+                {
+                  backgroundColor: isSelected
+                    ? isDark
+                      ? theme.colors.surfaceElevated
+                      : theme.colors.goldLight
+                    : theme.colors.card,
+                  borderColor: isSelected ? theme.colors.gold : theme.colors.border,
+                },
+              ]}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityState={{ selected: isSelected }}
+              accessibilityLabel={`Sıralama seçeneği: ${opt.label}`}
+            >
+              <Text
+                style={[
+                  styles.sortChipText,
+                  {
+                    color: isSelected ? theme.colors.gold : theme.colors.textSecondary,
+                    fontWeight: isSelected ? '700' : '500',
+                  },
+                ]}
+              >
+                {opt.label}
+              </Text>
+            </Pressable>
+          );
+        })}
+      </ScrollView>
+
+      {/* Tablo Sütun Başlıkları */}
+      <View style={styles.tableHeader}>
+        <Text style={[styles.headerCol, { color: theme.colors.textSecondary }]}>
+          Altın Türü & Ayar
+        </Text>
+        <Text style={[styles.headerColRight, { color: theme.colors.textSecondary }]}>
+          Alış / Satış Fiyatı
+        </Text>
+      </View>
+    </View>
+  );
+});
 
 export default function PricesScreen() {
   const { theme, isDark } = useTheme();
@@ -197,288 +339,216 @@ export default function PricesScreen() {
 
 
   // Tekil Ürün Kartı Bileşeni
-  const renderItem = ({ item }: { item: ProductWithPrice }) => {
-    const { product, price } = item;
-    const dailyChange = price?.dailyChangePercent;
+  const renderItem = useCallback(
+    ({ item }: { item: ProductWithPrice }) => {
+      const { product, price } = item;
+      const dailyChange = price?.dailyChangePercent;
 
-    // Fiyat mevcut mu kontrolü (ADR-013)
-    const hasBuyPrice = price?.buyPriceMinor !== null && price?.buyPriceMinor !== undefined;
-    const hasSellPrice = price?.sellPriceMinor !== null && price?.sellPriceMinor !== undefined;
-    const isPriceUnavailable = !hasBuyPrice && !hasSellPrice;
+      // Fiyat mevcut mu kontrolü (ADR-013)
+      const hasBuyPrice = price?.buyPriceMinor !== null && price?.buyPriceMinor !== undefined;
+      const hasSellPrice = price?.sellPriceMinor !== null && price?.sellPriceMinor !== undefined;
+      const isPriceUnavailable = !hasBuyPrice && !hasSellPrice;
 
-    return (
-      <Pressable
-        onPress={() => router.push(`/(protected)/gold/${product.id}` as any)}
-        style={({ pressed }) => [
-          styles.productCard,
-          {
-            backgroundColor: theme.colors.card,
-            borderColor: theme.colors.border,
-            opacity: pressed ? 0.8 : 1,
-          },
-        ]}
-        accessible={true}
-        accessibilityRole="button"
-        accessibilityLabel={`${product.name}, Alış: ${
-          hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : 'Fiyat yok'
-        }, Satış: ${
-          hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : 'Fiyat yok'
-        }`}
-      >
-        {/* Üst Kısım: Ürün Adı, Kategori Rozeti ve Günlük Değişim */}
-        <View style={styles.cardTopRow}>
-          <View style={styles.productTitleArea}>
-            <Text
-              style={[styles.productName, { color: theme.colors.textPrimary }]}
-              numberOfLines={2}
-              ellipsizeMode="tail"
-            >
-              {product.name}
-            </Text>
-
-            <View style={styles.badgeRow}>
-              {product.shortName ? (
-                <View
-                  style={[
-                    styles.miniBadge,
-                    {
-                      backgroundColor: isDark
-                        ? theme.colors.surfaceElevated
-                        : theme.colors.background,
-                      borderColor: theme.colors.border,
-                    },
-                  ]}
-                >
-                  <Text style={[styles.miniBadgeText, { color: theme.colors.textSecondary }]}>
-                    {product.shortName}
-                  </Text>
-                </View>
-              ) : null}
-
-              {price?.status === 'stale' && (
-                <View
-                  style={[
-                    styles.miniBadge,
-                    {
-                      backgroundColor: theme.colors.warningLight,
-                      borderColor: theme.colors.warning,
-                    },
-                  ]}
-                >
-                  <Text style={[styles.miniBadgeText, { color: theme.colors.warning }]}>
-                    Eski Veri
-                  </Text>
-                </View>
-              )}
-            </View>
-          </View>
-
-          {/* Günlük Değişim Rozeti (Yalnızca değer varsa gösterilir) */}
-          {dailyChange !== null && dailyChange !== undefined ? (
-            <View
-              style={[
-                styles.changeBadge,
-                {
-                  backgroundColor:
-                    dailyChange > 0
-                      ? isDark
-                        ? '#143825'
-                        : theme.colors.profitLight
-                      : dailyChange < 0
-                      ? isDark
-                        ? '#3b1c1c'
-                        : theme.colors.lossLight
-                      : isDark
-                      ? theme.colors.surfaceElevated
-                      : theme.colors.cardBorder,
-                },
-              ]}
-            >
-              <Text
-                style={[
-                  styles.changeText,
-                  {
-                    color:
-                      dailyChange > 0
-                        ? theme.colors.profit
-                        : dailyChange < 0
-                        ? theme.colors.loss
-                        : theme.colors.textSecondary,
-                  },
-                ]}
-              >
-                {dailyChange > 0 ? '▲ ' : dailyChange < 0 ? '▼ ' : ''}
-                {formatPercent(dailyChange)}
-              </Text>
-            </View>
-          ) : null}
-        </View>
-
-        {/* Alt Kısım: Alış ve Satış Fiyatları (Açık ve Karışıklığa Yer Vermeyecek Şekilde) */}
-        <View
-          style={[
-            styles.cardBottomRow,
+      return (
+        <Pressable
+          onPress={() => router.push(`/(protected)/gold/${product.id}` as any)}
+          style={({ pressed }) => [
+            styles.productCard,
             {
-              borderTopColor: theme.colors.divider,
+              backgroundColor: theme.colors.card,
+              borderColor: theme.colors.border,
+              opacity: pressed ? 0.85 : 1,
             },
           ]}
+          accessible={true}
+          accessibilityRole="button"
+          accessibilityLabel={`${product.name}, Alış: ${
+            hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : 'Fiyat yok'
+          }, Satış: ${
+            hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : 'Fiyat yok'
+          }`}
         >
-          {/* Alış Fiyatı Kutusu */}
-          <View style={styles.priceColumn}>
-            <Text style={[styles.priceTypeLabel, { color: theme.colors.textSecondary }]}>
-              Alış (Bozdurma)
-            </Text>
-            <Text
-              style={[
-                styles.priceValue,
-                {
-                  color: hasBuyPrice ? theme.colors.textPrimary : theme.colors.textTertiary,
-                },
-              ]}
-            >
-              {hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : '-'}
-            </Text>
-          </View>
-
-          {/* Dikey Ayırıcı */}
-          <View style={[styles.priceDivider, { backgroundColor: theme.colors.divider }]} />
-
-          {/* Satış Fiyatı Kutusu */}
-          <View style={[styles.priceColumn, styles.priceColumnRight]}>
-            <Text style={[styles.priceTypeLabel, { color: theme.colors.textSecondary }]}>
-              Satış (Satın Alma)
-            </Text>
-            <Text
-              style={[
-                styles.priceValue,
-                {
-                  color: hasSellPrice ? theme.colors.gold : theme.colors.textTertiary,
-                },
-              ]}
-            >
-              {hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : '-'}
-            </Text>
-          </View>
-        </View>
-
-        {/* Fiyat Yoksa Özel Açıklayıcı Uyarı (ADR-013: Asla 0 TL gösterilmez) */}
-        {isPriceUnavailable && (
-          <View style={styles.unavailableWarningRow}>
-            <Text style={[styles.unavailableWarningText, { color: theme.colors.textTertiary }]}>
-              Bu ürün için henüz güncel piyasa fiyatı oluşmadı.
-            </Text>
-          </View>
-        )}
-      </Pressable>
-    );
-  };
-
-  return (
-    <ScreenContainer scrollable={false} withPadding={true} edges={['left', 'right']}>
-      {/* Sabit Arama, Filtreleme ve Tablo Başlığı (Klavye kapanmasını önler) */}
-      <View style={styles.fixedTopSection}>
-        {latestUpdatedTime ? (
-          <View style={styles.timeInfoRow}>
-            <Text style={[styles.timeInfoText, { color: theme.colors.textTertiary }]}>
-              🕒 Son Fiyat Güncellemesi: {formatDateTime(latestUpdatedTime)}
-            </Text>
-          </View>
-        ) : null}
-
-        {/* Eski Veri Şeridi (ADR-014) */}
-        {hasStale && (
-          <StaleDataBanner
-            lastUpdatedAt={latestUpdatedTime ? formatDateTime(latestUpdatedTime) : undefined}
-            onRefresh={() => handleRefresh(true)}
-            style={styles.bannerSpacing}
-          />
-        )}
-
-        {/* Kısmi Veri Şeridi (ADR-013) */}
-        {!hasStale && hasPartial && (
-          <PartialDataBanner
-            message="Bazı altın türlerinin güncel piyasa fiyatı henüz temin edilemedi veya kısmi olarak yayınlandı."
-            style={styles.bannerSpacing}
-          />
-        )}
-
-        {/* Arama Alanı (FlatList dışındadır, yeniden render olduğunda odağı kaybetmez) */}
-        <TextField
-          placeholder="Altın türü ara (ör. Gram, Çeyrek, Ata)..."
-          value={search}
-          onChangeText={setSearch}
-          leftIcon={<Text style={styles.searchIcon}>🔍</Text>}
-          rightIcon={
-            search.length > 0 ? (
-              <Pressable
-                onPress={() => setSearch('')}
-                hitSlop={8}
-                accessibilityLabel="Aramayı temizle"
-                accessibilityRole="button"
-              >
-                <Text style={[styles.clearIcon, { color: theme.colors.textSecondary }]}>✕</Text>
-              </Pressable>
-            ) : undefined
-          }
-          containerStyle={styles.searchContainer}
-        />
-
-        {/* Sıralama Kontrolleri */}
-        <ScrollView
-          horizontal
-          showsHorizontalScrollIndicator={false}
-          contentContainerStyle={styles.sortChipsContainer}
-        >
-          {SORT_OPTIONS.map((opt) => {
-            const isSelected = sortMode === opt.id;
-            return (
-              <Pressable
-                key={opt.id}
-                onPress={() => setSortMode(opt.id)}
+          {/* Üst Kısım: Ürün Adı, İkon, Kategori Rozeti ve Günlük Değişim */}
+          <View style={styles.cardTopRow}>
+            <View style={styles.productTitleArea}>
+              <View
                 style={[
-                  styles.sortChip,
+                  styles.productIconWrap,
+                  { backgroundColor: isDark ? theme.colors.surfaceElevated : '#F8FAFC' },
+                ]}
+              >
+                <Feather name={getGoldIcon(product.code)} size={18} color={theme.colors.gold} />
+              </View>
+              <View style={styles.productTextGroup}>
+                <View style={styles.productNameBadgeRow}>
+                  <Text
+                    style={[styles.productName, { color: theme.colors.textPrimary }]}
+                    numberOfLines={1}
+                  >
+                    {product.name}
+                  </Text>
+                  {product.shortName ? (
+                    <View
+                      style={[
+                        styles.miniBadge,
+                        {
+                          backgroundColor: isDark
+                            ? theme.colors.surfaceElevated
+                            : '#EEF2F6',
+                        },
+                      ]}
+                    >
+                      <Text
+                        style={[
+                          styles.miniBadgeText,
+                          { color: isDark ? theme.colors.gold : '#1E293B' },
+                        ]}
+                      >
+                        {product.shortName}
+                      </Text>
+                    </View>
+                  ) : null}
+                  {price?.status === 'stale' && (
+                    <View
+                      style={[
+                        styles.miniBadge,
+                        {
+                          backgroundColor: theme.colors.warningLight,
+                          borderColor: theme.colors.warning,
+                        },
+                      ]}
+                    >
+                      <Text style={[styles.miniBadgeText, { color: theme.colors.warning }]}>
+                        Gecikmeli Veri
+                      </Text>
+                    </View>
+                  )}
+                </View>
+              </View>
+            </View>
+
+            {/* Günlük Değişim Rozeti (Tüm kartlarda tutarlı gösterim) */}
+            {dailyChange !== null && dailyChange !== undefined ? (
+              <View
+                style={[
+                  styles.changeBadge,
                   {
-                    backgroundColor: isSelected
-                      ? isDark
+                    backgroundColor:
+                      dailyChange > 0
+                        ? isDark
+                          ? '#143825'
+                          : theme.colors.profitLight
+                        : dailyChange < 0
+                        ? isDark
+                          ? '#3b1c1c'
+                          : theme.colors.lossLight
+                        : isDark
                         ? theme.colors.surfaceElevated
-                        : theme.colors.goldLight
-                      : theme.colors.card,
-                    borderColor: isSelected ? theme.colors.gold : theme.colors.border,
+                        : theme.colors.cardBorder,
                   },
                 ]}
-                accessible={true}
-                accessibilityRole="button"
-                accessibilityState={{ selected: isSelected }}
-                accessibilityLabel={`Sıralama seçeneği: ${opt.label}`}
               >
                 <Text
                   style={[
-                    styles.sortChipText,
+                    styles.changeText,
                     {
-                      color: isSelected ? theme.colors.gold : theme.colors.textSecondary,
-                      fontWeight: isSelected ? '700' : '500',
+                      color:
+                        dailyChange > 0
+                          ? theme.colors.profit
+                          : dailyChange < 0
+                          ? theme.colors.loss
+                          : theme.colors.textSecondary,
                     },
                   ]}
                 >
-                  {opt.label}
+                  {dailyChange > 0 ? '▲ ' : dailyChange < 0 ? '▼ ' : ''}
+                  {formatPercent(dailyChange)}
                 </Text>
-              </Pressable>
-            );
-          })}
-        </ScrollView>
+              </View>
+            ) : null}
+          </View>
 
-        {/* Tablo Sütun Başlıkları */}
-        <View style={styles.tableHeader}>
-          <Text style={[styles.headerCol, { color: theme.colors.textSecondary }]}>
-            Altın Türü & Ayar
-          </Text>
-          <Text style={[styles.headerColRight, { color: theme.colors.textSecondary }]}>
-            Alış / Satış Fiyatı
-          </Text>
-        </View>
-      </View>
+          {/* Alt Kısım: Alış ve Satış Fiyatları (Dikey ayırıcı ve yüksek kontrast) */}
+          <View
+            style={[
+              styles.cardBottomRow,
+              {
+                borderTopColor: theme.colors.divider,
+              },
+            ]}
+          >
+            {/* Alış Fiyatı Kutusu */}
+            <View style={styles.priceColumn}>
+              <Text style={[styles.priceTypeLabel, { color: theme.colors.textSecondary }]}>
+                Alış (Bozdurma)
+              </Text>
+              <Text
+                style={[
+                  styles.priceValue,
+                  {
+                    color: hasBuyPrice ? theme.colors.textPrimary : theme.colors.textTertiary,
+                  },
+                ]}
+              >
+                {hasBuyPrice ? formatMoney(price?.buyPriceMinor, price?.currencyCode) : '-'}
+              </Text>
+            </View>
 
-      {/* Liste Gövdesi */}
+            {/* Dikey Ayırıcı */}
+            <View style={[styles.priceDivider, { backgroundColor: theme.colors.divider }]} />
+
+            {/* Satış Fiyatı Kutusu (Yüksek kontrastlı koyu/okunabilir renk) */}
+            <View style={[styles.priceColumn, styles.priceColumnRight]}>
+              <Text style={[styles.priceTypeLabel, { color: theme.colors.textSecondary }]}>
+                Satış (Satın Alma)
+              </Text>
+              <Text
+                style={[
+                  styles.priceValueBold,
+                  {
+                    color: hasSellPrice ? theme.colors.textPrimary : theme.colors.textTertiary,
+                  },
+                ]}
+              >
+                {hasSellPrice ? formatMoney(price?.sellPriceMinor, price?.currencyCode) : '-'}
+              </Text>
+            </View>
+          </View>
+
+          {/* Fiyat Yoksa Özel Açıklayıcı Uyarı (ADR-013: Asla 0 TL gösterilmez) */}
+          {isPriceUnavailable && (
+            <View style={styles.unavailableWarningRow}>
+              <Text style={[styles.unavailableWarningText, { color: theme.colors.textTertiary }]}>
+                Bu ürün için henüz güncel piyasa fiyatı oluşmadı.
+              </Text>
+            </View>
+          )}
+        </Pressable>
+      );
+    },
+    [isDark, theme]
+  );
+
+  const listHeader = useMemo(
+    () => (
+      <PricesListHeader
+        latestUpdatedTime={latestUpdatedTime}
+        hasStale={hasStale}
+        hasPartial={hasPartial}
+        onRefresh={() => handleRefresh(true)}
+        search={search}
+        onSearchChange={setSearch}
+        sortMode={sortMode}
+        onSortModeChange={setSortMode}
+        theme={theme}
+        isDark={isDark}
+      />
+    ),
+    [latestUpdatedTime, hasStale, hasPartial, handleRefresh, search, sortMode, theme, isDark]
+  );
+
+  return (
+    <ScreenContainer scrollable={false} withPadding={true} edges={['left', 'right']}>
       {loading && !refreshing && items.length === 0 ? (
         <LoadingState message="Canlı altın fiyatları yükleniyor..." fullScreen={false} />
       ) : error && items.length === 0 ? (
@@ -495,6 +565,7 @@ export default function PricesScreen() {
           data={filteredAndSortedItems}
           keyExtractor={(item) => item.product.id}
           renderItem={renderItem}
+          ListHeaderComponent={listHeader}
           ListEmptyComponent={
             <EmptyState
               title={search ? 'Sonuç Bulunamadı' : 'Altın Fiyatı Bulunamadı'}
@@ -647,7 +718,26 @@ const styles = StyleSheet.create({
   },
   productTitleArea: {
     flex: 1,
+    flexDirection: 'row',
+    alignItems: 'center',
     marginRight: 10,
+  },
+  productIconWrap: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 10,
+  },
+  productTextGroup: {
+    flex: 1,
+  },
+  productNameBadgeRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
+    flexWrap: 'wrap',
   },
   productName: {
     fontSize: 15,
@@ -701,6 +791,10 @@ const styles = StyleSheet.create({
   priceValue: {
     fontSize: 16,
     fontWeight: '700',
+  },
+  priceValueBold: {
+    fontSize: 16,
+    fontWeight: '800',
   },
   priceDivider: {
     width: 1,

@@ -177,8 +177,11 @@ export function validateSinglePriceItem(
     };
   }
 
-  // Kural 2: Sembolün aktif bir eşleştirmesi bulunmalıdır
-  const mapping = mappingsMap.get(rawSymbol);
+  // Kural 2: Sembolün aktif bir eşleştirmesi bulunmalıdır (Büyük/küçük harf duyarsız arama)
+  const mapping =
+    mappingsMap.get(rawSymbol) ||
+    mappingsMap.get(rawSymbol.toUpperCase()) ||
+    mappingsMap.get(rawSymbol.toLowerCase());
   if (!mapping) {
     return {
       product_id: '00000000-0000-0000-0000-000000000000',
@@ -263,10 +266,14 @@ export function validateSinglePriceItem(
     };
   }
 
-  // Kural 6: Para birimi doğrulaması (varsayılan TRY, ONS için USD)
+  // Kural 6: Para birimi doğrulaması (varsayılan TRY, ONS/Uluslararası için USD)
   let currencyCode = 'TRY';
   if (
-    rawSymbol === 'ONS' ||
+    rawSymbol.toUpperCase() === 'ONS' ||
+    mapping.product?.measurement_unit === 'ounce' ||
+    mapping.product?.code === 'OUNCE_GOLD' ||
+    String(rawBuy ?? '').includes('$') ||
+    String(rawSell ?? '').includes('$') ||
     String(rawItemObj.currency ?? '').toUpperCase() === 'USD' ||
     String(rawItemObj.name ?? '').includes('USD')
   ) {
@@ -281,7 +288,7 @@ export function validateSinglePriceItem(
 
   if (productUnit) {
     priceUnit = productUnit;
-  } else if (rawSymbol === 'ONS') {
+  } else if (rawSymbol.toUpperCase() === 'ONS') {
     priceUnit = 'ounce';
   } else if (rawSymbol.includes('GRAM') || rawSymbol.includes('AYAR') || rawSymbol.includes('KULCE')) {
     priceUnit = 'gram';

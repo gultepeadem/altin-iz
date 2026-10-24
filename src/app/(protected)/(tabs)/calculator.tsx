@@ -21,10 +21,10 @@ import {
   View,
 } from 'react-native';
 import { router, useLocalSearchParams } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
-import { SecondaryButton } from '@/components/common/SecondaryButton';
 import { TextField } from '@/components/forms/TextField';
 import {
   EmptyState,
@@ -64,9 +64,6 @@ export default function CalculatorScreen() {
   // Form Durumları
   const [mode, setMode] = useState<CalculationMode>('buy');
   const [quantityInput, setQuantityInput] = useState('1');
-  const [quantityError, setQuantityError] = useState<string | null>(null);
-  const [calculationResult, setCalculationResult] = useState<EstimateResult | null>(null);
-  const [calculatedQuantity, setCalculatedQuantity] = useState<number | null>(null);
 
   // Ürün Seçim Modalı
   const [isPickerOpen, setIsPickerOpen] = useState(false);
@@ -177,36 +174,44 @@ export default function CalculatorScreen() {
     return 'Ons';
   }, [selectedProduct]);
 
-  // Hesaplama işlemi
-  const handleCalculate = () => {
-    if (!selectedProduct) return;
+  // Canlı Reaktif Hesaplama — Girdi veya altın türü değiştikçe anlık türetilir
+  const { calculationResult, calculatedQuantity, quantityError } = useMemo(() => {
+    if (!selectedProduct) {
+      return { calculationResult: null, calculatedQuantity: null, quantityError: null };
+    }
 
-    // 1. Miktarı ayrıştır ve doğrula
-    const parsed = parseQuantity(quantityInput);
+    const trimmed = quantityInput.trim();
+    if (!trimmed) {
+      return { calculationResult: null, calculatedQuantity: null, quantityError: null };
+    }
+
+    const parsed = parseQuantity(trimmed);
     const validation = validateQuantity(parsed, selectedProduct.measurementUnit);
 
     if (!validation.isValid) {
-      setQuantityError(validation.error || 'Geçersiz miktar.');
-      setCalculationResult(null);
-      return;
+      return {
+        calculationResult: null,
+        calculatedQuantity: null,
+        quantityError: validation.error || 'Geçersiz miktar.',
+      };
     }
 
-    setQuantityError(null);
     const validQty = validation.normalizedQuantity!;
 
-    // 2. Fiyat yoksa hesaplama engellenir (ADR-013)
-    if (!hasUnitPrice) {
-      setCalculationResult({
-        success: false,
-        estimatedTotalMinor: null,
-        estimatedTotal: null,
-        unitPriceMinor: null,
-        error: 'Bu altın türünün güncel fiyatı temin edilemediği için hesaplama yapılamadı.',
-      });
-      return;
+    if (!hasUnitPrice || !activeUnitPriceMinor) {
+      return {
+        calculationResult: {
+          success: false,
+          estimatedTotalMinor: null,
+          estimatedTotal: null,
+          unitPriceMinor: null,
+          error: 'Bu altın türünün güncel fiyatı temin edilemediği için hesaplama yapılamadı.',
+        },
+        calculatedQuantity: validQty,
+        quantityError: null,
+      };
     }
 
-    // 3. Moduna göre etki alanı fonksiyonunu çalıştır (ADR-011)
     let result: EstimateResult;
     if (mode === 'buy') {
       result = calculatePurchaseEstimate(validQty, activeUnitPriceMinor);
@@ -214,16 +219,28 @@ export default function CalculatorScreen() {
       result = calculateRedemptionEstimate(validQty, activeUnitPriceMinor);
     }
 
-    setCalculatedQuantity(validQty);
-    setCalculationResult(result);
+    return {
+      calculationResult: result,
+      calculatedQuantity: validQty,
+      quantityError: null,
+    };
+  }, [quantityInput, selectedProduct, mode, activeUnitPriceMinor, hasUnitPrice]);
+
+  // Hızlı miktar artırma fonksiyonu
+  const handleQuickAdd = (increment: number) => {
+    const current = parseFloat(quantityInput.replace(',', '.')) || 0;
+    const next = current + increment;
+    if (selectedProduct?.measurementUnit === 'piece') {
+      setQuantityInput(Math.round(next).toString());
+    } else {
+      const formatted = (Math.round(next * 1000) / 1000).toString().replace('.', ',');
+      setQuantityInput(formatted);
+    }
   };
 
-  // Sonucu temizleme
+  // Sonucu temizleme / 1'e sıfırlama
   const handleClear = () => {
     setQuantityInput('1');
-    setQuantityError(null);
-    setCalculationResult(null);
-    setCalculatedQuantity(null);
   };
 
   // Modal içindeki filtrelenmiş ürün listesi
@@ -259,7 +276,13 @@ export default function CalculatorScreen() {
   }
 
   return (
-    <ScreenContainer scrollable={true} withPadding={true} keyboardAvoiding={true} edges={['left', 'right']}>
+    <ScreenContainer
+      scrollable={true}
+      withPadding={true}
+      keyboardAvoiding={true}
+      edges={['left', 'right']}
+      contentContainerStyle={{ paddingBottom: 120 }}
+    >
       <View style={styles.container}>
         {/* İşlem Türü Seçimi (Satın Alacağım / Bozduracağım - ADR-011) */}
         <View
@@ -272,10 +295,7 @@ export default function CalculatorScreen() {
           ]}
         >
           <Pressable
-            onPress={() => {
-              setMode('buy');
-              setCalculationResult(null);
-            }}
+            onPress={() => setMode('buy')}
             style={[
               styles.toggleOption,
               mode === 'buy' && {
@@ -304,10 +324,7 @@ export default function CalculatorScreen() {
           </Pressable>
 
           <Pressable
-            onPress={() => {
-              setMode('sell');
-              setCalculationResult(null);
-            }}
+            onPress={() => setMode('sell')}
             style={[
               styles.toggleOption,
               mode === 'sell' && {
@@ -375,7 +392,7 @@ export default function CalculatorScreen() {
                 {unitLabel} bazlı hesaplama
               </Text>
             </View>
-            <Text style={[styles.selectorArrow, { color: theme.colors.textSecondary }]}>▼</Text>
+            <Feather name="chevron-down" size={16} color={theme.colors.textSecondary} />
           </Pressable>
         </View>
 
@@ -423,10 +440,7 @@ export default function CalculatorScreen() {
               : 'Örn: 1.5 veya 0,25'
           }
           value={quantityInput}
-          onChangeText={(val) => {
-            setQuantityInput(val);
-            if (quantityError) setQuantityError(null);
-          }}
+          onChangeText={setQuantityInput}
           keyboardType={
             selectedProduct?.measurementUnit === 'piece' ? 'number-pad' : 'decimal-pad'
           }
@@ -436,136 +450,185 @@ export default function CalculatorScreen() {
               ? 'Yalnızca tam adet girilebilir (1, 2, 3 vb.).'
               : 'Azami 3 ondalık basamak girilebilir (1.250, 0.500 vb.).'
           }
+          rightIcon={
+            <Text style={[styles.unitSuffixText, { color: theme.colors.gold }]}>
+              {unitLabel}
+            </Text>
+          }
           containerStyle={styles.quantityContainer}
         />
 
-        {/* Butonlar: Hesapla & Temizle */}
-        <View style={styles.buttonRow}>
-          <PrimaryButton
-            title="Hesapla"
-            onPress={handleCalculate}
-            disabled={!hasUnitPrice}
-            style={styles.calcBtn}
-          />
-          <SecondaryButton
-            title="Temizle"
+        {/* Hızlı Miktar Ekleme Çipleri */}
+        <View style={styles.quickChipsRow}>
+          {[1, 5, 10, 25, 50].map((amount) => (
+            <Pressable
+              key={amount}
+              onPress={() => handleQuickAdd(amount)}
+              style={[
+                styles.quickChip,
+                {
+                  backgroundColor: isDark ? theme.colors.surfaceElevated : '#F1F5F9',
+                  borderColor: theme.colors.border,
+                },
+              ]}
+              accessible={true}
+              accessibilityRole="button"
+              accessibilityLabel={`+${amount} ${unitLabel} ekle`}
+            >
+              <Text
+                style={[
+                  styles.quickChipText,
+                  { color: isDark ? theme.colors.gold : theme.colors.textPrimary },
+                ]}
+              >
+                +{amount}
+              </Text>
+            </Pressable>
+          ))}
+          <Pressable
             onPress={handleClear}
-            style={styles.clearBtn}
-          />
-        </View>
-
-        {/* Hesaplama Sonuç Kartı */}
-        {calculationResult && (
-          <View
             style={[
-              styles.resultCard,
+              styles.quickChip,
+              styles.quickChipClear,
               {
-                backgroundColor: theme.colors.card,
-                borderColor: calculationResult.success ? theme.colors.gold : theme.colors.loss,
+                backgroundColor: isDark ? theme.colors.surfaceElevated : '#F1F5F9',
+                borderColor: theme.colors.border,
               },
             ]}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel="Miktarı 1'e sıfırla"
           >
-            {calculationResult.success ? (
-              <>
-                <Text style={[styles.resultTitle, { color: theme.colors.textSecondary }]}>
-                  Tahmini Toplam Tutar
-                </Text>
+            <Feather name="rotate-ccw" size={13} color={theme.colors.textSecondary} />
+          </Pressable>
+        </View>
 
-                <Text
-                  style={[
-                    styles.resultValue,
-                    {
-                      color: isDark ? theme.colors.gold : theme.colors.primary,
-                    },
-                  ]}
-                >
-                  {formatMoney(
-                    calculationResult.estimatedTotalMinor,
-                    activePrice?.currencyCode
-                  )}
-                </Text>
+        {/* Hesaplama Sonuç Kartı (Kalıcı görünüm) */}
+        <View
+          style={[
+            styles.resultCard,
+            {
+              backgroundColor: theme.colors.card,
+              borderColor: calculationResult?.success
+                ? theme.colors.gold
+                : calculationResult?.error
+                ? theme.colors.loss
+                : theme.colors.border,
+            },
+          ]}
+        >
+          {calculationResult && calculationResult.success ? (
+            <>
+              <Text style={[styles.resultTitle, { color: theme.colors.textSecondary }]}>
+                Tahmini Toplam {mode === 'buy' ? 'Satın Alma' : 'Bozdurma'} Tutarı
+              </Text>
 
-                <View style={[styles.resultDivider, { backgroundColor: theme.colors.divider }]} />
+              <Text
+                style={[
+                  styles.resultValue,
+                  {
+                    color: isDark ? theme.colors.gold : theme.colors.primary,
+                  },
+                ]}
+              >
+                {formatMoney(
+                  calculationResult.estimatedTotalMinor,
+                  activePrice?.currencyCode
+                )}
+              </Text>
 
-                {/* Detay Bilgileri */}
-                <View style={styles.resultDetails}>
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
-                      İşlem Türü
-                    </Text>
-                    <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
-                      {mode === 'buy' ? 'Satın Alma' : 'Bozdurma'}
-                    </Text>
-                  </View>
+              <View style={[styles.resultDivider, { backgroundColor: theme.colors.divider }]} />
 
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
-                      Hesaplanan Miktar
-                    </Text>
-                    <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
-                      {calculatedQuantity} {unitLabel}
-                    </Text>
-                  </View>
-
-                  <View style={styles.detailRow}>
-                    <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
-                      Kullanılan Birim Fiyat
-                    </Text>
-                    <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
-                      {formatMoney(
-                        calculationResult.unitPriceMinor,
-                        activePrice?.currencyCode
-                      )}
-                    </Text>
-                  </View>
-
-                  {activePrice?.sourcePriceAt ? (
-                    <View style={styles.detailRow}>
-                      <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
-                        Fiyat Zamanı
-                      </Text>
-                      <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
-                        {formatDateTime(activePrice.sourcePriceAt)}
-                      </Text>
-                    </View>
-                  ) : null}
+              {/* Detay Bilgileri */}
+              <View style={styles.resultDetails}>
+                <View style={styles.detailRow}>
+                  <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
+                    İşlem Türü
+                  </Text>
+                  <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
+                    {mode === 'buy' ? 'Satın Alma' : 'Bozdurma'}
+                  </Text>
                 </View>
 
-                {/* Portföye Ekle Butonu (Yalnızca portföye açık ürünler için) */}
-                {selectedProduct?.portfolioEnabled && mode === 'buy' && (
-                  <View style={styles.portfolioActionBox}>
-                    <PrimaryButton
-                      title="Bu Alışı Portföye Ekle"
-                      onPress={() =>
-                        router.push({
-                          pathname: '/(protected)/portfolio/add',
-                          params: {
-                            productId: selectedProduct.id,
-                            quantity: calculatedQuantity?.toString(),
-                          },
-                        } as any)
-                      }
-                      style={styles.portfolioAddBtn}
-                    />
-                    <Text style={[styles.portfolioNote, { color: theme.colors.textTertiary }]}>
-                      Not: Piyasa tutarı portföye otomatik maliyet olarak kaydedilmez; alırken
-                      gerçekten ödediğiniz tutarı sonraki ekranda belirleyebilirsiniz.
+                <View style={styles.detailRow}>
+                  <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
+                    Hesaplanan Miktar
+                  </Text>
+                  <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
+                    {calculatedQuantity} {unitLabel}
+                  </Text>
+                </View>
+
+                <View style={styles.detailRow}>
+                  <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
+                    Kullanılan Birim Fiyat
+                  </Text>
+                  <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
+                    {formatMoney(
+                      calculationResult.unitPriceMinor,
+                      activePrice?.currencyCode
+                    )}
+                  </Text>
+                </View>
+
+                {activePrice?.sourcePriceAt ? (
+                  <View style={styles.detailRow}>
+                    <Text style={[styles.detailKey, { color: theme.colors.textSecondary }]}>
+                      Fiyat Zamanı
+                    </Text>
+                    <Text style={[styles.detailVal, { color: theme.colors.textPrimary }]}>
+                      {formatDateTime(activePrice.sourcePriceAt)}
                     </Text>
                   </View>
-                )}
-              </>
-            ) : (
-              <View style={styles.errorResultBox}>
-                <Text style={[styles.errorResultTitle, { color: theme.colors.loss }]}>
-                  Hesaplama Yapılamadı
-                </Text>
-                <Text style={[styles.errorResultText, { color: theme.colors.textSecondary }]}>
-                  {calculationResult.error}
-                </Text>
+                ) : null}
               </View>
-            )}
-          </View>
-        )}
+
+              {/* Portföye Ekle Butonu (Yalnızca portföye açık ürünler için) */}
+              {selectedProduct?.portfolioEnabled && mode === 'buy' && (
+                <View style={styles.portfolioActionBox}>
+                  <PrimaryButton
+                    title="Bu Alışı Portföye Ekle"
+                    onPress={() =>
+                      router.push({
+                        pathname: '/(protected)/portfolio/add',
+                        params: {
+                          productId: selectedProduct.id,
+                          quantity: calculatedQuantity?.toString(),
+                        },
+                      } as any)
+                    }
+                    style={styles.portfolioAddBtn}
+                  />
+                  <Text style={[styles.portfolioNote, { color: theme.colors.textTertiary }]}>
+                    Not: Piyasa tutarı portföye otomatik maliyet olarak kaydedilmez; alırken
+                    gerçekten ödediğiniz tutarı sonraki ekranda belirleyebilirsiniz.
+                  </Text>
+                </View>
+              )}
+            </>
+          ) : calculationResult?.error ? (
+            <View style={styles.errorResultBox}>
+              <Text style={[styles.errorResultTitle, { color: theme.colors.loss }]}>
+                Hesaplama Yapılamadı
+              </Text>
+              <Text style={[styles.errorResultText, { color: theme.colors.textSecondary }]}>
+                {calculationResult.error}
+              </Text>
+            </View>
+          ) : (
+            <View style={styles.errorResultBox}>
+              <Text style={[styles.resultTitle, { color: theme.colors.textSecondary }]}>
+                Tahmini Toplam Tutar
+              </Text>
+              <Text style={[styles.resultValue, { color: theme.colors.textTertiary }]}>
+                - TL
+              </Text>
+              <Text style={[styles.errorResultText, { color: theme.colors.textTertiary }]}>
+                Miktar girdiğinizde sonuç otomatik hesaplanacaktır.
+              </Text>
+            </View>
+          )}
+        </View>
 
         {/* Yasal / Finansal Bilgilendirme */}
         <View
@@ -577,9 +640,12 @@ export default function CalculatorScreen() {
             },
           ]}
         >
-          <Text style={[styles.disclaimerTitle, { color: theme.colors.textSecondary }]}>
-            ⚖ Finansal Bilgilendirme
-          </Text>
+          <View style={styles.disclaimerTitleRow}>
+            <Feather name="info" size={13} color={theme.colors.gold} style={{ marginRight: 6 }} />
+            <Text style={[styles.disclaimerTitle, { color: theme.colors.textSecondary }]}>
+              Finansal Bilgilendirme
+            </Text>
+          </View>
           <Text style={[styles.disclaimerText, { color: theme.colors.textTertiary }]}>
             Hesaplama sonuçları serbest piyasa gösterge fiyatlarına dayanmaktadır. Nihai
             alım ve satım tutarlarınız kuyumcunuzun veya bankanızın komisyon, makas aralığı ve
@@ -614,8 +680,9 @@ export default function CalculatorScreen() {
                 hitSlop={8}
                 accessibilityLabel="Kapat"
                 accessibilityRole="button"
+                style={styles.modalCloseBtn}
               >
-                <Text style={[styles.modalCloseText, { color: theme.colors.textSecondary }]}>✕</Text>
+                <Feather name="x" size={20} color={theme.colors.textSecondary} />
               </Pressable>
             </View>
 
@@ -639,7 +706,6 @@ export default function CalculatorScreen() {
                   <Pressable
                     onPress={() => {
                       setSelectedProduct(item);
-                      setCalculationResult(null);
                       setIsPickerOpen(false);
                       setPickerSearch('');
                     }}
@@ -774,18 +840,32 @@ const styles = StyleSheet.create({
     lineHeight: 14,
   },
   quantityContainer: {
-    marginBottom: 14,
+    marginBottom: 8,
   },
-  buttonRow: {
+  unitSuffixText: {
+    fontSize: 13,
+    fontWeight: '700',
+    paddingRight: 4,
+  },
+  quickChipsRow: {
     flexDirection: 'row',
-    gap: 10,
+    gap: 6,
     marginBottom: 16,
   },
-  calcBtn: {
-    flex: 2,
-  },
-  clearBtn: {
+  quickChip: {
     flex: 1,
+    paddingVertical: 7,
+    borderRadius: 8,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  quickChipClear: {
+    flex: 0.7,
+  },
+  quickChipText: {
+    fontSize: 12,
+    fontWeight: '600',
   },
   resultCard: {
     padding: 18,
@@ -862,10 +942,14 @@ const styles = StyleSheet.create({
     borderRadius: 12,
     borderWidth: 1,
   },
+  disclaimerTitleRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginBottom: 4,
+  },
   disclaimerTitle: {
     fontSize: 11,
     fontWeight: '700',
-    marginBottom: 4,
     textTransform: 'uppercase',
   },
   disclaimerText: {
@@ -894,9 +978,7 @@ const styles = StyleSheet.create({
     fontSize: 17,
     fontWeight: '700',
   },
-  modalCloseText: {
-    fontSize: 16,
-    fontWeight: '700',
+  modalCloseBtn: {
     padding: 4,
   },
   modalSearch: {

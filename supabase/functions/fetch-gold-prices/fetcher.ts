@@ -207,6 +207,8 @@ export async function fetchGoldPricesFromProvider(
         const bilezikSell = parseNum(d['22-ayar-bilezik']?.['Satış']) || 5850;
         const ayar14Buy = parseNum(d['14-ayar-altin']?.['Alış']) || 3700;
         const ayar14Sell = parseNum(d['14-ayar-altin']?.['Satış']) || 3750;
+        const onsBuy = parseNum(d['ons']?.['Alış']) || 2730;
+        const onsSell = parseNum(d['ons']?.['Satış']) || 2735;
 
         normalizedData = {
           rates: [
@@ -244,7 +246,7 @@ export async function fetchGoldPricesFromProvider(
             { symbol: 'RESAT_ALTIN', buying: resatBuy, selling: resatSell },
             { symbol: 'AYAR22', buying: bilezikBuy, selling: bilezikSell },
             { symbol: 'AYAR14', buying: ayar14Buy, selling: ayar14Sell },
-            { symbol: 'ONS', buying: 135000, selling: 135200 },
+            { symbol: 'ONS', buying: onsBuy, selling: onsSell, currency: 'USD' },
             {
               symbol: 'KULCE_5G',
               buying: gramBuy * 5,

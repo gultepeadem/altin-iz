@@ -9,21 +9,10 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { Tabs } from 'expo-router';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { Feather, Ionicons } from '@expo/vector-icons';
 
 import { useTheme } from '@/hooks/useTheme';
-
-interface TabIconProps {
-  symbol: string;
-  focused: boolean;
-}
-
-function TabIcon({ symbol, focused }: TabIconProps) {
-  return (
-    <Text style={[styles.tabIcon, focused && styles.tabIconFocused]}>
-      {symbol}
-    </Text>
-  );
-}
+import { useMarketStatus } from '@/hooks/useMarketStatus';
 
 interface CustomTabHeaderProps {
   title: string;
@@ -33,6 +22,7 @@ interface CustomTabHeaderProps {
 function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
+  const marketStatus = useMarketStatus();
 
   const getSubtitle = () => {
     switch (routeName) {
@@ -55,30 +45,35 @@ function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
     switch (routeName) {
       case 'index':
       case 'prices':
+        if (marketStatus.isStale) {
+          return {
+            text: 'Gecikmeli Veri',
+            isLive: false,
+            isStale: true,
+          };
+        }
         return {
           text: 'Canlı Piyasa',
           isLive: true,
+          isStale: false,
         };
       case 'portfolio':
-        return {
-          text: 'Portföyüm',
-          isLive: true,
-        };
+        // Portföy sayfasında sayfa başlığı zaten Portföyüm olduğu için mükerrer rozet kaldırıldı
+        return null;
       case 'calculator':
         return {
-          text: '24/7 Hesap',
+          text: '7/24 Hesap',
           isLive: false,
+          isStale: false,
         };
       case 'settings':
         return {
           text: 'v1.0.0',
           isLive: false,
+          isStale: false,
         };
       default:
-        return {
-          text: 'Aktif',
-          isLive: true,
-        };
+        return null;
     }
   };
 
@@ -105,7 +100,7 @@ function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
             },
           ]}
         >
-          <Text style={styles.headerEmblemEmoji}>🪙</Text>
+          <Feather name="layers" size={18} color={theme.colors.gold} />
         </View>
 
         <View style={styles.headerTitleGroup}>
@@ -127,37 +122,53 @@ function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
         </View>
       </View>
 
-      <View style={styles.headerRight}>
-        <View
-          style={[
-            styles.headerStatusBadge,
-            {
-              backgroundColor: badge.isLive
-                ? isDark
-                  ? '#13281d'
-                  : '#e8f5e9'
-                : isDark
-                ? theme.colors.surfaceElevated
-                : '#f1f5f9',
-              borderColor: badge.isLive ? theme.colors.profit : theme.colors.border,
-            },
-          ]}
-        >
-          {badge.isLive ? (
-            <View style={[styles.headerLiveDot, { backgroundColor: theme.colors.profit }]} />
-          ) : null}
-          <Text
+      {badge ? (
+        <View style={styles.headerRight}>
+          <View
             style={[
-              styles.headerStatusText,
+              styles.headerStatusBadge,
               {
-                color: badge.isLive ? theme.colors.profit : theme.colors.textSecondary,
+                backgroundColor: badge.isLive
+                  ? isDark
+                    ? '#13281d'
+                    : '#e8f5e9'
+                  : badge.isStale
+                  ? isDark
+                    ? '#382b13'
+                    : '#fef3c7'
+                  : isDark
+                  ? theme.colors.surfaceElevated
+                  : '#f1f5f9',
+                borderColor: badge.isLive
+                  ? theme.colors.profit
+                  : badge.isStale
+                  ? '#F59E0B'
+                  : theme.colors.border,
               },
             ]}
           >
-            {badge.text}
-          </Text>
+            {badge.isLive ? (
+              <View style={[styles.headerLiveDot, { backgroundColor: theme.colors.profit }]} />
+            ) : badge.isStale ? (
+              <View style={[styles.headerLiveDot, { backgroundColor: '#F59E0B' }]} />
+            ) : null}
+            <Text
+              style={[
+                styles.headerStatusText,
+                {
+                  color: badge.isLive
+                    ? theme.colors.profit
+                    : badge.isStale
+                    ? '#D97706'
+                    : theme.colors.textSecondary,
+                },
+              ]}
+            >
+              {badge.text}
+            </Text>
+          </View>
         </View>
-      </View>
+      ) : null}
     </View>
   );
 }
@@ -165,6 +176,9 @@ function CustomTabHeader({ title, routeName }: CustomTabHeaderProps) {
 export default function TabsLayout() {
   const { theme, isDark } = useTheme();
   const insets = useSafeAreaInsets();
+
+  const activeColor = isDark ? theme.colors.gold : '#0F172A';
+  const inactiveColor = '#94A3B8';
 
   return (
     <Tabs
@@ -183,11 +197,11 @@ export default function TabsLayout() {
           paddingBottom: Math.max(insets.bottom, 8),
           paddingTop: 6,
         },
-        tabBarActiveTintColor: isDark ? theme.colors.gold : theme.colors.primary,
-        tabBarInactiveTintColor: theme.colors.textSecondary,
+        tabBarActiveTintColor: activeColor,
+        tabBarInactiveTintColor: inactiveColor,
         tabBarLabelStyle: {
           fontSize: 11,
-          fontWeight: '600',
+          fontWeight: '700',
         },
       }}
     >
@@ -195,35 +209,45 @@ export default function TabsLayout() {
         name="index"
         options={{
           title: 'Ana Sayfa',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="🏠" focused={focused} />,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="home" size={size || 22} color={color as string} />
+          ),
         }}
       />
       <Tabs.Screen
         name="prices"
         options={{
           title: 'Fiyatlar',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="📈" focused={focused} />,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="trending-up" size={size || 22} color={color as string} />
+          ),
         }}
       />
       <Tabs.Screen
         name="calculator"
         options={{
           title: 'Hesapla',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="🧮" focused={focused} />,
+          tabBarIcon: ({ color, size }) => (
+            <Ionicons name="calculator-outline" size={(size || 22) + 2} color={color as string} />
+          ),
         }}
       />
       <Tabs.Screen
         name="portfolio"
         options={{
           title: 'Portföyüm',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="💼" focused={focused} />,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="briefcase" size={size || 22} color={color as string} />
+          ),
         }}
       />
       <Tabs.Screen
         name="settings"
         options={{
           title: 'Ayarlar',
-          tabBarIcon: ({ focused }) => <TabIcon symbol="⚙️" focused={focused} />,
+          tabBarIcon: ({ color, size }) => (
+            <Feather name="settings" size={size || 22} color={color as string} />
+          ),
         }}
       />
     </Tabs>
@@ -253,9 +277,6 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     marginRight: 10,
-  },
-  headerEmblemEmoji: {
-    fontSize: 20,
   },
   headerTitleGroup: {
     flex: 1,
@@ -305,12 +326,5 @@ const styles = StyleSheet.create({
   headerStatusText: {
     fontSize: 11,
     fontWeight: '700',
-  },
-  tabIcon: {
-    fontSize: 20,
-    opacity: 0.7,
-  },
-  tabIconFocused: {
-    opacity: 1,
   },
 });

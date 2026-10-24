@@ -11,8 +11,9 @@
  * - ADR-032 (Sayısal Hassasiyet)
  */
 
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import {
+  Alert,
   FlatList,
   Pressable,
   RefreshControl,
@@ -22,6 +23,7 @@ import {
   View,
 } from 'react-native';
 import { router, useFocusEffect } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
@@ -51,6 +53,7 @@ export default function PortfolioScreen() {
   const [loading, setLoading] = useState(true);
   const [refreshing, setRefreshing] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
 
   // Portföy verilerini canlı Supabase servisinden çeker
   const fetchPortfolio = useCallback(async (isPull = false) => {
@@ -81,6 +84,72 @@ export default function PortfolioScreen() {
       fetchPortfolio(false);
     }, [fetchPortfolio])
   );
+
+  // Sıralanmış portföy listesi
+  const sortedItems = useMemo(() => {
+    return [...items].sort((a, b) => {
+      const dateA = new Date(a.entry.purchaseDate).getTime();
+      const dateB = new Date(b.entry.purchaseDate).getTime();
+      return sortOrder === 'newest' ? dateB - dateA : dateA - dateB;
+    });
+  }, [items, sortOrder]);
+
+  // Varlık dağılımı (Portföy payları yüzdesi)
+  const assetDistribution = useMemo(() => {
+    if (items.length === 0) return [];
+    const groupMap = new Map<string, { name: string; shortName?: string; totalValue: number }>();
+    let grandTotal = 0;
+
+    for (const item of items) {
+      const val = item.valuation.currentValueMinor ?? item.entry.totalCostMinor ?? 0;
+      grandTotal += val;
+      const key = item.entry.productId;
+      const existing = groupMap.get(key);
+      if (existing) {
+        existing.totalValue += val;
+      } else {
+        groupMap.set(key, {
+          name: item.entry.product?.name ?? 'Altın',
+          shortName: item.entry.product?.shortName ?? undefined,
+          totalValue: val,
+        });
+      }
+    }
+
+    if (grandTotal === 0) return [];
+
+    const palette = ['#D4A72C', '#38BDF8', '#A78BFA', '#34D399', '#FB923C', '#F472B6'];
+    const list = Array.from(groupMap.values()).map((g, idx) => ({
+      ...g,
+      color: palette[idx % palette.length],
+      percentage: (g.totalValue / grandTotal) * 100,
+    }));
+
+    return list.sort((a, b) => b.percentage - a.percentage);
+  }, [items]);
+
+  // Kayıt silme onayı
+  const handleDeletePress = useCallback((entryId: string, productName: string) => {
+    Alert.alert(
+      'Kaydı Sil',
+      `"${productName}" portföy kaydınızı silmek istediğinize emin misiniz? Bu işlem geri alınamaz.`,
+      [
+        { text: 'Vazgeç', style: 'cancel' },
+        {
+          text: 'Sil',
+          style: 'destructive',
+          onPress: async () => {
+            try {
+              await portfolioService.deleteEntry(entryId);
+              fetchPortfolio(false);
+            } catch (err: any) {
+              Alert.alert('Hata', err?.userMessage || err?.message || 'Kayıt silinemedi.');
+            }
+          },
+        },
+      ]
+    );
+  }, [fetchPortfolio]);
 
   // İlk yükleme esnasında yükleme göstergesi
   if (loading && items.length === 0) {
@@ -122,7 +191,7 @@ export default function PortfolioScreen() {
           <EmptyState
             title="Henüz altın kaydınız yok"
             description="Satın aldığınız altınları portföyünüze ekleyerek güncel bozdurma değerlerini ve kâr-zarar durumunuzu anlık takip edin."
-            icon={<Text style={styles.emptyIcon}>🪙</Text>}
+            icon={<Feather name="briefcase" size={48} color={theme.colors.gold} />}
             actionTitle="+ İlk Altınını Ekle"
             onAction={() => router.push('/(protected)/portfolio/add')}
             style={styles.emptyContainer}
@@ -132,13 +201,13 @@ export default function PortfolioScreen() {
     );
   }
 
-  // Özet kartındaki kâr/zarar rengi ve metin formatı (Yan yana sığacak biçimde ayrık)
+  // Özet kartındaki kâr/zarar rengi ve metin formatı
   const getSummaryProfitLossDisplay = () => {
     if (!summary || summary.totalProfitLossMinor === null) {
       return {
         amountText: 'Hesaplanamıyor',
         percentText: null,
-        color: theme.colors.warning,
+        color: '#94A3B8',
         badgeBg: 'transparent',
       };
     }
@@ -146,74 +215,57 @@ export default function PortfolioScreen() {
     const isProfit = summary.totalProfitLossMinor > 0;
     const isLoss = summary.totalProfitLossMinor < 0;
 
-    const sign = isProfit ? '+' : '';
     const formattedAmount = formatMoney(summary.totalProfitLossMinor);
     const formattedRate = formatPercent(summary.totalProfitLossPercentage);
 
     return {
-      amountText: `${sign}${formattedAmount}`,
-      percentText: `${sign}${formattedRate}`,
+      amountText: isProfit ? `+${formattedAmount}` : formattedAmount,
+      percentText: formattedRate,
       color: isProfit
-        ? theme.colors.profit
+        ? '#4ADE80'
         : isLoss
-          ? theme.colors.loss
-          : theme.colors.textPrimary,
+          ? '#F87171'
+          : '#FFFFFF',
       badgeBg: isProfit
-        ? isDark
-          ? '#13281d'
-          : '#e8f5e9'
+        ? 'rgba(74, 222, 128, 0.15)'
         : isLoss
-          ? isDark
-            ? '#3b1c1c'
-            : '#ffebee'
-          : isDark
-            ? theme.colors.surfaceElevated
-            : '#f0f0f0',
+          ? 'rgba(248, 113, 113, 0.15)'
+          : 'rgba(255, 255, 255, 0.1)',
     };
   };
 
-  // Liste başlığı bileşeni (Özet Kartı, Uyarı Şeritleri ve Liste Başlığı)
+  // Liste başlığı bileşeni (Özet Kartı, Varlık Dağılımı, Uyarı Şeritleri ve Liste Başlığı)
   const renderHeader = () => {
     const plDisplay = getSummaryProfitLossDisplay();
 
     return (
       <View style={styles.headerContainer}>
-        {/* Konsolide Portföy Özet Kartı */}
+        {/* Konsolide Portföy Hero Kartı (#0F172A) */}
         <View
           style={[
-            styles.summaryCard,
+            styles.heroCard,
             {
-              backgroundColor: theme.colors.card,
-              borderColor: theme.colors.cardBorder,
+              backgroundColor: '#0F172A',
+              borderColor: '#1E293B',
             },
           ]}
         >
-          <View style={styles.summaryTopRow}>
-            <Text style={[styles.summarySubtitle, { color: theme.colors.textSecondary }]}>
-              Tahmini Güncel Bozdurma Değeri
-            </Text>
-            <View
-              style={[
-                styles.countBadge,
-                {
-                  backgroundColor: isDark ? theme.colors.surfaceElevated : theme.colors.goldLight,
-                  borderColor: theme.colors.gold,
-                },
-              ]}
-            >
-              <Text style={[styles.countBadgeText, { color: theme.colors.gold }]}>
-                {summary?.totalEntries ?? items.length} Kayıt
+          <View style={styles.heroTopRow}>
+            <View style={styles.heroTitleGroup}>
+              <Feather name="shield" size={14} color="#D4A72C" style={{ marginRight: 6 }} />
+              <Text style={styles.heroSubtitle}>
+                Tahmini Güncel Bozdurma Değeri
+              </Text>
+            </View>
+            <View style={styles.heroCountBadge}>
+              <Text style={styles.heroCountBadgeText}>
+                {summary?.totalEntries ?? items.length} Kayıt ›
               </Text>
             </View>
           </View>
 
           {/* Ana Değer Gösterimi (ADR-010) */}
-          <Text
-            style={[
-              styles.summaryHeadline,
-              { color: theme.colors.textPrimary },
-            ]}
-          >
+          <Text style={styles.heroHeadline}>
             {summary && summary.totalCurrentValueMinor > 0
               ? formatMoney(summary.totalCurrentValueMinor)
               : summary && summary.totalEntries === 0
@@ -221,34 +273,32 @@ export default function PortfolioScreen() {
                 : 'Hesaplanamıyor'}
           </Text>
 
-          {/* Maliyet ve Kâr/Zarar İstatistikleri (Satır kaymasını önleyen yan yana tasarım) */}
-          <View style={[styles.summaryDetailsRow, { borderTopColor: theme.colors.divider }]}>
-            <View style={styles.statColumn}>
-              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
-                Ödenen Maliyet
-              </Text>
-              <Text style={[styles.statValue, { color: theme.colors.textPrimary }]}>
+          {/* Maliyet ve Kâr/Zarar İstatistikleri */}
+          <View style={styles.heroDetailsRow}>
+            <View style={styles.heroStatColumn}>
+              <Text style={styles.heroStatLabel}>Ödenen Maliyet</Text>
+              <Text style={styles.heroStatValue}>
                 {formatMoney(summary?.totalCostMinor ?? 0)}
               </Text>
             </View>
 
-            <View style={styles.statColumnRight}>
-              <Text style={[styles.statLabel, { color: theme.colors.textSecondary }]}>
-                Kâr / Zarar
-              </Text>
-              <View style={styles.plValueRow}>
+            <View style={styles.heroStatDivider} />
+
+            <View style={styles.heroStatColumnRight}>
+              <Text style={styles.heroStatLabel}>Net Kâr / Zarar</Text>
+              <View style={styles.heroPlValueRow}>
                 <Text
                   style={[
-                    styles.statValue,
-                    { color: plDisplay.color, fontWeight: '700' },
+                    styles.heroStatValue,
+                    { color: plDisplay.color, fontWeight: '800' },
                   ]}
                   numberOfLines={1}
                 >
                   {plDisplay.amountText}
                 </Text>
                 {plDisplay.percentText ? (
-                  <View style={[styles.plPercentBadge, { backgroundColor: plDisplay.badgeBg }]}>
-                    <Text style={[styles.plPercentBadgeText, { color: plDisplay.color }]}>
+                  <View style={[styles.heroPlPercentBadge, { backgroundColor: plDisplay.badgeBg }]}>
+                    <Text style={[styles.heroPlPercentBadgeText, { color: plDisplay.color }]}>
                       {plDisplay.percentText}
                     </Text>
                   </View>
@@ -261,35 +311,110 @@ export default function PortfolioScreen() {
           <PrimaryButton
             title="+ Yeni Altın Ekle"
             onPress={() => router.push('/(protected)/portfolio/add')}
-            style={styles.cardAddButton}
+            style={styles.heroAddBtn}
           />
         </View>
 
-        {/* Kısmi Portföy Uyarısı (ADR-013) */}
+        {/* Varlık Dağılımı (Segmented Bar Chart) */}
+        {assetDistribution.length > 0 && (
+          <View
+            style={[
+              styles.distributionCard,
+              {
+                backgroundColor: theme.colors.card,
+                borderColor: theme.colors.border,
+              },
+            ]}
+          >
+            <View style={styles.distributionHeader}>
+              <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+                <Feather name="pie-chart" size={14} color={theme.colors.gold} style={{ marginRight: 6 }} />
+                <Text style={[styles.distributionTitle, { color: theme.colors.textPrimary }]}>
+                  Varlık Dağılımı
+                </Text>
+              </View>
+              <Text style={[styles.distributionSubtitle, { color: theme.colors.textSecondary }]}>
+                Portföy Payları
+              </Text>
+            </View>
+
+            {/* Yatay Segmentli Dağılım Çubuğu */}
+            <View style={styles.distributionBar}>
+              {assetDistribution.map((dist, idx) => (
+                <View
+                  key={idx}
+                  style={[
+                    styles.distributionSegment,
+                    {
+                      flex: dist.percentage,
+                      backgroundColor: dist.color,
+                      borderTopLeftRadius: idx === 0 ? 4 : 0,
+                      borderBottomLeftRadius: idx === 0 ? 4 : 0,
+                      borderTopRightRadius: idx === assetDistribution.length - 1 ? 4 : 0,
+                      borderBottomRightRadius: idx === assetDistribution.length - 1 ? 4 : 0,
+                    },
+                  ]}
+                />
+              ))}
+            </View>
+
+            {/* Dağılım Lejantı */}
+            <View style={styles.distributionLegend}>
+              {assetDistribution.map((dist, idx) => (
+                <View key={idx} style={styles.legendItem}>
+                  <View style={[styles.legendDot, { backgroundColor: dist.color }]} />
+                  <Text style={[styles.legendName, { color: theme.colors.textSecondary }]}>
+                    {dist.shortName || dist.name}
+                  </Text>
+                  <Text style={[styles.legendPercent, { color: theme.colors.textPrimary }]}>
+                    %{dist.percentage.toLocaleString('tr-TR', { maximumFractionDigits: 1 })}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </View>
+        )}
+
+        {/* Kısmi Portföy Uyarısı (ADR-013 teknik kodu gizlendi) */}
         {summary?.hasMissingPrice || summary?.isPartial ? (
           <PartialDataBanner
-            message={`Kısmi Toplam: ${summary.unpricedEntries} adet kaydınızın güncel fiyatı temin edilemediği için kâr-zarar yalnızca fiyatı bulunan kayıtlar üzerinden hesaplanmıştır (ADR-013).`}
+            message={`Kısmi Toplam: ${summary.unpricedEntries} adet kaydınızın güncel fiyatı temin edilemediği için kâr-zarar yalnızca fiyatı bulunan kayıtlar üzerinden hesaplanmıştır.`}
             style={styles.bannerSpacing}
           />
         ) : null}
 
-        {/* Eski Fiyat Uyarısı (ADR-014) */}
+        {/* Eski Fiyat Uyarısı (ADR-014 teknik kodu gizlendi) */}
         {summary?.isStale ? (
           <StaleDataBanner
-            message={`Eski Fiyat Uyarısı: ${summary.staleEntries} adet kayıt 15 dakikadan eski piyasa verileriyle hesaplanmıştır (ADR-014).`}
+            message={`Eski Fiyat Uyarısı: ${summary.staleEntries} adet kayıt 15 dakikadan eski piyasa verileriyle hesaplanmıştır.`}
             onRefresh={() => fetchPortfolio(true)}
             style={styles.bannerSpacing}
           />
         ) : null}
 
-        {/* Kayıtlar Liste Başlığı */}
+        {/* Kayıtlar Liste Başlığı ve Sıralama Filtresi Hap Butonu */}
         <View style={styles.listHeaderRow}>
           <Text style={[styles.listHeaderTitle, { color: theme.colors.textPrimary }]}>
             Altın Kayıtlarım
           </Text>
-          <Text style={[styles.listHeaderSubtitle, { color: theme.colors.textSecondary }]}>
-            En yeni alıştan eskiye
-          </Text>
+          <Pressable
+            onPress={() => setSortOrder((prev) => (prev === 'newest' ? 'oldest' : 'newest'))}
+            style={[
+              styles.sortPillButton,
+              {
+                backgroundColor: isDark ? theme.colors.surfaceElevated : '#F1F5F9',
+                borderColor: theme.colors.border,
+              },
+            ]}
+            accessible={true}
+            accessibilityRole="button"
+            accessibilityLabel={`Sıralama: ${sortOrder === 'newest' ? 'En yeni alıştan eskiye' : 'En eski alıştan yeniye'}`}
+          >
+            <Text style={[styles.sortPillText, { color: theme.colors.textSecondary }]}>
+              {sortOrder === 'newest' ? 'En yeni alıştan eskiye' : 'En eski alıştan yeniye'}
+            </Text>
+            <Feather name="chevron-down" size={13} color={theme.colors.textSecondary} style={{ marginLeft: 4 }} />
+          </Pressable>
         </View>
       </View>
     );
@@ -300,8 +425,9 @@ export default function PortfolioScreen() {
     const { entry, valuation, latestPrice } = item;
     const isStale = latestPrice ? latestPrice.status === 'stale' || latestPrice.isProviderStale : false;
     const unitLabel = entry.product?.measurementUnit === 'gram' ? 'Gram' : 'Adet';
+    const unitCostMinor = entry.quantity > 0 ? Math.round(entry.totalCostMinor / entry.quantity) : entry.totalCostMinor;
 
-    // Kayıt bazında kâr/zarar rengi ve gösterimi (Yan yana ve rozetli: satır kaymasını önler)
+    // Kayıt bazında kâr/zarar rengi ve gösterimi
     let profitLossAmountText = 'Hesaplanamıyor';
     let profitLossPercentText: string | null = null;
     let profitLossColor = theme.colors.warning;
@@ -309,12 +435,12 @@ export default function PortfolioScreen() {
 
     if (valuation.status === 'profit') {
       profitLossAmountText = `+${formatMoney(valuation.profitLossMinor)}`;
-      profitLossPercentText = `+${formatPercent(valuation.profitLossPercentage)}`;
+      profitLossPercentText = formatPercent(valuation.profitLossPercentage);
       profitLossColor = theme.colors.profit;
       profitLossBadgeBg = isDark ? '#13281d' : '#e8f5e9';
     } else if (valuation.status === 'loss') {
       profitLossAmountText = `${formatMoney(valuation.profitLossMinor)}`;
-      profitLossPercentText = `${formatPercent(valuation.profitLossPercentage)}`;
+      profitLossPercentText = formatPercent(valuation.profitLossPercentage);
       profitLossColor = theme.colors.loss;
       profitLossBadgeBg = isDark ? '#3b1c1c' : '#ffebee';
     } else if (valuation.status === 'even') {
@@ -349,31 +475,66 @@ export default function PortfolioScreen() {
               <View
                 style={[
                   styles.shortNameBadge,
-                  { backgroundColor: isDark ? theme.colors.surfaceElevated : theme.colors.primaryLight },
+                  { backgroundColor: isDark ? theme.colors.surfaceElevated : '#EEF2F6' },
                 ]}
               >
-                <Text style={styles.shortNameText}>{entry.product.shortName}</Text>
+                <Text
+                  style={[
+                    styles.shortNameText,
+                    { color: isDark ? theme.colors.gold : '#1E293B' },
+                  ]}
+                >
+                  {entry.product.shortName}
+                </Text>
               </View>
             ) : null}
           </View>
 
-          {/* Miktar Rozeti */}
-          <View
-            style={[
-              styles.quantityBadge,
-              {
-                backgroundColor: isDark ? theme.colors.surfaceElevated : theme.colors.goldLight,
-                borderColor: theme.colors.gold,
-              },
-            ]}
-          >
-            <Text style={[styles.quantityBadgeText, { color: theme.colors.gold }]}>
-              {formatQuantity(entry.quantity)} {unitLabel}
-            </Text>
+          {/* Miktar Rozeti ve Aksiyon Butonları (Düzenle & Sil) */}
+          <View style={styles.entryHeaderRight}>
+            <View
+              style={[
+                styles.quantityBadge,
+                {
+                  backgroundColor: isDark ? theme.colors.surfaceElevated : theme.colors.goldLight,
+                  borderColor: theme.colors.gold,
+                },
+              ]}
+            >
+              <Text style={[styles.quantityBadgeText, { color: theme.colors.gold }]}>
+                {formatQuantity(entry.quantity)} {unitLabel}
+              </Text>
+            </View>
+
+            <Pressable
+              onPress={(e) => {
+                e.stopPropagation();
+                router.push(`/(protected)/portfolio/${entry.id}/edit` as any);
+              }}
+              hitSlop={8}
+              style={styles.cardActionIconBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Kaydı düzenle"
+            >
+              <Feather name="edit-2" size={15} color={theme.colors.textSecondary} />
+            </Pressable>
+
+            <Pressable
+              onPress={(e) => {
+                e.stopPropagation();
+                handleDeletePress(entry.id, entry.product?.name ?? 'Altın');
+              }}
+              hitSlop={8}
+              style={styles.cardActionIconBtn}
+              accessibilityRole="button"
+              accessibilityLabel="Kaydı sil"
+            >
+              <Feather name="trash-2" size={15} color={theme.colors.loss} />
+            </Pressable>
           </View>
         </View>
 
-        {/* Alış Tarihi ve Varsa Alış Yeri */}
+        {/* Alış Tarihi, Alış Yeri ve Ortalama Alış Maliyeti */}
         <View style={styles.entryMetaRow}>
           <Text style={[styles.entryDate, { color: theme.colors.textTertiary }]}>
             Alış: {formatDate(entry.purchaseDate)}
@@ -383,6 +544,9 @@ export default function PortfolioScreen() {
               {' • '}{entry.purchasePlace}
             </Text>
           ) : null}
+          <Text style={[styles.entryUnitCost, { color: theme.colors.textTertiary }]}>
+            {' • '}Ort. Alış: {formatMoney(unitCostMinor)}/{unitLabel}
+          </Text>
           {isStale ? (
             <View
               style={[
@@ -390,15 +554,16 @@ export default function PortfolioScreen() {
                 { backgroundColor: theme.colors.warningLight },
               ]}
             >
+              <Feather name="clock" size={10} color={theme.colors.warning} style={{ marginRight: 3 }} />
               <Text style={[styles.staleChipText, { color: theme.colors.warning }]}>
-                🕒 Eski Fiyat
+                Gecikmeli Veri
               </Text>
             </View>
           ) : null}
         </View>
 
-        {/* Değerleme ve Maliyet Tablosu (2 satırlı düzen: Kâr/Zarar satır atlamaz) */}
-        <View style={[styles.entryMetricsGrid, { borderTopColor: theme.colors.divider }]}>
+        {/* Değerleme ve Maliyet Tablosu */}
+        <View style={[styles.entryMetricsGrid, { borderTopColor: theme.colors.divider, borderTopWidth: StyleSheet.hairlineWidth }]}>
           <View style={styles.entryMetricsTopRow}>
             <View style={styles.metricItem}>
               <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
@@ -421,7 +586,7 @@ export default function PortfolioScreen() {
             </View>
           </View>
 
-          <View style={[styles.entryMetricsBottomRow, { borderTopColor: theme.colors.divider }]}>
+          <View style={[styles.entryMetricsBottomRow, { borderTopColor: theme.colors.divider, borderTopWidth: StyleSheet.hairlineWidth }]}>
             <Text style={[styles.metricLabel, { color: theme.colors.textSecondary }]}>
               Net Kâr / Zarar
             </Text>
@@ -457,7 +622,7 @@ export default function PortfolioScreen() {
   return (
     <ScreenContainer scrollable={false} edges={['left', 'right']}>
       <FlatList
-        data={items}
+        data={sortedItems}
         renderItem={renderItem}
         keyExtractor={(item) => item.entry.id}
         ListHeaderComponent={renderHeader}
@@ -488,81 +653,150 @@ const styles = StyleSheet.create({
     paddingTop: 8,
     marginBottom: 8,
   },
-  summaryCard: {
+  heroCard: {
     padding: 20,
     borderRadius: 16,
     borderWidth: 1,
-    marginBottom: 12,
+    marginBottom: 14,
   },
-  summaryTopRow: {
+  heroTopRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 6,
   },
-  summarySubtitle: {
+  heroTitleGroup: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  heroSubtitle: {
     fontSize: 13,
     fontWeight: '500',
+    color: '#94A3B8',
   },
-  countBadge: {
-    paddingVertical: 3,
-    paddingHorizontal: 8,
-    borderRadius: 8,
+  heroCountBadge: {
+    backgroundColor: 'rgba(212, 167, 44, 0.15)',
     borderWidth: 1,
+    borderColor: '#D4A72C',
+    borderRadius: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 3,
   },
-  countBadgeText: {
+  heroCountBadgeText: {
     fontSize: 11,
     fontWeight: '700',
+    color: '#D4A72C',
   },
-  summaryHeadline: {
+  heroHeadline: {
     fontSize: 28,
     fontWeight: '800',
     letterSpacing: -0.5,
+    color: '#FFFFFF',
     marginBottom: 16,
   },
-  summaryDetailsRow: {
+  heroDetailsRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'flex-start',
-    paddingTop: 12,
+    alignItems: 'center',
+    paddingTop: 14,
     borderTopWidth: 1,
+    borderTopColor: 'rgba(255, 255, 255, 0.1)',
     marginBottom: 16,
   },
-  statColumn: {
-    minWidth: 100,
-  },
-  statColumnRight: {
+  heroStatColumn: {
     flex: 1,
+  },
+  heroStatColumnRight: {
+    flex: 1.2,
     alignItems: 'flex-end',
   },
-  plValueRow: {
+  heroStatDivider: {
+    width: 1,
+    height: 28,
+    backgroundColor: 'rgba(255, 255, 255, 0.1)',
+    marginHorizontal: 10,
+  },
+  heroStatLabel: {
+    fontSize: 12,
+    color: '#94A3B8',
+    marginBottom: 3,
+  },
+  heroStatValue: {
+    fontSize: 15,
+    fontWeight: '600',
+    color: '#FFFFFF',
+  },
+  heroPlValueRow: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-end',
-    flexWrap: 'nowrap',
     gap: 6,
   },
-  plPercentBadge: {
+  heroPlPercentBadge: {
     paddingHorizontal: 6,
     paddingVertical: 2,
     borderRadius: 6,
     alignItems: 'center',
     justifyContent: 'center',
   },
-  plPercentBadgeText: {
+  heroPlPercentBadgeText: {
     fontSize: 11,
     fontWeight: '700',
   },
-  statLabel: {
-    fontSize: 12,
-    marginBottom: 3,
+  heroAddBtn: {
+    marginTop: 2,
   },
-  statValue: {
-    fontSize: 15,
-    fontWeight: '600',
+  distributionCard: {
+    padding: 14,
+    borderRadius: 14,
+    borderWidth: 1,
+    marginBottom: 14,
   },
-  cardAddButton: {
-    marginTop: 4,
+  distributionHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  distributionTitle: {
+    fontSize: 13,
+    fontWeight: '700',
+  },
+  distributionSubtitle: {
+    fontSize: 11,
+  },
+  distributionBar: {
+    height: 8,
+    flexDirection: 'row',
+    borderRadius: 4,
+    overflow: 'hidden',
+    marginBottom: 10,
+  },
+  distributionSegment: {
+    height: '100%',
+  },
+  distributionLegend: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    gap: 12,
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  legendDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 5,
+  },
+  legendName: {
+    fontSize: 11,
+    marginRight: 4,
+  },
+  legendPercent: {
+    fontSize: 11,
+    fontWeight: '700',
   },
   bannerSpacing: {
     marginBottom: 12,
@@ -570,17 +804,26 @@ const styles = StyleSheet.create({
   listHeaderRow: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    alignItems: 'baseline',
-    marginTop: 8,
+    alignItems: 'center',
+    marginTop: 6,
     marginBottom: 12,
     paddingHorizontal: 4,
   },
   listHeaderTitle: {
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
   },
-  listHeaderSubtitle: {
-    fontSize: 12,
+  sortPillButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 10,
+    paddingVertical: 5,
+    borderRadius: 14,
+    borderWidth: 1,
+  },
+  sortPillText: {
+    fontSize: 11,
+    fontWeight: '600',
   },
   entryCard: {
     padding: 16,
@@ -613,7 +856,11 @@ const styles = StyleSheet.create({
   shortNameText: {
     fontSize: 10,
     fontWeight: '700',
-    color: '#FFFFFF',
+  },
+  entryHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   quantityBadge: {
     paddingHorizontal: 8,
@@ -624,6 +871,9 @@ const styles = StyleSheet.create({
   quantityBadgeText: {
     fontSize: 12,
     fontWeight: '700',
+  },
+  cardActionIconBtn: {
+    padding: 4,
   },
   entryMetaRow: {
     flexDirection: 'row',
@@ -637,7 +887,12 @@ const styles = StyleSheet.create({
   entryPlace: {
     fontSize: 12,
   },
+  entryUnitCost: {
+    fontSize: 12,
+  },
   staleChip: {
+    flexDirection: 'row',
+    alignItems: 'center',
     marginLeft: 8,
     paddingHorizontal: 6,
     paddingVertical: 2,
@@ -648,7 +903,6 @@ const styles = StyleSheet.create({
     fontWeight: '600',
   },
   entryMetricsGrid: {
-    borderTopWidth: 1,
     paddingTop: 10,
   },
   entryMetricsTopRow: {
@@ -661,7 +915,6 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    borderTopWidth: 1,
     paddingTop: 8,
   },
   metricItem: {
@@ -678,6 +931,24 @@ const styles = StyleSheet.create({
   metricValue: {
     fontSize: 13,
     fontWeight: '600',
+  },
+  plValueRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    flexWrap: 'nowrap',
+    gap: 6,
+  },
+  plPercentBadge: {
+    paddingHorizontal: 6,
+    paddingVertical: 2,
+    borderRadius: 6,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  plPercentBadgeText: {
+    fontSize: 11,
+    fontWeight: '700',
   },
   emptyScroll: {
     flexGrow: 1,

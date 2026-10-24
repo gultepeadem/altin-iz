@@ -28,6 +28,7 @@ import {
   View,
 } from 'react-native';
 import { router } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { SecondaryButton } from '@/components/common/SecondaryButton';
@@ -37,16 +38,16 @@ import { useTheme } from '@/hooks/useTheme';
 import { ThemePreference } from '@/theme/types';
 
 export default function SettingsScreen() {
-  const { theme, preference, setPreference } = useTheme();
+  const { theme, isDark, preference, setPreference } = useTheme();
   const { user, profile, signOut } = useAuth();
 
   const [isSigningOut, setIsSigningOut] = useState(false);
   const [showConfirmModal, setShowConfirmModal] = useState(false);
 
-  const themeOptions: { label: string; value: ThemePreference; icon: string }[] = [
-    { label: 'Sistem', value: 'system', icon: '📱' },
-    { label: 'Açık', value: 'light', icon: '☀️' },
-    { label: 'Koyu', value: 'dark', icon: '🌙' },
+  const themeOptions: { label: string; value: ThemePreference; icon: keyof typeof Feather.glyphMap }[] = [
+    { label: 'Sistem', value: 'system', icon: 'smartphone' },
+    { label: 'Açık', value: 'light', icon: 'sun' },
+    { label: 'Koyu', value: 'dark', icon: 'moon' },
   ];
 
   // Kullanıcı adı ve e-posta çözümlemesi
@@ -144,8 +145,9 @@ export default function SettingsScreen() {
                 { backgroundColor: theme.colors.profitLight },
               ]}
             >
+              <Feather name="check-circle" size={12} color={theme.colors.profit} style={{ marginRight: 4 }} />
               <Text style={[styles.badgeText, { color: theme.colors.profit }]}>
-                ✓ Doğrulanmış Hesap
+                Doğrulanmış Hesap
               </Text>
             </View>
           </View>
@@ -184,7 +186,9 @@ export default function SettingsScreen() {
                     {
                       backgroundColor: isSelected
                         ? theme.colors.primary
-                        : theme.colors.background,
+                        : isDark
+                        ? theme.colors.surfaceElevated
+                        : '#F1F5F9',
                       borderColor: isSelected
                         ? theme.colors.primary
                         : theme.colors.border,
@@ -194,7 +198,12 @@ export default function SettingsScreen() {
                   accessibilityLabel={`${opt.label} tema seçeneği`}
                   accessibilityState={{ selected: isSelected }}
                 >
-                  <Text style={styles.themeIcon}>{opt.icon}</Text>
+                  <Feather
+                    name={opt.icon}
+                    size={16}
+                    color={isSelected ? '#FFFFFF' : theme.colors.textSecondary}
+                    style={{ marginBottom: 4 }}
+                  />
                   <Text
                     style={[
                       styles.themeButtonText,
@@ -241,14 +250,32 @@ export default function SettingsScreen() {
             accessibilityLabel="Hesap Bilgileri ve Profil"
           >
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>👤</Text>
+              <Feather name="user" size={17} color={theme.colors.textSecondary} />
               <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
                 Hesap Bilgileri & Profil
               </Text>
             </View>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
-              ›
-            </Text>
+            <Feather name="chevron-right" size={16} color={theme.colors.textTertiary} />
+          </Pressable>
+
+          {/* Çıkış Yap Bağlantısı */}
+          <Pressable
+            onPress={handleSignOutPress}
+            style={[
+              styles.menuRow,
+              styles.divider,
+              { borderBottomColor: theme.colors.border },
+            ]}
+            accessibilityRole="button"
+            accessibilityLabel="Oturumu Kapat / Çıkış Yap"
+          >
+            <View style={styles.menuLeft}>
+              <Feather name="log-out" size={17} color={theme.colors.loss} />
+              <Text style={[styles.menuText, { color: theme.colors.loss }]}>
+                Çıkış Yap
+              </Text>
+            </View>
+            <Feather name="chevron-right" size={16} color={theme.colors.loss} />
           </Pressable>
 
           {/* Hesap Silme Bağlantısı */}
@@ -259,14 +286,12 @@ export default function SettingsScreen() {
             accessibilityLabel="Hesabımı Sil"
           >
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>🗑️</Text>
+              <Feather name="trash-2" size={17} color={theme.colors.loss} />
               <Text style={[styles.menuText, { color: theme.colors.loss }]}>
                 Hesabımı Sil
               </Text>
             </View>
-            <Text style={[styles.arrow, { color: theme.colors.loss }]}>
-              ›
-            </Text>
+            <Feather name="chevron-right" size={16} color={theme.colors.loss} />
           </Pressable>
         </View>
       </View>
@@ -297,14 +322,12 @@ export default function SettingsScreen() {
             accessibilityLabel="Yasal Belgeler ve Gizlilik"
           >
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>📜</Text>
+              <Feather name="file-text" size={17} color={theme.colors.textSecondary} />
               <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
                 Yasal Belgeler ve Gizlilik
               </Text>
             </View>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
-              ›
-            </Text>
+            <Feather name="chevron-right" size={16} color={theme.colors.textTertiary} />
           </Pressable>
 
           {/* Uygulama Hakkında Bağlantısı */}
@@ -319,14 +342,12 @@ export default function SettingsScreen() {
             accessibilityLabel="Uygulama Hakkında"
           >
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>ℹ️</Text>
+              <Feather name="info" size={17} color={theme.colors.textSecondary} />
               <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
                 Uygulama Hakkında
               </Text>
             </View>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
-              ›
-            </Text>
+            <Feather name="chevron-right" size={16} color={theme.colors.textTertiary} />
           </Pressable>
 
           {/* Yardım ve Destek Bağlantısı */}
@@ -341,20 +362,18 @@ export default function SettingsScreen() {
             accessibilityLabel="Yardım ve Destek"
           >
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>💬</Text>
+              <Feather name="help-circle" size={17} color={theme.colors.textSecondary} />
               <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
                 Yardım ve Destek
               </Text>
             </View>
-            <Text style={[styles.arrow, { color: theme.colors.textTertiary }]}>
-              ›
-            </Text>
+            <Feather name="chevron-right" size={16} color={theme.colors.textTertiary} />
           </Pressable>
 
           {/* Fiyat Veri Kaynağı Bilgisi (ADR-003) */}
           <View style={styles.menuRow}>
             <View style={styles.menuLeft}>
-              <Text style={styles.menuIcon}>📊</Text>
+              <Feather name="bar-chart-2" size={17} color={theme.colors.textSecondary} />
               <Text style={[styles.menuText, { color: theme.colors.textPrimary }]}>
                 Fiyat Kaynağı
               </Text>
@@ -473,8 +492,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
   },
   statusBadge: {
+    flexDirection: 'row',
+    alignItems: 'center',
     paddingHorizontal: 8,
-    paddingVertical: 2,
+    paddingVertical: 3,
     borderRadius: 6,
   },
   badgeText: {
