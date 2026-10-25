@@ -117,3 +117,23 @@ export function applyDateMask(text: string, previousText?: string): string {
   return `${digits.slice(0, 2)}.${digits.slice(2, 4)}.${digits.slice(4)}`;
 }
 
+/**
+ * Türkçe karakterleri ve aksanları ASCII eşdeğerlerine normalize eden arama yardımcısı.
+ * Kullanıcı "ce" veya "ceyrek" yazdığında "Çeyrek", "resat" yazdığında "Reşat", "kulce" yazdığında "Külçe" bulmasını sağlar.
+ */
+export function normalizeSearchText(text?: string | null): string {
+  if (!text) return '';
+  return text
+    .toLocaleLowerCase('tr-TR')
+    .replace(/ç/g, 'c')
+    .replace(/ğ/g, 'g')
+    .replace(/ı/g, 'i')
+    .replace(/i̇/g, 'i')
+    .replace(/ö/g, 'o')
+    .replace(/ş/g, 's')
+    .replace(/ü/g, 'u')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .trim();
+}
+

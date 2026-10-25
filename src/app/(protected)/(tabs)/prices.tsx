@@ -43,7 +43,7 @@ import { useMarketStatus } from '@/hooks/useMarketStatus';
 import { goldPriceService } from '@/services/goldPriceService';
 import type { ProductWithPrice } from '@/models/goldPrice';
 import type { GoldProduct } from '@/models/goldProduct';
-import { formatDateTime, formatMoney, formatPercent } from '@/utils/formatters';
+import { formatDateTime, formatMoney, formatPercent, normalizeSearchText } from '@/utils/formatters';
 
 export type SortMode = 'default' | 'name' | 'price_asc' | 'price_desc';
 
@@ -341,14 +341,14 @@ export default function PricesScreen() {
 
   // Arama ve sıralama filtresini uygular
   const filteredAndSortedItems = useMemo(() => {
-    const query = search.trim().toLocaleLowerCase('tr-TR');
+    const query = normalizeSearchText(search);
 
-    // 1. Arama Filtresi (Türkçe küçük harf duyarlı)
+    // 1. Arama Filtresi (Türkçe karakter ve aksan duyarsız normalizasyon)
     const filtered = items.filter((item) => {
       if (!query) return true;
-      const name = item.product.name.toLocaleLowerCase('tr-TR');
-      const shortName = (item.product.shortName ?? '').toLocaleLowerCase('tr-TR');
-      const code = item.product.code.toLocaleLowerCase('tr-TR');
+      const name = normalizeSearchText(item.product.name);
+      const shortName = normalizeSearchText(item.product.shortName);
+      const code = normalizeSearchText(item.product.code);
       return name.includes(query) || shortName.includes(query) || code.includes(query);
     });
 

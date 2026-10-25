@@ -40,7 +40,7 @@ const FAQS: FAQItem[] = [
   {
     question: 'Hesabımı ve tüm verilerimi nasıl silebilirim?',
     answer:
-      'Hesabım > Güvenlik & Veri Yönetimi sekmesinden "Hesabımı Kalıcı Olarak Sil" butonuna basabilir veya web sitemizdeki (altiniz.app/hesap-silme) form aracılığıyla KVKK/GDPR kapsamında anında ve geri döndürülemez şekilde sildirebilirsiniz.',
+      'Ayarlar > Hesap Yönetimi > Hesabımı Sil sekmesinden "Hesabımı ve Verilerimi Kalıcı Olarak Sil" butonuna basabilir veya resmi web sitemizdeki (altiniz.app/hesap-silme) form aracılığıyla KVKK/GDPR kapsamında anında ve geri döndürülemez şekilde sildirebilirsiniz.',
   },
   {
     question: 'Altın İz yatırım tavsiyesi verir mi?',
@@ -53,7 +53,7 @@ export default function SupportScreen() {
   const { theme } = useTheme();
 
   const handleEmailSupport = () => {
-    Linking.openURL('mailto:destek@altiniz.app?subject=Altın İz Destek Talebi').catch(() => {});
+    Linking.openURL('mailto:adem@altiniz.app?subject=Altın İz Destek Talebi').catch(() => {});
   };
 
   const handleOpenAccountDeletionWeb = () => {
@@ -108,7 +108,7 @@ export default function SupportScreen() {
                 Resmi Destek E-postası
               </Text>
               <Text style={[styles.contactEmail, { color: theme.colors.primary }]}>
-                destek@altiniz.app
+                adem@altiniz.app
               </Text>
             </View>
           </View>

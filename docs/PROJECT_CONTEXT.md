@@ -1088,7 +1088,7 @@ Kodlama: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
 Git deposu: Aktif (main dalı)
 GitHub deposu: Aktif ve senkronize (https://github.com/gultepeadem/altin-iz.git)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 11 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 12 migration, RLS, 25 aktif ürün ve canlı fiyatlar)
 Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, 5 dk cooldown devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
 Android testi: APK derlemesi üretildi; fiziksel cihaz (Redmi Note 8 Pro) doğrulaması sürüyor
@@ -1259,7 +1259,7 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 - Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) tamamlandı (%100) ve V1 Sürüm Adayı `v1.0.0-rc1` etiketi oluşturularak GitHub'a aktarıldı.
 - `supabase/tests/test-faz22-p0-checklist.ts` 20 senaryolu P0 denetim testi yazıldı ve 20/20 başarıyla geçti; V1 başarı hedefleri, Android/iOS testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekranı, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, ADR-013 asla 0 TL dönmeme kuralı, kısmi portföy özeti, test ve canlı fiyat ayrımı, gizli anahtar taraması, log maskeleme ve debug susturma, 6 yasal belge türü ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, web hesap silme URL'si, operasyonel yedekleme/rollback rehberi, 7 adet sıralı migration ve v1.0.0 sürüm bilgileri doğrulandı.
 - `docs/RELEASE_RUNBOOK.md` operasyonel rehberi oluşturuldu; migration uygulama, Supabase PITR ve `pg_dump` bağımsız yedekleme, acil EAS Update OTA dağıtımı, konsol sürüm durdurma ve geri alma (rollback) prosedürleri belgelendi.
-- `src/app/(protected)/support.tsx` dosyasında iletişim e-posta adresi `destek@altiniz.app` olarak eşitlendi.
+- `src/app/(protected)/support.tsx` dosyasında iletişim e-posta adresi `adem@altiniz.app` olarak eşitlendi.
 - `docs/TODO.md` Bölüm 22 altındaki 20 P0 kontrol listesi maddesi tamamlandı olarak işaretlendi.
 - Git üzerinde resmi `v1.0.0-rc1` etiketi oluşturularak GitHub uzak deposuna push edildi.
 
@@ -1280,7 +1280,7 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ### 1.50 Taslak - 22.10.2026
 
 - Bölüm 21: Mağaza hazırlığı — Faz 15.2: Mağaza metinleri tamamlandı.
-- `docs/STORE_LISTING.md` mağaza vitrin metinleri belgesi hazırlandı; Google Play ve App Store kısa açıklamaları, 4000 karakterlik detaylı özellik açıklaması, ASO anahtar kelimeleri (96/100 karakter), SPK finansal sorumluluk reddi ("Yatırım tavsiyesi değildir"), resmi destek e-postası (`destek@altiniz.app`), yasal URL'ler (`https://altiniz.app/gizlilik`, `kullanim-kosullari`, `hesap-silme`), kategori (`Finans`) ve yaş derecelendirmesi (`4+` / `PEGI 3`) kilitlendi.
+- `docs/STORE_LISTING.md` mağaza vitrin metinleri belgesi hazırlandı; Google Play ve App Store kısa açıklamaları, 4000 karakterlik detaylı özellik açıklaması, ASO anahtar kelimeleri (96/100 karakter), SPK finansal sorumluluk reddi ("Yatırım tavsiyesi değildir"), resmi destek e-postası (`adem@altiniz.app`), yasal URL'ler (`https://altiniz.app/gizlilik`, `kullanim-kosullari`, `hesap-silme`), kategori (`Finans`) ve yaş derecelendirmesi (`4+` / `PEGI 3`) kilitlendi.
 - `supabase/tests/test-faz15-2-store-metadata.ts` test paketi yazılarak 10/10 iddia ile başarıyla doğrulandı.
 - Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.3 (Google Play hazırlığı) olarak güncellendi.
 

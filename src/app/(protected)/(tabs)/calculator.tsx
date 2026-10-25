@@ -46,7 +46,7 @@ import {
   parseQuantity,
   validateQuantity,
 } from '@/domain/validation/quantityValidation';
-import { formatDateTime, formatMoney } from '@/utils/formatters';
+import { formatDateTime, formatMoney, normalizeSearchText } from '@/utils/formatters';
 
 export type CalculationMode = 'buy' | 'sell';
 
@@ -245,12 +245,13 @@ export default function CalculatorScreen() {
 
   // Modal içindeki filtrelenmiş ürün listesi
   const filteredModalProducts = useMemo(() => {
-    const q = pickerSearch.trim().toLocaleLowerCase('tr-TR');
+    const q = normalizeSearchText(pickerSearch);
     if (!q) return products;
     return products.filter((p) => {
-      const name = p.name.toLocaleLowerCase('tr-TR');
-      const shortName = (p.shortName ?? '').toLocaleLowerCase('tr-TR');
-      return name.includes(q) || shortName.includes(q);
+      const name = normalizeSearchText(p.name);
+      const shortName = normalizeSearchText(p.shortName);
+      const code = normalizeSearchText(p.code);
+      return name.includes(q) || shortName.includes(q) || code.includes(q);
     });
   }, [products, pickerSearch]);
 
@@ -388,7 +389,11 @@ export default function CalculatorScreen() {
                 {selectedProduct ? selectedProduct.name : 'Altın türü seçin...'}
               </Text>
               <Text style={[styles.selectedProductSub, { color: theme.colors.textSecondary }]}>
-                {selectedProduct?.shortName ? `${selectedProduct.shortName} • ` : ''}
+                {selectedProduct?.code === 'GRAM_GOLD'
+                  ? '24 Ayar • '
+                  : selectedProduct?.shortName
+                  ? `${selectedProduct.shortName} • `
+                  : ''}
                 {unitLabel} bazlı hesaplama
               </Text>
             </View>

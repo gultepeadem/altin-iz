@@ -9,7 +9,7 @@
  * 2. Uzun açıklama (<= 4000 karakter ve özellik başlıkları)
  * 3. Anahtar kelime yaklaşımı (App Store keywords <= 100 karakter)
  * 4. Finansal bilgilendirme metni (Yatırım tavsiyesi değildir / SPK sorumluluk reddi)
- * 5. Destek e-posta adresi (destek@altiniz.app)
+ * 5. Destek e-posta adresi (adem@altiniz.app)
  * 6. Gizlilik politikası URL'si (https://altiniz.app/gizlilik)
  * 7. Hesap silme bilgi URL'si (https://altiniz.app/hesap-silme)
  * 8. Kullanım koşulları URL'si (https://altiniz.app/kullanim-kosullari)
@@ -121,7 +121,7 @@ async function runTests() {
   // Test 5: Destek E-posta Adresi
   // ==========================================================================
   try {
-    const supportEmail = 'destek@altiniz.app';
+    const supportEmail = 'adem@altiniz.app';
     const hasEmail = content.includes(supportEmail);
 
     assert(

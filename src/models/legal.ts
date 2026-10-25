@@ -239,87 +239,34 @@ export async function computeContentHash(content: string): Promise<string> {
  * Çevrimdışı ve başlangıç durumları için şablon yasal metinler (KI-025 uyarısı kapsamındadır)
  */
 export const FALLBACK_LEGAL_DOCUMENTS: Record<LegalDocumentType, { title: string; content: string; version: string }> = {
-  kvkk_notice: {
-    title: 'KVKK Aydınlatma Metni',
-    version: '1.0-dev',
-    content: `Altın İz — 6698 Sayılı Kişisel Verilerin Korunması Kanunu (KVKK) Aydınlatma Metni
-
-1. Veri Sorumlusu:
-Altın İz uygulaması olarak kişisel verilerinizin güvenliğine ve gizliliğine azami önem veriyoruz.
-
-2. İşlenen Kişisel Veriler:
-Uygulama kapsamında yalnızca hizmetin sunulması için zorunlu olan e-posta adresi, oturum bilgileri, isteğe bağlı görünen ad ve kişisel altın portföy kayıtları işlenmektedir. Kimlik numarası, banka hesabı veya kredi kartı bilgisi toplanmaz.
-
-3. Veri İşleme Amaçları:
-Kullanıcı hesabı oluşturulması, güvenli oturum sağlanması, altın portföyü takibi ve yasal yükümlülüklerin yerine getirilmesi.
-
-4. İlgili Kişinin Hakları:
-KVKK'nın 11. maddesi uyarınca dilediğiniz zaman verilerinize erişebilir, güncelleyebilir veya hesabınızı silerek verilerinizin imha edilmesini talep edebilirsiniz.`,
+  "kvkk_notice": {
+    "title": "KVKK Aydınlatma Metni",
+    "version": "1.0.0",
+    "content": "# Altın İz — 6698 Sayılı Kişisel Verilerin Korunması Kanunu (KVKK) Aydınlatma Metni\n\nBu Aydınlatma Metni, 6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") m. 10 uyarınca, veri sorumlusu sıfatıyla Altın İz (\"Altın İz\" veya \"Uygulama\") tarafından, mobil uygulamamızı kullanan kullanıcılarımızın (\"Kullanıcı\") kişisel verilerinin toplanması, işlenmesi, saklanması ve haklarına ilişkin bilgilendirilmesi amacıyla hazırlanmıştır.\n\n## 1. Veri Sorumlusu\nAltın İz mobil uygulaması nezdinde işlenen kişisel verileriniz bakımından veri sorumlusu Altın İz yönetim ekibidir. Resmi iletişim ve veri koruma irtibat e-postası: adem@altiniz.app'dir.\n\n## 2. İşlenen Kişisel Veriler ve Toplama Amaçları\nUygulamamız veri minimizasyonu (asgari veri) ilkesini benimsemiştir. Yalnızca hizmetin ifası için zorunlu olan veriler işlenir:\n- Hesap Bilgileri: E-posta adresi, şifrelenmiş parola özeti (hash), isteğe bağlı profil görünen adı.\n- Portföy Verileri: Kullanıcı tarafından sisteme kaydedilen altın türü, miktarı, alım tarihi ve birim/toplam maliyet tutarları.\n- İşlem ve Güvenlik Bilgileri: Oturum belirteçleri (JWT), kimlik doğrulama logları, IP adresi, cihaz modeli ve işletim sistemi sürümü (hata takibi ve hesap güvenliği için).\n- Yasal İzin Kayıtları: Kullanım koşulları onayı, açık rıza durumu ve yasal metinlerin görüntülenme zaman damgaları.\n\nBu veriler; kullanıcı hesabı oluşturulması, oturum güvenliğinin sağlanması, altın portföyünün değerlenmesi ve kâr-zarar analizlerinin hesaplanması, yasal mevzuattan doğan bilgi saklama yükümlülüklerinin karşılanması amaçlarıyla işlenmektedir.\n\n## 3. Kişisel Veri Toplamanın Hukuki Sebepleri\nKişisel verileriniz, KVKK'nın 5. maddesinin 2. fıkrasında belirtilen:\n- c bendi: Bir sözleşmenin kurulması veya ifasıyla doğrudan doğruya ilgili olması (Kullanım Koşulları kapsamında portföy takip hizmetinin sunulması),\n- ç bendi: Veri sorumlusunun hukuki yükümlülüğünü yerine getirebilmesi,\n- f bendi: İlgili kişinin temel hak ve özgürlüklerine zarar vermemek kaydıyla, veri sorumlusunun meşru menfaatleri için veri işlenmesinin zorunlu olması (hesap güvenliği, dolandırıcılığın önlenmesi)\nhukuki sebeplerine dayalı olarak tamamen veya kısmen otomatik yollarla doğrudan mobil uygulama arayüzünden toplanmaktadır.\n\n## 4. Kişisel Verilerin Aktarılması\nKişisel verileriniz kesinlikle üçüncü şahıslara, veri simsarlarına veya ticari reklam ağlarına satılmaz, kiralanmaz ve ticari amaçla aktarılmaz. Verileriniz yalnızca:\n- Hizmetin barındırıldığı güvenli bulut altyapısı sağlayıcımız (Supabase / AWS Frankfurt bölgesi - SOC2/ISO 27001 sertifikalı) nezdinde şifrelenmiş olarak saklanır.\n- Yasal bir zorunluluk halinde veya yetkili adli/idari makamlarca usulüne uygun talep edilmesi durumunda adli mercilerle paylaşılabilir.\n\n## 5. Veri Güvenliği Önlemleri\nVerileriniz veritabanı seviyesinde Row Level Security (RLS) ile korunmakta olup, hiçbir kullanıcı bir başka kullanıcının portföy kaydına veya profiline erişemez. Ağ trafiği TLS 1.3 şifreleme protokolüyle güvence altındadır.\n\n## 6. KVKK Kapsamındaki Haklarınız (Madde 11)\nKVKK'nın 11. maddesi uyarınca her Kullanıcı;\n- Kişisel verilerinin işlenip işlenmediğini öğrenme,\n- Kişisel verileri işlenmişse buna ilişkin bilgi talep etme,\n- İşlenme amacını ve bunların amacına uygun kullanılıp kullanılmadığını öğrenme,\n- Verilerin eksik veya yanlış işlenmiş olması hâlinde düzeltilmesini isteme,\n- Verilerin silinmesini veya yok edilmesini talep etme (Uygulama içi Hesap Yönetimi > Hesabımı Sil adımı ile anında silinebilir),\n- Kanuna aykırı olarak işlenmesi sebebiyle zarara uğraması hâlinde zararın giderilmesini talep etme\nhaklarına sahiptir.\n\nHaklarınıza ilişkin tüm taleplerinizi adem@altiniz.app adresine yazılı olarak iletebilirsiniz. Başvurularınız en geç 30 (otuz) gün içerisinde ücretsiz olarak sonuçlandırılacaktır."
   },
-  privacy_policy: {
-    title: 'Gizlilik Politikası',
-    version: '1.0-dev',
-    content: `Altın İz — Gizlilik Politikası
-
-1. Genel İlkeler:
-Altın İz, kullanıcı gizliliğini temel bir hak olarak kabul eder. Verileriniz üçüncü taraf reklam şirketleriyle asla paylaşılmaz veya satılmaz.
-
-2. Veri Güvenliği:
-Verileriniz PostgreSQL Row Level Security (RLS) teknolojisiyle yalnızca sizin hesabınıza özel olarak şifreli ve güvenli biçimde saklanır.
-
-3. Çerezler ve Takip:
-Uygulama içinde reklam amaçlı izleme çerezleri veya üçüncü taraf takipçiler kullanılmaz.
-
-4. Politika Değişiklikleri:
-Gizlilik politikasındaki güncellemeler uygulama üzerinden ve yasal belgeler sekmesinden kullanıcılara bildirilir.`,
+  "privacy_policy": {
+    "title": "Gizlilik Politikası",
+    "version": "1.0.0",
+    "content": "# Altın İz — Gizlilik Politikası\n\nSon Güncelleme: 25 Ekim 2026\nSürüm: 1.0.0\n\nAltın İz (\"biz\", \"uygulamamız\") olarak kullanıcılarımızın kişisel gizliliğini en temel hak olarak kabul ediyoruz. Bu Gizlilik Politikası, uygulamamızı kullandığınızda kişisel verilerinizin nasıl toplandığını, korunduğunu ve kullanıldığını açıklar.\n\n## 1. Temel Gizlilik İlkemiz\nAltın İz, kullanıcılarını reklam verenlere pazarlayan bir platform değildir.\n- Uygulamamızda hiçbir üçüncü taraf reklam SDK'sı (Google AdMob, Facebook Audience Network vb.) yer almaz.\n- Davranışsal reklam hedeflemesi veya kişisel profil çıkarma yapılmaz.\n- Verileriniz asla satılmaz ve üçüncü taraflara ticari amaçlarla devredilmez.\n\n## 2. Toplanan Bilgiler\n- Hesap ve İletişim Bilgileri: Kayıt olurken sağladığınız e-posta adresi ve şifreniz (şifreniz veritabanımızda tuzlanmış tek yönlü kriptografik karma - bcrypt olarak tutulur, açık metin olarak asla görülmez).\n- Finansal Takip Bilgileri: Altın portföyünüze kendi isteğinizle girdiğiniz altın türü, adedi/gramı, alım tarihi ve alış maliyeti. Kredi kartı, banka hesap numarası veya kimlik numarası (T.C. Kimlik vb.) asla talep edilmez ve toplanmaz.\n- Teknik Tanılama Verileri: Uygulama çökmelerini ve performans sorunlarını tespit etmek amacıyla anonimleştirilmiş hata raporları ve temel işletim sistemi/cihaz modeli bilgisi.\n\n## 3. Bilgilerin Kullanım Amacı\nToplanan veriler yalnızca aşağıdaki amaçlarla kullanılır:\n- Kullanıcı hesabınızı doğrulamak ve güvenli giriş sağlamak,\n- Eklediğiniz altın varlıklarının güncel piyasa fiyatlarıyla değerlemesini ve kâr/zarar durumunu hesaplamak,\n- Uygulama ayarlarınızı ve tercihlerinizi (tema, bildirimler) hatırlamak,\n- Olası siber saldırıları, kötüye kullanımları engellemek ve sistem güvenliğini sağlamak.\n\n## 4. Veri İzolasyonu ve Güvenlik (Row Level Security)\nAltın İz veritabanı, PostgreSQL Row Level Security (RLS) mimarisiyle yapılandırılmıştır. Her kullanıcının portföy ve profil kayıtları, yalnızca kendisinin sahip olduğu şifreli oturum anahtarıyla açılır. Hiçbir kullanıcı veya yetkisiz istemci başka bir kullanıcının varlıklarını göremez veya değiştiremez.\n\n## 5. Çerezler ve Yerel Depolama\nMobil uygulamamızda web izleme çerezleri kullanılmaz. Yalnızca oturumunuzun açık kalmasını sağlayan güvenli erişim belirteçleri (JWT tokens) cihazınızın güvenli depolama alanında (SecureStore / Keystore / Keychain) şifrelenerek muhafaza edilir.\n\n## 6. Hesabınızı ve Verilerinizi Silme Hakkı\nApple App Store ve Google Play gizlilik standartları gereğince; hesabınızı ve ilişkili tüm portföy verilerinizi hiçbir onay veya gecikme olmaksızın uygulama içerisinden (Ayarlar > Hesap Yönetimi > Hesabımı Sil) anında ve kalıcı olarak silebilirsiniz. Silme işlemi tamamlandığında verileriniz sunucularımızdan geri döndürülemez biçimde yok edilir.\n\n## 7. İletişim\nGizlilik politikamız veya kişisel verilerinizle ilgili her türlü soru, görüş ve başvurularınız için bizimle iletişime geçebilirsiniz:\nE-posta: adem@altiniz.app"
   },
-  terms_of_use: {
-    title: 'Kullanım Koşulları',
-    version: '1.0-dev',
-    content: `Altın İz — Kullanım Koşulları
-
-1. Kabul ve Koşullar:
-Altın İz uygulamasını indirerek ve kullanarak bu kullanım koşullarını kabul etmiş sayılırsınız.
-
-2. Hizmetin Niteliği:
-Altın İz, piyasa altın fiyatlarını takip etme ve kişisel altın birikimlerinizi kaydetme imkânı sunan bilgilendirme amaçlı bir mobil uygulamadır.
-
-3. Kullanıcı Sorumluluğu:
-Kullanıcı, hesap şifresinin güvenliğinden ve girdiği portföy verilerinin doğruluğundan bizzat sorumludur.`,
+  "terms_of_use": {
+    "title": "Kullanım Koşulları",
+    "version": "1.0.0",
+    "content": "# Altın İz — Kullanım Koşulları\n\nSon Güncelleme: 25 Ekim 2026\nSürüm: 1.0.0\n\nLütfen Altın İz mobil uygulamasını (\"Uygulama\") kullanmadan önce bu Kullanım Koşullarını (\"Koşullar\") dikkatlice okuyunuz. Uygulamayı indirerek, hesap oluşturarak veya kullanarak bu koşulların tamamını kabul etmiş sayılırsınız.\n\n## 1. Taraflar ve Hizmetin Niteliği\nBu sözleşme, Kullanıcı ile Altın İz yönetimi arasındadır. Altın İz; kullanıcıların serbest piyasa altın fiyatlarını takip etmelerini, kişisel altın birikimlerini kayıt altına alarak tahmini kâr/zarar durumlarını hesaplamalarını sağlayan bir kişisel finans ve portföy takip aracıdır.\n\n## 2. Kullanım Şartları ve Hesap Güvenliği\n- Kullanıcı, kayıt esnasında geçerli ve kendisine ait bir e-posta adresi bildirmekle yükümlüdür.\n- Kullanıcı hesabının ve şifresinin güvenliğinden bizzat sorumludur. Hesabınızın yetkisiz kişilerce kullanıldığını fark ederseniz derhal adem@altiniz.app adresine bildirmelisiniz.\n- Uygulamanın güvenliğini tehdit edecek tersine mühendislik, kaynak koda dönüştürme (decompilation), otomatik bot veya yetkisiz veri çekme (scraping) girişimleri kesinlikle yasaktır ve hukuki yaptırıma tabidir.\n\n## 3. Portföy Kayıtları ve Değerleme Mantığı\n- Portföyünüzde yer alan altın alım kayıtları, miktar ve maliyet bilgileri tamamen kullanıcı beyanına dayanır.\n- Kâr ve zarar hesaplamaları, Kapalıçarşı serbest piyasa sağlayıcılarından alınan güncel alış (bozdurma) fiyatları üzerinden yaklaşık değer olarak gösterilir.\n- Altın İz V1 sürümünde silinen portföy kayıtları satış geçmişi oluşturmaz; kaydınız portföyünüzden tamamen kaldırılır.\n\n## 4. Fikri Mülkiyet Hakları\nAltın İz adı, logosu, uygulama arayüzü tasarımı, grafik varlıkları, kaynak kodları ve veritabanı mimarisi 5846 sayılı Fikir ve Sanat Eserleri Kanunu ile uluslararası telif hakları mevzuatı uyarınca korunmaktadır. Yazılı izin alınmaksızın kopyalanamaz, çoğaltılamaz veya dağıtılamaz.\n\n## 5. Sorumluluk Sınırlandırması\nAltın İz, piyasa veri sağlayıcılarından kaynaklanan gecikmeler, iletişim hattı kesintileri veya donanımsal aksaklıklar sebebiyle verilerin anlık yansıtılamamasından doğabilecek zararlardan sorumlu tutulamaz. Uygulama \"olduğu gibi\" (as-is) sunulmaktadır.\n\n## 6. Değişiklikler ve Yürürlük\nAltın İz, mevzuat değişiklikleri veya yeni özellikler doğrultusunda bu Kullanım Koşullarını güncelleme hakkını saklı tutar. Önemli değişiklikler uygulama içerisinden kullanıcılara duyurulur.\n\n## 7. Uygulanacak Hukuk ve Yetki\nBu koşulların uygulanmasında ve yorumlanmasında Türkiye Cumhuriyeti Hukuku geçerlidir. Uyuşmazlıkların çözümünde İstanbul Mahkemeleri ve İcra Daireleri yetkilidir.\n\nİletişim: adem@altiniz.app"
   },
-  data_retention: {
-    title: 'Veri Saklama ve İmha Politikası',
-    version: '1.0-dev',
-    content: `Altın İz — Veri Saklama ve İmha Politikası
-
-1. Saklama Süreleri:
-Kişisel verileriniz ve portföy kayıtlarınız, kullanıcı hesabınız aktif olduğu müddetçe güvenli veritabanımızda saklanır.
-
-2. Hesap Silme ve Veri İmhası:
-Hesabınızı silme talebinde bulunduğunuzda, portföy kayıtlarınız ve profil bilgileriniz geri alınamaz biçimde silinir.
-
-3. Güvenlik Olayları:
-Yetkisiz erişim denemeleri gibi güvenlik olay kayıtları, yasal yükümlülükler doğrultusunda 1 yıl süreyle saklanır ve ardından otomatik olarak imha edilir.`,
+  "financial_disclaimer": {
+    "title": "Finansal Bilgilendirme ve Sorumluluk Reddi",
+    "version": "1.0.0",
+    "content": "# Altın İz — Finansal Bilgilendirme ve Sorumluluk Reddi\n\nSon Güncelleme: 25 Ekim 2026\nSürüm: 1.0.0\n\n## 1. YASAL UYARI: YATIRIM TAVSİYESİ DEĞİLDİR\nAltın İz uygulamasında sunulan altın alış ve satış fiyatları, grafikler, portföy kâr/zarar analizleri ve hesaplama araçları yalnızca kişisel bilgilendirme amacıyla sunulmaktadır.\n\n6362 sayılı Sermaye Piyasası Kanunu ve ilgili mevzuat uyarınca; Altın İz uygulamasında yer alan hiçbir bilgi, yorum veya hesaplama sonucu kesinlikle YATIRIM DANIŞMANLIĞI VEYA YATIRIM TAVSİYESİ DEĞİLDİR.\n\nYatırım danışmanlığı hizmeti; aracı kurumlar, portföy yönetim şirketleri, mevduat kabul etmeyen bankalar ile müşteri arasında imzalanacak yatırım danışmanlığı sözleşmesi çerçevesinde sunulmaktadır.\n\n## 2. Piyasa Verilerinin Gösterge Niteliği\n- Uygulamada gösterilen altın fiyatları serbest piyasa ve sağlayıcı verilerinden derlenmektedir.\n- Altın fiyatları anlık olarak değişkenlik gösterebilir; bankalar, Kapalıçarşı esnafı, kuyumcular veya yetkili döviz bürolarının uyguladığı makas aralıkları (spread), işçilik giderleri, saflık derecesi veya komisyonlar nedeniyle fiziksel işlem noktalarındaki fiyatlar ile uygulama fiyatları arasında farklılıklar bulunabilir.\n- Altın İz, fiyat verilerinin yüzde yüz doğruluğunu, eksiksizliğini veya kesintisiz iletileceğini garanti etmez.\n\n## 3. Kullanıcı Sorumluluğu\nUygulamada yer alan verilere, portföy kâr/zarar oranlarına veya hesaplama tablolarına dayanarak alacağınız her türlü yatırım, birikim, alım-satım veya borçlanma kararı tamamen kendi hür iradeniz ve sorumluluğunuzdadır.\n\nBu kararlar neticesinde doğrudan ya da dolaylı olarak ortaya çıkabilecek herhangi bir maddi veya manevi zarardan, kâr mahrumiyetinden Altın İz, geliştiricileri veya yöneticileri hiçbir ad altında hukuki veya cezai olarak sorumlu tutulamaz.\n\n## 4. Karar Almadan Önce\nHerhangi bir finansal işlem yapmadan önce bağımsız lisanslı bir finans danışmanına danışmanız, güncel fiyatları işlem yapacağınız kuyumcu veya yetkili finans kuruluşundan teyit etmeniz önemle tavsiye olunur.\n\nİletişim: adem@altiniz.app"
   },
-  financial_disclaimer: {
-    title: 'Finansal Bilgilendirme ve Sorumluluk Reddi',
-    version: '1.0-dev',
-    content: `Altın İz — Finansal Bilgilendirme ve Sorumluluk Reddi
-
-1. Yatırım Tavsiyesi Değildir:
-Altın İz uygulamasında sunulan altın alış-satış fiyatları, hesaplama araçları ve portföy kâr-zarar tahminleri yalnızca bilgilendirme amaçlıdır. Sermaye Piyasası Kanunu kapsamında kesinlikle yatırım danışmanlığı veya tavsiyesi niteliği taşımaz.
-
-2. Fiyatların Gösterge Niteliği:
-Piyasa fiyatları serbest piyasa ve sağlayıcı verilerine dayanır; anlık kur farkları, kuyumcu marjları veya işçilik giderleri nedeniyle fiziksel alım-satım noktalarında farklılık gösterebilir.
-
-3. Sorumluluk Sınırı:
-Uygulamadaki verilere dayanarak alınan alım-satım kararlarından ve doğabilecek kâr veya zararlardan Altın İz sorumlu tutulamaz.`,
+  "data_retention": {
+    "title": "Veri Saklama ve İmha Politikası",
+    "version": "1.0.0",
+    "content": "# Altın İz — Veri Saklama ve İmha Politikası\n\nSon Güncelleme: 25 Ekim 2026\nSürüm: 1.0.0\n\nBu Veri Saklama ve İmha Politikası (\"Politika\"), 6698 sayılı Kişisel Verilerin Korunması Kanunu ve Kişisel Verilerin Silinmesi, Yok Edilmesi veya Anonim Hale Getirilmesi Hakkında Yönetmelik gereğince; Altın İz tarafından toplanan kişisel verilerin saklanma sürelerini ve silinme süreçlerini açıklar.\n\n## 1. Veri Saklama İlkeleri\nAltın İz, kişisel verileri yalnızca işlendikleri amaç için gerekli olan süre boyunca veya ilgili mevzuatta öngörülen yasal süreler sınırında saklar. Amacı sona eren, yasal saklama yükümlülüğü kalmayan veriler gecikmeksizin güvenli yöntemlerle imha edilir.\n\n## 2. Veri Kategorileri ve Saklama Süreleri\n- Kullanıcı Profil ve Hesap Bilgileri: Kullanıcı hesabı aktif kaldığı sürece saklanır. Hesap kapatıldığında derhal silinir.\n- Portföy ve Varlık Kayıtları: Kullanıcı tarafından girilen altın kayıtları, kullanıcı kaydı sildiği veya hesabını kapattığı anda derhal ve kalıcı olarak imha edilir.\n- Yasal İzin ve Rıza Kayıtları (user_legal_events): KVKK ve Türk Ticaret Kanunu uyarınca ispat yükümlülüğü gereğince hesap kapatılmasını takiben 3 (üç) yıl süreyle güvenli arşivde saklanır ve ardından imha edilir.\n- Güvenlik ve Sistem Olay Logları (security_audit_logs): Siber güvenlik ve yetkisiz erişim denetimleri kapsamında 5651 sayılı mevzuat uyarınca en fazla 1 (bir) yıl süreyle tutulur ve otomatik temizleme mekanizmasıyla yok edilir.\n\n## 3. Veri İmha Yöntemleri\n- Silme (Deletion): Veritabanı kayıtlarının kriptografik olarak üzerine yazılarak kullanıcı ve uygulama katmanından tamamen kaldırılması.\n- Yok Etme (Destruction): Dijital ortamdaki verilerin geri getirilemeyecek şekilde sıfırlanması ve disk bloklarının güvenli temizliği.\n- Anonimleştirme: Verinin hiçbir surette belirli veya belirlenebilir bir gerçek kişiyle ilişkilendirilemeyecek hale getirilmesi.\n\n## 4. Kullanıcı Talebiyle Anında Hesap ve Veri İmhası\nKullanıcı, dilediği an uygulama içerisinden (Ayarlar > Hesap Yönetimi > Hesabımı Sil) talepte bulunabilir. Bu talep doğrultusunda kullanıcının tüm portföy girdileri, profil verileri ve oturum yetkileri atomik veritabanı fonksiyonu (`execute_account_deletion`) vasıtasıyla anında ve geri alınamaz biçimde imha edilir.\n\n## 5. İletişim\nVeri saklama ve imha politikamıza ilişkin bilgi almak için: adem@altiniz.app"
   },
-  explicit_consent: {
-    title: 'Açık Rıza Metni',
-    version: '1.0-dev',
-    content: `Altın İz — Açık Rıza Metni
-
-Kişisel verilerimin KVKK Aydınlatma Metni'nde belirtilen kapsam ve ilkeler çerçevesinde, yalnızca seçtiğim hizmetlerin sunulabilmesi amacıyla işlenmesini özgür irademle kabul ediyorum.`,
-  },
+  "explicit_consent": {
+    "title": "Açık Rıza Metni",
+    "version": "1.0.0",
+    "content": "# Altın İz — Açık Rıza Metni\n\nSon Güncelleme: 25 Ekim 2026\nSürüm: 1.0.0\n\n6698 sayılı Kişisel Verilerin Korunması Kanunu (\"KVKK\") kapsamında hazırlanan KVKK Aydınlatma Metni'ni okudum ve anladım.\n\nAltın İz uygulamasının sunduğu:\n1. Kişisel altın birikimlerimin ve işlem geçmişimin güvenli biçimde saklanması,\n2. Anlık piyasa fiyatları doğrultusunda portföy değerleme ve tahmini kâr/zarar hesaplama özelliklerinin kişiselleştirilmiş olarak sunulması,\n3. Tercih ettiğim altın türlerine ve portföyümdeki varlıklara ilişkin güncel piyasa bildirimlerinin ve durum özetlerinin tarafıma iletilmesi\n\namaçlarıyla sınırlı olmak üzere, paylaştığım kişisel verilerimin KVKK'ya ve ilgili mevzuata uygun olarak işlenmesine ve güvenli bulut altyapısında şifreli olarak muhafaza edilmesine ÖZGÜR İRADEMLE AÇIK RIZA VERİYORUM.\n\nBilgilendirme: Bu açık rıza metnini kabul etmek tamamen isteğe bağlıdır. Vermiş olduğunuz açık rızayı, mobil uygulama içerisindeki Ayarlar > Yasal Belgeler ve Gizlilik menüsünden veya adem@altiniz.app adresine e-posta göndererek hiçbir gerekçe göstermeksizin dilediğiniz an geri çekebilirsiniz."
+  }
 };

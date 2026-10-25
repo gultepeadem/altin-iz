@@ -44,7 +44,7 @@ import { useTheme } from '@/hooks/useTheme';
 import { goldProductService } from '@/services/goldProductService';
 import { portfolioService } from '@/services/portfolioService';
 import { logger } from '@/utils/logger';
-import { applyDateMask, formatMoney } from '@/utils/formatters';
+import { applyDateMask, formatMoney, normalizeSearchText } from '@/utils/formatters';
 import type { GoldProduct } from '@/models/goldProduct';
 import {
   parseQuantity,
@@ -164,12 +164,12 @@ export default function PortfolioAddScreen() {
 
   // Modal içindeki filtrelenmiş ürünler
   const filteredProducts = useMemo(() => {
-    if (!pickerSearch.trim()) return products;
-    const query = pickerSearch.trim().toLocaleLowerCase('tr-TR');
+    const query = normalizeSearchText(pickerSearch);
+    if (!query) return products;
     return products.filter((p) => {
-      const name = p.name.toLocaleLowerCase('tr-TR');
-      const short = (p.shortName ?? '').toLocaleLowerCase('tr-TR');
-      const code = p.code.toLocaleLowerCase('tr-TR');
+      const name = normalizeSearchText(p.name);
+      const short = normalizeSearchText(p.shortName);
+      const code = normalizeSearchText(p.code);
       return name.includes(query) || short.includes(query) || code.includes(query);
     });
   }, [products, pickerSearch]);
@@ -346,8 +346,17 @@ export default function PortfolioAddScreen() {
               {selectedProduct ? selectedProduct.name : 'Altın türü seçiniz'}
             </Text>
             {selectedProduct && (
-              <View style={[styles.unitBadge, { backgroundColor: isDark ? '#1E3A5F' : '#E6F4FE' }]}>
-                <Text style={[styles.unitBadgeText, { color: theme.colors.primary }]}>
+              <View
+                style={[
+                  styles.unitBadge,
+                  {
+                    backgroundColor: isDark ? 'rgba(212, 167, 44, 0.15)' : theme.colors.goldLight,
+                    borderColor: theme.colors.gold,
+                    borderWidth: 1,
+                  },
+                ]}
+              >
+                <Text style={[styles.unitBadgeText, { color: theme.colors.gold, fontWeight: '700' }]}>
                   {unitLabel}
                 </Text>
               </View>

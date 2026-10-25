@@ -99,9 +99,9 @@ async function runTests() {
   // Test 2: Git Geçmişinde Gizli Anahtar Araması
   // ==========================================================================
   try {
-    // Git log geçmişinde rastgele gerçek şifre veya jwt olup olmadığını kontrol et
+    // Git log geçmişinde rastgele gerçek şifre veya jwt olup olmadığını kontrol et (test dosyasının kendisi hariç)
     const gitLogCheck = execSync(
-      'git log -p -S "SUPABASE_SERVICE_ROLE_KEY=" --oneline',
+      'git log -p -S "SUPABASE_SERVICE_ROLE_KEY=" --oneline -- ":!supabase/tests/*"',
       { cwd: projectRoot, encoding: 'utf-8' }
     );
     assert(

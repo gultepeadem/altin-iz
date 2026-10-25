@@ -54,6 +54,14 @@ function getGoldIcon(code: string): 'disc' | 'award' | 'shield' | 'globe' | 'lay
   return 'disc';
 }
 
+interface DeleteTargetInfo {
+  id: string;
+  name: string;
+  quantityText: string;
+  purchaseDate: string;
+  totalCostMinor: number;
+}
+
 export default function PortfolioScreen() {
   const { theme, isDark } = useTheme();
 
@@ -64,7 +72,7 @@ export default function PortfolioScreen() {
   const [error, setError] = useState<string | null>(null);
 
   // Silme Onay Modalı Durumu
-  const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<{ id: string; name: string } | null>(null);
+  const [deleteConfirmTarget, setDeleteConfirmTarget] = useState<DeleteTargetInfo | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
   const [sortOrder, setSortOrder] = useState<'newest' | 'oldest'>('newest');
 
@@ -520,7 +528,13 @@ export default function PortfolioScreen() {
             <Pressable
               onPress={(e) => {
                 e.stopPropagation();
-                setDeleteConfirmTarget({ id: entry.id, name: entry.product?.name ?? 'Altın' });
+                setDeleteConfirmTarget({
+                  id: entry.id,
+                  name: entry.product?.name ?? 'Altın',
+                  quantityText: `${formatQuantity(entry.quantity)} ${unitLabel}`,
+                  purchaseDate: entry.purchaseDate,
+                  totalCostMinor: entry.totalCostMinor,
+                });
               }}
               hitSlop={8}
               style={styles.cardActionIconBtn}
@@ -529,6 +543,8 @@ export default function PortfolioScreen() {
             >
               <Feather name="trash-2" size={15} color={theme.colors.loss} />
             </Pressable>
+
+            <Feather name="chevron-right" size={16} color={theme.colors.textTertiary} style={{ marginLeft: 2 }} />
           </View>
         </View>
 
@@ -618,7 +634,7 @@ export default function PortfolioScreen() {
   };
 
   return (
-    <ScreenContainer scrollable={false} edges={['left', 'right']}>
+    <ScreenContainer scrollable={false} withPadding={false} edges={['left', 'right']}>
       <FlatList
         data={sortedItems}
         renderItem={renderItem}
@@ -666,9 +682,48 @@ export default function PortfolioScreen() {
               Kaydı Silmek İstiyor musunuz?
             </Text>
 
-            <Text style={[styles.deleteModalDesc, { color: theme.colors.textSecondary }]}>
-              {`"${deleteConfirmTarget?.name ?? ''}" portföy kaydınız kalıcı olarak silinecektir. Bu işlem geri alınamaz.`}
-            </Text>
+            {deleteConfirmTarget && (
+              <View
+                style={[
+                  styles.deleteSummaryBox,
+                  {
+                    backgroundColor: isDark ? '#1E293B' : '#F8FAFC',
+                    borderColor: isDark ? '#334155' : '#E2E8F0',
+                  },
+                ]}
+              >
+                <View style={styles.deleteSummaryRow}>
+                  <Text style={[styles.deleteSummaryLabel, { color: theme.colors.textSecondary }]}>Altın Türü:</Text>
+                  <Text style={[styles.deleteSummaryValue, { color: theme.colors.textPrimary }]}>{deleteConfirmTarget.name}</Text>
+                </View>
+                <View style={styles.deleteSummaryRow}>
+                  <Text style={[styles.deleteSummaryLabel, { color: theme.colors.textSecondary }]}>Miktar:</Text>
+                  <Text style={[styles.deleteSummaryValue, { color: theme.colors.textPrimary }]}>{deleteConfirmTarget.quantityText}</Text>
+                </View>
+                <View style={styles.deleteSummaryRow}>
+                  <Text style={[styles.deleteSummaryLabel, { color: theme.colors.textSecondary }]}>Alış Tarihi:</Text>
+                  <Text style={[styles.deleteSummaryValue, { color: theme.colors.textPrimary }]}>{formatDate(deleteConfirmTarget.purchaseDate)}</Text>
+                </View>
+                <View style={[styles.deleteSummaryRow, { borderBottomWidth: 0 }]}>
+                  <Text style={[styles.deleteSummaryLabel, { color: theme.colors.textSecondary }]}>Ödenen Tutar:</Text>
+                  <Text style={[styles.deleteSummaryValue, { color: theme.colors.textPrimary, fontWeight: '700' }]}>{formatMoney(deleteConfirmTarget.totalCostMinor)}</Text>
+                </View>
+              </View>
+            )}
+
+            <View
+              style={[
+                styles.deleteWarningBox,
+                {
+                  backgroundColor: isDark ? 'rgba(239, 68, 68, 0.12)' : '#FEF2F2',
+                  borderColor: theme.colors.loss,
+                },
+              ]}
+            >
+              <Text style={[styles.deleteWarningText, { color: isDark ? '#FCA5A5' : '#B91C1C' }]}>
+                ⚠️ Altın İz V1 sürümünde silme işlemi satış geçmişi oluşturmaz; kayıt portföyünüzden tamamen kaldırılır.
+              </Text>
+            </View>
 
             <View style={styles.deleteModalBtnRow}>
               <Pressable
@@ -1091,5 +1146,40 @@ const styles = StyleSheet.create({
     color: '#FFFFFF',
     fontSize: 14,
     fontWeight: '700',
+  },
+  deleteSummaryBox: {
+    width: '100%',
+    padding: 12,
+    borderRadius: 12,
+    borderWidth: 1,
+    marginTop: 12,
+    marginBottom: 12,
+  },
+  deleteSummaryRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingVertical: 4,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: 'rgba(148, 163, 184, 0.2)',
+  },
+  deleteSummaryLabel: {
+    fontSize: 12,
+  },
+  deleteSummaryValue: {
+    fontSize: 12,
+    fontWeight: '600',
+  },
+  deleteWarningBox: {
+    width: '100%',
+    padding: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginBottom: 18,
+  },
+  deleteWarningText: {
+    fontSize: 11,
+    lineHeight: 16,
+    textAlign: 'center',
+    fontWeight: '500',
   },
 });

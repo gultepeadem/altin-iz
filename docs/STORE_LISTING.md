@@ -27,7 +27,7 @@
 
 | Alan | Resmi Değer | Açıklama |
 |---|---|---|
-| **Destek E-posta Adresi** | `destek@altiniz.app` | Kullanıcı geri bildirimleri ve mağaza denetçi iletişimi |
+| **Destek E-posta Adresi** | `adem@altiniz.app` | Kullanıcı geri bildirimleri ve mağaza denetçi iletişimi |
 | **Resmi Web Sitesi** | `https://altiniz.app` | Ana tanıtım ve karşılama portalı |
 | **Gizlilik Politikası URL'si** | `https://altiniz.app/gizlilik` | Google Play & App Store zorunlu gizlilik politikası |
 | **Kullanım Koşulları URL'si** | `https://altiniz.app/kullanim-kosullari` | Son kullanıcı lisans sözleşmesi (EULA) |
@@ -81,7 +81,7 @@ Altın İz bir yatırım danışmanlığı, borsa aracı kurumu veya doğrudan a
 
 Sunulan veriler Sermaye Piyasası Kurulu (SPK) veya yürürlükteki mevzuat kapsamında hiçbir şekilde yatırım danışmanlığı, finansal tavsiye ya da doğrudan al-sat önerisi teşkil etmez. Kullanıcıların piyasa kararlarını kendi bağımsız değerlendirmelerine göre vermeleri tavsiye edilir.
 
-Destek ve İletişim: destek@altiniz.app
+Destek ve İletişim: adem@altiniz.app
 Resmi Web Sitesi: https://altiniz.app
 Gizlilik Politikası: https://altiniz.app/gizlilik
 Kullanım Koşulları: https://altiniz.app/kullanim-kosullari
@@ -95,7 +95,7 @@ Kullanım Koşulları: https://altiniz.app/kullanim-kosullari
 App Store'da anahtar kelimeler virgülle ayrılır, boşluk bırakılmaz ve başlıkta geçen kelimeler tekrar edilmez:
 
 ```text
-altın,fiyat,çeyrek,gram,bilezik,ata,kapalıçarşı,makas,kuyumcu,portföy,hesaplama,kâr,zarar
+altın,fiyat,çeyrek,gram,bilezik,cumhuriyet,kapalıçarşı,makas,kuyumcu,portföy,hesaplama,kâr,zarar
 ```
 *(Uzunluk: 96 karakter / 100 azami sınırına tam uyumlu)*
 

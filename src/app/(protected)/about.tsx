@@ -22,6 +22,10 @@ export default function AboutScreen() {
     Linking.openURL('https://altiniz.app/gizlilik').catch(() => {});
   };
 
+  const handleEmailSupport = () => {
+    Linking.openURL('mailto:adem@altiniz.app?subject=Altın İz İletişim').catch(() => {});
+  };
+
   return (
     <ScreenContainer scrollable={true} contentContainerStyle={styles.container}>
       {/* Logo & Sürüm Başlığı */}
@@ -55,7 +59,7 @@ export default function AboutScreen() {
           ]}
         >
           <Text style={[styles.versionText, { color: theme.colors.textSecondary }]}>
-            Sürüm 1.0.0 (V1) • SDK 52
+            Sürüm 1.0.0 (V1) • SDK 58
           </Text>
         </View>
       </View>
@@ -125,6 +129,20 @@ export default function AboutScreen() {
             <Feather name="file-text" size={16} color={theme.colors.gold} />
             <Text style={[styles.linkButtonText, { color: theme.colors.textPrimary }]}>
               Gizlilik Politikası
+            </Text>
+          </Pressable>
+
+          <Pressable
+            onPress={handleEmailSupport}
+            style={[
+              styles.linkButton,
+              { backgroundColor: theme.colors.surfaceElevated, borderColor: theme.colors.border },
+            ]}
+            accessibilityRole="link"
+          >
+            <Feather name="mail" size={16} color={theme.colors.gold} />
+            <Text style={[styles.linkButtonText, { color: theme.colors.textPrimary }]}>
+              adem@altiniz.app
             </Text>
           </Pressable>
         </View>

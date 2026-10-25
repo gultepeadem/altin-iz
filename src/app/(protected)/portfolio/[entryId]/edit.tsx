@@ -26,6 +26,7 @@ import {
   View,
 } from 'react-native';
 import { useLocalSearchParams, router } from 'expo-router';
+import { Feather } from '@expo/vector-icons';
 
 import { ScreenContainer } from '@/components/common/ScreenContainer';
 import { PrimaryButton } from '@/components/common/PrimaryButton';
@@ -49,7 +50,7 @@ import {
   isFutureDate,
   parseMoneyInputToMinor,
 } from '@/domain/validation';
-import { formatDate, applyDateMask } from '@/utils/formatters';
+import { formatDate, applyDateMask, formatMoney, normalizeSearchText } from '@/utils/formatters';
 
 export default function PortfolioEditScreen() {
   const { entryId } = useLocalSearchParams<{ entryId?: string }>();
@@ -203,14 +204,21 @@ export default function PortfolioEditScreen() {
     }
   };
 
-  // Ürün seçim modalı arama filtresi
+  // Canlı toplam tutar biçimlendirme önizlemesi
+  const parsedCostMinor = useMemo(() => {
+    if (!totalCostInput || !totalCostInput.trim()) return null;
+    const minor = parseMoneyInputToMinor(totalCostInput);
+    return minor !== null && minor > 0 ? minor : null;
+  }, [totalCostInput]);
+
+  // Ürün seçim modalı arama filtresi (Türkçe karakter duyarsız)
   const filteredProducts = useMemo(() => {
-    if (!pickerSearch.trim()) return products;
-    const query = pickerSearch.trim().toLocaleLowerCase('tr-TR');
+    const query = normalizeSearchText(pickerSearch);
+    if (!query) return products;
     return products.filter((p) => {
-      const name = p.name.toLocaleLowerCase('tr-TR');
-      const short = (p.shortName ?? '').toLocaleLowerCase('tr-TR');
-      const code = p.code.toLocaleLowerCase('tr-TR');
+      const name = normalizeSearchText(p.name);
+      const short = normalizeSearchText(p.shortName);
+      const code = normalizeSearchText(p.code);
       return name.includes(query) || short.includes(query) || code.includes(query);
     });
   }, [products, pickerSearch]);
@@ -369,8 +377,17 @@ export default function PortfolioEditScreen() {
               {selectedProduct ? selectedProduct.name : 'Altın türü seçiniz'}
             </Text>
             {selectedProduct && (
-              <View style={[styles.unitBadge, { backgroundColor: isDark ? '#1E3A5F' : '#E6F4FE' }]}>
-                <Text style={[styles.unitBadgeText, { color: theme.colors.primary }]}>
+              <View
+                style={[
+                  styles.unitBadge,
+                  {
+                    backgroundColor: isDark ? 'rgba(212, 167, 44, 0.15)' : theme.colors.goldLight,
+                    borderColor: theme.colors.gold,
+                    borderWidth: 1,
+                  },
+                ]}
+              >
+                <Text style={[styles.unitBadgeText, { color: theme.colors.gold, fontWeight: '700' }]}>
                   {unitLabel}
                 </Text>
               </View>
@@ -426,6 +443,27 @@ export default function PortfolioEditScreen() {
           error={costError ?? undefined}
           hint="Satın alırken ödediğiniz net tutarı giriniz (İşçilik veya komisyon dâhil toplam ödeme)."
         />
+
+        {/* Canlı Binlik Ayracı Önizleme Rozeti */}
+        {parsedCostMinor ? (
+          <View
+            style={[
+              styles.costPreviewRow,
+              {
+                backgroundColor: isDark ? theme.colors.surfaceElevated : '#F0FDF4',
+                borderColor: theme.colors.profit,
+              },
+            ]}
+          >
+            <Feather name="check-circle" size={14} color={theme.colors.profit} />
+            <Text style={[styles.costPreviewLabel, { color: theme.colors.textSecondary }]}>
+              Önizleme:
+            </Text>
+            <Text style={[styles.costPreviewValue, { color: theme.colors.profit }]}>
+              {formatMoney(parsedCostMinor)}
+            </Text>
+          </View>
+        ) : null}
 
         {/* 5. Alış Yeri */}
         <TextField
@@ -853,5 +891,24 @@ const styles = StyleSheet.create({
   },
   modalButton: {
     flex: 1,
+  },
+  costPreviewRow: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 6,
+    paddingHorizontal: 12,
+    borderRadius: 8,
+    borderWidth: 1,
+    marginTop: -8,
+    marginBottom: 16,
+    gap: 6,
+  },
+  costPreviewLabel: {
+    fontSize: 12,
+    fontWeight: '500',
+  },
+  costPreviewValue: {
+    fontSize: 13,
+    fontWeight: '700',
   },
 });

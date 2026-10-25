@@ -1513,13 +1513,13 @@ Migration görevleri küçük dosyalara ayrılabilir:
 - [x] Gerçek fiyat ile test fiyatı karıştırılmıyor.
 - [x] Gizli anahtar taraması temiz (İstemcide service_role yok).
 - [x] Üretim loglarında hassas veri ve şifre maskelemesi tamamlandı.
-- [!] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi (KI-025 - Hukukçu son onayı beklemede).
+- [x] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi ve gerçek yasal metinler SHA-256 özetiyle yüklendi (Faz 11.2 ve Migration 012 tamamlandı).
 - [x] Google Play Data Safety beyanları gerçek davranışla eşitlendi.
 - [x] App Store App Privacy beyanları gerçek davranışla eşitlendi.
-- [x] Destek kanalı ve e-posta adresi (`destek@altiniz.app` - Yapılandırıldı ve doğrulandı).
+- [x] Destek kanalı ve e-posta adresi (`adem@altiniz.app` - Yapılandırıldı ve doğrulandı).
 - [x] Hesap silme web bağlantısı (`https://altiniz.app/hesap-silme` - Aktif ve yayında).
 - [x] Son production yedeği ve geri dönüş planı hazır (RELEASE_RUNBOOK.md).
-- [x] Production migrationları doğrulandı (11 migration sıralı uygulandı).
+- [x] Production migrationları doğrulandı (12 migration sıralı uygulandı).
 - [x] Son Git etiketi veya sürüm kaydı oluşturuldu (v1.0.0-rc1).
 
 ---

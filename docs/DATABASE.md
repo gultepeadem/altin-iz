@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6  
+**Belge sürümü:** 1.7  
 **Son güncelleme:** 25.10.2026 
-**Durum:** 11 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Durum:** 12 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -2720,6 +2720,15 @@ legal_documents
 
 
 ## Sürüm geçmişi
+
+### 1.7 - 25.10.2026
+
+- `20261025000012_activate_missing_products_and_update_legal.sql` migration'ı uygulandı:
+  - `gold_products` tablosunda `GOLD_18K`, `PACKAGED_GOLD_1G`, `PACKAGED_GOLD_2_5G`, `HAMIT_GOLD`, `RESAT_GOLD` ve `REPUBLIC_GOLD` ürünleri `is_active = true, price_display_enabled = true, calculator_enabled = true, portfolio_enabled = true` olarak tam aktif edildi (`OUNCE_GOLD` için ADR-018 gereği `portfolio_enabled = false` korunmuştur).
+  - `price_source_product_mappings` tablosunda `HAMIT_ALTIN`, `AYAR18`, `KULCE_1G`, `KULCE_2_5G`, `CUMHURIYET_ALTINI` ve `RESAT_ALTIN` sembolleri aktif edilerek canlı veri beslemesine bağlandı.
+  - `legal_documents` tablosundaki test taslakları kaldırıldı; 6 adet yasal metin (`kvkk_notice`, `privacy_policy`, `terms_of_use`, `financial_disclaimer`, `data_retention`, `explicit_consent`) resmi ve güncel Türkçe içerikleri ile 64 karakter gerçek SHA-256 hash'leri (`encode(digest(content, 'sha256'), 'hex')`) üretilerek `version = '1.0.0'` ile aktif edildi.
+  - `fetch-gold-prices-job` zamanlayıcısı hafta sonu ve akşam saatlerini kapsayacak biçimde `*/15 * * * *` (her 15 dakikada bir) olarak güncellendi.
+- Toplam uygulanan sıralı migration sayısı 12'ye ulaştı.
 
 ### 1.6 - 25.10.2026
 

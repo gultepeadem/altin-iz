@@ -6,7 +6,7 @@
 **Son güncelleme:** 24.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
 **Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, atomik execute_account_deletion RPC'si (Migration 008), sync_gold_price yetki kilidi (Migration 009), 2 adet aktif Edge Function canlı dağıtımı, UI/UX Header/StatusBar tema standardizasyonu, otomatik tutar aktarımı, özel silme modalı ve EAS Build APK çıktısı hazırlandı.  
-**Son çalışma durumu:** Fiziksel test geri bildirimleri eksiksiz çözüldü: Header ve StatusBar temaya bağlandı, Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi, Truncgil 23 aktif ürünle eşleştirildi, aykırı değişim filtresi (`[-50%, +50%]`) uygulandı, piyasa bayatlığı 15 dk akış tazeliğine bağlandı, hesap makinesinden portföye otomatik tutar aktarımı ve binlik ayracı canlı önizlemesi eklendi, portföy silme onayında özel Altın İz modalı uygulandı, ayarlar ekranı sadeleştirildi. TypeScript ve ESLint 0 hata ile doğrulandı.
+**Son çalışma durumu:** Fiziksel test geri bildirimleri eksiksiz çözüldü: Header ve StatusBar temaya bağlandı, Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi, Truncgil 25 aktif ürünle eşleştirildi, aykırı değişim filtresi (`[-50%, +50%]`) uygulandı, piyasa bayatlığı 15 dk akış tazeliğine bağlandı, hesap makinesinden portföye otomatik tutar aktarımı ve binlik ayracı canlı önizlemesi eklendi, portföy silme onayında özel Altın İz modalı uygulandı, ayarlar ekranı sadeleştirildi. TypeScript ve ESLint 0 hata ile doğrulandı.
 
 ---
 
@@ -69,7 +69,7 @@ Mobil testlerde tespit edilen UI/UX tutarsızlıklarını, Header/StatusBar uyum
 ### Bu oturumda tamamlanan son iş
 
 ```text
-UI/UX ve işlevsel hata düzeltmeleri (ADR-038) tamamlandı; 23 aktif ürün için Truncgil API eşleştirmesi yapıldı; aykırı değişim filtresi konuldu; StatusBar/Header tema uyumu sağlandı; Hesapla sayfasından portföye otomatik maliyet aktarımı ve binlik ayracı canlı önizlemesi eklendi; özel silme modalı uygulandı; ayarlar temizlendi; TypeScript ve ESLint sıfır hata ile geçti; docs/ altındaki ARCHITECTURE.md, DECISIONS.md, CHANGELOG.md, KNOWN_ISSUES.md, DATABASE.md, API.md, TODO.md, PROJECT_CONTEXT.md ve HANDOFF.md dosyaları tam senkronize edildi.
+UI/UX ve işlevsel hata düzeltmeleri (ADR-038) tamamlandı; 25 aktif ürün için Truncgil API eşleştirmesi yapıldı; aykırı değişim filtresi konuldu; StatusBar/Header tema uyumu sağlandı; Hesapla sayfasından portföye otomatik maliyet aktarımı ve binlik ayracı canlı önizlemesi eklendi; özel silme modalı uygulandı; ayarlar temizlendi; TypeScript ve ESLint sıfır hata ile geçti; docs/ altındaki ARCHITECTURE.md, DECISIONS.md, CHANGELOG.md, KNOWN_ISSUES.md, DATABASE.md, API.md, TODO.md, PROJECT_CONTEXT.md ve HANDOFF.md dosyaları tam senkronize edildi.
 ```
 
 ### Projenin mevcut aşaması
@@ -728,9 +728,9 @@ Her oturum sonunda:
 ```text
 Proje: Altın İz
 Aşama: V1 Kod Tabanı Hazır — UI/UX Standardizasyonu ve Fiziksel Test (v1.0.0-rc1)
-Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (11 migration + 2 aktif Edge Function)
+Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (12 migration + 2 aktif Edge Function)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 11 migration, RLS, 23 aktif ürün ve canlı fiyatlar)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 12 migration, RLS, 25 aktif ürün ve canlı fiyatlar)
 Git deposu: Aktif (main dalı)
 Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, sync_gold_price RPC service_role kilitli, 5 dk sunucu tarafı hız sınırı (cooldown) devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
@@ -750,7 +750,7 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
   1. Header ve StatusBar tematik uyumu sağlandı (`CustomTabHeader`, `ModalHeader`, `expo-status-bar` + `RNStatusBar`).
   2. Ana Sayfa `+ Altın Ekle` butonundaki çift render ve beyaz ekran çökmesi giderildi.
   3. Ana Sayfa `ScrollView` bileşenine aktif `RefreshControl` eklendi.
-  4. Truncgil veri kaynağı 23 aktif ürünle eşleştirildi; `chk_at_least_one_price` veritabanı kuralı korunarak eksik ürünlerin tablolara yazılması engellendi.
+  4. Truncgil veri kaynağı 25 aktif ürünle eşleştirildi; `chk_at_least_one_price` veritabanı kuralı korunarak eksik ürünlerin tablolara yazılması engellendi.
   5. Hamit Altın ve diğer ürünlerdeki aykırı anlık fiyat değişimleri için `[-50%, +50%]` sınır filtresi uygulandı (`KI-011` çözüldü).
   6. Piyasa bayatlık kontrolü en güncel fiyat kaydının tazeliğine (15 dk) bağlandı.
   7. Hesap Makinesi ekranından `portfolio/add` rotasına `estimatedTotal` parametresiyle otomatik maliyet aktarımı eklendi.
@@ -763,7 +763,7 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 - Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) %100 tamamlandı ve V1 Sürüm Adayı `v1.0.0-rc1` etiketi oluşturularak GitHub'a gönderildi.
 - `supabase/tests/test-faz22-p0-checklist.ts` test paketi yazılarak 20/20 iddia ile başarıyla doğrulandı; V1 başarı ölçütleri, Android ve iOS platform testleri, çok kullanıcılı RLS güvenliği, hesap silme Edge Function ve ekran akışı, fiyat sağlayıcı soyutlaması ve 15 dk bayatlık eşiği, 0 TL dönmeme kuralı (ADR-013), kısmi portföy özeti, test ve gerçek fiyat ayrımı, mobil kaynak kodlarında gizli anahtar taraması, log maskeleme ve canlıda debug susturması, 6 temel yasal belge ve rıza ayrılığı, Google Play Data Safety, App Store App Privacy, destek kanalı, hesap silme bağlantısı, son production yedeği ve geri dönüş planı, 7 adet sıralı migration ve v1.0.0 sürüm bilgileri onaylandı.
 - `docs/RELEASE_RUNBOOK.md` operasyonel kılavuzu oluşturuldu; migration uygulama adımları, bağımsız `pg_dump` ve Supabase PITR yedekleme, EAS Update OTA yama ve mağaza konsollarında sürüm durdurma/geri alma (rollback) prosedürleri belgelendi.
-- `src/app/(protected)/support.tsx` dosyasında iletişim e-postası `destek@altiniz.app` olarak eşitlendi.
+- `src/app/(protected)/support.tsx` dosyasında iletişim e-postası `adem@altiniz.app` olarak eşitlendi.
 - `docs/TODO.md` Bölüm 22 P0 kontrol listesi maddeleri (20 madde) tamamlandı olarak işaretlendi.
 - Git üzerinde resmi sürüm adayı etiketi `v1.0.0-rc1` oluşturuldu ve GitHub uzak deposuna push edildi.
 
@@ -781,7 +781,7 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 
 ### 1.55 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.2: Mağaza metinleri tamamlandı.
-- `docs/STORE_LISTING.md` mağaza vitrin metinleri belgesi hazırlandı; Google Play ve App Store kısa açıklamaları, 4000 karakterlik detaylı özellik açıklaması, ASO anahtar kelimeleri (96/100 karakter), SPK finansal sorumluluk reddi ("Yatırım tavsiyesi değildir"), resmi destek e-postası (`destek@altiniz.app`), yasal URL'ler (`https://altiniz.app/gizlilik`, `kullanim-kosullari`, `hesap-silme`), kategori (`Finans`) ve yaş derecelendirmesi (`4+` / `PEGI 3`) kilitlendi.
+- `docs/STORE_LISTING.md` mağaza vitrin metinleri belgesi hazırlandı; Google Play ve App Store kısa açıklamaları, 4000 karakterlik detaylı özellik açıklaması, ASO anahtar kelimeleri (96/100 karakter), SPK finansal sorumluluk reddi ("Yatırım tavsiyesi değildir"), resmi destek e-postası (`adem@altiniz.app`), yasal URL'ler (`https://altiniz.app/gizlilik`, `kullanim-kosullari`, `hesap-silme`), kategori (`Finans`) ve yaş derecelendirmesi (`4+` / `PEGI 3`) kilitlendi.
 - `supabase/tests/test-faz15-2-store-metadata.ts` test paketi yazılarak 10/10 iddia ile başarıyla doğrulandı.
 - Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.3 (Google Play hazırlığı) olarak güncellendi.
 

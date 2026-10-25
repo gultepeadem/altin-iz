@@ -44,6 +44,36 @@ Sürüm henüz yayımlanmamışsa:
 
 ```markdown
 ## [Unreleased]
+
+### 19 Belge Çapraz Denetimi, UI/UX Yenilemesi ve Gerçek Yasal Belge Dağıtımı (25.10.2026)
+
+- **İletişim ve Destek E-postası Standardizasyonu (`adem@altiniz.app`):**
+  - Uygulama kodundaki tüm ekranlar (`src/app/(protected)/support.tsx`, `src/app/account-status.tsx`, `src/app/(protected)/about.tsx`), yasal modeller (`src/models/legal.ts`), test paketleri (`supabase/tests/*`) ve `docs/` altındaki tüm belgelerde (`STORE_LISTING.md`, `APP_STORE_SETUP.md`, `GOOGLE_PLAY_SETUP.md`, `RELEASE_RUNBOOK.md`, `TODO.md`, `CHANGELOG.md`, `HANDOFF.md`, `PROJECT_CONTEXT.md`) geçen eski destek e-postaları resmi adres olan **`adem@altiniz.app`** olarak güncellendi.
+- **Portföyüm Ekranı (`portfolio.tsx`) Kenar Boşluğu ve Kart Tasarımı:**
+  - `ScreenContainer` bileşenine `withPadding={false}` geçilerek `FlatList` ile çakışan çift yatay boşluk (double padding) sorunu giderildi; özet ve altın kayıt kartları Ana Sayfa ve Fiyatlar sekmeleriyle tam piksel hizasına getirildi.
+  - Portföy kartlarının başlığına `chevron-right` yönlendirme ikonu eklendi ve tıklama doğrudan detay ekranına (`portfolio/[entryId]`) yönlendirildi.
+  - Kart üzerindeki silme çöp kutusu ikonuna basıldığında açılan modal zenginleştirilerek; silinecek altının adı, miktarı, alım tarihi, toplam maliyeti ve V1 kalıcı silme uyarısı kullanıcıya net biçimde sunuldu.
+- **Kayıt Düzenle Ekranı (`portfolio/[entryId]/edit.tsx`):**
+  - Formdaki birim rozetinin koyu temadaki kontrastı artırıldı.
+  - Toplam tutar girişinin hemen altına binlik ayracı ve para birimini dinamik gösteren yeşil önizleme hapı (`✓ Önizleme: 4.500,00 TL`) eklendi.
+- **Türkçe Arama ve Filtreleme Normalizasyonu:**
+  - `src/utils/formatters.ts` içerisine büyük/küçük İ/ı, ğ/g, ü/u, ş/s, ö/o, ç/c harflerini ve Unicode NFD aksanlarını normalize eden `normalizeSearchText()` fonksiyonu eklendi.
+  - `prices.tsx`, `calculator.tsx`, `portfolio/add.tsx` ve `portfolio/[entryId]/edit.tsx` arama alanlarına bağlanarak Türkçe karakterli aramalarda klavye ve eşleşme hatasız hale getirildi.
+- **Eksik Ürünlerin Aktif Edilmesi (Migration 012):**
+  - `20261025000012_activate_missing_products_and_update_legal.sql` oluşturularak uzak Supabase veritabanına uygulandı.
+  - `gold_products` tablosunda `GOLD_18K`, `PACKAGED_GOLD_1G`, `PACKAGED_GOLD_2_5G`, `HAMIT_GOLD`, `RESAT_GOLD` ve `REPUBLIC_GOLD` ürünleri `is_active = true, price_display_enabled = true, calculator_enabled = true, portfolio_enabled = true` olarak açıldı (`OUNCE_GOLD` için `portfolio_enabled = false` korundu).
+  - `price_source_product_mappings` tablosunda dış semboller aktif edildi ve `fetch-gold-prices` tetiklenerek 25/25 ürünün anlık fiyatları çekildi.
+- **Gerçek Yasal Metinler ve Kriptografik SHA-256 Doğrulaması:**
+  - `legal_documents` tablosundaki taslak metinler yerine; KVKK m. 10 Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Finansal Sorumluluk Reddi, Veri Saklama ve İmha Politikası ile Açık Rıza Metni profesyonel hukuk diliyle hazırlandı.
+  - 6 belgenin her biri için 64 karakter gerçek SHA-256 hash'i (`crypto.subtle` / `node:crypto`) hesaplanarak `src/models/legal.ts` ve Supabase tablosuna `version = '1.0.0'` ile işlendi.
+- **UI/UX, Tema ve Zamanlayıcı İyileştirmeleri:**
+  - `TabsLayout`, `RootLayout` ve `ProtectedLayout` bileşenlerine `sceneStyle` ve `contentStyle` ile arka plan rengi tanımlanarak koyu modda ilk yükleme anındaki beyaz parlama (white flash) ortadan kaldırıldı.
+  - `index.tsx` karşılama alanından `👋` sistem emojisi kaldırıldı; Piyasa Özeti başlığı altına `Son Güncelleme: GG.AA.YYYY SS:DD` zaman damgası ve öne çıkan kartlara `chevron-right` yönlendirme ikonu eklendi.
+  - `calculator.tsx` gram altın alt başlığı `"24 Ayar • Gram bazlı hesaplama"` olarak düzeltildi.
+  - `about.tsx` sürüm etiketi `"Sürüm 1.0.0 (V1) • SDK 58"` olarak güncellendi.
+  - `support.tsx` SSS rehberindeki menü yolu `"Ayarlar > Hesap Yönetimi > Hesabımı Sil"` olarak güncellendi.
+  - `pg_cron` fiyat çekme zamanlayıcısı hafta sonunu da kapsayacak şekilde `*/15 * * * *` (her 15 dakikada bir) olarak genişletildi.
+  - Mağaza denetçi hesapları (`reviewer-apple@altiniz.app` ve `reviewer-play@altiniz.app`) 2'şer adet portföy varlığıyla hazırlandı ve doğrulandı.
 ```
 
 ---
@@ -62,9 +92,9 @@ Sürüm henüz yayımlanmamışsa:
   - `cleanup_old_price_records(p_retention_days INT DEFAULT 30)` PostgreSQL RPC fonksiyonu tanımlandı. Her ürünün en güncel geçerli fiyatı korunarak 30 günden eski bayat `gold_prices` ve `price_fetch_runs` kayıtlarının periyodik temizliği sağlandı.
   - Haftalık Pazar 03:00 `pg_cron` zamanlayıcısına bağlanarak veritabanı kota aşımı engellendi.
 - **İnce Detay ve Uç Durum (Edge-Case) Ekran Düzeltmeleri:**
-  - **Hesap Durumu Ekranı (`account-status.tsx`):** `deletion_pending` ve `disabled` durumları ayrıştırıldı; Feather vektörel ikonlar, doğrudan `destek@altiniz.app` e-posta bağlantısı ve çalışan `signOut` butonu yerleştirildi.
+  - **Hesap Durumu Ekranı (`account-status.tsx`):** `deletion_pending` ve `disabled` durumları ayrıştırıldı; Feather vektörel ikonlar, doğrudan `adem@altiniz.app` e-posta bağlantısı ve çalışan `signOut` butonu yerleştirildi.
   - **Hakkında Ekranı (`about.tsx`):** Emoji yerine altın rengi `MaterialCommunityIcons` `gold` amblemi, sürüm bilgisi (v1.0.0), `altiniz.app` ve gizlilik politikası web bağlantıları, RLS güvenlik mimarisi notu ve SPK yatırım danışmanlığı yasal sorumluluk reddi metinleriyle zenginleştirildi.
-  - **Yardım ve Destek Ekranı (`support.tsx`):** `destek@altiniz.app` tek dokunuşla e-posta gönderme kartı, 24 saat SLA bilgisi, mağaza uyumlu web portalı ve hesap silme formu bağlantısı (`altiniz.app/hesap-silme`) ve 6 maddelik kapsamlı SSS rehberi entegre edildi.
+  - **Yardım ve Destek Ekranı (`support.tsx`):** `adem@altiniz.app` tek dokunuşla e-posta gönderme kartı, 24 saat SLA bilgisi, mağaza uyumlu web portalı ve hesap silme formu bağlantısı (`altiniz.app/hesap-silme`) ve 6 maddelik kapsamlı SSS rehberi entegre edildi.
   - **Ons Altın (OUNCE_GOLD) Para Birimi Düzeltmesi:** `prices.tsx`, `gold/[productId].tsx` ve `index.tsx` ekranlarında `OUNCE_GOLD` için para birimi gösterimi `USD` olarak kilitlendi; `buy_price_minor` ve `sell_price_minor` değerlerinin TL sembolü alması engellendi.
   - **Oturum Açıkken Şifre Sıfırlama (`PASSWORD_RECOVERY`) Akışı:** `AuthProvider.tsx` içerisine `isPasswordRecovery` durumu ve `PASSWORD_RECOVERY` dinleyicisi eklendi; `app/index.tsx`, `auth-callback.tsx` ve `reset-password.tsx` güncellenerek aktif oturumu olan kullanıcının şifre yenileme ekranına engelsiz erişmesi ve başarı sonrası güvenle çıkış yapması sağlandı.
   - **Kayıt Yasal Metin Modalı (`sign-up.tsx`):** `legalService` ve `FALLBACK_LEGAL_DOCUMENTS` üzerinden dinamik yasal metin sunumu, doküman sürüm etiketi (`v{version}`) ve yüklenme animasyonu ile güçlendirildi.
@@ -129,7 +159,7 @@ Sürüm henüz yayımlanmamışsa:
 - **Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (P0 Kontrol Listesi):**
   - **P0 Kontrol Doğrulama Paketi:** `supabase/tests/test-faz22-p0-checklist.ts` altında 20 kritik yayımlama kriterini (V1 hedefleri, Android/iOS testleri, RLS, hesap silme, fiyat sağlayıcı soyutlaması, 15 dk bayatlık eşiği, 0 TL dönmeme ADR-013, kısmi portföy özeti, test/gerçek fiyat ayrımı, gizli anahtar taraması, log maskeleme, KVKK ve rıza ayrılığı, Play Data Safety, App Privacy, destek kanalı, hesap silme URL, yedekleme/rollback, 10 migration doğrulaması, v1.0.0 sürüm bilgileri) denetleyen test paketi yazıldı ve 20/20 başarıyla geçti.
   - **Canlıya Çıkış ve Geri Dönüş Kılavuzu:** `docs/RELEASE_RUNBOOK.md` belgesi oluşturuldu; 10 adet sıralı migration uygulama adımı, Supabase PITR ve bağımsız `pg_dump` yedekleme yönergeleri, JS hatalarında acil EAS Update OTA dağıtımı, mağaza konsollarında (Play Console / App Store Connect) aşamalı dağıtımı durdurma ve Edge Function geri alma prosedürleri belgelendi.
-  - **Destek E-postası Eşitlemesi:** `src/app/(protected)/support.tsx` dosyasında yer alan iletişim e-posta adresi mağaza vitrin metinleri ve yasal belgelerle uyumlu olarak `destek@altiniz.app` olarak eşitlendi.
+  - **Destek E-postası Eşitlemesi:** `src/app/(protected)/support.tsx` dosyasında yer alan iletişim e-posta adresi mağaza vitrin metinleri ve yasal belgelerle uyumlu olarak `adem@altiniz.app` olarak eşitlendi.
   - **TODO Senkronizasyonu:** `docs/TODO.md` Bölüm 22 altındaki 20 P0 kontrol listesi maddesi tamamlandı olarak işaretlendi.
 
 ---
@@ -192,7 +222,7 @@ Sürüm henüz yayımlanmamışsa:
     - Uzun açıklama (özellikler, Kapalıçarşı canlı fiyatlar, makas analizi, hesaplama, portföy takibi, sıfır izleme gizliliği ve çift tema).
     - ASO anahtar kelimeleri (App Store: 96/100 karakter azami sınıra tam uyumlu).
     - SPK ve mali mevzuata uygun yasal/finansal sorumluluk reddi metni ("Yatırım tavsiyesi değildir").
-    - Resmi destek e-postası (`destek@altiniz.app`).
+    - Resmi destek e-postası (`adem@altiniz.app`).
     - Yasal URL bağlantıları (`https://altiniz.app/gizlilik`, `https://altiniz.app/kullanim-kosullari`, `https://altiniz.app/hesap-silme`).
     - Uygulama kategorisi (`Finans / Finance`).
     - Yaş derecelendirmesi beyanı (App Store: `4+`, Google Play: `PEGI 3` / `Everyone`).

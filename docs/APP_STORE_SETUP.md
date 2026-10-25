@@ -143,7 +143,7 @@ Important Review Highlights:
    Password: AppleReview2026!
    (This test account has its email pre-verified and includes a sample portfolio entry for immediate review).
 
-Should you need any additional information, please contact us at: destek@altiniz.app.
+Should you need any additional information, please contact us at: adem@altiniz.app.
 ```
 
 ---

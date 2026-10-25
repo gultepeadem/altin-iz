@@ -36,7 +36,7 @@ export default function AccountStatusScreen() {
   };
 
   const handleEmailSupport = () => {
-    Linking.openURL('mailto:destek@altiniz.app?subject=Altın İz Hesap Durumu İtirazı').catch(() => {});
+    Linking.openURL('mailto:adem@altiniz.app?subject=Altın İz Hesap Durumu İtirazı').catch(() => {});
   };
 
   return (
@@ -103,7 +103,7 @@ export default function AccountStatusScreen() {
               style={[styles.supportEmail, { color: theme.colors.gold }]}
               accessibilityRole="link"
             >
-              destek@altiniz.app
+              adem@altiniz.app
             </Text>
           </View>
         </View>

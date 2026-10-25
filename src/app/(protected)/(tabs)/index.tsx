@@ -239,29 +239,37 @@ export default function HomeScreen() {
             </View>
           </View>
 
-          {/* Günlük Değişim Rozeti */}
-          {hasPrice && changePercent !== null && changePercent !== undefined ? (
-            <View
-              style={[
-                styles.changeBadge,
-                {
-                  backgroundColor: isChangePositive
-                    ? isDark
-                      ? '#13281d'
-                      : theme.colors.profitLight
-                    : isChangeNegative
+          {/* Günlük Değişim Rozeti ve Detay Oku */}
+          <View style={styles.cardHeaderRight}>
+            {hasPrice && changePercent !== null && changePercent !== undefined ? (
+              <View
+                style={[
+                  styles.changeBadge,
+                  {
+                    backgroundColor: isChangePositive
                       ? isDark
-                        ? '#3b1c1c'
-                        : theme.colors.lossLight
-                      : theme.colors.divider,
-                },
-              ]}
-            >
-              <Text style={[styles.changeBadgeText, { color: changeColor }]}>
-                {formatPercent(changePercent)}
-              </Text>
-            </View>
-          ) : null}
+                        ? '#13281d'
+                        : theme.colors.profitLight
+                      : isChangeNegative
+                        ? isDark
+                          ? '#3b1c1c'
+                          : theme.colors.lossLight
+                        : theme.colors.divider,
+                  },
+                ]}
+              >
+                <Text style={[styles.changeBadgeText, { color: changeColor }]}>
+                  {formatPercent(changePercent)}
+                </Text>
+              </View>
+            ) : null}
+            <Feather
+              name="chevron-right"
+              size={16}
+              color={theme.colors.textTertiary}
+              style={{ marginLeft: 4 }}
+            />
+          </View>
         </View>
 
         {/* Alış ve Satış Fiyatları (Aralarında ince dikey ayırıcı) */}
@@ -307,7 +315,7 @@ export default function HomeScreen() {
       {/* Karşılama ve Başlık Alanı */}
       <View style={styles.greetingSection}>
         <Text style={[styles.greetingText, { color: theme.colors.textPrimary }]}>
-          {getGreeting()} 👋
+          {getGreeting()}
         </Text>
         <Text style={[styles.greetingSubtext, { color: theme.colors.textSecondary }]}>
           Altın İz piyasa ve portföy durumunuz hazır.
@@ -451,9 +459,16 @@ export default function HomeScreen() {
 
         {/* Piyasa Özeti Başlığı */}
         <View style={styles.sectionHeaderRow}>
-          <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>
-            Piyasa Özeti
-          </Text>
+          <View>
+            <Text style={[styles.sectionTitle, { color: theme.colors.textPrimary }]}>
+              Piyasa Özeti
+            </Text>
+            {homeData?.lastPriceTime ? (
+              <Text style={[styles.lastUpdateSubtitle, { color: theme.colors.textTertiary }]}>
+                Son Güncelleme: {formatDateTime(homeData.lastPriceTime)}
+              </Text>
+            ) : null}
+          </View>
           <Pressable
             onPress={() => router.push('/(protected)/(tabs)/prices')}
             hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
@@ -630,6 +645,10 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
   },
+  lastUpdateSubtitle: {
+    fontSize: 12,
+    marginTop: 2,
+  },
   viewAllText: {
     fontSize: 13,
     fontWeight: '700',
@@ -645,6 +664,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 6,
+  },
+  cardHeaderRight: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 6,
   },
   titleWithBadge: {
     flexDirection: 'row',

@@ -370,12 +370,12 @@ async function runTests() {
     const supportScreenCode = fs.readFileSync(supportScreenPath, 'utf-8');
     const storeListingCode = fs.readFileSync(storeListingPath, 'utf-8');
 
-    const hasSupportEmailInScreen = supportScreenCode.includes('destek@altiniz.app');
-    const hasSupportEmailInStore = storeListingCode.includes('destek@altiniz.app');
+    const hasSupportEmailInScreen = supportScreenCode.includes('adem@altiniz.app');
+    const hasSupportEmailInStore = storeListingCode.includes('adem@altiniz.app');
 
     assert(
       hasSupportEmailInScreen && hasSupportEmailInStore,
-      'P0-16: Resmi destek kanalı (destek@altiniz.app) hem uygulama ekranında hem mağaza dokümanlarında doğrulandı.'
+      'P0-16: Resmi destek kanalı (adem@altiniz.app) hem uygulama ekranında hem mağaza dokümanlarında doğrulandı.'
     );
   } catch (err: any) {
     console.error('P0-16 hatası:', err.message);
@@ -429,12 +429,12 @@ async function runTests() {
     const migrationsDir = path.join(projectRoot, 'supabase/migrations');
     const migrationFiles = fs.readdirSync(migrationsDir).filter((f: string) => f.endsWith('.sql'));
 
-    const expectedCount = 11;
+    const expectedCount = 12;
     const hasAllMigrations = migrationFiles.length === expectedCount;
 
     assert(
       hasAllMigrations,
-      `P0-19: Production migration zinciri (11 adet sıralı SQL migration dosyası) doğrulandı.`
+      `P0-19: Production migration zinciri (12 adet sıralı SQL migration dosyası) doğrulandı.`
     );
   } catch (err: any) {
     console.error('P0-19 hatası:', err.message);

@@ -72,6 +72,9 @@ export default function ProtectedLayout() {
         },
         headerShadowVisible: false,
         animation: 'slide_from_right',
+        contentStyle: {
+          backgroundColor: theme.colors.background,
+        },
       }}
     >
       <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
