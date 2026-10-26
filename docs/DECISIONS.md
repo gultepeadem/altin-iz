@@ -1100,7 +1100,7 @@ Altın İz V1 geliştirme ve doğrulama sürecinde ücretli altyapı, ücretli A
 
 1. **Sıfır Bağımlılık Yaklaşımı:** Finansal hesaplama için harici bir ağır ondalıklı sayı kütüphanesi (`bignumber.js`, `decimal.js` vb.) mobil istemci paket boyutunu şişirmemek, çalışma zamanı performansını düşürmemek ve gereksiz harici bağımlılık yaratmamak amacıyla V1 aşamasında kullanılmayacaktır.
 2. **Kuruş Bazlı Tamsayı Modeli:** Türk Lirası para değerleri kuruş (minor unit) cinsinden tamsayı olarak saklanır ve işlenir (ADR-007). 1 TL = 100 kuruş.
-3. **Güvenli Sayı Sınırı:** JavaScript yerel `Number` türünün güvenli tamsayı üst sınırı olan `Number.MAX_SAFE_INTEGER` ($2^{53} - 1 = 9,007,199,254,740,991$ kuruş $\approx 90$ Trilyon TL), bireysel altın portföyü ve alım-satım hesaplamaları için fazlasıyla yeterlidir.
+3. **Güvenli Sayı Sınırı:** JavaScript yerel `Number` türünün güvenli tamsayı üst sınırı olan `Number.MAX_SAFE_INTEGER` (9.007.199.254.740.991 kuruş / ~90 Trilyon TL), bireysel altın portföyü ve alım-satım hesaplamaları için fazlasıyla yeterlidir.
 4. **Miktar Hassasiyeti:** Ürün miktarları `NUMERIC(18,3)` kuralına uygun olarak adetli ürünlerde pozitif tam sayı, gramlı ürünlerde azami 3 ondalık basamak (ör. 1.250 gr) olarak doğrulanır (ADR-009).
 5. **Yuvarlama Kuralı:** Miktar ile fiyat çarpımlarında ara kuruş küsuratları en yakın kuruş tamsayısına `Math.round()` ile yuvarlanır (`roundToMinor`).
 6. **Sıfıra Bölme Koruması:** Yüzde değişim hesaplamalarında taban maliyet sıfır veya negatifse sıfıra bölme hatası engellenir ve oran %0 olarak döndürülür.
@@ -1127,24 +1127,35 @@ Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme 
    - Parola doğrulaması Supabase Auth üzerinden gerçekleştirilir. Kimlik doğrulanamazsa silme süreci derhal kesilir (`INVALID_CREDENTIALS`).
    - Bu sayede cihazın başkasının eline geçmesi veya dalgınlıkla butona dokunulması durumunda veri kaybı önlenir.
 
-2. **Silme İşlem Sırası ve Tablo Hiyerarşisi:**
-   İlişkisel verilerin bütünlüğü ve yetki kısıtları gözetilerek işlem sırası şu şekilde uygulanacaktır:
+2. **Silme İşlem Sırası ve İşlem Sınırları (Model A Mimarisi):**
+   Hesap silme işlemi iki seviyeli işlem mimarisi (Model A) ile yürütülür:
+   
+   - **Seviye 1: Edge Function (İşlem Dışı Talep Yönetimi):**
+     `account_deletion_requests` tablosundaki talep kaydı, veri silme veritabanı transaction'ının DIŞINDA yönetilir. Böylece veritabanı silme adımlarında hata oluşup işlem geri alındığında (`ROLLBACK`), silme talebinin kendisi kaybolmaz; durum `failed` olarak güncellenebilir ve denetim izi korunur.
+   
+   - **Seviye 2: Atomik SQL RPC (`execute_account_deletion` - Bağımsız Transaction):**
+     Veritabanındaki kişisel verilerin temizlenmesi ve anonimleştirilmesi tek bir atomik transaction bloğu içinde çalıştırılır. Herhangi bir adımda hata olursa tüm değişiklikler `ROLLBACK` edilir.
+
+   İşlem Sırası:
    ```text
-   Adım 1: account_deletion_requests tablosunda talep oluşturulur (status = 'processing')
+   Adım 1: Edge Function: account_deletion_requests kaydı oluşturur (status = 'processing')
            ↓
-   Adım 2: portfolio_entries tablosundaki tüm portföy kayıtları fiziksel silinir (DELETE)
+   Adım 2: Atomik SQL RPC (execute_account_deletion):
+           a) portfolio_entries tablosundaki tüm portföy kayıtlarını fiziksel siler (DELETE)
+           b) user_preferences tablosundaki kullanıcı tercihlerini fiziksel siler (DELETE)
+           c) user_legal_events ve security_events kayıtlarındaki user_id alanını NULL yapar (ANONİMLEŞTİRME)
+           d) account_deletion_requests kaydındaki user_id alanını NULL yapar (ANONİMLEŞTİRME)
+           e) user_profiles tablosundaki kullanıcı profil kaydını fiziksel siler (DELETE)
            ↓
-   Adım 3: user_preferences tablosundaki kullanıcı tercihleri fiziksel silinir (DELETE)
+   Adım 3: RPC Başarılı İse → Edge Function: Supabase Auth (auth.admin.deleteUser) ile hesabı siler
+           RPC Başarısız İse → SQL ROLLBACK uygulanır; Edge Function talep kaydını status = 'failed' yapar;
+                               sanitised failure_message (max 500 karakter, PII içermez) kaydeder.
            ↓
-   Adım 4: user_legal_events ve security_events kayıtlarındaki user_id alanı NULL yapılır (ANONİMLEŞTİRME)
+   Adım 4: Auth Silimi Başarılı İse → account_deletion_requests tamamlandı (status = 'completed', completed_at = NOW())
+           Auth Silimi Başarısız İse → account_deletion_requests (status = 'auth_deletion_pending') durumuna alınır;
+                                       arka plan telafi kuyruğuna (compensating retry) bırakılır.
            ↓
-   Adım 5: user_profiles tablosundaki kullanıcı profil kaydı fiziksel silinir (DELETE)
-           ↓
-   Adım 6: account_deletion_requests kaydı tamamlandı olarak güncellenir (status = 'completed', completed_at = NOW())
-           ↓
-   Adım 7: Supabase Auth (auth.users) hesabı admin API veya cascade tetikleyiciyle silinir (DELETE)
-           ↓
-   Adım 8: Mobil cihazdaki yerel oturum (tokens, safeStorage) temizlenir ve kullanıcı karşılama ekranına yönlendirilir
+   Adım 5: Mobil İstemci: Cihazdaki oturumu (SecureStore token'ları) temizler ve giriş/karşılama ekranına yönlendirir.
    ```
 
 3. **Fiziksel Olarak Silinen (Purged) Tablolar:**
@@ -1153,17 +1164,18 @@ Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme 
    - `public.user_profiles`: Görünen ad, avatar baş harfleri ve profil kaydı tamamen silinir.
    - `auth.users`: Supabase kimlik doğrulama hesabı, şifre karması ve oturumları tamamen silinir.
 
-4. **Anonimleştirilerek Saklanan Tablolar:**
-   - `public.user_legal_events`: Hukuki ispat (KVKK md. 5, 10, 11) gereğince sözleşme/politika sürümleri ve olay zamanları saklanır; ancak `user_id` alanı `NULL` yapılarak kimliği belirli/belirlenebilir kişiyle bağlantısı tamamen koparılır.
-   - `public.security_events`: Bilgi güvenliği denetimleri (KVKK md. 12) gereğince 1 yıl süreyle saklanır; `user_id` alanı `NULL` yapılarak anonimleştirilir.
-   - `public.account_deletion_requests`: Silme talebinin kanıtı olarak saklanır; `user_id` alanı `NULL` yapılır; kesinlikle e-posta, isim veya portföy verisi barındırmaz.
+4. **Anonimleştirilerek Saklanan Tablolar ve Saklama Süreleri (DATA_RETENTION.md Tek Kaynak):**
+   - `public.user_legal_events`: Hukuki ispat ve zamanaşımı (KVKK md. 5, 10, 11) gereğince 3 yıl saklanır; `user_id` alanı `NULL` yapılarak doğrudan kimlik bağlantısı koparılır (anonimleştirilir).
+   - `public.security_events`: Bilgi güvenliği denetimleri (KVKK md. 12 ve 5651 Sayılı Kanun) gereğince 1 yıl saklanır; `user_id` alanı `NULL` yapılır.
+   - `public.account_deletion_requests`: Silme talebinin kanıtı ve denetim güvencesi olarak 3 yıl saklanır; `user_id` alanı `NULL` yapılır; kesinlikle e-posta, isim veya portföy verisi barındırmaz.
+   - `public.gold_prices` ve `public.price_fetch_runs`: Geçmiş piyasa kayıtları 30 gün saklanır; 30 günden eski satırlar periyodik olarak temizlenir.
 
 5. **Kısmi Başarısızlık ve Telafi Stratejisi (KI-018 Çözümü):**
-   - Veritabanı tablolarındaki silme adımları atomik bir işlem olarak yürütülür.
-   - Veritabanı tablolarının silinmesinde bir hata oluşursa işlem anında `ROLLBACK` edilir; profil ve auth kullanıcısı silinmez.
-   - `account_deletion_requests.status` alanı `'failed'` olarak işaretlenir ve güvenli hata kodu (`failure_code`) kaydedilir.
+   - Veritabanı tablolarındaki silme adımları atomik SQL RPC (`execute_account_deletion`) içinde yürütülür.
+   - Veritabanı tablolarının silinmesinde bir hata oluşursa veritabanı işlemi anında `ROLLBACK` edilir; profil ve auth kullanıcısı silinmez.
+   - Edge Function dışarıdaki `account_deletion_requests.status` alanını `'failed'` olarak işaretler; `failure_code` ('DELETION_EXECUTION_ERROR') ve kesinlikle kişisel veri/secret içermeyen, en fazla 500 karakterlik genel hata mesajını kaydeder.
    - Kullanıcıya işlemin tamamlanamadığı dürüstçe bildirilir; hesap silinmiş gibi yanıltıcı başarı mesajı verilmez.
-   - Auth silme adımında üçüncü taraf bağlantı hatası oluşursa, arka plan telafi işi (`retry / compensating job`) ile auth silme işlemi tamamlanır.
+   - Auth silme adımında üçüncü taraf bağlantı hatası oluşursa, talep durumu `'auth_deletion_pending'` olarak işaretlenir; arka plan telafi işi (`retry / compensating job`) ile auth silme işlemi tamamlanır.
 
 6. **Tamamlanma Kaydının Kişisel Veri İçermemesi:**
    - Tamamlanan `account_deletion_requests` kaydı yalnızca talep kimliğini (UUID), talep zamanını, tamamlanma zamanını ve durumunu içerir.
@@ -1334,7 +1346,7 @@ Fiziksel cihaz testlerinde tespit edilen kullanıcı deneyimi, tema uyumu ve ver
 
 1. **Eksik Ürünlerin Aktif Edilmesi (`Migration 012`):**
    - `gold_products` tablosunda `GOLD_18K`, `PACKAGED_GOLD_1G`, `PACKAGED_GOLD_2_5G`, `HAMIT_GOLD`, `RESAT_GOLD` ve `REPUBLIC_GOLD` ürünleri `is_active = true, price_display_enabled = true, calculator_enabled = true, portfolio_enabled = true` olarak açılmıştır.
-   - `OUNCE_GOLD` için ADR-018 gereği `portfolio_enabled = false` kuralı korunmuştur.
+   - `OUNCE_GOLD` için ADR-009 gereği `portfolio_enabled = false` kuralı korunmuştur.
    - `price_source_product_mappings` tablosunda `HAMIT_ALTIN`, `AYAR18`, `KULCE_1G`, `KULCE_2_5G`, `CUMHURIYET_ALTINI` ve `RESAT_ALTIN` eşleştirmeleri aktif edilmiştir.
 2. **Gerçek Yasal Metinler ve Kriptografik SHA-256 Özeti:**
    - 6 adet yasal metin (`kvkk_notice`, `privacy_policy`, `terms_of_use`, `financial_disclaimer`, `data_retention`, `explicit_consent`) profesyonel hukuk ve KVKK terminolojisine uygun olarak hazırlanmıştır.

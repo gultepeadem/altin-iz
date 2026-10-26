@@ -16,6 +16,11 @@ DECLARE
   v_terms_version VARCHAR(30);
   v_kvkk_doc_id UUID;
   v_kvkk_version VARCHAR(30);
+  -- Güvenlik Notu: Denetçi hesaplarının parolaları açık metin olarak kodda saklanmaz.
+  -- Supabase oturum parametresi (app.reviewer_play_password / app.reviewer_apple_password)
+  -- üzerinden okunur; tanımlı değilse kriptografik rastgele güvenli parola atanır.
+  v_play_password TEXT := COALESCE(NULLIF(current_setting('app.reviewer_play_password', true), ''), gen_random_uuid()::text || '!P1ayReview');
+  v_apple_password TEXT := COALESCE(NULLIF(current_setting('app.reviewer_apple_password', true), ''), gen_random_uuid()::text || '!App1eReview');
 BEGIN
   -- Ürün ID'lerini bul
   SELECT id INTO v_gram_id FROM public.gold_products WHERE code = 'GRAM_GOLD' LIMIT 1;
@@ -31,7 +36,8 @@ BEGIN
   ORDER BY created_at DESC LIMIT 1;
 
   -- --------------------------------------------------------------------------
-  -- 1. Google Play Reviewer Hesabı: reviewer-play@altiniz.app (TestReviewer2026!)
+  -- 1. Google Play Reviewer Hesabı: reviewer-play@altiniz.app
+  -- (Parola güvenli parola yöneticisinde saklanmaktadır / parametrik atanır)
   -- --------------------------------------------------------------------------
   INSERT INTO auth.users (
     instance_id,
@@ -56,7 +62,7 @@ BEGIN
     'authenticated',
     'authenticated',
     'reviewer-play@altiniz.app',
-    crypt('TestReviewer2026!', gen_salt('bf')),
+    crypt(v_play_password, gen_salt('bf')),
     NOW(),
     NOW(),
     '{"provider": "email", "providers": ["email"]}'::jsonb,
@@ -69,7 +75,7 @@ BEGIN
     ''
   )
   ON CONFLICT (id) DO UPDATE SET
-    encrypted_password = crypt('TestReviewer2026!', gen_salt('bf')),
+    encrypted_password = crypt(v_play_password, gen_salt('bf')),
     email_confirmed_at = COALESCE(auth.users.email_confirmed_at, NOW()),
     updated_at = NOW();
 
@@ -142,7 +148,8 @@ BEGIN
   END IF;
 
   -- --------------------------------------------------------------------------
-  -- 2. Apple App Store Reviewer Hesabı: reviewer-apple@altiniz.app (AppleReview2026!)
+  -- 2. Apple App Store Reviewer Hesabı: reviewer-apple@altiniz.app
+  -- (Parola güvenli parola yöneticisinde saklanmaktadır / parametrik atanır)
   -- --------------------------------------------------------------------------
   INSERT INTO auth.users (
     instance_id,
@@ -167,7 +174,7 @@ BEGIN
     'authenticated',
     'authenticated',
     'reviewer-apple@altiniz.app',
-    crypt('AppleReview2026!', gen_salt('bf')),
+    crypt(v_apple_password, gen_salt('bf')),
     NOW(),
     NOW(),
     '{"provider": "email", "providers": ["email"]}'::jsonb,
@@ -180,7 +187,7 @@ BEGIN
     ''
   )
   ON CONFLICT (id) DO UPDATE SET
-    encrypted_password = crypt('AppleReview2026!', gen_salt('bf')),
+    encrypted_password = crypt(v_apple_password, gen_salt('bf')),
     email_confirmed_at = COALESCE(auth.users.email_confirmed_at, NOW()),
     updated_at = NOW();
 

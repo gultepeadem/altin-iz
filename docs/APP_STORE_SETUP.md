@@ -2,8 +2,8 @@
 
 **Belge adı:** `APP_STORE_SETUP.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0 Taslak  
-**Son güncelleme:** 22.10.2026  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 21: Mağaza hazırlığı (Faz 15.4: App Store hazırlığı)  
 **Hedef Platform:** Apple App Store (iOS)  
 **Bundle Kimliği (Bundle Identifier):** `com.altiniz.app`  
@@ -115,7 +115,7 @@ App Store Connect -> **Version Information** -> **App Review Information** alan�
 
 - **Giriş Gerekli mi (Sign-in required):** `İşaretli (Evet)`
 - **Demo Kullanıcı Adı (Demo E-posta):** `reviewer-apple@altiniz.app`
-- **Demo Uygulama Şifresi:** `AppleReview2026!`
+- **Demo Uygulama Şifresi:** Güvenli parola yöneticisinde saklanmaktadır (App Store Connect formunda özel olarak girilecektir).
 
 ### 6.2. İnceleme Notları (Notes for Reviewer)
 ```text
@@ -140,7 +140,7 @@ Important Review Highlights:
 
 4. Demo Account Credentials:
    Username: reviewer-apple@altiniz.app
-   Password: AppleReview2026!
+   Password: [Güvenli parola yöneticisinde saklanmaktadır; App Store Connect Sign-In Information alanında belirtilmiştir]
    (This test account has its email pre-verified and includes a sample portfolio entry for immediate review).
 
 Should you need any additional information, please contact us at: adem@altiniz.app.

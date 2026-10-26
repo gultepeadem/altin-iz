@@ -1190,25 +1190,23 @@ Gerçek olmayan test veya commit bilgisi yazma.
 
 ## 45. Mevcut proje durumu
 
-Bu dosyanın ilk taslağı hazırlanırken:
+Altın İz projesinin güncel aşaması, çalışan kod tabanı ve tamamlanan işler için tek kaynak olarak `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` belgeleri referans alınmalıdır.
 
 ```text
-Proje aşaması: Planlama ve dokümantasyon
-Expo projesi: Henüz oluşturulmadı
-Uygulama kodu: Henüz yok
-Supabase projesi: Henüz oluşturulmadı
-Git deposu: Henüz oluşturulmadı
-Gerçek API hesabı: Henüz oluşturulmadı
-Android testi: Başlamadı
-iOS testi: Başlamadı
-Gerçek kullanıcı verisi: Yok
+Proje aşaması: V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
+Mobil istemci: Expo SDK 58, Expo Router, TypeScript, React Native
+Backend: Supabase (12 migration, RLS, 25 aktif ürün, pg_cron zamanlayıcı)
+Güncel bağlam: docs/HANDOFF.md ve docs/PROJECT_CONTEXT.md
 ```
-
-Bu bilgiler proje ilerledikçe `HANDOFF.md` ve `PROJECT_CONTEXT.md` üzerinden güncel olarak okunmalıdır.
 
 ---
 
 ## 46. Sürüm geçmişi
+
+### 1.2 Taslak - 26.10.2026
+
+- Bölüm 45 mevcut proje durumu güncellendi; eski taslak bilgileri kaldırılarak `HANDOFF.md` ve `PROJECT_CONTEXT.md` ana kaynak olarak belirlendi.
+- Model A hesap silme mimarisi ve sıfır açık parola güvenlik kuralları eklendi.
 
 ### 1.1 Taslak - 19.10.2026
 

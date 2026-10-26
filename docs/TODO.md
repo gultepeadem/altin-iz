@@ -2,7 +2,7 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.16 Taslak  
+**Belge sürümü:** 1.17 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
 **Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
@@ -1506,14 +1506,14 @@ Migration görevleri küçük dosyalara ayrılabilir:
 - [ ] iOS gerçek cihaz/TestFlight testi (Apple hesabı bekleniyor).
 - [x] Çok kullanıcılı RLS güvenlik testleri tamamlandı.
 - [x] Hesap silme atomik RPC ve kullanıcı akışı tamamlandı.
-- [!] Fiyat sağlayıcısı ticari kullanım sözleşmesi doğrulandı (KI-003 - Hukuki süreç beklemede).
+- [!] Fiyat sağlayıcısı ticari kullanım sözleşmesi ve lisans (KI-003 / KI-033: Truncgil kamu lisansı ve AltinAPI ticari sözleşmesi beklemede).
 - [x] Eski fiyat davranışı ve bayatlık eşiği (15 dk) test edildi.
 - [x] Fiyat yok davranışı test edildi (Asla 0 TL dönmeme - ADR-013).
 - [x] Kısmi portföy özeti test edildi.
 - [x] Gerçek fiyat ile test fiyatı karıştırılmıyor.
 - [x] Gizli anahtar taraması temiz (İstemcide service_role yok).
 - [x] Üretim loglarında hassas veri ve şifre maskelemesi tamamlandı.
-- [x] KVKK belgeleri hukuk uzmanı tarafından kontrol edildi ve gerçek yasal metinler SHA-256 özetiyle yüklendi (Faz 11.2 ve Migration 012 tamamlandı).
+- [!] KI-025: Teknik yasal metinler yüklendi ve SHA-256 özetiyle veritabanına işlendi; hukuk uzmanı (avukat) nihai incelemesi bekleniyor (Mitigated).
 - [x] Google Play Data Safety beyanları gerçek davranışla eşitlendi.
 - [x] App Store App Privacy beyanları gerçek davranışla eşitlendi.
 - [x] Destek kanalı ve e-posta adresi (`adem@altiniz.app` - Yapılandırıldı ve doğrulandı).

@@ -197,14 +197,14 @@ iOS
 
 Her iki platform zorunludur. Bir özellik yalnızca Android'de veya yalnızca iOS'ta çalışıyorsa tamamlanmış sayılmaz.
 
-### Fiyat sağlayıcısı adayları
+### Fiyat veri sağlayıcısı
 
 ```text
-Birincil aday: AltinAPI
-Yedek aday: Altinapps
+Aktif veri beslemesi: Truncgil Finance (JSON REST API - fetch-gold-prices Edge Function)
+Aday ticari sağlayıcılar: AltinAPI, Altinapps
 ```
 
-Sağlayıcı seçimi production için henüz kesinleşmemiştir. Gerçek API yanıtları, semboller, birimler, ticari kullanım hakkı ve veri saklama şartları doğrulanmalıdır.
+Uygulama sunucu tarafında Truncgil Finance kamu fiyat akışını kullanmaktadır. Fiyatların ticari mobil uygulamada yeniden gösterim ve saklama lisansı `KNOWN_ISSUES.md` içindeki `KI-033` kaydı kapsamında takip edilmektedir. Aday ticari sağlayıcılar (AltinAPI vb.) `price_source_product_mappings` eşleştirme tablosuyla mimariye entegre edilebilir durumdadır.
 
 ---
 
@@ -283,7 +283,7 @@ Veritabanı türü: NUMERIC(18,3)
 - Gramlı ürünlerde en fazla üç ondalık basamak kullanılır.
 - Ölçü birimi kullanıcı tarafından serbest yazılmaz, ürün kataloğundan gelir.
 
-TypeScript tarafındaki kesin sayısal hassasiyet yaklaşımı henüz belirlenmemiştir. Ayrıntılar `KNOWN_ISSUES.md` içindeki `KI-013` kaydında bulunur.
+TypeScript ve mobil istemci tarafında sayısal işlemler kuruş bazlı tamsayı modeli (`ADR-032`) ile yönetilir; harici kütüphane kullanılmadan `Number.MAX_SAFE_INTEGER` sınırları dahilinde tam kuruş hassasiyeti ve taşma koruması sağlanmıştır.
 
 ---
 
@@ -840,28 +840,17 @@ Pull request şablonu ve dal stratejisi Git deposu oluşturulduktan sonra belirl
 
 ---
 
-## Bilinen önemli sorunlar
+## Bilinen önemli sorunlar ve açık konular
 
-Production öncesinde çözülmesi gereken başlıca konular:
+Production öncesinde takip edilen başlıca konular:
 
 ```text
-Supabase production bölgesi
-Yurt dışına kişisel veri aktarımı
-Fiyat sağlayıcısının ticari kullanım hakkı
-Gerçek fiyat sembolleri
-Cumhuriyet ve Ata ürün ayrımı
-Fiyatın eski sayılacağı süre
-Olağan dışı fiyat doğrulama eşiği
-TypeScript sayısal hassasiyet yöntemi
-Mobil oturum saklama yöntemi
-Android ve iOS auth derin bağlantıları
-Production e-posta hizmeti
-Hesap silme kısmi hata telafisi
-Veri saklama süreleri
-İOS gerçek test yöntemi
-Marka ve uygulama kimlikleri
-Hukuk uzmanı onaylı yasal metinler
-Mağaza gizlilik beyanları
+Fiyat sağlayıcısının ticari kullanım ve saklama lisansı (KI-003, KI-033)
+Yasal metinlerin hukuk uzmanı (avukat) tarafından nihai kontrolü (KI-025 - Mitigated)
+Redmi Note 8 Pro Android fiziksel test cihazında kullanıcı doğrulaması (KI-023 - Investigating)
+Apple Developer Program ($99/yıl) açılışı ve TestFlight / iOS cihaz testi (KI-022)
+Google Play ($25) geliştirici hesabı açılışı ve kapalı test süreci
+Resmi kurumsal e-posta (SMTP) gönderim hizmeti entegrasyonu (KI-017)
 ```
 
 Ayrıntılı kayıtlar:
@@ -899,6 +888,13 @@ Ayrıntılı değişiklik `CHANGELOG.md` içine kaydedilmelidir.
 ---
 
 ## Sürüm geçmişi
+
+### 1.3 Taslak - 26.10.2026
+
+- Dış denetim bulguları doğrultusunda README güncellendi:
+  - Fiyat veri sağlayıcısı Truncgil Finance kamu akışı ve aday ticari sağlayıcılar olarak netleştirildi.
+  - Sayısal hassasiyet ADR-032 kuruş modeli olarak güncellendi.
+  - Bilinen açık sorunlar listesi güncellendi; çözülmüş konular temizlendi.
 
 ### 1.2 Taslak - 19.10.2026
 

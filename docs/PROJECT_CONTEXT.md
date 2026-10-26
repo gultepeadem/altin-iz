@@ -2,7 +2,7 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.56 Taslak  
+**Belge sürümü:** 1.57 Taslak  
 **Son güncelleme:** 26.10.2026 
 **Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, güvenlik ve UI/UX düzeltmeleri tamamlandı; fiziksel cihaz doğrulaması ve mağaza hesap açılışları bekleniyor  
 **Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
@@ -1050,33 +1050,33 @@ Başlangıç belge setinde eksik belge bulunmamaktadır.
 
 ---
 
-## 35. Henüz kesinleşmeyen önemli konular
+## 35. Kesinleşen ve dış onay bekleyen konular
 
-- [x] Supabase veri merkezi bölgesi (eu-central-1 Frankfurt seçildi)
-- [ ] Yurt dışına veri aktarımının kesin hukuki yöntemi (Hukukçu onayı beklemede)
-- [ ] Üretim e-posta gönderim hizmeti (Resmi SMTP sağlayıcısı beklemede)
-- [x] Kesin şifre politikası (En az 6 karakter ve biçim doğrulaması)
-- [x] AltinAPI / Truncgil gerçek test hesabı ve canlı entegrasyon
-- [x] AltinAPI / Truncgil gerçek sembol listesi (25 aktif ürün test edildi ve doğrulandı)
-- [ ] AltinAPI ticari paket ve lisans şartları (Sözleşme beklemede)
-- [ ] Fiyatları uygulamada gösterme hakkı (Ticari izin beklemede)
-- [ ] Fiyat geçmişini saklama hakkı ve süresi (Sözleşme beklemede)
-- [x] Üretim fiyat çekme sıklığı (pg_cron ile 15 dk, 5 dk cooldown)
+### 35.1. Mimari olarak kesinleşen ve uygulanan konular
+- [x] Supabase veri merkezi bölgesi (eu-central-1 Frankfurt seçildi - ADR-002)
+- [x] Kesin şifre politikası (En az 6 karakter ve biçim doğrulaması - ADR-028)
+- [x] Veri çekme motoru entegrasyonu (Truncgil JSON API ve Edge Function - ADR-009, ADR-035)
+- [x] Sembol listesi ve eşleştirme tablosu (25 aktif ürün test edildi - Migration 012)
+- [x] Üretim fiyat çekme sıklığı (pg_cron ile 15 dk zamanlayıcı, 5 dk sunucu cooldown - ADR-035)
 - [x] Fiyatın eski sayılacağı kesin süre (15 dk bayatlık eşiği - ADR-014)
 - [x] Olağan dışı fiyat değişim eşiği ([-50%, +50%] outlier filtresi - KI-011)
 - [x] Cumhuriyet Altını ve Ata Altını kesin ürün ayrımı (ADR-017)
-- [x] 18 Ayar desteği (AYAR18 eşleştirmesi)
-- [x] Reşat Altını desteği (RESAT_ALTIN eşleştirmesi)
-- [x] Hamit Altını desteği (HAMIT_ALTIN eşleştirmesi)
-- [x] Güvenlik olaylarının saklama süresi (3 yıl saklama kuralı)
-- [x] Yasal olayların saklama ve anonimleştirme yöntemi (Append-only ve SET NULL)
-- [x] Hesap silme başarısızlık telafi yöntemi (execute_account_deletion atomik RPC ve auth.users silimi - ADR-033)
-- [x] Portföy hesaplamasının SQL, RPC veya servis katmanı seçimi (İstemci saf etki alanı - ADR-010)
-- [x] Altın İz marka kullanılabilirliği (altiniz.app aktif ve yayında)
-- [x] Android uygulama kimliği (com.altiniz.app)
-- [x] iOS uygulama kimliği (com.altiniz.app)
-- [x] Uygulama logosunun son tasarımı (#0B1220 ve #D4A72C)
-- [ ] Mağaza geliştirici hesapları (Google Play $25 ve Apple $99 açılışları bekleniyor)
+- [x] 18 Ayar, Reşat ve Hamit altın desteği (Migration 012)
+- [x] Güvenlik ve yasal kayıt saklama süreleri (DATA_RETENTION.md)
+- [x] Yasal olayların saklama ve anonimleştirme yöntemi (ADR-033 Model A)
+- [x] Hesap silme atomik telafi yöntemi (execute_account_deletion atomik RPC ve auth.admin silimi - ADR-033)
+- [x] Portföy hesaplamasının istemci saf etki alanı katmanında yapılması (ADR-010)
+- [x] Marka ve alan adı (altiniz.app aktif ve yayında)
+- [x] Android ve iOS paket kimlikleri (com.altiniz.app)
+- [x] Uygulama logosunun kurumsal renkleri (#0B1220 ve #D4A72C)
+
+### 35.2. Gerçekten açık ve dış onay/işlem bekleyen konular
+- [ ] Yurt dışına veri aktarımı ve yasal metinler için hukuk uzmanı (avukat) nihai onayı (KI-025 - Mitigated)
+- [ ] Fiyat sağlayıcısı ticari yeniden gösterim ve saklama lisansı (KI-003, KI-033)
+- [ ] Üretim e-posta gönderim hizmeti (Resmi SMTP sağlayıcısı entegrasyonu - KI-017)
+- [ ] Mağaza geliştirici hesaplarının satın alınması ve açılışı (Google Play $25 ve Apple Developer Program $99/yıl)
+- [ ] Apple Developer Program açılışı sonrası TestFlight ve iOS fiziksel cihaz testi (KI-022)
+- [~] Redmi Note 8 Pro fiziksel Android cihaz testi (KI-023 - Investigating)
 
 ---
 
@@ -1254,6 +1254,40 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 
 ## 44. Sürüm geçmişi
 
+### 1.57 Taslak - 26.10.2026
+
+- Kapsamlı dış denetim raporu (19 belge, testler ve kod mimarisi) gereksinimleri eksiksiz uygulandı:
+  - Güvenlik: Mağaza denetçi demo hesaplarının (`reviewer-apple@altiniz.app`, `reviewer-play@altiniz.app`) açık parolaları tüm belgelerden ve testlerden temizlendi, güvenli parola yöneticisi referansı getirildi; `setup-reviewer-accounts.sql` parametrik yapılandırıldı.
+  - Açık Sorunlar: `KI-025` durumu `Mitigated` olarak güncellendi (Teknik taslaklar yüklendi, hukuk uzmanı nihai incelemesi bekleniyor); Truncgil ticari yeniden gösterim ve saklama lisansı için `KI-033` açıldı; `KI-023` `Investigating` olarak güncellendi.
+  - Hesap Silme Mimarisi: ADR-033 Model A standartlaştırıldı (`account_deletion_requests` transaction dışı Edge Function tarafından yönetilir; `execute_account_deletion` SQL RPC kullanıcı satırlarını atomik temizler; Edge Function `auth.admin.deleteUser` çağırır; auth başarısız olursa `auth_deletion_pending` tazmin durumuna alınır; hata mesajları PII içermez ve 500 karakterle sınırlıdır).
+  - Veri Saklama Süreleri: `DATA_RETENTION.md` tek kaynak yapıldı (`security_events`: 1 yıl; `user_legal_events`: 3 yıl; `account_deletion_requests`: 3 yıl; `gold_prices`/`price_fetch_runs`: 30 gün).
+  - Sağlayıcı Ayrımı: Truncgil Finance aktif kamu beslemesi olarak, AltinAPI/Altinapps aday ticari sağlayıcı olarak netleştirildi.
+  - Mağaza Beyanları: Vitrin metinlerindeki anlık/canlı iddiaları 15 dakikalık periyoda uyarlandı; kesin hukuki iddialar dengelendi.
+
+### 1.56 Taslak - 26.10.2026
+
+- 19 proje belgesinin çapraz denetimi ve fiziksel test bulguları sonucunda V1 tamamlama paketi uygulandı:
+  - `adem@altiniz.app` e-postası kod tabanındaki tüm arayüzlerde, veri modellerinde, testlerde ve mağaza belgelerinde resmi destek adresi olarak eşitlendi.
+  - Portföyüm ekranında çift padding kaldırıldı, detay sayfasına yönlendirme sağlandı, zenginleştirilmiş silme onay modalı uygulandı.
+  - Portföy düzenleme formunda birim rozet kontrastı ve binlik ayracı canlı önizleme rozeti uygulandı.
+  - `normalizeSearchText` fonksiyonu ile Türkçe karakter uyumlu arama altyapısı sağlandı.
+  - Migration 012 uygulanarak 25 ürün tam aktif edildi ve canlı fiyatları çekildi.
+  - 6 gerçek yasal belge 64 karakter gerçek SHA-256 hash'leri ile canlı veritabanına ve modellere işlendi (`v1.0.0`).
+  - Koyu mod geçişlerindeki beyaz parlama önlendi; `index.tsx` karşılama alanından `👋` kaldırıldı.
+  - `pg_cron` fiyat çekme zamanlayıcısı 24/7 her 15 dakikada bir çalışacak biçimde genişletildi.
+  - P0 kontrol listesi 20/20 test ile onaylandı.
+
+### 1.55 Taslak - 24.10.2026
+
+- Fiziksel cihaz testleri sonrası tespit edilen UI/UX eksiklikleri ve bug paketi giderildi:
+  - Header ve StatusBar tema uyumu (`expo-status-bar` + `RNStatusBar`) ile açık/koyu modlar kusursuzlaştırıldı.
+  - Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi.
+  - Truncgil kamu veri akışı ile 23 aktif ürün eşleştirildi (`price_source_product_mappings`), aykırı değişim filtresi (`[-50%, +50%]`) uygulandı.
+  - `useMarketStatus` ve `prices.tsx` bayatlık mantığı feed tazeliğine (15 dk) bağlandı.
+  - Hesaplama -> portföy tutar aktarımı (`estimatedTotal`) ve binlik ayracı canlı önizleme rozeti uygulandı.
+  - Portföy kartlarında vektörel altın ikonları ve özel silme onay modalı (`Modal`) uygulandı.
+  - Ayarlar ekranında mükerrer çıkış butonu kaldırıldı, koyu tema seçici kontrastı artırıldı.
+
 ### 1.53 Taslak - 22.10.2026
 
 - Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) tamamlandı (%100) ve V1 Sürüm Adayı `v1.0.0-rc1` etiketi oluşturularak GitHub'a aktarıldı.
@@ -1266,7 +1300,7 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ### 1.52 Taslak - 22.10.2026
 
 - Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı).
-- `docs/APP_STORE_SETUP.md` konsol kılavuzu oluşturuldu; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+`), App Privacy beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content), Apple Kural 5.1.1(v) uygulama içi hesap silme açıklaması (`account/delete.tsx`), TestFlight dahili/harici grupları, iPhone 6.7 inç/6.5 inç ekran görüntüleri, Apple App Review denetçi notları, hazır demo giriş hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`) ve Guideline 3.1.1/3.1.5 uyum stratejisi belgelendi.
+- `docs/APP_STORE_SETUP.md` konsol kılavuzu oluşturuldu; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+`), App Privacy beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content), Apple Kural 5.1.1(v) uygulama içi hesap silme açıklaması (`account/delete.tsx`), TestFlight dahili/harici grupları, iPhone 6.7 inç/6.5 inç ekran görüntüleri, Apple App Review denetçi notları, hazır demo giriş hesabı (`reviewer-apple@altiniz.app` - parola güvenli parola yöneticisinde saklanmaktadır) ve Guideline 3.1.1/3.1.5 uyum stratejisi belgelendi.
 - `supabase/tests/test-faz15-4-app-store-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
 - Bölüm 21 (Mağaza hazırlığı) eksiksiz tamamlandı; sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) olarak güncellendi.
 
@@ -1437,30 +1471,6 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 - `legalService.ts` kullanıcı yasal olay metotları (presented, viewed, accepted, declined, withdrawn, getUserLegalEvents) ve `validateConsentSeparation` doğrulayıcısı ile genişletildi.
 - `supabase/tests/test-faz11-2-legal-events.ts` 10/10 test ile doğrulandı.
 - Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) olarak güncellendi.
-
-### 1.56 Taslak - 26.10.2026
-
-- 19 proje belgesinin çapraz denetimi ve fiziksel test bulguları sonucunda V1 tamamlama paketi uygulandı:
-  - `adem@altiniz.app` e-postası kod tabanındaki tüm arayüzlerde, veri modellerinde, testlerde ve mağaza belgelerinde resmi destek adresi olarak eşitlendi.
-  - Portföyüm ekranında çift padding kaldırıldı, detay sayfasına yönlendirme sağlandı, zenginleştirilmiş silme onay modalı uygulandı.
-  - Portföy düzenleme formunda birim rozet kontrastı ve binlik ayracı canlı önizleme rozeti uygulandı.
-  - `normalizeSearchText` fonksiyonu ile Türkçe karakter uyumlu arama altyapısı sağlandı.
-  - Migration 012 uygulanarak 25 ürün tam aktif edildi ve canlı fiyatları çekildi.
-  - 6 gerçek yasal belge 64 karakter gerçek SHA-256 hash'leri ile canlı veritabanına ve modellere işlendi (`v1.0.0`).
-  - Koyu mod geçişlerindeki beyaz parlama önlendi; `index.tsx` karşılama alanından `👋` kaldırıldı.
-  - `pg_cron` fiyat çekme zamanlayıcısı 24/7 her 15 dakikada bir çalışacak biçimde genişletildi.
-  - P0 kontrol listesi 20/20 test ile onaylandı.
-
-### 1.55 Taslak - 24.10.2026
-
-- Fiziksel cihaz testleri sonrası tespit edilen UI/UX eksiklikleri ve bug paketi giderildi:
-  - Header ve StatusBar tema uyumu (`expo-status-bar` + `RNStatusBar`) ile açık/koyu modlar kusursuzlaştırıldı.
-  - Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi.
-  - Truncgil kamu veri akışı ile 23 aktif ürün eşleştirildi (`price_source_product_mappings`), aykırı değişim filtresi (`[-50%, +50%]`) uygulandı.
-  - `useMarketStatus` ve `prices.tsx` bayatlık mantığı feed tazeliğine (15 dk) bağlandı.
-  - Hesaplama -> portföy tutar aktarımı (`estimatedTotal`) ve binlik ayracı canlı önizleme rozeti uygulandı.
-  - Portföy kartlarında vektörel altın ikonları ve özel silme onay modalı (`Modal`) uygulandı.
-  - Ayarlar ekranında mükerrer çıkış butonu kaldırıldı, koyu tema seçici kontrastı artırıldı.
 
 ### 1.36 Taslak - 22.10.2026
 

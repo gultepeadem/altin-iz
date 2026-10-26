@@ -209,16 +209,17 @@ async function runTests() {
   }
 
   // ==========================================================================
-  // Test 10: İnceleme Test Hesabı (Sign-In Information)
+  // Test 10: İnceleme Test Hesabı (Sign-In Information - Açık Parola İçermez)
   // ==========================================================================
   try {
     const hasReviewCredentials =
       setupContent.includes('reviewer-apple@altiniz.app') &&
-      setupContent.includes('AppleReview2026!');
+      setupContent.includes('Güvenli parola yöneticisinde saklanmaktadır') &&
+      !setupContent.includes('AppleReview2026!');
 
     assert(
       hasReviewCredentials,
-      'Test 10: Apple denetçileri için hazır giriş test hesabı (Sign-In Information) doğrulandı.'
+      'Test 10: Apple denetçileri için hazır giriş test hesabı ve açık parola içermeme güvencesi doğrulandı.'
     );
   } catch (err: any) {
     console.error('Test 10 hatası:', err.message);

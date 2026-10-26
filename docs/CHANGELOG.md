@@ -2,8 +2,8 @@
 
 **Belge adı:** `CHANGELOG.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.5 Taslak  
-**Son güncelleme:** 24.10.2026  
+**Belge sürümü:** 1.6 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
 **Uygulama sürümü:** 1.0.0 (v1.0.0-rc1)
 
@@ -44,6 +44,32 @@ Sürüm henüz yayımlanmamışsa:
 
 ```markdown
 ## [Unreleased]
+```
+
+---
+
+# Değişiklik Kayıtları
+
+## [Unreleased]
+
+### Kapsamlı Dış Denetim Bulgularının Giderilmesi ve Mimari Senkronizasyon (26.10.2026)
+
+- **Açık Parolaların Temizlenmesi (Güvenlik Sertleştirmesi):**
+  - Tüm dokümanlar (`APP_STORE_SETUP.md`, `GOOGLE_PLAY_SETUP.md`, `CHANGELOG.md`, `HANDOFF.md`, `PROJECT_CONTEXT.md`), test paketleri (`test-faz15-3-google-play-readiness.ts`, `test-faz15-4-app-store-readiness.ts`) ve `setup-reviewer-accounts.sql` scripti içerisindeki açık denetçi parolaları temizlendi; güvenli parola yöneticisi referansı getirildi.
+- **Tek Gerçek Kaynak ve Açık Sorunlar Senkronizasyonu:**
+  - `KI-025` durumu `Mitigated` olarak güncellendi (Teknik taslaklar yüklendi, hukuk uzmanı nihai incelemesi zorunludur).
+  - Truncgil Finance kamu fiyat verisinin ticari mobil uygulamada yeniden gösterim ve saklama lisansı takibi için `KI-033` açıldı.
+  - `KI-023` durumu `Investigating` olarak güncellendi (Redmi Note 8 Pro üzerinde fiziksel cihaz testi).
+  - `docs/TODO.md` Bölüm 22 P0 kontrol listesi ve başlık sürümleri eşitlendi.
+  - `docs/PROJECT_CONTEXT.md` Bölüm 35 ve Bölüm 44 kronolojik sürüm geçmişi düzeltildi.
+- **Hesap Silme ve Saklama Süreleri Standardizasyonu (Model A):**
+  - `DECISIONS.md` (ADR-033), `DATABASE.md`, `API.md`, `SECURITY.md`, `PRIVACY.md` ve `DATA_RETENTION.md` belgelerinde Model A mimarisi netleştirildi (`account_deletion_requests` transaction dışı Edge Function yönetimi; `execute_account_deletion` bağımsız SQL RPC atomik temizlik; `auth.admin.deleteUser` çağrısı; `auth_deletion_pending` telafi durumu; azami 500 karakterlik sanitised hata mesajı).
+  - Veri saklama süreleri `DATA_RETENTION.md` tek kaynak yapılarak tüm belgelerde eşitlendi (`security_events`: 1 yıl; `user_legal_events`: 3 yıl; `account_deletion_requests`: 3 yıl; `gold_prices`/`price_fetch_runs`: 30 gün).
+- **Fiyat Sağlayıcı Ayrımı ve Mağaza Beyanları:**
+  - Truncgil Finance aktif kamu beslemesi olarak, AltinAPI/Altinapps ise aday ticari sağlayıcılar olarak netleştirildi.
+  - `STORE_LISTING.md` ve `STORE_ASSETS.md` içerisindeki anlık iddiaları yaklaşık 15 dakikalık periyotla uyumlu hale getirildi; kesin hukuki iddialar dengelendi.
+
+## [1.0.0-rc1] - 25.10.2026
 
 ### 19 Belge Çapraz Denetimi, UI/UX Yenilemesi ve Gerçek Yasal Belge Dağıtımı (25.10.2026)
 
@@ -74,13 +100,6 @@ Sürüm henüz yayımlanmamışsa:
   - `support.tsx` SSS rehberindeki menü yolu `"Ayarlar > Hesap Yönetimi > Hesabımı Sil"` olarak güncellendi.
   - `pg_cron` fiyat çekme zamanlayıcısı hafta sonunu da kapsayacak şekilde `*/15 * * * *` (her 15 dakikada bir) olarak genişletildi.
   - Mağaza denetçi hesapları (`reviewer-apple@altiniz.app` ve `reviewer-play@altiniz.app`) 2'şer adet portföy varlığıyla hazırlandı ve doğrulandı.
-```
-
----
-
-# Değişiklik Kayıtları
-
-## [Unreleased]
 
 ### Veritabanı Bütünlüğü, Edge-Case Doğrulamaları ve Ekran Standardizasyonu (25.10.2026)
 
@@ -179,7 +198,7 @@ Sürüm henüz yayımlanmamışsa:
     - Dahili (Internal) ve harici (External) TestFlight grupları yapılandırması.
     - iPhone 6.7 inç ve 6.5 inç vitrin ekran görüntüsü standartları.
     - Apple denetçisi için resmi açıklama notları (Notes for Reviewer, alım-satım yapılmadığı, YTD uyarısı).
-    - Apple denetçileri için hazır demo giriş hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`).
+    - Apple denetçileri için hazır demo giriş hesabı (`reviewer-apple@altiniz.app` - parola güvenli parola yöneticisinde saklanmaktadır).
     - Guideline 3.1.1 (IAP / tamamen ücretsiz) ve Guideline 3.1.5 (Kripto yasağı) politika uyarı çözümleri.
   - `supabase/tests/test-faz15-4-app-store-readiness.ts`: Apple Developer hesabı, bundle ID, App Privacy, hesap silme, gizlilik URL'si, TestFlight, denetçi notları ve mağaza politikalarını denetleyen 11 testlik paket yazıldı ve 11/11 başarıyla doğrulandı.
 
@@ -200,7 +219,7 @@ Sürüm henüz yayımlanmamışsa:
     - Google Play Data Safety formu resmi yanıtları (TLS 1.3 aktarım şifrelemesi, e-posta, User ID, görünen ad, satın alma geçmişi/portföy ve yasal kayıtlar; 0 veri paylaşımı ve reklam kimliği yok).
     - Google Play zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi anında veri imhası (`account/delete.tsx`).
     - Gizlilik politikası bağlantısı (`https://altiniz.app/gizlilik`).
-    - Google Play denetçileri için uygulama erişim (App Access) talimatları ve güvenli test hesabı kimlik bilgileri (`reviewer-play@altiniz.app` / `TestReviewer2026!`).
+    - Google Play denetçileri için uygulama erişim (App Access) talimatları ve güvenli test hesabı kimlik bilgileri (`reviewer-play@altiniz.app` - parola güvenli parola yöneticisinde saklanmaktadır).
     - EAS Build ile AAB paketi üretimi ve dahili test (Internal Testing) / kapalı test (Closed Testing) parça dağıtım adımları.
     - Mali hizmetler (kişisel varlık takip aracı, SPK lisansı gerektirmez), 18+ hedef kitle ve sıfır reklam beyanları.
   - `supabase/tests/test-faz15-3-google-play-readiness.ts`: Geliştirici hesabı, paket parametreleri, 20 tester kuralı, Data Safety, hesap silme, test hesabı ve mağaza politikalarını denetleyen 11 testlik paket yazıldı ve 11/11 başarıyla doğrulandı.

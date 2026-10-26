@@ -171,16 +171,17 @@ async function runTests() {
   }
 
   // ==========================================================================
-  // Test 8: Güvenli Test Hesabı
+  // Test 8: Güvenli Test Hesabı (Açık Parola İçermez)
   // ==========================================================================
   try {
     const hasTestCredentials =
       setupContent.includes('reviewer-play@altiniz.app') &&
-      setupContent.includes('TestReviewer2026!');
+      setupContent.includes('Güvenli parola yöneticisinde saklanmaktadır') &&
+      !setupContent.includes('TestReviewer2026!');
 
     assert(
       hasTestCredentials,
-      'Test 8: Google Play denetçileri için güvenli test hesabı kimlik bilgileri doğrulandı.'
+      'Test 8: Google Play denetçileri için güvenli test hesabı kimlik bilgileri ve açık parola içermeme güvencesi doğrulandı.'
     );
   } catch (err: any) {
     console.error('Test 8 hatası:', err.message);

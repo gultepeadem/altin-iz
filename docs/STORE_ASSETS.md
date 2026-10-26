@@ -2,8 +2,8 @@
 
 **Belge adı:** `STORE_ASSETS.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0 Taslak  
-**Son güncelleme:** 22.10.2026  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 21: Mağaza hazırlığı (Faz 15.1: Görsel mağaza varlıkları)  
 **İlgili kararlar:** ADR-001 (Marka ve Tasarım), ADR-004 (Tema), ADR-013 (Portföy Hesaplama)
 
@@ -60,7 +60,7 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
 
 ### Pano 1: Canlı Altın Piyasası (Ana Sayfa & Fiyatlar)
 - **Başlık:** "Kapalıçarşı ve Serbest Piyasa Fiyatları Cebinizde"
-- **Alt Başlık:** "Gram, Çeyrek, Yarım, Tam, Ata ve 14-22 Ayar güncel kurlar."
+- **Alt Başlık:** "Gram, Çeyrek, Yarım, Tam, Ata ile 14, 18 ve 22 Ayar altın fiyatları."
 - **Gösterilen Ekran:** `(protected)/(tabs)/prices` listesi.
 - **Vurgu:** Serbest piyasa ve Kapalıçarşı canlı kurları ve çekip-yenileme (pull-to-refresh).
 
@@ -78,13 +78,13 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
 
 ### Pano 4: Kişisel Portföy ve Kâr/Zarar Takibi
 - **Başlık:** "Altın Varlıklarınızı Güvenle Takip Edin"
-- **Alt Başlık:** "Toplam değerinizi, toplam maliyetinizi ve gerçek kâr/zarar durumunuzu izleyin."
+- **Alt Başlık:** "Toplam değerinizi, toplam maliyetinizi ve tahmini kâr/zarar durumunuzu izleyin."
 - **Gösterilen Ekran:** `(protected)/(tabs)/portfolio` konsolidasyon kartı.
 - **Vurgu:** ADR-013 kısmi değerleme koruması, eksik fiyatlı kayıtlarda maliyet izolasyonu.
 
 ### Pano 5: Gizlilik ve Çift Tema Konforu
 - **Başlık:** "Verileriniz Sadece Sizin; Tam Gizlilik ve Çift Tema"
-- **Alt Başlık:** "Reklamsız, izleyicisiz ve KVKK uyumlu güvenli altyapı."
+- **Alt Başlık:** "Reklamsız, izleyicisiz, veri minimizasyonu odaklı güvenli altyapı."
 - **Gösterilen Ekran:** `(protected)/(tabs)/settings` (Aydınlık & Karanlık mod yan yana karşılaştırması).
 - **Vurgu:** Sıfır takipçi (0 Tracking), GDPR & KVKK standartlarında Avrupa Birliği veri merkezi.
 

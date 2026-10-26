@@ -2,7 +2,7 @@
 
 **Belge adı:** `KNOWN_ISSUES.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6 Taslak 
+**Belge sürümü:** 1.7 Taslak 
 **Son güncelleme:** 26.10.2026 
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
 **Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC, zamanlayıcı, gerçek yasal metinler ve mimari düzeltmeleri uygulandı.
@@ -1090,24 +1090,24 @@ Yalnızca Android üzerinde geliştirilen uygulamada safe area, klavye, navigasy
 
 ## KI-023: Android geliştirme ortamı ve fiziksel cihaz bağlantısı test edilmedi
 
-**Durum:** Open  
+**Durum:** Investigating  
 **Önem:** Medium  
 **Kategori:** Platform ve geliştirme ortamı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 26.10.2026
 
 ### Açıklama
 
-Android fiziksel test cihazı, Expo Go uygunluğu, aynı ağ bağlantısı ve alternatif bağlantı yöntemi henüz doğrulanmamıştır.
+Android fiziksel test cihazında (Redmi Note 8 Pro) üretilen APK'nın kullanıcı tarafından test edilip onaylanması, klavye/arama davranışı ve arayüz tutarlılıklarının incelenmesi süreci devam etmektedir.
 
 ### Etki
 
-Expo projesi oluşturulduğunda uygulamanın telefonda açılamaması geliştirmeyi geçici olarak durdurabilir.
+Fiziksel cihazdaki donanımsal farklılıklar veya klavye kapanma gibi etkileşim problemleri kullanıcı deneyimini etkileyebilir.
 
 ### Geçici önlem
 
-- Kodlamadan önce bilgisayar ve telefon ortamı kontrol edilecek.
-- Android Studio gerekliliği doğrulanmadan ağır kurulum yapılmayacak.
+- EAS Build ile dahili/önizleme APK'sı derlenmiş ve cihaza yüklenmiştir.
+- Fiyat arama klavye odağı ve header yükseklikleri düzeltilmiştir; test geri bildirimleri incelenmektedir.
 
 ### Çözüm şartı
 
@@ -1164,11 +1164,11 @@ Geç doğrulama, mağaza yayını öncesi ad değişikliği, logo değişikliği
 
 ## KI-025: Yasal metinler hukuk uzmanı tarafından hazırlanmadı
 
-**Durum:** Resolved  
+**Durum:** Mitigated  
 **Önem:** Critical  
 **Kategori:** Hukuk ve mağaza  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 25.10.2026
+**Son güncelleme:** 26.10.2026
 
 ### Açıklama
 
@@ -1181,9 +1181,11 @@ Aşağıdaki metinlerin nihai içerikleri başlangıçta şablon olarak bırakı
 - Finansal Bilgilendirme
 - Açık Rıza Metni
 
-### Çözüm (25.10.2026)
+### Durum ve Önlem (26.10.2026 - Mitigated)
 
-KVKK m. 10 Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve İmha Politikası, Finansal Sorumluluk Reddi ve Açık Rıza Metni profesyonel hukuk diliyle hazırlandı; resmi iletişim adresi (`adem@altiniz.app`) eklendi. Her belgenin SHA-256 hash'i hesaplanarak canlı Supabase `legal_documents` tablosuna (`v1.0.0`) ve `src/models/legal.ts` dosyasına işlendi (Migration 012). Testler (`test-faz11-legal-service.ts`, `test-faz11-1-legal-screens.ts`) ile doğrulandı.
+KVKK m. 10 Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve İmha Politikası, Finansal Sorumluluk Reddi ve Açık Rıza Metni profesyonel standartlarda teknik olarak hazırlandı; resmi iletişim adresi (`adem@altiniz.app`) eklendi. Her belgenin SHA-256 hash'i hesaplanarak canlı Supabase `legal_documents` tablosuna (`v1.0.0`) ve `src/models/legal.ts` dosyasına işlendi (Migration 012). Testler (`test-faz11-legal-service.ts`, `test-faz11-1-legal-screens.ts`) ile teknik doğrulaması yapıldı.
+
+**Kalan Hukuki Eşik:** Metinler teknik olarak eksiksiz hazırlanmış ve canlı veritabanına yüklenmiş olsa da, bir hukuk uzmanı (avukat) tarafından nihai hukuki kontrolün yapılması production mağaza yayını öncesinde zorunludur. Uzman onayı tamamlandığında durum `Resolved` seviyesine çekilecektir.
 
 ### İlgili belgeler
 
@@ -1484,6 +1486,42 @@ V1'in hesap, fiyat ve portföy temelini güvenli ve test edilebilir biçimde tam
 
 ---
 
+## KI-033: Truncgil Finance kamu fiyat verisinin ticari mobil uygulamada yeniden gösterim ve saklama lisansı doğrulanmadı
+
+**Durum:** Open  
+**Önem:** High  
+**Kategori:** Hukuk ve sağlayıcı  
+**İlk kayıt:** 26.10.2026  
+**Son güncelleme:** 26.10.2026  
+
+### Açıklama
+
+Uygulamanın aktif fiyat çekme mekanizması (`fetch-gold-prices` Edge Function) Truncgil Finance kamuya açık JSON API beslemesini kullanmaktadır. Bu veri kaynağı teknik olarak çalışmakta ve 25 altın türünü başarıyla sağlamaktadır. Ancak Truncgil Finance verilerinin ticari bir mobil uygulamada son kullanıcılara doğrudan sunulması, veritabanında saklanması ve ticari lisans sözleşmesi gerekliliği henüz hukuki/sözleşmesel olarak netleştirilmemiştir.
+
+### Etki
+
+Lisans sözleşmesi veya yazılı izin olmaksızın dağıtım yapılması telif veya hizmet şartları ihlali riski doğurabilir.
+
+### Geçici önlem
+
+- İstemciler dış kaynağa doğrudan erişemez; sunucu tarafı Edge Function ile sorgulanır.
+- Sıkı sunucu tarafı hız sınırı (cooldown / 15 dakika) uygulanarak sağlayıcı sunucularına aşırı yük bindirilmesi engellenmiştir.
+- Her fiyat kartında verinin yaklaşık 15 dakikalık gecikmeli serbest piyasa göstergesi olduğu açıkça belirtilir.
+- AltinAPI / Altinapps gibi ticari sözleşmeli sağlayıcı adayları mimari olarak `price_source_product_mappings` eşleştirme tablosuyla desteklenmektedir.
+
+### Çözüm şartı
+
+- Truncgil Finance kullanım şartları incelenmeli veya yazılı izin/ticari lisans alınmalı;
+- Veya ticari lisanslı bir sağlayıcı (AltinAPI vb.) ile sözleşme imzalanarak geçiş tamamlanmalıdır.
+
+### İlgili belgeler
+
+- `DECISIONS.md`, ADR-009, ADR-015
+- `API.md`
+- `DATA_RETENTION.md`
+
+---
+
 ## KI-R001: Dış fiyat sembolleri için merkezi eşleştirme tablosu eksikti
 
 **Durum:** Resolved  
@@ -1549,16 +1587,17 @@ KI-024 → Teknik kimlikler (com.altiniz.app ve altiniz.app alan adı yapıland�
 KI-030 → Git ve GitHub deposu (Bağlandı ve eşitlendi)
 KI-001 → Supabase bölgesi (AB eu-central-1 Frankfurt seçildi)
 KI-012 → Portföy hesaplama motoru (Kısmi portföy özeti ve ADR-013 asla 0 TL dönmeme kuralı)
-KI-025 → Gerçek yasal metinler ve SHA-256 bütünlük karma değerleri (Migration 012 ile canlıya alındı)
 KI-026 → Google Play Data Safety ve App Store App Privacy beyanları (Tamamlandı ve doğrulandı)
 ```
 
 ## Açık ve Dış Bağımlılığı Olan Kayıtlar
 
 ```text
-KI-003 → Fiyat sağlayıcısı ticari kullanım hakkı (Sözleşme / izin süreci beklemede)
+KI-003 → AltinAPI ticari kullanım hakkı ve sözleşmesi (Aday ticari sağlayıcı süreci)
+KI-033 → Truncgil Finance kamu fiyat verisinin ticari yeniden gösterim lisansı (Doğrulama aşamasında)
 KI-022 → iOS fiziksel cihaz testi (Apple Developer Program $99 hesabı ve TestFlight bekleniyor)
-KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından Redmi Note 8 Pro'da doğrulanıyor)
+KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından Redmi Note 8 Pro'da inceleniyor - Investigating)
+KI-025 → Hukuki metinlerin avukat/uzman nihai onayı (Teknik taslaklar hazırlandı ve yüklendi, avukat kontrolü bekleniyor - Mitigated)
 ```
 
 ---
@@ -1572,8 +1611,8 @@ KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından R
 
 ### Hukuki ve Ticari Dış Onaylar
 
-- [!] KI-003: Fiyat sağlayıcısının ticari kullanım lisansı ve sözleşmesi.
-- [x] KI-025: KVKK ve Kullanım Koşulları metinlerinin hazırlanması, SHA-256 özeti ve canlı veritabanı eşitlemesi.
+- [!] KI-003 / KI-033: Fiyat sağlayıcısının ticari kullanım lisansı ve sözleşmesi.
+- [!] KI-025: Teknik yasal metinler yüklendi; hukuk uzmanı (avukat) son incelemesi ve onayı bekleniyor.
 
 ---
 

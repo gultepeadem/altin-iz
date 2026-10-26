@@ -2,8 +2,8 @@
 
 **Belge adı:** `GOOGLE_PLAY_SETUP.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0 Taslak  
-**Son güncelleme:** 22.10.2026  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 21: Mağaza hazırlığı (Faz 15.3: Google Play hazırlığı)  
 **Hedef Platform:** Google Play Store (Android)  
 **Paket Kimliği (Package Name):** `com.altiniz.app`
@@ -76,7 +76,7 @@ Google Play Console -> **Politika ve Programlar** -> **Uygulama İçeriği** -> 
    - Seçenek: *"Bazı işlevler kısıtlanmıştır"* (Giriş gerektiren portföy ve hesap ekranları).
    - Talimat Adı: `Google Play İnceleme Test Hesabı`
    - Demo Kullanıcı Adı: `reviewer-play@altiniz.app`
-   - Demo Uygulama Şifresi: `TestReviewer2026!`
+   - Demo Uygulama Şifresi: `Güvenli parola yöneticisinde saklanmaktadır (Google Play Console Uygulama Erişimi formunda özel iletilecektir).`
    - Ek Talimatlar: *"Uygulamaya doğrudan giriş yapabilirsiniz; test hesabı için e-posta doğrulaması önceden tamamlanmıştır. Portföy ekleme, fiyat izleme ve hesap ayarlarını test edebilirsiniz."*
 3. **Reklamlar:**
    - *"Hayır, uygulamam reklam içermiyor"*

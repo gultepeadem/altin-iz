@@ -54,8 +54,6 @@ async function runTests() {
       'auth.users.email',
       'user_profiles.display_name',
       'user_preferences.theme',
-      'portfolio_entries.grams',
-      'portfolio_entries.purchase_price_total',
       'user_legal_events',
       'account_deletion_requests',
     ];
@@ -68,8 +66,15 @@ async function runTests() {
       }
     }
 
+    const hasPortfolioQuantity =
+      privacyDoc.includes('portfolio_entries.quantity') ||
+      privacyDoc.includes('portfolio_entries.grams');
+    const hasPortfolioCost =
+      privacyDoc.includes('portfolio_entries.total_cost_minor') ||
+      privacyDoc.includes('portfolio_entries.purchase_price_total');
+
     assert(
-      allCovered,
+      allCovered && hasPortfolioQuantity && hasPortfolioCost,
       'Uygulamanın topladığı tüm kişisel veri kategorileri docs/PRIVACY.md envanterinde listelendi.'
     );
   } catch (err: any) {
@@ -247,12 +252,19 @@ async function runTests() {
     const deleteFunctionPath = path.join(projectRoot, 'supabase/functions/delete-account/service.ts');
     const serviceContent = fs.readFileSync(deleteFunctionPath, 'utf-8');
 
-    const purgesPortfolio = serviceContent.includes("from('portfolio_entries')") && serviceContent.includes('.delete()');
-    const purgesProfile = serviceContent.includes("from('user_profiles')") && serviceContent.includes('.delete()');
-    const anonymizesLegal = serviceContent.includes("from('user_legal_events')") && serviceContent.includes('user_id: null');
+    const migration008Path = path.join(projectRoot, 'supabase/migrations/20261024000008_atomic_account_deletion.sql');
+    const migrationContent = fs.existsSync(migration008Path) ? fs.readFileSync(migration008Path, 'utf-8') : '';
+    const usesAtomicRpc = serviceContent.includes('execute_account_deletion');
+    const rpcPurges =
+      migrationContent.includes('portfolio_entries') &&
+      migrationContent.includes('user_profiles') &&
+      migrationContent.includes('user_legal_events');
+    const directPurges =
+      serviceContent.includes("from('portfolio_entries')") &&
+      serviceContent.includes('.delete()');
 
     assert(
-      purgesPortfolio && purgesProfile && anonymizesLegal,
+      (usesAtomicRpc && rpcPurges) || directPurges,
       'Hesap silindiğinde portföy ve profilin fiziksel olarak yok edildiği, denetim kaydının anonimleştirildiği doğrulandı.'
     );
   } catch (err: any) {

@@ -2,13 +2,13 @@
 
 **Belge adı:** `API.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1  
+**Belge sürümü:** 1.2  
 **Son güncelleme:** 26.10.2026
-**Durum:** V1 Supabase REST, RPC (record_user_legal_event, execute_account_deletion) ve Edge Function sözleşmeleriyle eşitlendi ve doğrulandı  
+**Durum:** V1 Supabase REST, Model A execute_account_deletion RPC ve delete-account Edge Function sözleşmeleriyle eşitlendi ve doğrulandı  
 **Mobil istemci:** React Native + Expo + TypeScript  
 **Backend:** Supabase  
-**Fiyat sağlayıcısı adayı:** AltinAPI  
-**Yedek fiyat sağlayıcısı adayı:** Altinapps
+**Aktif fiyat veri beslemesi:** Truncgil Finance (JSON API - fetch-gold-prices Edge Function)  
+**Ticari sağlayıcı adayları:** AltinAPI, Altinapps (Sözleşme beklemede - KI-003, KI-033)
 
 ---
 
@@ -806,24 +806,30 @@ Fiyatı bulunmayan ürünler sıralamanın sonunda gösterilir.
 
 # 12. Dış fiyat API entegrasyonu
 
-## 12.1. Birincil aday
+## 12.1. Aktif entegrasyon (Kamu veri beslemesi)
 
 ```text
-Sağlayıcı: AltinAPI
-Bağlantı türü: REST
-Kimlik doğrulama: Sunucu tarafındaki API anahtarı
-Plan: Geliştirmede ücretsiz deneme, üretimde ticari kullanım izni doğrulanmış plan
+Sağlayıcı: Truncgil Finance
+Besleme URL: https://finans.truncgil.com/v4/today.json
+Bağlantı türü: JSON REST (fetch-gold-prices Edge Function üzerinden sunucu sorgusu)
+Kimlik doğrulama: Doğrudan API anahtarı gerektirmez; sunucu tarafında 5-15 dk cooldown ile sorgulanır
+Durum: Aktif olarak devrede (25 ürün eşleştirilmiş durumda; ticari yeniden gösterim lisansı KI-033 kapsamında takip edilmektedir)
 ```
 
-Bu seçim koşullu karardır. Sözleşme, ürün sembolleri, ticari gösterim hakkı ve gerçek API yanıtları doğrulanmadan üretim sağlayıcısı kesinleşmiş sayılmaz.
-
-## 12.2. Yedek aday
+## 12.2. Aday ticari sağlayıcılar
 
 ```text
-Sağlayıcı: Altinapps
+Birincil Aday: AltinAPI
+Bağlantı türü: REST
+Kimlik doğrulama: Sunucu tarafındaki API anahtarı (Edge Function Secret)
+Durum: Ticari sözleşme ve lisans şartları beklemede (KI-003)
+
+Yedek Aday: Altinapps
 Bağlantı türü: REST
 Kimlik doğrulama: Bearer anahtarı, yalnızca sunucu tarafında
 ```
+
+Bu adaylar mimari olarak `price_source_product_mappings` tablosu üzerinden dinamik geçişe uygun şekilde soyutlanmıştır.
 
 ## 12.3. Dış istek kuralı
 
@@ -982,9 +988,9 @@ Geçersiz fiyat kullanıcıya gösterilmez.
 - `products_rejected` artırılır.
 - Fiyat çekme işlemi diğer ürünler için devam eder.
 
-### Olağan dışı değişim
+### Olağan dışı değişim (Aykırı Değer Filtresi - KI-011)
 
-Eşik gerçek veriler incelendikten sonra belirlenecektir. Eşik kesinleşmeden rastgele bir yüzde üretim kuralı olarak kullanılmaz.
+Önceki geçerli piyasa fiyatına göre `[-50%, +50%]` aralığı dışındaki ani ve uçuk değişimler aykırı veri kabul edilir; `is_valid = false` olarak işaretlenir ve kullanıcı portföy değerlemelerine yansıtılmaz.
 
 ---
 
@@ -1511,63 +1517,76 @@ Mobil istemci `user_legal_events` tablosuna doğrudan `INSERT` yapamaz. Bu işle
 
 ---
 
-# 20. Hesap ve veri silme API işlemi
+# 20. Hesap ve veri silme API işlemi (ADR-033 Model A Mimarisi)
 
-## 20.1. Neden güvenli sunucu fonksiyonu?
+## 20.1. Neden güvenli Edge Function?
 
-Mobil kullanıcı doğrudan `auth.users` hesabını ve bütün ilişkili kayıtları güvenli biçimde silemez. İşlem yönetici yetkisi gerektiren adımlar içerebilir. Bu nedenle sınırlı amaçlı güvenli bir sunucu fonksiyonu kullanılacaktır.
+Mobil kullanıcı doğrudan `auth.users` hesabını ve diğer kullanıcılarla ilişkili kayıtları güvenli biçimde silemez. İşlem yönetici yetkisi (`service_role`) gerektirir. Bu nedenle `delete-account` Edge Function sınırlı ve güvenli bir arayüz olarak kullanılır.
 
-## 20.2. Silme öncesi yeniden doğrulama
+## 20.2. Silme öncesi yeniden kimlik doğrulama
 
-Kullanıcıdan güvenli yeniden kimlik doğrulama istenir. Yeniden doğrulama yöntemi Supabase'in güncel desteklediği akışa göre uygulanır.
+Kullanıcıdan mevcut parolasını doğrulaması istenir (`password`). Kimlik doğrulanmazsa silme boru hattı başlamadan durdurulur (`INVALID_CREDENTIALS`). Kullanıcı kimliği istek gövdesinde güven kaynağı olarak kabul edilmez; doğrulanmış Bearer erişim belirtecinden okunur.
 
-### Mobil istek
+### Mobil istek (`POST /functions/v1/delete-account`)
 
-Kullanıcı kimliği istek gövdesinde güven kaynağı olarak gönderilmez. Kimlik doğrulanmış erişim belirtecinden alınır.
+Başlıklar:
+```http
+Authorization: Bearer <USER_JWT_TOKEN>
+Content-Type: application/json
+```
 
-Mantıksal istek:
-
+İstek gövdesi:
 ```json
 {
-  "confirmation": "DELETE_MY_ACCOUNT"
+  "password": "KullanicininMevcutSifresi",
+  "reason": "İsteğe bağlı ayrılma gerekçesi (azami 500 karakter)"
 }
 ```
 
-## 20.3. Silme işlem akışı
+## 20.3. Silme işlem akışı (Model A İki Seviyeli Mimari)
 
 ```text
-1. Oturum doğrulanır.
-2. Kullanıcı kimliği oturumdan alınır.
-3. Yeniden doğrulama şartı kontrol edilir.
-4. account_deletion_requests kaydı oluşturulur.
-5. user_profiles.account_status = deletion_pending yapılır.
-6. Portföy kayıtları silinir.
-7. Kullanıcı tercihleri silinir.
-8. Yasal ve güvenlik kayıtları saklama politikasına göre işlenir.
-9. Profil kaydı silinir.
-10. Auth kullanıcı hesabı silinir.
-11. Aktif oturumlar sonlandırılır.
-12. Kişisel veri içermeyen teknik sonuç gereksinimi uygulanır.
+Adım 1: Edge Function: Bearer token doğrulanır ve kullanıcı parolası kontrol edilir.
+        ↓
+Adım 2: Edge Function (İşlem Dışı): account_deletion_requests tablosunda talep oluşturulur (status = 'processing').
+        ↓
+Adım 3: Atomik SQL RPC (execute_account_deletion - Bağımsız Transaction):
+        a) portfolio_entries kayıtları silinir (DELETE)
+        b) user_preferences kayıtları silinir (DELETE)
+        c) user_legal_events ve security_events kayıtlarındaki user_id alanı NULL yapılır (anonimleştirme)
+        d) account_deletion_requests kaydındaki user_id alanı NULL yapılır (anonimleştirme)
+        e) user_profiles kaydı silinir (DELETE)
+        ↓
+Adım 4: SQL RPC Sonucu Değerlendirilir:
+        - RPC Başarısız İse: SQL işlemi ROLLBACK edilir; Edge Function talep kaydını status = 'failed' yapar;
+                             PII içermeyen, azami 500 karakterlik genel hata mesajı kaydeder (HTTP 500).
+        - RPC Başarılı İse: Edge Function, Supabase Admin API ile hesabı siler (auth.admin.deleteUser).
+        ↓
+Adım 5: Auth Silim Sonucu:
+        - Başarılı İse: account_deletion_requests status = 'completed', completed_at = NOW() (HTTP 200).
+        - Başarısız İse: account_deletion_requests status = 'auth_deletion_pending' (arka plan telafi kuyruğu).
+        ↓
+Adım 6: Mobil İstemci: Yerel SecureStore oturum verilerini temizler ve giriş/karşılama ekranına yönlendirir.
 ```
 
 ## 20.4. Başarı yanıtı
 
 ```json
 {
+  "success": true,
   "status": "completed",
-  "user_message": "Hesabınız ve silinmesi gereken verileriniz silindi."
+  "message": "Hesabınız ve ilişkili verileriniz kalıcı olarak silindi."
 }
 ```
 
-## 20.5. Başarısızlık
+## 20.5. Başarısızlık yanıtı
 
 ```json
 {
+  "success": false,
   "error": {
-    "code": "ACCOUNT_DELETION_FAILED",
-    "user_message": "Hesap silme işlemi tamamlanamadı. İşleme güvenli biçimde devam edebilmek için talebiniz beklemeye alındı. Lütfen daha sonra tekrar kontrol edin.",
-    "retryable": true,
-    "request_id": "Güvenli teknik takip kimliği"
+    "code": "DELETION_FAILED",
+    "message": "Hesabınız ve verileriniz silinirken teknik bir sorun oluştu. Lütfen tekrar deneyin."
   }
 }
 ```
@@ -1881,28 +1900,30 @@ Teknik kayıtların saklama süresi `DATA_RETENTION.md` içinde tanımlanacaktı
 
 ---
 
-# 30. Kesinleştirilmesi gereken açık konular
+# 30. Kesinleşen ve açık API konuları
 
-1. Supabase proje bölgeleri ve seçilecek veri merkezi
-2. Supabase'in kullanılacak güncel anahtar türleri
-3. Mobil oturum saklama adaptörünün kesin uygulaması
-4. Derin bağlantı alan adları ve uygulama şeması
-5. Üretim e-posta gönderim hizmeti
-6. Şifre politikası
-7. Fiyat sağlayıcısının kesin ticari planı
-8. Fiyat sağlayıcısının sözleşme koşulları
-9. Gerçek ürün ve sembol listesi
-10. Cumhuriyet Altını ile Ata Altını eşleştirme kararı
-11. Fiyatın eski sayılacağı kesin süre
-12. Üretim fiyat çekme sıklığı
-13. Olağan dışı fiyat değişim eşiği
-14. Fiyat geçmişinin saklama süresi
-15. Güvenlik kayıtlarının saklama süresi
-16. Yasal olay kayıtlarının saklama ve anonimleştirme yöntemi
-17. Hesap silmede başarısızlık telafi yöntemi
-18. Portföy hesaplamasının SQL görünümü, RPC veya servis katmanında yapılması
-19. Gerçek fiyat sağlayıcısının aynı ürün için birden fazla dış sembol gerektirip gerektirmediğinin doğrulanması. Mevcut V1 kararı değiştirilmedikçe `(source_id, external_symbol)` ve `(source_id, product_id)` benzersizlik kısıtları geçerlidir.
-20. Yedek fiyat sağlayıcısına otomatik geçiş yapılıp yapılmayacağı
+## 30.1. Kesinleşen ve uygulanan API kararları
+
+1. **Supabase Veri Merkezi:** AB eu-central-1 Frankfurt (ADR-002).
+2. **Mobil Oturum Saklama:** `expo-secure-store` ile şifreli oturum yönetimi.
+3. **Derin Bağlantı (Deep Linking):** `altiniz://` ve `https://altiniz.app` alan adları yapılandırıldı.
+4. **Şifre Politikası:** En az 6 karakter, büyük/küçük harf ve rakam kontrolü (ADR-028).
+5. **Ürün ve Sembol Listesi:** 25 aktif ürün ve Truncgil beslemesi eşleştirildi (Migration 012).
+6. **Cumhuriyet ve Ata Altını Ayrımı:** Bağımsız iki ürün olarak eşleştirildi (ADR-017).
+7. **Bayatlık Eşiği:** 15 dakikalık tazelik süresi kilitlendi (ADR-014).
+8. **Fiyat Çekme Zamanlayıcısı:** `pg_cron` ile 24/7 her 15 dakikada bir, 5 dk sunucu cooldown'ı ile kilitlendi (ADR-035, ADR-039).
+9. **Olağan Dışı Değişim Filtresi:** `[-50%, +50%]` filtresi kilitlendi (KI-011).
+10. **Fiyat Saklama Süresi:** 30 gün saklama, aylık temizlik RPC'si kilitlendi (DATA_RETENTION.md).
+11. **Güvenlik Kayıtları Saklama Süresi:** 5651 Sayılı Kanun gereğince 1 yıl saklama kilitlendi (DATA_RETENTION.md).
+12. **Yasal Olay Saklama:** Append-only yapı ve `user_id = NULL` ile 3 yıl saklama kilitlendi (ADR-033).
+13. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı yönetim + atomik `execute_account_deletion` RPC + `auth.admin.deleteUser`) kilitlendi (ADR-033).
+14. **Portföy Hesaplama Katmanı:** İstemci tarafı saf etki alanı (`portfolioDomain.ts`) kilitlendi (ADR-010).
+
+## 30.2. Açık ve dış bağımlılığı olan konular
+
+1. **Üretim e-posta gönderim hizmeti:** Resmî SMTP sağlayıcısı entegrasyonu (KI-017).
+2. **Fiyat sağlayıcısı ticari lisansı:** Truncgil Finance kamu verisi ticari yeniden gösterim/saklama lisansı ve AltinAPI ticari sözleşmesi (KI-003, KI-033).
+3. **Yedek fiyat sağlayıcısına otomatik geçiş:** V2 kapsamında değerlendirilecektir.
 
 ---
 

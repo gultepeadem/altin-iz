@@ -2,8 +2,8 @@
 
 **Belge adı:** `DATA_RETENTION.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 22.10.2026 
+**Belge sürümü:** 1.2 Taslak  
+**Son güncelleme:** 26.10.2026 
 **Proje aşaması:** Bölüm 18: Hesap ve veri silme (Faz 12)  
 **Kodlama durumu:** Teknik tasarım ve veri modelleri hazırlandı  
 **Hedef platformlar:** Android ve iOS
@@ -1270,6 +1270,15 @@ Değişiklik `CHANGELOG.md` içinde kaydedilmeli, önemli karar değişikliği `
 ---
 
 ## 48. Sürüm geçmişi
+
+### 1.2 Taslak - 26.10.2026
+
+- Dış denetim bulguları doğrultusunda saklama süreleri ve Model A silme mimarisi kilitlendi:
+  - `security_events`: 1 yıl (5651 Sayılı Kanun gereğince; `user_id = NULL`).
+  - `user_legal_events`: 3 yıl (zamanaşımı ve ispat yükümlülüğü; `user_id = NULL`).
+  - `account_deletion_requests`: 3 yıl (denetim ispatı; `user_id = NULL`).
+  - `gold_prices` ve `price_fetch_runs`: 30 gün (`cleanup_old_data` RPC ile periyodik temizlik).
+  - Model A silme mimarisi (Edge Function işlem dışı yönetim + atomik execute_account_deletion RPC) eşitlendi.
 
 ### 1.1 Taslak - 22.10.2026
 

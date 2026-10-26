@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.61 Taslak  
+**Belge sürümü:** 1.62 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.  
-**Son çalışma durumu:** 19 proje belgesinin çapraz denetimi ve fiziksel test geri bildirimleri doğrultusunda adem@altiniz.app e-postası eşitlendi, portfolio.tsx çift padding kaldırıldı, edit.tsx birim ve önizleme rozetleri güçlendirildi, Türkçe arama normalizasyonu (normalizeSearchText) tüm arama ekranlarına eklendi, Migration 012 ile 25 ürün ve 6 gerçek yasal metin canlıya alındı, dark mode white flash giderildi, 24/7 pg_cron zamanlayıcısı devrede. TypeScript, ESLint ve tüm test paketleri %100 başarıyla geçti.
+**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), açık denetçi parolaları temizlendi, hesap silme Model A mimarisi standartlaştırıldı, P0 kontrol listesi 20/20 test ile doğrulandı.  
+**Son çalışma durumu:** 19 proje belgesinin bağımsız dış denetim raporu (9 kritik çelişki, 14 tutarsızlık) doğrultusunda kapsamlı düzeltme uygulandı: Mağaza denetçi demo parolaları tüm belgelerden ve testlerden temizlenerek güvenli parola yöneticisine taşındı; KI-025 Mitigated seviyesine alındı; KI-033 açılarak Truncgil lisansı takibe alındı; hesap silme Model A mimarisi (Edge Function transaction dışı yönetim + execute_account_deletion SQL RPC atomik temizlik + auth.admin silimi + sanitised hata kodu) ve saklama süreleri kilitlendi. TypeScript, ESLint ve tüm testler %100 başarıyla geçti.
 
 ---
 
@@ -69,7 +69,7 @@ Yeni güncellemede:
 ### Bu oturumda tamamlanan son iş
 
 ```text
-Migration 012 uzak veritabanına uygulandı (25 aktif ürün, 6 gerçek yasal belge SHA-256 hash ile ve 24/7 her 15 dk fiyat zamanlayıcısı aktif); adem@altiniz.app tüm kod, belge ve web sitesi dosyalarında eşitlendi; portföy çift padding ve silme modalı zenginleştirildi; edit.tsx tutar önizleme hapı eklendi; Türkçe arama normalizasyonu yapıldı; tema geçişlerindeki beyaz parlama önlendi; P0 kontrol listesi 20/20 test ile onaylandı; origin/main dalına commit ve push yapıldı.
+Dış denetim bulgularının tamamı giderildi: Açık denetçi şifreleri kaldırıldı; KI-025 Mitigated yapıldı; KI-033 Truncgil lisans takibi açıldı; ADR-033 Model A hesap silme mimarisi ve veri saklama süreleri belgelere işlendi; sağlayıcı kamu/ticari ayrımı netleştirildi; mağaza vitrin metinleri güncellendi; kronolojik sürüm geçmişi düzeltildi.
 ```
 
 ### Projenin mevcut aşaması
@@ -745,6 +745,16 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 
 ## 27. Sürüm geçmişi
 
+### 1.62 Taslak - 26.10.2026
+- Kapsamlı dış denetim raporu (19 belge, testler ve kod mimarisi) gereksinimleri eksiksiz uygulandı:
+  1. Mağaza denetçi demo hesaplarının (`reviewer-apple@altiniz.app`, `reviewer-play@altiniz.app`) açık parolaları tüm belgelerden ve testlerden temizlendi, güvenli parola yöneticisi referansı getirildi; `setup-reviewer-accounts.sql` parametrik yapılandırıldı.
+  2. `KI-025` durumu `Mitigated` olarak güncellendi (Teknik taslaklar yüklendi, hukuk uzmanı nihai incelemesi bekleniyor).
+  3. Truncgil Finance ticari yeniden gösterim ve saklama lisansı takibi için `KI-033` açıldı; `KI-023` `Investigating` olarak güncellendi.
+  4. Hesap silme Model A mimarisi standartlaştırıldı (`account_deletion_requests` transaction dışı Edge Function tarafından yönetilir; `execute_account_deletion` SQL RPC kullanıcı satırlarını atomik temizler; Edge Function `auth.admin.deleteUser` çağırır; auth başarısız olursa `auth_deletion_pending` tazmin durumuna alınır; hata mesajları PII içermez ve 500 karakterle sınırlıdır).
+  5. Veri saklama süreleri `DATA_RETENTION.md` tek kaynak yapılarak tüm belgelerde eşitlendi (`security_events`: 1 yıl; `user_legal_events`: 3 yıl; `account_deletion_requests`: 3 yıl; `gold_prices`/`price_fetch_runs`: 30 gün).
+  6. Fiyat sağlayıcı kamu beslemesi (Truncgil) ve ticari aday (AltinAPI) ayrımı netleştirildi.
+  7. Vitrin metinlerindeki anlık/canlı iddiaları 15 dakikalık periyoda uyarlandı; kesin hukuki iddialar dengelendi.
+
 ### 1.61 Taslak - 26.10.2026
 - 19 proje belgesinin çapraz denetimi ve fiziksel test bulguları eksiksiz çözümlendi:
   1. Resmi destek adresi `adem@altiniz.app` kod tabanı, veritabanı, test dosyaları, dokümanlar ve web sitesinde (`website/`) eşitlendi.
@@ -782,7 +792,7 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 
 ### 1.57 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.4: App Store hazırlığı tamamlandı (Bölüm 21: Mağaza hazırlığı %100 tamamlandı).
-- `docs/APP_STORE_SETUP.md` konsol kılavuzu oluşturuldu; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+`), App Privacy beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content), Apple Kural 5.1.1(v) uygulama içi hesap silme açıklaması (`account/delete.tsx`), TestFlight dahili/harici grupları, iPhone 6.7 inç/6.5 inç ekran görüntüleri, Apple App Review denetçi notları, hazır demo giriş hesabı (`reviewer-apple@altiniz.app` / `AppleReview2026!`) ve Guideline 3.1.1/3.1.5 uyum stratejisi belgelendi.
+- `docs/APP_STORE_SETUP.md` konsol kılavuzu oluşturuldu; Apple Developer Program gereksinimleri ($99/yıl, 2FA, App ID), App Store Connect uygulama kaydı (`com.altiniz.app`, SKU: `altiniz_app`, Türkçe, `4+`), App Privacy beyanları (Data Not Used to Track You, Contact Info, Financial Info, Identifiers, User Content), Apple Kural 5.1.1(v) uygulama içi hesap silme açıklaması (`account/delete.tsx`), TestFlight dahili/harici grupları, iPhone 6.7 inç/6.5 inç ekran görüntüleri, Apple App Review denetçi notları, hazır demo giriş hesabı (`reviewer-apple@altiniz.app` - parola güvenli parola yöneticisinde saklanmaktadır) ve Guideline 3.1.1/3.1.5 uyum stratejisi belgelendi.
 - `supabase/tests/test-faz15-4-app-store-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
 - Bölüm 21 (Mağaza hazırlığı) eksiksiz tamamlandı; sıradaki görev Bölüm 22: V1 yayımlama öncesi son kontrol (P0 kontrol listesi) olarak güncellendi.
 

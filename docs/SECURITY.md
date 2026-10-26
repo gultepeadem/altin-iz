@@ -2,8 +2,8 @@
 
 **Belge adı:** `SECURITY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3 Taslak  
-**Son güncelleme:** 24.10.2026  
+**Belge sürümü:** 1.4 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi (Güvenlik İncelemesi ve Sertleştirme TAMAMLANDI)  
 **Kodlama durumu:** `expo-secure-store` chunking (parçalama) adaptörü uygulandı; `execute_account_deletion` atomik RPC kuruldu (Migration 008); `sync_gold_price` RPC yetkisi yalnızca `service_role` rolüne kilitlendi (Migration 009); `src/utils/logger.ts` ile hassas veri maskelemesi sağlandı; RLS politikaları ve Edge Function yetkileri %100 doğrulandı.  
 **Hedef platformlar:** Android ve iOS
@@ -1188,28 +1188,30 @@ V1 güvenlik açısından tamamlanmış sayılmadan önce:
 
 ---
 
-## 34. Açık güvenlik konuları
+## 34. Kesinleşen güvenlik kararları ve açık konular
 
-Aşağıdaki konular henüz kesinleşmemiştir:
+### 34.1. Kilitlenen ve doğrulanan güvenlik mimarisi
 
-1. Supabase production bölgesi
-2. Yurt dışına veri aktarım yöntemi
-3. Mobil oturum saklama adaptörü
-4. Şifre politikası
-5. Production e-posta hizmeti
-6. Auth derin bağlantı yapısı
-7. Sayısal hassasiyet kütüphanesi veya yöntemi
-8. Olağan dışı fiyat değişim eşiği
-9. Hesap silme kısmi hata telafisi
-10. Güvenlik kayıtlarının saklama süresi
-11. Production hata izleme hizmeti
-12. Production analitik hizmeti kullanılıp kullanılmayacağı
-13. Sertifika sabitleme gereksinimi
-14. Portföy ekranında ekran görüntüsü koruması gereksinimi
-15. Güvenlik olayı iletişim adresi
-16. Bağımsız güvenlik testi veya sızma testi kapsamı
+1. **Supabase Bölgesi:** AB eu-central-1 Frankfurt (Almanya) seçildi (ADR-002).
+2. **Mobil Oturum Saklama:** `expo-secure-store` ile donanımsal şifreli oturum yönetimi sağlandı.
+3. **Şifre Politikası:** En az 6 karakter, büyük/küçük harf ve rakam kontrolü uygulandı (ADR-028).
+4. **Auth Derin Bağlantı:** `altiniz://` ve `https://altiniz.app` alan adları doğrulandı.
+5. **Sayısal Hassasiyet:** Kuruş bazlı BIGINT ve gram için NUMERIC(18,3) ile taşma koruması uygulandı (ADR-032).
+6. **Aykırı Fiyat Filtresi:** `[-50%, +50%]` aykırı veri sınırlandırması uygulandı (KI-011).
+7. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı yönetim + atomik `execute_account_deletion` RPC + `auth.admin.deleteUser`) uygulandı (ADR-033).
+8. **Güvenlik Kayıtları Saklama Süresi:** 5651 Sayılı Kanun gereğince 1 yıl saklama kilitlendi (`DATA_RETENTION.md`).
+9. **Yasal Olaylar Saklama Süresi:** 3 yıl saklama ve `user_id = NULL` ile doğrudan kimlik bağlantısının koparılması kilitlendi (ADR-033).
+10. **Üçüncü Taraf SDK'lar:** Sentry, Firebase veya reklam takipçisi barındırmama kararı uygulandı (ADR-026).
+11. **Log Güvenliği:** `src/utils/logger.ts` ile parola/token maskelemesi ve canlıda debug susturması uygulandı.
+12. **Secret Taraması:** Mobil kod tabanında (`src/`) 0 `service_role` veya sızdırılmış anahtar güvencesi sağlandı.
+13. **RLS Güvenliği:** 12 veritabanı tablosunda çok kullanıcılı veri izolasyonu %100 testlerle doğrulandı.
+14. **Güvenlik İletişim Kanalı:** `adem@altiniz.app` resmi adres olarak belirlendi.
 
-Bu konular yapay zekâ tarafından sessizce kesinleştirilmemelidir. Gerektiğinde ADR kaydı oluşturulmalıdır.
+### 34.2. Dış bağımlılığı olan konular
+
+1. **Üretim e-posta hizmeti:** Resmî SMTP sağlayıcısı entegrasyonu (KI-017).
+2. **Yasal metinlerin avukat onayı:** Hazırlanan teknik taslakların bir hukuk uzmanı tarafından incelenmesi (KI-025 - Mitigated).
+3. **Fiyat sağlayıcısı ticari lisansı:** Truncgil Finance kamu verisi ticari yeniden gösterim/saklama lisansı ve AltinAPI ticari sözleşmesi (KI-003, KI-033).
 
 ---
 
@@ -1217,19 +1219,20 @@ Bu konular yapay zekâ tarafından sessizce kesinleştirilmemelidir. Gerektiğin
 
 Aşağıdakiler çözülmeden uygulama gerçek kullanıcılara açılmamalıdır:
 
-- [ ] Supabase bölgesi ve veri aktarımı değerlendirmesi
-- [ ] RLS politikalarının iki kullanıcıyla doğrulanması
-- [ ] Fiyat sağlayıcısı ticari kullanım hakkı
-- [ ] Gerçek fiyat sembol ve birim doğrulaması
-- [ ] Mobil oturum saklaması Android ve iOS testi
-- [ ] Auth derin bağlantıları Android ve iOS testi
-- [ ] Hesap silme kısmi hata telafisi
-- [ ] Veri saklama süreleri
-- [ ] Hukuk uzmanı onaylı yasal metinler
-- [ ] Google Play ve App Store gizlilik beyanları
-- [ ] Secret taraması
-- [ ] Production log güvenliği
-- [ ] Production ortam ayrımı
+- [x] Supabase bölgesi (eu-central-1 Frankfurt) ve veri aktarımı değerlendirmesi
+- [x] RLS politikalarının iki kullanıcıyla doğrulanması (10/10 test başarılı)
+- [!] Fiyat sağlayıcısı ticari kullanım lisansı (KI-003, KI-033 beklemede)
+- [x] Gerçek fiyat sembol ve birim doğrulaması (25 ürün canlıda aktif)
+- [x] Mobil oturum saklaması (expo-secure-store)
+- [x] Auth derin bağlantıları (altiniz:// ve altiniz.app)
+- [x] Hesap silme Model A mimarisi ve kısmi hata telafisi (ADR-033)
+- [x] Veri saklama süreleri (DATA_RETENTION.md: security 1 yıl, legal 3 yıl, price 30 gün)
+- [!] Hukuk uzmanı (avukat) onaylı yasal metinler (KI-025 - Mitigated)
+- [x] Google Play ve App Store gizlilik beyanları (Data Safety & App Privacy tamamlandı)
+- [x] Secret taraması (0 sızıntı doğrulandı)
+- [x] Production log güvenliği (logger.ts maskeleme)
+- [~] Fiziksel Android cihaz doğrulaması (KI-023 - Redmi Note 8 Pro testi sürüyor)
+- [ ] iOS fiziksel cihaz testi (Apple Developer Program $99 hesabı bekleniyor)
 
 ---
 
@@ -1328,6 +1331,14 @@ Güvenlik açığının sömürü ayrıntısı bu belgeye gereksiz biçimde yaz�
 ---
 
 ## 39. Sürüm geçmişi
+
+### 1.4 Taslak - 26.10.2026
+
+- Dış denetim bulguları doğrultusunda güvenlik mimarisi ve belgeler senkronize edildi:
+  - Mağaza denetçi hesaplarının açık parolaları tüm dokümanlardan temizlendi; güvenli parola yöneticisi referansı getirildi.
+  - Hesap silme Model A mimarisi (Edge Function işlem dışı yönetim + atomik execute_account_deletion RPC + auth.admin silimi + PII içermeyen azami 500 karakterlik failure_message) kilitlendi.
+  - Veri saklama süreleri `DATA_RETENTION.md` tek kaynak yapılarak güvenlik olayları için 1 yıl (5651 Sayılı Kanun), yasal olaylar için 3 yıl olarak belgelendi.
+  - Bölüm 34 ve 35 açık güvenlik konuları güncel kararlarla eşitlendi.
 
 ### 1.2 Taslak - 22.10.2026
 

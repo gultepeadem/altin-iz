@@ -1871,6 +1871,7 @@ identity_verification_required
 processing
 completed
 failed
+auth_deletion_pending
 cancelled
 ```
 
@@ -1916,7 +1917,7 @@ Tür: TEXT
 Zorunlu: Hayır
 ```
 
-Bu alanda şifre, oturum belirteci, API anahtarı veya başka bir gizli bilgi tutulmaz.
+Bu alanda şifre, oturum belirteci, API anahtarı veya herhangi bir kişisel veri (PII) ASLA tutulmaz. Maksimum 500 karakterle sınırlandırılmış, maskeli hata kodu veya genel sistem hata mesajı kaydedilir.
 
 #### `created_at`
 
@@ -1935,22 +1936,24 @@ Varsayılan: Veritabanı sistem zamanı
 Otomatik güncelleme: Evet
 ```
 
-### Hesap silme işlem sırası
+### Hesap silme işlem sırası (ADR-033 Model A Mimarisi)
 
-```text
-1. Kullanıcı yeniden doğrulanır.
-2. Silme talebi oluşturulur.
-3. Hesap durumu deletion_pending yapılır.
-4. Portföy kayıtları silinir.
-5. Kullanıcı tercihleri silinir.
-6. Kullanıcıya bağlı yasal ve güvenlik kayıtları saklama kurallarına göre ele alınır.
-7. Kullanıcı profili silinir.
-8. Kimlik doğrulama hesabı silinir.
-9. Kişisel veri içermeyen tamamlanma kaydının gerekliliği değerlendirilir.
-10. Bütün aktif oturumlar sonlandırılır.
-```
+İki seviyeli işlem mimarisi uygulanır:
 
-Kullanıcı hesabıyla birlikte silme talebi kaydı da silinecekse, kişisel veri içermeyen teknik sonuç kaydının tutulup tutulmayacağı hukuk ve güvenlik incelemesinde kararlaştırılır.
+1. **İşlem Dışı Talep Yönetimi (Edge Function):** `account_deletion_requests` kaydı oluşturulur (`status = 'processing'`).
+2. **Atomik SQL RPC (`execute_account_deletion` - Bağımsız Transaction):**
+   - `portfolio_entries` fiziksel olarak silinir (`DELETE`).
+   - `user_preferences` fiziksel olarak silinir (`DELETE`).
+   - `user_legal_events` ve `security_events` kayıtlarındaki `user_id` alanı `NULL` yapılır (anonimleştirme).
+   - `account_deletion_requests` kaydındaki `user_id` alanı `NULL` yapılır (anonimleştirme).
+   - `user_profiles` fiziksel olarak silinir (`DELETE`).
+   - Herhangi bir hata oluşursa SQL transaction'ı tamamen `ROLLBACK` edilir; Edge Function talep kaydını `status = 'failed'` olarak işaretler.
+3. **Kimlik Doğrulama Hesabının Silinmesi (Edge Function):** RPC başarılı olduğunda `auth.admin.deleteUser` çağrılır.
+   - Başarılı ise: `account_deletion_requests.status = 'completed'` ve `completed_at = NOW()`.
+   - Başarısız ise: `account_deletion_requests.status = 'auth_deletion_pending'` (arka plan telafi işi kuyruğuna alınır).
+4. **Oturum Sonlandırma (İstemci):** İstemcideki yerel depolama (`expo-secure-store`) temizlenir ve kullanıcı çıkış ekranına yönlendirilir.
+
+`account_deletion_requests` tablosundaki kayıt, silme talebinin ve yasal uyumun denetim ispatı olarak `user_id = NULL` durumunda 3 yıl saklanır (`DATA_RETENTION.md`).
 
 ---
 
@@ -2044,8 +2047,8 @@ Bu alana şunlar yazılamaz:
 
 ```text
 Tür: TIMESTAMPTZ
-Zorunlu: Hayır (Kategori bazlı saklama süreleri KI-019 kapsamında kesinleşene kadar geçici olarak nullable tutulur; rastgele hukuki süre uydurulmaz)
-Açıklama: Güvenlik olayının silinmesi veya anonimleştirilmesi gereken zaman
+Zorunlu: Hayır
+Açıklama: Güvenlik olayının imha edilmesi gereken zaman (DATA_RETENTION.md uyarınca 5651 Sayılı Kanun kapsamında olay zamanından itibaren 1 yıl)
 ```
 
 ---

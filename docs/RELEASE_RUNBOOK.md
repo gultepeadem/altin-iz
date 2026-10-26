@@ -1,5 +1,11 @@
 # Altın İz — V1 Canlıya Çıkış, Yedekleme ve Geri Dönüş Kılavuzu (Release Runbook)
 
+**Belge adı:** `RELEASE_RUNBOOK.md`  
+**Proje:** Altın İz  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 26.10.2026  
+**Proje aşaması:** Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (v1.0.0-rc1)  
+
 Bu doküman, **Altın İz** uygulamasının canlı üretim (production) ortamına yayımlanması, veritabanı yedeğinin alınması, olası acil durumlarda geri dönüş (rollback) yapılması ve migration adımlarının doğrulanması için operasyonel referanstır.
 
 ---
@@ -41,18 +47,29 @@ npx supabase db push --linked
 
 ## 2. Production Yedekleme Planı (Backup)
 
-### Otomatik Yedekler (Supabase Managed Backups)
-- Supabase Pro/Team planında günlük PITR (Point-in-Time Recovery) ve snapshot yedekleri varsayılan olarak etkindir.
-- Saklama süresi en az 7 gündür.
+### Plan Bazlı Yedekleme Ayrımı
+- **Supabase Pro / Team Planı:** Günlük otomatik PITR (Point-in-Time Recovery) ve snapshot yedekleri varsayılan olarak etkindir. Saklama süresi en az 7 gündür. Konsol üzerinden istenilen dakikaya anlık geri dönülebilir.
+- **Supabase Free (Ücretsiz) Planı:** Otomatik PITR ve anlık zaman geri dönüşü Free planda yer almaz. Bu nedenle her sürüm veya migration öncesinde manuel bağımsız `pg_dump` yedeği alınması ZORUNLUDUR.
 
-### Canlı Öncesi Manuel Yedekleme (pg_dump)
-Yayımlama öncesinde veya her büyük sürüm geçişinde aşağıdaki komut ile anlık bağımsız dump alınır:
+### Canlı Öncesi Bağımsız Yedek Alma (pg_dump)
+
+**Bash (Linux / macOS):**
 ```bash
 pg_dump "postgres://postgres:[DB-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres" \
   --format=custom \
   --no-owner \
   --no-privileges \
   --file="altiniz_pre_v1_backup_$(date +%Y%m%d_%H%M%S).dump"
+```
+
+**Windows PowerShell:**
+```powershell
+$timestamp = Get-Date -Format "yyyyMMdd_HHmmss"
+pg_dump "postgres://postgres:[DB-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres" `
+  --format=custom `
+  --no-owner `
+  --no-privileges `
+  --file="altiniz_pre_v1_backup_$timestamp.dump"
 ```
 
 ---
@@ -72,8 +89,14 @@ Canlı ortamda kritik bir sorun (P0 bloklayıcı veri bozulması, güvenlik aç�
    - App Store Connect: Aşamalara ayrılmış sürümü duraklat (Pause Phased Release).
 
 ### Senaryo B: Veritabanı ve API Seviyesinde Hata
-1. **Supabase PITR (Noktaya Geri Dönüş):**
-   - Supabase Dashboard > Database > Backups menüsünden sorunlu sürüm öncesi zaman damgasına anlık geri dönüş tetiklenir.
+1. **Supabase Veritabanı Geri Yükleme:**
+   - **Pro/Team Planı:** Supabase Dashboard > Database > Backups menüsünden sorunlu sürüm öncesi zaman damgasına anlık PITR geri dönüşü tetiklenir.
+   - **Free Planı:** Alınan en son `.dump` yedeği `pg_restore` ile canlı veritabanına uygulanır:
+     ```powershell
+     pg_restore --clean --if-exists --no-owner --no-privileges `
+       -d "postgres://postgres:[DB-PASSWORD]@db.[PROJECT-REF].supabase.co:5432/postgres" `
+       "altiniz_pre_v1_backup_xxx.dump"
+     ```
 2. **Edge Function Geri Alma:**
    - Sorunlu Edge Function bir önceki kararlı sürüme deploy edilir:
      ```bash

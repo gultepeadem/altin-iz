@@ -2,7 +2,7 @@
 
 **Belge adı:** `ARCHITECTURE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 0.4 Taslak  
+**Belge sürümü:** 0.5 Taslak  
 **Son güncelleme:** 26.10.2026
 **Durum:** Expo SDK 58 klasör yapısıyla (`src/app/`) eşitlendi ve doğrulandı  
 **Hedef platformlar:** Android ve iOS
@@ -1905,54 +1905,54 @@ Gelişmiş yönetici paneli
 
 ---
 
-## 44. Mimari karar verilmemiş konular
+## 44. Mimari kararlar ve açık konular
 
-Aşağıdaki konular gerçek proje ve servis testlerinden sonra kesinleştirilecektir:
+### 44.1. Kilitlenen ve uygulanan mimari kararlar
 
-1. Expo SDK'nın kullanılacak kesin sürümü
-2. Supabase istemci paketlerinin kesin sürümü
-3. Mobil auth oturum saklama adaptörü
-4. Sunucu verisi önbelleği için ek kütüphane gerekip gerekmediği
-5. Form yönetimi kütüphanesi gerekip gerekmediği
-6. Ondalıklı hesaplama kütüphanesi gerekip gerekmediği
-7. Test framework ve yardımcı paketlerin kesin seçimi
-8. Supabase veri merkezi bölgesi
-9. Derin bağlantı şeması
-10. Üretim e-posta sağlayıcısı
-11. Portföy hesaplamasının istemci, SQL view veya RPC dağılımı
-12. Güncel fiyatlar için SQL view veya RPC kullanımı
-13. Fiyatın eski sayılacağı süre
-14. Fiyat çekme zamanlayıcısı
-15. Olağan dışı fiyat doğrulama eşiği
-16. Hesap silme telafi mekanizması
-17. Yasal olayların saklama yöntemi
-18. Hata izleme hizmeti kullanılıp kullanılmayacağı
-19. Uygulama analitiği kullanılıp kullanılmayacağı
-20. Production log altyapısı
+1. **Expo SDK Sürümü:** Expo SDK 58 (`expo@~58.0.19`, React Native 0.88, React 19.3, Expo Router 58) kilitlendi.
+2. **Supabase Paketleri:** `@supabase/supabase-js@^2.118.0` ve CLI `supabase@^2.121.0` kilitlendi.
+3. **Mobil Oturum Saklama:** `expo-secure-store` ile donanımsal anahtarlık tabanlı şifreli oturum adaptörü uygulandı.
+4. **Önbellek & Form Kütüphaneleri:** Sıfır harici bağımlılık prensibi uygulandı; ek React Query/Form kütüphanesi kullanılmadı.
+5. **Sayısal Hassasiyet:** Harici kütüphane kullanılmadan kuruş tamsayı modeli (BIGINT) ve gram için NUMERIC(18,3) kilitlendi (ADR-032).
+6. **Test Altyapısı:** `npx tsx` ve Node.js yerleşik assert altyapısı ile 20'yi aşkın uçtan uca test paketi oluşturuldu.
+7. **Supabase Veri Merkezi:** AB eu-central-1 Frankfurt (Almanya) bölgesi seçildi ve kilitlendi (ADR-002).
+8. **Derin Bağlantı (Deep Linking):** `altiniz://` şeması ve `https://altiniz.app` evrensel bağlantıları yapılandırıldı.
+9. **Portföy Hesaplama Katmanı:** İstemci saf etki alanı (`portfolioDomain.ts`) katmanı kararlaştırıldı (ADR-010).
+10. **Fiyat Okuma ve Güvenlik:** İstemciler doğrudan `gold_prices` tablosunu RLS ile okur; dış API'ye doğrudan istek atamaz.
+11. **Bayatlık Eşiği:** 15 dakikalık tazelik eşiği kilitlendi (ADR-014).
+12. **Fiyat Zamanlayıcısı:** `pg_cron` ile 24/7 her 15 dakikada bir çalışan zamanlayıcı ve 5 dk sunucu cooldown'ı kilitlendi (ADR-035, ADR-039).
+13. **Olağan Dışı Değişim Filtresi:** `[-50%, +50%]` aykırı veri sınırlandırması uygulandı (KI-011).
+14. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı talep yönetimi + atomik `execute_account_deletion` SQL RPC + `auth.admin.deleteUser`) kilitlendi (ADR-033).
+15. **Yasal Olay Saklama:** Append-only yapı ve `user_id = NULL` ile doğrudan kimlik bağlantısının koparılması kilitlendi (ADR-033).
+16. **Üçüncü Taraf SDK'lar:** Sentry, Firebase veya reklam SDK'sı kullanılmaz; sıfır izleme kuralı kilitlendi (ADR-026).
+17. **Production Loglama:** `logger.ts` ile şifre/token maskelemesi ve canlıda debug loglarının susturulması kilitlendi (Faz 13).
 
-Bu konular kesinleşmeden yapay zekâ kalıcı bağımlılık veya mimari karar eklememelidir.
+### 44.2. Dış bağımlılığı olan açık konular
+
+1. **Üretim e-posta sağlayıcısı:** Resmî kurumsal SMTP sağlayıcısı entegrasyonu (KI-017).
+2. **Fiyat sağlayıcısı ticari lisansı:** Truncgil Finance kamu verisi ticari gösterim ve saklama lisansı / AltinAPI sözleşmesi (KI-003, KI-033).
 
 ---
 
 ## 45. Kodlamaya başlamadan önce mimari kontrol listesi
 
-- [ ] Expo projesinin gerçek varsayılan yapısı incelendi.
-- [ ] Kullanılacak Expo SDK sürümü doğrulandı.
-- [ ] TypeScript ayarları doğrulandı.
-- [ ] Expo Router rota grupları doğrulandı.
-- [ ] Android ve iOS uygulama kimlikleri belirlendi.
-- [ ] Development Supabase projesi oluşturuldu.
-- [ ] Supabase bölgesi kararı kaydedildi.
-- [ ] Auth mobil oturum yaklaşımı doğrulandı.
-- [ ] Derin bağlantı yaklaşımı doğrulandı.
-- [ ] `DATABASE.md` ile migration taslağı eşleştirildi.
-- [ ] RLS politika taslağı hazırlandı.
-- [ ] Fiyat sağlayıcı test hesabı oluşturuldu.
-- [ ] Gerçek sembol listesi doğrulandı.
-- [ ] Gizli anahtar saklama yöntemi hazırlandı.
-- [ ] Test klasörü ve komutları belirlendi.
-- [ ] `.gitignore` gizli dosyaları kapsıyor.
-- [ ] `.env.example` yalnızca değişken isimlerini içeriyor.
+- [x] Expo projesinin gerçek varsayılan yapısı incelendi.
+- [x] Kullanılacak Expo SDK sürümü doğrulandı (SDK 58).
+- [x] TypeScript ayarları doğrulandı.
+- [x] Expo Router rota grupları doğrulandı.
+- [x] Android ve iOS uygulama kimlikleri belirlendi (com.altiniz.app).
+- [x] Development Supabase projesi oluşturuldu.
+- [x] Supabase bölgesi kararı kaydedildi (eu-central-1 Frankfurt).
+- [x] Auth mobil oturum yaklaşımı doğrulandı (SecureStore).
+- [x] Derin bağlantı yaklaşımı doğrulandı.
+- [x] `DATABASE.md` ile migration taslağı eşleştirildi (12 migration uygulandı).
+- [x] RLS politika taslağı hazırlandı (12 tablo RLS aktif).
+- [x] Fiyat sağlayıcı test hesabı oluşturuldu.
+- [x] Gerçek sembol listesi doğrulandı (25 aktif ürün).
+- [x] Gizli anahtar saklama yöntemi hazırlandı (src/ içinde 0 service_role).
+- [x] Test klasörü ve komutları belirlendi.
+- [x] `.gitignore` gizli dosyaları kapsıyor.
+- [x] `.env.example` yalnızca değişken isimlerini içeriyor.
 
 ---
 

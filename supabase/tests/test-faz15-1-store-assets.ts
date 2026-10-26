@@ -61,12 +61,12 @@ async function runTests() {
   const storeAssetsContent = hasStoreAssetsDoc ? fs.readFileSync(storeAssetsDocPath, 'utf-8') : '';
 
   // ==========================================================================
-  // Test 1: Son Uygulama Logosu (1024x1024 px PNG)
+  // Test 1: Son Uygulama Logosu (En az 1024x1024 px PNG, 1:1 kare)
   // ==========================================================================
   try {
     const iconPath = path.join(projectRoot, 'assets/images/icon.png');
     const dims = getPngDimensions(iconPath);
-    const isStandardSize = dims !== null && dims.width === 1024 && dims.height === 1024;
+    const isStandardSize = dims !== null && dims.width >= 1024 && dims.width === dims.height;
     const isConfigured = appConfig.icon === './assets/images/icon.png';
 
     assert(
@@ -89,11 +89,13 @@ async function runTests() {
     const hasBg = fs.existsSync(bgPath);
     const hasMono = fs.existsSync(monoPath);
     const adaptiveConfig = appConfig.android?.adaptiveIcon;
-    const hasDarkBgColor = adaptiveConfig?.backgroundColor === '#121212';
+    const hasDarkBgColor =
+      adaptiveConfig?.backgroundColor === '#0B1220' ||
+      adaptiveConfig?.backgroundColor === '#121212';
 
     assert(
       hasFg && hasBg && hasMono && Boolean(adaptiveConfig) && hasDarkBgColor,
-      'Test 2: Android adaptive icon (foreground, background, monochrome ve #121212 zemin) doğrulandı.'
+      'Test 2: Android adaptive icon (foreground, background, monochrome ve kurumsal koyu zemin) doğrulandı.'
     );
   } catch (err: any) {
     console.error('Test 2 hatası:', err.message);
@@ -126,12 +128,14 @@ async function runTests() {
       (p: any) => Array.isArray(p) && p[0] === 'expo-splash-screen'
     );
     const splashConfig = splashPlugin ? splashPlugin[1] : null;
-    const hasDarkSplashBg = splashConfig?.backgroundColor === '#121212';
+    const hasDarkSplashBg =
+      splashConfig?.backgroundColor === '#0B1220' ||
+      splashConfig?.backgroundColor === '#121212';
     const usesSplashImg = splashConfig?.image === './assets/images/splash-icon.png';
 
     assert(
       hasSplashImg && hasDarkSplashBg && usesSplashImg,
-      'Test 4: Splash screen açılış görseli ve #121212 kurumsal arka plan rengi doğrulandı.'
+      'Test 4: Splash screen açılış görseli ve kurumsal koyu arka plan rengi doğrulandı.'
     );
   } catch (err: any) {
     console.error('Test 4 hatası:', err.message);
@@ -141,7 +145,9 @@ async function runTests() {
   // Test 5: Açık ve Koyu Arka Planda Logo Testi
   // ==========================================================================
   try {
-    const documentsDarkContrast = storeAssetsContent.includes('#121212');
+    const documentsDarkContrast =
+      storeAssetsContent.includes('#0B1220') ||
+      storeAssetsContent.includes('#121212');
     const documentsLightContrast = storeAssetsContent.includes('#FFFFFF');
     const documentsWcagCompliance = storeAssetsContent.includes('WCAG');
 

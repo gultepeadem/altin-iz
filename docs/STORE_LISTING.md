@@ -2,8 +2,8 @@
 
 **Belge adı:** `STORE_LISTING.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0 Taslak  
-**Son güncelleme:** 22.10.2026  
+**Belge sürümü:** 1.1 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 21: Mağaza hazırlığı (Faz 15.2: Mağaza metinleri)  
 **Hedef Platformlar:** Google Play Store & Apple App Store Connect
 
@@ -42,7 +42,7 @@
 ```text
 Altın İz — Canlı Altın Fiyatları, Kuyumcu Makas Analizi ve Akıllı Portföy Takibi
 
-Altın İz; Kapalıçarşı ve serbest piyasa altın fiyatlarını anlık olarak takip etmenizi, kuyumcu alım-satım makas farklarını şeffafça analiz etmenizi ve altın birikimlerinizin gerçek kâr/zarar durumunu güvenle yönetmenizi sağlayan yeni nesil mobil finans yardımcınızdır.
+Altın İz; Kapalıçarşı ve serbest piyasa altın fiyatlarını düzenli güncellenen kurlarla takip etmenizi, kuyumcu alım-satım makas farklarını şeffafça analiz etmenizi ve altın birikimlerinizin tahmini kâr/zarar durumunu güvenle yönetmenizi sağlayan yeni nesil mobil finans yardımcınızdır.
 
 Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda takip etmek yerine; sade, hızlı, reklamsız ve modern bir deneyimle cebinizde taşıyın.
 
@@ -50,7 +50,7 @@ Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda
 
 📈 CANLI PİYASA VE KAPALIÇARŞI FİYATLARI
 • Gram Altın, Çeyrek Altın, Yarım Altın, Tam Altın, Ata Altın, Gremse Altın, Reşat Altın, Hamit Altın, 22 Ayar Bilezik, 14 Ayar ve Külçe/Paketli altın türlerinde güncel alış ve satış kurları.
-• Piyasa hareketlerini güncel serbest piyasa kurlarıyla izleyin; çekip yenileme (pull-to-refresh) ile dilediğiniz an en son fiyatlara anında ulaşın.
+• Piyasa hareketlerini yaklaşık 15 dakikalık aralıklarla güncellenen serbest piyasa kurlarıyla izleyin; her kartta son güncelleme zamanını şeffafça görün, çekip yenileme (pull-to-refresh) ile dilediğiniz an en son fiyatlara anında ulaşın.
 • Gün içi en yüksek, en düşük fiyatlar ve yüzdelik değişim trendleri.
 
 ⚖️ ŞEFFAF MAKAS VE FİYAT FARKI ANALİZİ
@@ -64,14 +64,14 @@ Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda
 
 💼 KİŞİSEL PORTFÖY VE KÂR / ZARAR YÖNETİMİ
 • Fiziksel altın birikimlerinizi (çeyrek, gram, bilezik vb.) alım tarihi, miktarı ve ödediğiniz toplam maliyetle kaydedin.
-• Toplam portföy değerinizi, toplam maliyetinizi ve net kâr/zarar durumunuzu anlık güncel kurlarla takip edin.
+• Toplam portföy değerinizi, toplam maliyetinizi ve tahmini kâr/zarar durumunuzu güncel serbest piyasa kurlarıyla takip edin.
 • Gelişmiş değerleme motoru sayesinde, piyasada fiyatı henüz oluşmamış nadir ürünler kârınızı yapay olarak düşürmez; kısmi değerleme şeffaflığıyla korunur (ADR-013 güvencesi).
 
 🔒 SIFIR İZLEME, MAKSİMUM GİZLİLİK VE GÜVENLİK
 • Finansal verileriniz yalnızca size aittir.
 • Üçüncü taraf reklam ağları, harici izleyiciler veya analitik casus yazılımlar İÇERMEZ (0 Tracking).
 • Tüm verileriniz Frankfurt (Almanya) Avrupa Birliği sınırları içerisindeki ISO 27001 ve SOC 2 sertifikalı modern veri merkezlerinde, uçtan uca TLS 1.3 şifrelemesiyle saklanır.
-• KVKK ve GDPR uyumlu şeffaf altyapı: Dilediğiniz zaman tüm hesabınızı ve verilerinizi tek tıkla kalıcı olarak silebilirsiniz.
+• Veri minimizasyonu ve kullanıcı kontrollü hesap güvenliği: Dilediğiniz zaman tüm hesabınızı ve verilerinizi uygulama içi güvenli hesap silme seçeneğiyle kalıcı olarak silebilirsiniz.
 
 🌓 AYDINLIK VE KARANLIK TEMA DESTEĞİ
 • Gözlerinizi yormayan, kontrastı optimize edilmiş Gece Laciverti (#0B1220) karanlık modu ve saf aydınlık teması arasında dilediğiniz gibi geçiş yapın ya da cihazınızın sistem temasını otomatik olarak takip edin.

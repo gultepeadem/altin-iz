@@ -2,7 +2,7 @@
 
 **Belge adı:** `PRIVACY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2 Taslak  
+**Belge sürümü:** 1.3 Taslak  
 **Son güncelleme:** 26.10.2026 
 **Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13.1 (Gizlilik incelemesi) TAMAMLANDI  
 **Kodlama durumu:** Veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, adem@altiniz.app resmi başvuru kanalı, Google Play Data Safety ve Apple App Privacy beyan tabloları kesinleştirildi  
@@ -309,7 +309,7 @@ Amaç: Girilen toplam maliyetin açıklanmasına yardımcı olmak
 Otomatik işçilik hesabı: Hayır
 ```
 
-### 7.5. Hesaplanan finansal sonuçlar
+### 7.6. Hesaplanan finansal sonuçlar
 
 - Tahmini güncel bozdurma değeri
 - Tahmini kâr veya zarar
@@ -318,7 +318,7 @@ Otomatik işçilik hesabı: Hayır
 
 Bu değerler kullanıcının portföy verisi ile ortak fiyat verilerinden türetilir. `portfolio_entries` tablosunda ana gerçek veri olarak kalıcı biçimde saklanmaz.
 
-### 7.6. Yasal olay verileri
+### 7.7. Yasal olay verileri ve rıza ayrılığı
 
 - İlgili kullanıcı kimliği
 - Belge türü
@@ -1068,6 +1068,12 @@ Değişiklik ayrıca `CHANGELOG.md` içine kaydedilmeli, karar değişiyorsa `DE
 ---
 
 ## 35. Sürüm geçmişi
+
+### 1.3 Taslak - 26.10.2026
+
+- Dış denetim bulguları giderildi:
+  - Bölüm 7.5 mükerrer başlık numaralandırması düzeltildi (7.6 Finansal Sonuçlar, 7.7 Yasal Olaylar).
+  - Hesap silme ve anonimleştirme mimarisi Model A (Edge Function işlem dışı yönetim + atomik execute_account_deletion RPC) ve saklama süreleri (güvenlik 1 yıl, yasal/silme 3 yıl) senkronize edildi.
 
 ### 1.2 Taslak - 26.10.2026
 
