@@ -3,7 +3,7 @@
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
 **Belge sürümü:** 1.7  
-**Son güncelleme:** 25.10.2026 
+**Son güncelleme:** 26.10.2026 
 **Durum:** 12 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 

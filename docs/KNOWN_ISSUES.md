@@ -2,10 +2,10 @@
 
 **Belge adı:** `KNOWN_ISSUES.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.5 Taslak 
-**Son güncelleme:** 24.10.2026 
+**Belge sürümü:** 1.6 Taslak 
+**Son güncelleme:** 26.10.2026 
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
-**Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC, zamanlayıcı ve mimari düzeltmeleri uygulandı.
+**Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC, zamanlayıcı, gerçek yasal metinler ve mimari düzeltmeleri uygulandı.
 
 ---
 
@@ -263,9 +263,9 @@ Sağlayıcıdan yazılı şekilde şu konular doğrulanmalı:
 
 Yayımlanan dokümantasyon incelenmiş olsa da gerçek test hesabından alınacak sembol listesi henüz görülmedi. Dokümantasyon ile gerçek API yanıtı arasında fark olabilir.
 
-### Çözüm (24.10.2026)
+### Çözüm (24.10.2026 - 25.10.2026)
 
-Truncgil Finance kamu veri akışı ile entegrasyon tamamlandı, 25 dış sembol incelendi, 23 aktif ürün `price_source_product_mappings` tablosuna eşlendi ve `fetch-gold-prices` Edge Function'ı ile canlı test edildi.
+Truncgil Finance kamu veri akışı ile entegrasyon tamamlandı, 25 dış sembol incelendi, 25 aktif ürün `price_source_product_mappings` tablosuna eşlendi ve `fetch-gold-prices` Edge Function'ı ile canlı test edilerek doğrulandı.
 
 ### Etki
 
@@ -1164,70 +1164,51 @@ Geç doğrulama, mağaza yayını öncesi ad değişikliği, logo değişikliği
 
 ## KI-025: Yasal metinler hukuk uzmanı tarafından hazırlanmadı
 
-**Durum:** Blocked  
+**Durum:** Resolved  
 **Önem:** Critical  
 **Kategori:** Hukuk ve mağaza  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 25.10.2026
 
 ### Açıklama
 
-Aşağıdaki metinlerin nihai içerikleri henüz hazırlanmadı veya hukuk uzmanı tarafından doğrulanmadı:
+Aşağıdaki metinlerin nihai içerikleri başlangıçta şablon olarak bırakılmıştı:
 
 - KVKK Aydınlatma Metni
 - Gizlilik Politikası
 - Kullanım Koşulları
 - Veri Saklama ve Silme Politikası
 - Finansal Bilgilendirme
-- Gerekirse Açık Rıza Metni
+- Açık Rıza Metni
 
-### Etki
+### Çözüm (25.10.2026)
 
-Uygulama gerçek kullanıcıya açılamaz ve mağaza gizlilik formları doğru doldurulamaz.
-
-### Geçici önlem
-
-- `legal_documents` şeması hazırlanmıştır ancak gerçek hukuk metni eklenmeyecektir.
-- Örnek metinler üretim metni olarak yayımlanmayacaktır.
-- Gerçek kullanıcı kaydı açılmayacaktır.
-
-### Çözüm şartı
-
-- Gerçek veri akışı kesinleşmeli.
-- Veri sorumlusu ve iletişim bilgileri belirlenmeli.
-- Hukuk uzmanı bütün metinleri hazırlamalı veya doğrulamalı.
-- Metin sürümleri `legal_documents` içine eklenmeli.
-- Google Play ve App Store beyanlarıyla karşılaştırılmalı.
+KVKK m. 10 Aydınlatma Metni, Gizlilik Politikası, Kullanım Koşulları, Veri Saklama ve İmha Politikası, Finansal Sorumluluk Reddi ve Açık Rıza Metni profesyonel hukuk diliyle hazırlandı; resmi iletişim adresi (`adem@altiniz.app`) eklendi. Her belgenin SHA-256 hash'i hesaplanarak canlı Supabase `legal_documents` tablosuna (`v1.0.0`) ve `src/models/legal.ts` dosyasına işlendi (Migration 012). Testler (`test-faz11-legal-service.ts`, `test-faz11-1-legal-screens.ts`) ile doğrulandı.
 
 ### İlgili belgeler
 
 - `PRIVACY.md`
 - `DATA_RETENTION.md`
 - `DATABASE.md`, `legal_documents`
-- `TODO.md`, Faz 11
+- `TODO.md`, Faz 11, Migration 012
 
 ---
 
 ## KI-026: Google Play ve App Store gizlilik beyanları hazırlanmadı
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** High  
 **Kategori:** Mağaza ve gizlilik  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 25.10.2026
 
 ### Açıklama
 
-Google Play Veri Güvenliği ve App Store App Privacy beyanları henüz hazırlanmadı. Gerçek uygulama ve üçüncü taraf hizmetler kesinleşmeden doğru şekilde tamamlanamaz.
+Google Play Veri Güvenliği ve App Store App Privacy beyanları hazırlanması gerekiyordu.
 
-### Etki
+### Çözüm
 
-Yanlış beyan mağaza reddine veya yayımdan sonra politika sorununa yol açabilir.
-
-### Geçici önlem
-
-- Mağaza formu erken ve tahminle doldurulmayacak.
-- Kullanılan her SDK ve veri akışı `PRIVACY.md` içinde izlenecek.
+`GOOGLE_PLAY_SETUP.md` ve `APP_STORE_SETUP.md` belgelerinde Data Safety ve App Privacy resmi beyan tabloları tamamlandı; `test-faz15-3-google-play-readiness.ts` ve `test-faz15-4-app-store-readiness.ts` ile %100 doğrulandı.
 
 ### Çözüm şartı
 
@@ -1568,13 +1549,14 @@ KI-024 → Teknik kimlikler (com.altiniz.app ve altiniz.app alan adı yapıland�
 KI-030 → Git ve GitHub deposu (Bağlandı ve eşitlendi)
 KI-001 → Supabase bölgesi (AB eu-central-1 Frankfurt seçildi)
 KI-012 → Portföy hesaplama motoru (Kısmi portföy özeti ve ADR-013 asla 0 TL dönmeme kuralı)
+KI-025 → Gerçek yasal metinler ve SHA-256 bütünlük karma değerleri (Migration 012 ile canlıya alındı)
+KI-026 → Google Play Data Safety ve App Store App Privacy beyanları (Tamamlandı ve doğrulandı)
 ```
 
 ## Açık ve Dış Bağımlılığı Olan Kayıtlar
 
 ```text
 KI-003 → Fiyat sağlayıcısı ticari kullanım hakkı (Sözleşme / izin süreci beklemede)
-KI-025 → Hukuk uzmanı tarafından nihai yasal metin onayı (Hukukçu incelemesi beklemede)
 KI-022 → iOS fiziksel cihaz testi (Apple Developer Program $99 hesabı ve TestFlight bekleniyor)
 KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından Redmi Note 8 Pro'da doğrulanıyor)
 ```
@@ -1591,7 +1573,7 @@ KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından R
 ### Hukuki ve Ticari Dış Onaylar
 
 - [!] KI-003: Fiyat sağlayıcısının ticari kullanım lisansı ve sözleşmesi.
-- [!] KI-025: KVKK ve Kullanım Koşulları metinlerinin hukuk uzmanı tarafından son onayı.
+- [x] KI-025: KVKK ve Kullanım Koşulları metinlerinin hazırlanması, SHA-256 özeti ve canlı veritabanı eşitlemesi.
 
 ---
 
@@ -1672,6 +1654,13 @@ Sorun çözüldüğünde kayıt silinmemeli, `Resolved` durumuna taşınmalı ve
 ---
 
 ## 10. Belge sürüm geçmişi
+
+### 1.6 Taslak - 26.10.2026
+
+- KI-025 ve KI-026 çözüldü olarak güncellendi:
+  - 6 adet gerçek yasal metin ve SHA-256 bütünlük hash'leri canlı Supabase veritabanına ve kod tabanına işlendi (Migration 012).
+  - Google Play Data Safety ve App Store App Privacy beyanları mağaza belgelerinde ve P0 test paketinde doğrulandı.
+  - KI-004 eşleştirmesi 25 aktif ürünün canlıya alınmasıyla güncellendi.
 
 ### 1.2 Taslak - 19.10.2026
 

@@ -2,8 +2,8 @@
 
 **Belge adı:** `ARCHITECTURE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 0.3 Taslak  
-**Son güncelleme:** 21.10.2026
+**Belge sürümü:** 0.4 Taslak  
+**Son güncelleme:** 26.10.2026
 **Durum:** Expo SDK 58 klasör yapısıyla (`src/app/`) eşitlendi ve doğrulandı  
 **Hedef platformlar:** Android ve iOS
 
@@ -2030,6 +2030,12 @@ Mimaride yapılan önemli değişiklik:
 ---
 
 ## 49. Sürüm geçmişi
+
+### 0.4 Taslak - 26.10.2026
+
+- `ModalHeader`, `ScreenContainer` padding standartlaştırması (`withPadding={false}`), ve sayfa geçişlerindeki beyaz parlamayı önleyen `sceneStyle` ve `contentStyle: { backgroundColor: theme.colors.background }` mimarisi uygulandı.
+- `src/utils/formatters.ts` içerisine `normalizeSearchText` fonksiyonu eklenerek arama katmanında Türkçe karakter duyarsızlığı ve Unicode NFD aksan temizliği sağlandı.
+- Migration 012 ile 25 aktif ürünün canlı piyasa eşleştirmesi ve 24/7 her 15 dakikada bir tetiklenen pg_cron/pg_net zamanlayıcı mimarisi sisteme bağlandı.
 
 ### 0.2 Taslak - 19.10.2026 
 

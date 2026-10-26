@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.55 Taslak  
-**Son güncelleme:** 24.10.2026 
+**Belge sürümü:** 1.56 Taslak  
+**Son güncelleme:** 26.10.2026 
 **Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, güvenlik ve UI/UX düzeltmeleri tamamlandı; fiziksel cihaz doğrulaması ve mağaza hesap açılışları bekleniyor  
-**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si (Migration 008), sync_gold_price kilitlenmesi (Migration 009), Edge Function canlı dağıtımları, UI/UX ve Header/StatusBar tema standardizasyonu, otomatik tutar aktarımı ve özel silme onay modalı uygulandı.
+**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
 
 ---
 
@@ -1057,7 +1057,7 @@ Başlangıç belge setinde eksik belge bulunmamaktadır.
 - [ ] Üretim e-posta gönderim hizmeti (Resmi SMTP sağlayıcısı beklemede)
 - [x] Kesin şifre politikası (En az 6 karakter ve biçim doğrulaması)
 - [x] AltinAPI / Truncgil gerçek test hesabı ve canlı entegrasyon
-- [x] AltinAPI / Truncgil gerçek sembol listesi (23 aktif ürün test edildi)
+- [x] AltinAPI / Truncgil gerçek sembol listesi (25 aktif ürün test edildi ve doğrulandı)
 - [ ] AltinAPI ticari paket ve lisans şartları (Sözleşme beklemede)
 - [ ] Fiyatları uygulamada gösterme hakkı (Ticari izin beklemede)
 - [ ] Fiyat geçmişini saklama hakkı ve süresi (Sözleşme beklemede)
@@ -1126,7 +1126,7 @@ Sıradaki operasyonel ve doğrulama görevleri:
 - [x] Dört aşamalı çapraz tutarlılık kontrolü ve şema, RLS, API akışı, kapsam ve görev sırası düzeltmeleri tamamlandı.
 - [x] Supabase bölgesi değerlendirildi (eu-central-1 Frankfurt).
 - [x] Fiyat sağlayıcısına yönelik entegrasyon ve veri akışı tasarlandı.
-- [x] V1 ürün kataloğunun başlangıç listesi oluşturuldu (gold_products 23 aktif ürün).
+- [x] V1 ürün kataloğunun başlangıç listesi oluşturuldu (gold_products 25 aktif ürün).
 - [x] Proje klasör yapısı kesinleştirildi.
 - [x] Geliştirme ortamı kurulum adımları tamamlandı.
 - [x] Bilgisayarın işletim sistemi ve araç kurulumları doğrulandı (Faz 1).
@@ -1437,6 +1437,19 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 - `legalService.ts` kullanıcı yasal olay metotları (presented, viewed, accepted, declined, withdrawn, getUserLegalEvents) ve `validateConsentSeparation` doğrulayıcısı ile genişletildi.
 - `supabase/tests/test-faz11-2-legal-events.ts` 10/10 test ile doğrulandı.
 - Sıradaki görev Bölüm 18: Hesap ve veri silme - Faz 12 (Hesap silme teknik tasarımı) olarak güncellendi.
+
+### 1.56 Taslak - 26.10.2026
+
+- 19 proje belgesinin çapraz denetimi ve fiziksel test bulguları sonucunda V1 tamamlama paketi uygulandı:
+  - `adem@altiniz.app` e-postası kod tabanındaki tüm arayüzlerde, veri modellerinde, testlerde ve mağaza belgelerinde resmi destek adresi olarak eşitlendi.
+  - Portföyüm ekranında çift padding kaldırıldı, detay sayfasına yönlendirme sağlandı, zenginleştirilmiş silme onay modalı uygulandı.
+  - Portföy düzenleme formunda birim rozet kontrastı ve binlik ayracı canlı önizleme rozeti uygulandı.
+  - `normalizeSearchText` fonksiyonu ile Türkçe karakter uyumlu arama altyapısı sağlandı.
+  - Migration 012 uygulanarak 25 ürün tam aktif edildi ve canlı fiyatları çekildi.
+  - 6 gerçek yasal belge 64 karakter gerçek SHA-256 hash'leri ile canlı veritabanına ve modellere işlendi (`v1.0.0`).
+  - Koyu mod geçişlerindeki beyaz parlama önlendi; `index.tsx` karşılama alanından `👋` kaldırıldı.
+  - `pg_cron` fiyat çekme zamanlayıcısı 24/7 her 15 dakikada bir çalışacak biçimde genişletildi.
+  - P0 kontrol listesi 20/20 test ile onaylandı.
 
 ### 1.55 Taslak - 24.10.2026
 

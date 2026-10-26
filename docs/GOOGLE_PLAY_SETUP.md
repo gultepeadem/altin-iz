@@ -33,6 +33,10 @@
 2. **Beyanlar:**
    - Geliştirici Program Politikaları kabul edilir.
    - ABD ihracat kanunları kabul edilir.
+3. **Mağaza Girişi İletişim Bilgileri:**
+   - E-posta adresi: dem@altiniz.app
+   - Web sitesi: https://altiniz.app
+   - Gizlilik politikası URL: https://altiniz.app/gizlilik
 
 ---
 

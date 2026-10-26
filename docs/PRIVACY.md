@@ -2,10 +2,10 @@
 
 **Belge adı:** `PRIVACY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 22.10.2026 
+**Belge sürümü:** 1.2 Taslak  
+**Son güncelleme:** 26.10.2026 
 **Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13.1 (Gizlilik incelemesi) TAMAMLANDI  
-**Kodlama durumu:** Veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, Google Play Data Safety ve Apple App Privacy beyan tabloları kesinleştirildi  
+**Kodlama durumu:** Veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, adem@altiniz.app resmi başvuru kanalı, Google Play Data Safety ve Apple App Privacy beyan tabloları kesinleştirildi  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -104,17 +104,17 @@ V1'de planlanan kişi grupları:
 
 ## 6. Veri sorumlusu bilgileri
 
-Aşağıdaki bilgiler henüz kesinleşmemiştir ve production öncesinde doldurulmalıdır:
+Aşağıdaki bilgiler resmi başvuru ve iletişim kanalları ile eşitlenmiştir:
 
 ```text
-Veri sorumlusu gerçek veya tüzel kişi: BELİRLENMEDİ
-Ticari unvan: BELİRLENMEDİ
-Adres: BELİRLENMEDİ
-İletişim e-postası: BELİRLENMEDİ
-KVKK başvuru kanalı: BELİRLENMEDİ
-Destek e-postası: BELİRLENMEDİ
+Veri sorumlusu gerçek veya tüzel kişi: Altın İz Yönetimi
+Ticari unvan: Altın İz
+Adres: İstanbul, Türkiye
+İletişim e-postası: adem@altiniz.app
+KVKK başvuru kanalı: adem@altiniz.app
+Destek e-postası: adem@altiniz.app
 MERSİS veya ilgili sicil bilgisi: UYGULANABİLİRLİĞİ DEĞERLENDİRİLECEK
-VERBİS durumu: YÜKÜMLÜLÜK VE İSTİSNA DURUMU DEĞERLENDİRİLECEK
+VERBİS durumu: Yıllık çalışan sayısı ve mali bilanço istisnası kapsamında
 ```
 
 Bu alanlar tamamlanmadan nihai aydınlatma metni yayımlanmamalıdır.
@@ -1068,6 +1068,12 @@ Değişiklik ayrıca `CHANGELOG.md` içine kaydedilmeli, karar değişiyorsa `DE
 ---
 
 ## 35. Sürüm geçmişi
+
+### 1.2 Taslak - 26.10.2026
+
+- Veri sorumlusu iletişim e-postası `adem@altiniz.app` olarak eşitlendi.
+- Migration 012 ile 6 adet gerçek yasal metin ve SHA-256 hash bütünlüğü veritabanı ile senkronize edildi.
+- Destek ve başvuru kanalları güncellendi.
 
 ### 1.1 Taslak - 22.10.2026
 

@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.15 Taslak  
-**Son güncelleme:** 24.10.2026  
+**Belge sürümü:** 1.16 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. expo-secure-store, atomik execute_account_deletion RPC'si, canlı yasal olay bağlamı, EAS Build bağımsız APK derlemesi ve mağaza dökümanları hazırlandı.
+**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
 
 ---
 
@@ -1708,6 +1708,19 @@ Görev tamamlandı olarak işaretlenirken:
 ---
 
 # 29. Sürüm geçmişi
+
+## 1.17 Taslak - 26.10.2026
+
+- 19 proje belgesinin çapraz denetimi ve fiziksel test geri bildirimleri doğrultusunda kapsamlı düzeltmeler tamamlandı:
+  - `adem@altiniz.app` e-posta adresi kod tabanındaki tüm ekranlar, yasal modeller, test paketleri, web sitesi (`website/`) ve belgelerde resmi iletişim adresi olarak eşitlendi.
+  - `portfolio.tsx` ekranındaki çift kenar boşluğu (double padding) giderildi, liste öğeleri Ana Sayfa ve Fiyatlar sekmeleriyle hizalandı, portföy kartı tıklaması detay sayfasına yönlendirildi, zenginleştirilmiş silme onay modalı uygulandı.
+  - `edit.tsx` formundaki birim rozet kontrastı ve binlik ayracı içeren dinamik yeşil tutar önizleme rozeti uygulandı.
+  - `formatters.ts` içerisine `normalizeSearchText` eklenerek Fiyatlar, Hesap Makinesi ve Portföy arama alanlarında Türkçe karakter ve Unicode NFD aksan uyumu sağlandı.
+  - `20261025000012_activate_missing_products_and_update_legal.sql` (Migration 012) uzak Supabase veritabanına uygulandı; `gold_products` tablosunda 25 ürün tam aktif edildi, `price_source_product_mappings` eşleştirmeleri bağlandı ve `fetch-gold-prices` ile 25/25 ürün canlıya alındı.
+  - 6 adet gerçek yasal metin hazırlandı, gerçek 64 karakter SHA-256 hash'leri hesaplanarak veritabanına (`v1.0.0`) ve `src/models/legal.ts` dosyasına kaydedildi.
+  - Koyu tema geçişlerindeki beyaz parlama (white flash) `contentStyle` ve `sceneStyle` ile önlendi; `index.tsx` içerisinden `👋` emojisi kaldırıldı, son fiyat güncelleme zaman damgası ve `chevron-right` ikonları eklendi.
+  - `pg_cron` fiyat çekme zamanlayıcısı hafta sonunu da kapsayacak biçimde `*/15 * * * *` (her 15 dakikada bir) olarak güncellendi.
+  - `test-faz22-p0-checklist.ts` 12 sıralı migration dosyası ile eşitlendi; 20/20 test %100 başarıyla geçti.
 
 ## 1.16 Taslak - 24.10.2026
 

@@ -2,8 +2,8 @@
 
 **Belge adı:** `API.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.0  
-**Son güncelleme:** 24.10.2026
+**Belge sürümü:** 1.1  
+**Son güncelleme:** 26.10.2026
 **Durum:** V1 Supabase REST, RPC (record_user_legal_event, execute_account_deletion) ve Edge Function sözleşmeleriyle eşitlendi ve doğrulandı  
 **Mobil istemci:** React Native + Expo + TypeScript  
 **Backend:** Supabase  
@@ -2002,6 +2002,12 @@ Değişiklikler ayrıca `CHANGELOG.md` dosyasına kaydedilmeli ve gerekiyorsa `D
 ---
 
 ## Sürüm geçmişi
+
+### 1.1 - 26.10.2026
+
+- 25 aktif ürünün canlı fiyat senkronizasyon sözleşmesi ve `price_source_product_mappings` eşleştirmeleri tamamlandı (Migration 012).
+- `fetch-gold-prices` Edge Function'ı için 24/7 her 15 dakikada bir pg_cron ve pg_net otomatik tetikleme sözleşmesi tanımlandı.
+- `legal_documents` 6 aktif belgenin gerçek Türkçe metin ve SHA-256 hash doğrulama API sözleşmesi eşitlendi.
 
 ### 0.2 Taslak - 19.10.2026
 

@@ -36,7 +36,7 @@ GitHub Pages, `gizlilik/index.html` dosyasını doğrudan `https://altiniz.app/g
     <a href="/kvkk" style="color: #9CA3AF; text-decoration: none;">KVKK Metni</a>
     <a href="/hesap-silme" style="color: #9CA3AF; text-decoration: none;">Hesap Silme Talebi</a>
   </div>
-  <p>&copy; 2026 Altın İz. Tüm hakları saklıdır. İletişim: destek@altiniz.app</p>
+  <p>&copy; 2026 Altın İz. Tüm hakları saklıdır. İletişim: adem@altiniz.app</p>
 </footer>
 ```
 

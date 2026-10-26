@@ -2,8 +2,8 @@
 
 **Belge adı:** `DECISIONS.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3  
-**Son güncelleme:** 22.10.2026  
+**Belge sürümü:** 1.6  
+**Son güncelleme:** 26.10.2026  
 **Durum:** Aktif
 
 ---
@@ -1317,7 +1317,41 @@ Fiziksel cihaz testlerinde tespit edilen kullanıcı deneyimi, tema uyumu ve ver
 
 ---
 
+# ADR-039: Eksik altın ürünlerinin aktifleştirilmesi, gerçek yasal belgelerin SHA-256 ile senkronizasyonu ve 24/7 fiyat zamanlayıcısı
+
+**Tarih:** 25.10.2026  
+**Durum:** Aktif  
+**İlgili Belgeler:** DATABASE.md, PRIVACY.md, API.md, RELEASE_RUNBOOK.md
+
+## Bağlam
+
+1. Fiziksel cihaz testleri ve mağaza denetimi sırasında, `gold_products` tablosundaki 6 ürünün (`GOLD_18K`, `PACKAGED_GOLD_1G`, `PACKAGED_GOLD_2_5G`, `HAMIT_GOLD`, `RESAT_GOLD`, `REPUBLIC_GOLD`) arayüzde görünmediği tespit edilmiştir.
+2. `legal_documents` tablosunda ve `FALLBACK_LEGAL_DOCUMENTS` modellerinde yer alan "TEST METNİDİR" taslakları ve sahte karma değerleri (`hash_kvkk_1_0_dev`) mağaza incelemelerinde (App Store & Google Play) doğrudan ret riski oluşturmaktadır.
+3. Fiyat çekme zamanlayıcısının (`pg_cron`) yalnızca hafta içi mesai saatlerinde çalışması hafta sonlarında gereksiz bayat veri uyarılarına yol açmaktadır.
+4. Resmi iletişim ve destek kanalı olarak `adem@altiniz.app` adresinin kullanılması gerekmektedir.
+
+## Karar
+
+1. **Eksik Ürünlerin Aktif Edilmesi (`Migration 012`):**
+   - `gold_products` tablosunda `GOLD_18K`, `PACKAGED_GOLD_1G`, `PACKAGED_GOLD_2_5G`, `HAMIT_GOLD`, `RESAT_GOLD` ve `REPUBLIC_GOLD` ürünleri `is_active = true, price_display_enabled = true, calculator_enabled = true, portfolio_enabled = true` olarak açılmıştır.
+   - `OUNCE_GOLD` için ADR-018 gereği `portfolio_enabled = false` kuralı korunmuştur.
+   - `price_source_product_mappings` tablosunda `HAMIT_ALTIN`, `AYAR18`, `KULCE_1G`, `KULCE_2_5G`, `CUMHURIYET_ALTINI` ve `RESAT_ALTIN` eşleştirmeleri aktif edilmiştir.
+2. **Gerçek Yasal Metinler ve Kriptografik SHA-256 Özeti:**
+   - 6 adet yasal metin (`kvkk_notice`, `privacy_policy`, `terms_of_use`, `financial_disclaimer`, `data_retention`, `explicit_consent`) profesyonel hukuk ve KVKK terminolojisine uygun olarak hazırlanmıştır.
+   - Her belge için `crypto.subtle` / `node:crypto` ile 64 karakter gerçek SHA-256 hash'i hesaplanmış, canlı veritabanında `version = '1.0.0'` ve `is_active = true` olarak saklanmıştır.
+   - `src/models/legal.ts` içerisindeki `FALLBACK_LEGAL_DOCUMENTS` bu gerçek metinlerle eşitlenmiştir.
+3. **24/7 Fiyat Çekme Zamanlayıcısı:**
+   - `pg_cron` zamanlayıcı işi hafta sonları ve akşam saatlerini kapsayacak biçimde `*/15 * * * *` (her 15 dakikada bir kesintisiz) olarak güncellenmiştir.
+4. **Resmi Destek Kanalı:**
+   - Uygulama içi tüm ekranlarda ve yasal/mağaza belgelerinde resmi e-posta `adem@altiniz.app` olarak kilitlenmiştir.
+
+---
+
 # Sürüm geçmişi
+
+## 1.6 - 26.10.2026
+
+- ADR-039 ile eksik ürünlerin aktifleştirilmesi (25 aktif ürün), 6 gerçek yasal belgenin SHA-256 bütünlüğü ile canlıya alınması, 24/7 pg_cron zamanlayıcısı ve adem@altiniz.app desteği karara bağlandı.
 
 ## 1.5 - 24.10.2026
 

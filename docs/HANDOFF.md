@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.60 Taslak  
-**Son güncelleme:** 24.10.2026  
+**Belge sürümü:** 1.61 Taslak  
+**Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. SecureStore donanımsal token saklama, atomik execute_account_deletion RPC'si (Migration 008), sync_gold_price yetki kilidi (Migration 009), 2 adet aktif Edge Function canlı dağıtımı, UI/UX Header/StatusBar tema standardizasyonu, otomatik tutar aktarımı, özel silme modalı ve EAS Build APK çıktısı hazırlandı.  
-**Son çalışma durumu:** Fiziksel test geri bildirimleri eksiksiz çözüldü: Header ve StatusBar temaya bağlandı, Ana Sayfa + Altın Ekle beyaz ekran çökmesi ve pull-to-refresh sorunları giderildi, Truncgil 25 aktif ürünle eşleştirildi, aykırı değişim filtresi (`[-50%, +50%]`) uygulandı, piyasa bayatlığı 15 dk akış tazeliğine bağlandı, hesap makinesinden portföye otomatik tutar aktarımı ve binlik ayracı canlı önizlemesi eklendi, portföy silme onayında özel Altın İz modalı uygulandı, ayarlar ekranı sadeleştirildi. TypeScript ve ESLint 0 hata ile doğrulandı.
+**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.  
+**Son çalışma durumu:** 19 proje belgesinin çapraz denetimi ve fiziksel test geri bildirimleri doğrultusunda adem@altiniz.app e-postası eşitlendi, portfolio.tsx çift padding kaldırıldı, edit.tsx birim ve önizleme rozetleri güçlendirildi, Türkçe arama normalizasyonu (normalizeSearchText) tüm arama ekranlarına eklendi, Migration 012 ile 25 ürün ve 6 gerçek yasal metin canlıya alındı, dark mode white flash giderildi, 24/7 pg_cron zamanlayıcısı devrede. TypeScript, ESLint ve tüm test paketleri %100 başarıyla geçti.
 
 ---
 
@@ -57,19 +57,19 @@ Yeni güncellemede:
 ### Oturum tarihi
 
 ```text
-24.10.2026
+26.10.2026
 ```
 
 ### Oturumun ana amacı
 
 ```text
-Mobil testlerde tespit edilen UI/UX tutarsızlıklarını, Header/StatusBar uyumsuzluklarını, Ana Sayfa Altın Ekle beyaz ekran ve pull-to-refresh hatalarını, Truncgil fiyat eşleştirmelerini, Hamit Altın aykırı değişim yüzdesini, Hesap Makinesinden portföye otomatik tutar aktarımını ve portföy silme özel modalını çözmek ve docs/ altındaki tüm belgeleri güncellemek
+19 proje belgesinin ve fiziksel cihaz testlerinin çapraz denetimi sonucunda tespit edilen UI/UX eksikliklerini, arama klavye/normalizasyon sorunlarını, portföy çift kenar boşluğunu gidermek; eksik ürünleri ve gerçek yasal belgeleri Migration 012 ile canlı Supabase veritabanına uygulamak, tüm belgeleri ve test paketlerini senkronize etmek
 ```
 
 ### Bu oturumda tamamlanan son iş
 
 ```text
-UI/UX ve işlevsel hata düzeltmeleri (ADR-038) tamamlandı; 25 aktif ürün için Truncgil API eşleştirmesi yapıldı; aykırı değişim filtresi konuldu; StatusBar/Header tema uyumu sağlandı; Hesapla sayfasından portföye otomatik maliyet aktarımı ve binlik ayracı canlı önizlemesi eklendi; özel silme modalı uygulandı; ayarlar temizlendi; TypeScript ve ESLint sıfır hata ile geçti; docs/ altındaki ARCHITECTURE.md, DECISIONS.md, CHANGELOG.md, KNOWN_ISSUES.md, DATABASE.md, API.md, TODO.md, PROJECT_CONTEXT.md ve HANDOFF.md dosyaları tam senkronize edildi.
+Migration 012 uzak veritabanına uygulandı (25 aktif ürün, 6 gerçek yasal belge SHA-256 hash ile ve 24/7 her 15 dk fiyat zamanlayıcısı aktif); adem@altiniz.app tüm kod, belge ve web sitesi dosyalarında eşitlendi; portföy çift padding ve silme modalı zenginleştirildi; edit.tsx tutar önizleme hapı eklendi; Türkçe arama normalizasyonu yapıldı; tema geçişlerindeki beyaz parlama önlendi; P0 kontrol listesi 20/20 test ile onaylandı; origin/main dalına commit ve push yapıldı.
 ```
 
 ### Projenin mevcut aşaması
@@ -81,13 +81,13 @@ V1 Kod Tabanı ve Backend Tamamlandı — UI/UX Standardizasyonu ve Fiziksel Tes
 ### Uygulama kodu durumu
 
 ```text
-V1 mobil istemci kodu ve Supabase backend (9 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc ve lint 0 hata ile doğrulandı.
+V1 mobil istemci kodu ve Supabase backend (12 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc ve lint 0 hata ile doğrulandı.
 ```
 
 ### Çalışan uygulama durumu
 
 ```text
-EAS Cloud üzerinde bağımsız Android APK derlemesi üretildi; canlı Supabase veritabanından 23 aktif altın ürününün gerçek Kapalıçarşı piyasa fiyatları başarıyla çekiliyor.
+EAS Cloud üzerinde bağımsız Android APK derlemesi üretildi; canlı Supabase veritabanından 25 aktif altın ürününün gerçek Kapalıçarşı piyasa fiyatları başarıyla çekiliyor.
 ```
 
 ### Gerçek kullanıcı durumu
@@ -362,8 +362,8 @@ Projenin genel tanıtımını, mimari özetini, kapsamını ve başlangıç okum
 - Dördüncü çapraz denetimde `user_legal_events` tablosuna doğrudan istemci `INSERT` işlemi kapatılarak yalnızca güvenli RPC veya `record-legal-event` Edge Function ile append-only oluşturulması tüm ilgili belgelere (`DATABASE.md`, `SECURITY.md`, `ARCHITECTURE.md`, `API.md`, `DECISIONS.md`, `TODO.md`, `README.md`, `copilot-instructions.md`) işlendi.
 - `user_preferences` güncelleme yetkisinin yalnızca `theme` alanıyla sınırlandırılması ve `BEFORE UPDATE` kolon koruma tetikleyicisi tüm belgelere eşitlendi.
 - `DATABASE.md` erişim matrisine `price_sources` tablosu eklendi.
-- V1 kod tabanı, ekranları, servisleri, modelleri ve 11 adet sıralı SQL migration dosyası eksiksiz oluşturuldu.
-- Güvenlik incelemesi doğrultusunda `expo-secure-store`, atomik `execute_account_deletion` PostgreSQL fonksiyonu, portföy bütünlük tetikleyicisi, 30 günlük bayat veri temizliği RPC'si ve pg_cron/pg_net zamanlayıcı entegre edildi.
+- V1 kod tabanı, ekranları, servisleri, modelleri ve 12 adet sıralı SQL migration dosyası eksiksiz oluşturuldu.
+- Güvenlik incelemesi doğrultusunda `expo-secure-store`, atomik `execute_account_deletion` PostgreSQL fonksiyonu, portföy bütünlük tetikleyicisi, 30 günlük bayat veri temizliği RPC'si, 25 aktif ürün fiyat eşleştirmesi, gerçek yasal metinler ve pg_cron/pg_net zamanlayıcı entegre edildi.
 
 ---
 
@@ -390,7 +390,7 @@ Bağlandı ve eşitlendi: https://github.com/gultepeadem/altin-iz.git (main dal�
 ### Son commit
 
 ```text
-c24bf5f (fix(ui): polish header, status bar, fix add gold white screen, live format preview, and clamp outlier price change)
+c9a6c10 (fix: comprehensive UI/UX fixes, authentic legal docs sync, product activations, and docs update)
 ```
 
 ### Aktif dal
@@ -402,7 +402,7 @@ main
 ### Migration durumu
 
 ```text
-11 adet sıralı SQL migration dosyası uygulandı (20261025000011_portfolio_integrity_and_retention_cleanup.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, fiyat eşleştirmeleri, atomik hesap silme, Edge Function yetki kilidi, portföy kısıt tetikleyicisi, 30 günlük bayat fiyat temizliği RPC'si ve pg_cron zamanlayıcısı devrede).
+12 adet sıralı SQL migration dosyası uygulandı (20261025000012_activate_missing_products_and_update_legal.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, 25 aktif ürünün fiyat eşleştirmeleri, atomik hesap silme, Edge Function yetki kilidi, portföy kısıt tetikleyicisi, 30 günlük bayat fiyat temizliği RPC'si, 6 gerçek yasal belge ve 24/7 pg_cron zamanlayıcısı devrede).
 ```
 
 ---
@@ -744,6 +744,19 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.61 Taslak - 26.10.2026
+- 19 proje belgesinin çapraz denetimi ve fiziksel test bulguları eksiksiz çözümlendi:
+  1. Resmi destek adresi `adem@altiniz.app` kod tabanı, veritabanı, test dosyaları, dokümanlar ve web sitesinde (`website/`) eşitlendi.
+  2. `portfolio.tsx` ekranındaki çift yatay boşluk (double padding) kaldırıldı; kartlar Ana Sayfa ve Fiyatlar sekmeleriyle tam piksel hizasına getirildi.
+  3. Portföy kartı tıklaması detay sayfasına yönlendirildi, başlığa `chevron-right` ikonu eklendi, iki aşamalı silme modalı ürün bilgileri ve V1 kalıcı silme uyarısıyla zenginleştirildi.
+  4. `portfolio/[entryId]/edit.tsx` formundaki birim rozet kontrastı ve binlik ayracı canlı önizleme rozeti uygulandı.
+  5. `normalizeSearchText` ile Türkçe karakter duyarlılığı (`i/ı`, `ö/o`, `ü/u`, `ş/s`, `ç/c`, `ğ/g`) arama ve filtreleme alanlarına entegre edildi.
+  6. Migration 012 (`20261025000012_activate_missing_products_and_update_legal.sql`) uzak Supabase veritabanına uygulandı; `gold_products` tablosunda 25 ürün tam aktif edildi ve `fetch-gold-prices` ile 25/25 ürünün piyasa fiyatları çekildi.
+  7. 6 adet gerçek yasal belge hazırlanarak 64 karakter gerçek SHA-256 hash'leri ile canlı veritabanına ve `src/models/legal.ts` dosyasına kaydedildi (`v1.0.0`).
+  8. Koyu tema geçişlerindeki beyaz parlama `contentStyle` ve `sceneStyle` ile giderildi; `index.tsx` karşılama alanından `👋` kaldırıldı ve zaman damgası eklendi.
+  9. `pg_cron` zamanlayıcısı `*/15 * * * *` (her 15 dakikada bir, 24/7) olarak güncellendi.
+  10. P0 kontrol listesi 20/20 test ile onaylandı; `v1.0.0-rc1` hazırlıkları tamamlandı.
 
 ### 1.60 Taslak - 24.10.2026
 - Fiziksel test geri bildirimleri doğrultusunda kapsamlı UI/UX iyileştirmesi ve hata düzeltmesi gerçekleştirildi (`ADR-038`):
