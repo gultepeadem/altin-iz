@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.57 Taslak  
+**Belge sürümü:** 1.58 Taslak  
 **Son güncelleme:** 26.10.2026 
-**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, güvenlik ve UI/UX düzeltmeleri tamamlandı; fiziksel cihaz doğrulaması ve mağaza hesap açılışları bekleniyor  
-**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
+**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, backend (13 migration + 2 Edge Function), güvenlik, Model A hesap silme mimarisi ve UI/UX düzeltmeleri tamamlandı; Android fiziksel cihaz ve Apple Developer sonrası iOS TestFlight doğrulamaları bekleniyor  
+**Kodlama durumu:** Tamamlandı. 13 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı ve arka plan auth silme telafi mekanizması devrede), denetçi parolaları rotasyonla güvenli alana alındı, P0 kontrol listesi 20/20 test ile doğrulandı.
 
 ---
 

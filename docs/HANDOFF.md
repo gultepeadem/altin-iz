@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.62 Taslak  
+**Belge sürümü:** 1.63 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), açık denetçi parolaları temizlendi, hesap silme Model A mimarisi standartlaştırıldı, P0 kontrol listesi 20/20 test ile doğrulandı.  
-**Son çalışma durumu:** 19 proje belgesinin bağımsız dış denetim raporu (9 kritik çelişki, 14 tutarsızlık) doğrultusunda kapsamlı düzeltme uygulandı: Mağaza denetçi demo parolaları tüm belgelerden ve testlerden temizlenerek güvenli parola yöneticisine taşındı; KI-025 Mitigated seviyesine alındı; KI-033 açılarak Truncgil lisansı takibe alındı; hesap silme Model A mimarisi (Edge Function transaction dışı yönetim + execute_account_deletion SQL RPC atomik temizlik + auth.admin silimi + sanitised hata kodu) ve saklama süreleri kilitlendi. TypeScript, ESLint ve tüm testler %100 başarıyla geçti.
+**Kodlama durumu:** Tamamlandı. 13 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı ve process_pending_auth_deletions telafi mekanizması devrede). Reviewer parolaları Supabase Auth'ta rotasyonla güncellendi ve doğrulandı; açık parola referansları kaldırıldı; ESLint ve TypeScript 0 hata ile doğrulandı.  
+**Son çalışma durumu:** Dış denetim ve inceleme bulgularının tamamı giderildi: Reviewer demo parolaları Supabase Auth'ta rotasyona tabi tutuldu, eski parolaların reddedildiği (400) ve yeni parolaların kabul edildiği (200) canlı test edildi. Migration 012 ve Migration 013 canlı veritabanına uygulandı (13/13). Model A hesap silme akışı (execute_account_deletion RPC + auth.admin.deleteUser + auth_deletion_pending + process_pending_auth_deletions telafi RPC'si) hem veritabanında hem Edge Function'da devreye alındı. ESLint ve TypeScript typecheck 0 hata ile çalıştırıldı. Tüm 16 test paketi ve P0 kontrol listesi (20/20) %100 geçti. Öncelikli adımlar hem Android fiziksel testi hem de iOS TestFlight doğrulamasını içerecek şekilde eşitlendi.
 
 ---
 
@@ -81,7 +81,7 @@ V1 Kod Tabanı ve Backend Tamamlandı — UI/UX Standardizasyonu ve Fiziksel Tes
 ### Uygulama kodu durumu
 
 ```text
-V1 mobil istemci kodu ve Supabase backend (12 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc ve lint 0 hata ile doğrulandı.
+V1 mobil istemci kodu ve Supabase backend (13 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc ve lint 0 hata ile doğrulandı.
 ```
 
 ### Çalışan uygulama durumu
@@ -569,15 +569,16 @@ Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasö
 
 ---
 
-## 19. Sıradaki tek ve kesin görev
+## 19. Sıradaki öncelikli görevler
 
 ```text
-Fiziksel Cihaz Doğrulaması ve Mağaza Dağıtım Hazırlığı
+Fiziksel Cihaz Doğrulamaları ve Mağaza Dağıtım Hazırlığı
 ```
 
 Bu aşamada:
-1. Üretilen bağımsız Android APK'sının fiziksel telefonda (Redmi Note 8 Pro) testi ve kullanıcı onayı tamamlanacaktır.
-2. Google Play (25$) ve Apple Developer (99$) resmi hesapları açılarak mağaza kayıtları ve test parçaları aktif hale getirilecektir.
+1. **Android Fiziksel Cihaz Testi:** Üretilen bağımsız Android APK'sının fiziksel telefonda (Redmi Note 8 Pro) testi ve kullanıcı onayı gerçekleştirilecektir.
+2. **iOS & TestFlight Doğrulaması:** Apple Developer Program (99$/yıl) hesabı açılarak TestFlight dahili test sürümü yüklenecek ve fiziksel iOS cihazında doğrulanacaktır.
+3. **Google Play Konsol Başvurusu:** Google Play (25$) geliştirici hesabı açılarak kapalı test süreci başlatılacaktır.
 
 ---
 

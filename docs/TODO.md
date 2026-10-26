@@ -1716,11 +1716,12 @@ Görev tamamlandı olarak işaretlenirken:
   - `portfolio.tsx` ekranındaki çift kenar boşluğu (double padding) giderildi, liste öğeleri Ana Sayfa ve Fiyatlar sekmeleriyle hizalandı, portföy kartı tıklaması detay sayfasına yönlendirildi, zenginleştirilmiş silme onay modalı uygulandı.
   - `edit.tsx` formundaki birim rozet kontrastı ve binlik ayracı içeren dinamik yeşil tutar önizleme rozeti uygulandı.
   - `formatters.ts` içerisine `normalizeSearchText` eklenerek Fiyatlar, Hesap Makinesi ve Portföy arama alanlarında Türkçe karakter ve Unicode NFD aksan uyumu sağlandı.
-  - `20261025000012_activate_missing_products_and_update_legal.sql` (Migration 012) uzak Supabase veritabanına uygulandı; `gold_products` tablosunda 25 ürün tam aktif edildi, `price_source_product_mappings` eşleştirmeleri bağlandı ve `fetch-gold-prices` ile 25/25 ürün canlıya alındı.
+  - `20261025000012_activate_missing_products_and_update_legal.sql` (Migration 012) ve `20261026000013_account_deletion_model_a_and_retry.sql` (Migration 013) uzak Supabase veritabanına uygulandı; `gold_products` tablosunda 25 ürün tam aktif edildi, Model A şema kısıtı ('auth_deletion_pending') ve process_pending_auth_deletions telafi RPC'si canlıya alındı.
+  - Denetçi demo hesap parolaları Supabase Auth üzerinde rotasyona tabi tutuldu; eski parolaların reddedildiği ve yeni parolaların kabul edildiği canlı doğrulandı; açık parola referansları kaldırıldı.
   - 6 adet gerçek yasal metin hazırlandı, gerçek 64 karakter SHA-256 hash'leri hesaplanarak veritabanına (`v1.0.0`) ve `src/models/legal.ts` dosyasına kaydedildi.
   - Koyu tema geçişlerindeki beyaz parlama (white flash) `contentStyle` ve `sceneStyle` ile önlendi; `index.tsx` içerisinden `👋` emojisi kaldırıldı, son fiyat güncelleme zaman damgası ve `chevron-right` ikonları eklendi.
   - `pg_cron` fiyat çekme zamanlayıcısı hafta sonunu da kapsayacak biçimde `*/15 * * * *` (her 15 dakikada bir) olarak güncellendi.
-  - `test-faz22-p0-checklist.ts` 12 sıralı migration dosyası ile eşitlendi; 20/20 test %100 başarıyla geçti.
+  - `test-faz22-p0-checklist.ts` 13 sıralı migration dosyası ile eşitlendi; 20/20 test %100 başarıyla geçti.
 
 ## 1.16 Taslak - 24.10.2026
 

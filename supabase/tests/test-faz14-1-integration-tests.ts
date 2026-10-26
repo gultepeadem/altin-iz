@@ -74,7 +74,7 @@ async function runTests() {
 
     // signUp metodunun varlığı, email, password ve displayName kabul etmesi
     const hasSignUp = authCode.includes('signUp(credentials: SignUpCredentials)');
-    const passesDisplayName = authCode.includes('display_name: credentials.displayName');
+    const passesDisplayName = authCode.includes('metadata.display_name') && authCode.includes('credentials.displayName');
 
     // Şifre ve e-posta doğrulama kuralları
     const validEmail = 'kullanici@example.com';

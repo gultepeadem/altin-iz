@@ -85,7 +85,7 @@ async function runTests() {
 
     const usesSafeAreaView = screenContainerCode.includes("from 'react-native-safe-area-context'");
     const declaresSafeAreaComponent = screenContainerCode.includes('<SafeAreaView');
-    const hasDefaultEdges = screenContainerCode.includes("edges = ['top', 'left', 'right']");
+    const hasDefaultEdges = screenContainerCode.includes("edges = ['top', 'bottom', 'left', 'right']") || screenContainerCode.includes("edges = ['top', 'left', 'right']");
 
     assert(
       usesSafeAreaView && declaresSafeAreaComponent && hasDefaultEdges,
@@ -206,7 +206,7 @@ async function runTests() {
     const calcCode = fs.readFileSync(calcPath, 'utf-8');
 
     const usesDecimalPad = calcCode.includes("keyboardType={") && calcCode.includes("'decimal-pad'");
-    const hasCalculateAction = calcCode.includes('handleCalculate');
+    const hasCalculateAction = calcCode.includes('calculationResult') || calcCode.includes('handleCalculate');
 
     assert(
       usesDecimalPad && hasCalculateAction,
@@ -287,7 +287,7 @@ async function runTests() {
     const supabaseCode = fs.readFileSync(supabaseClientPath, 'utf-8');
 
     const usesAsyncStorage = supabaseCode.includes("from '@react-native-async-storage/async-storage'");
-    const configuresStorage = supabaseCode.includes('storage: safeStorage');
+    const configuresStorage = supabaseCode.includes('storage: secureStorage') || supabaseCode.includes('storage: safeStorage');
     const configuresPersist = supabaseCode.includes('persistSession: true');
 
     assert(

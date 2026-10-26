@@ -130,23 +130,59 @@ export async function processAccountDeletion(params: {
       result: deletionResult,
     });
 
-    // Adım G: Supabase Auth hesabını sil ve oturumları sonlandır
+    // Adım G: Supabase Auth hesabını sil ve oturumları sonlandır (Model A)
     const { error: authDeleteError } = await adminClient.auth.admin.deleteUser(userId);
 
     if (authDeleteError) {
-      // Eğer kullanıcı execute_account_deletion RPC'si içinde doğrudan auth.users'dan silindiyse (tam atomiklik),
-      // auth.admin.deleteUser 'User not found' (404) dönebilir; bu beklenen ve başarılı bir durumdur.
       const isAlreadyDeleted =
         authDeleteError.message?.toLowerCase().includes('not found') ||
         (authDeleteError as any).status === 404;
 
       if (!isAlreadyDeleted) {
-        safeError('Auth kullanıcısı silinirken ek uyarı oluştu (KI-018 telafi kontrolü).', authDeleteError);
+        safeError('Auth kullanıcısı silinirken hata oluştu; talep auth_deletion_pending durumuna alınıyor (Model A).', authDeleteError);
+
+        if (deletionRequestId) {
+          try {
+            await adminClient
+              .from('account_deletion_requests')
+              .update({
+                status: 'auth_deletion_pending',
+                failure_code: 'AUTH_DELETE_RETRY_PENDING',
+                failure_message: 'Auth silme işlemi telafi kuyruğuna devredildi.',
+              })
+              .eq('id', deletionRequestId);
+          } catch (updateErr) {
+            safeError('auth_deletion_pending durumu güncellenemedi.', updateErr);
+          }
+        }
+
+        return {
+          success: false,
+          deletionRequestId,
+          errorCode: 'AUTH_DELETION_PENDING',
+          errorMessage: 'Verileriniz temizlendi, hesap kapatma işleminiz telafi kuyruğunda tamamlanıyor.',
+        };
       } else {
-        safeLog('Auth kullanıcısı atomik RPC transaction bloğunda başarıyla silindi.', { userId });
+        safeLog('Auth kullanıcısı zaten mevcut değil (önceden silinmiş).', { userId });
       }
     } else {
       safeLog('Supabase Auth hesabı başarıyla silindi.', { userId });
+    }
+
+    // Model A: Auth silme işlemi başarılı olduktan sonra talep 'completed' yapılır ve user_id sıfırlanır
+    if (deletionRequestId) {
+      try {
+        await adminClient
+          .from('account_deletion_requests')
+          .update({
+            status: 'completed',
+            completed_at: new Date().toISOString(),
+            user_id: null,
+          })
+          .eq('id', deletionRequestId);
+      } catch (completeErr) {
+        safeError('account_deletion_requests tamamlandı durumu kaydedilemedi.', completeErr);
+      }
     }
 
     return {

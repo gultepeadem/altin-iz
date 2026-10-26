@@ -24,9 +24,19 @@ export function toMinorUnits(amount: unknown): number | null {
   if (typeof amount === 'number') {
     num = amount;
   } else if (typeof amount === 'string') {
-    // Binlik ayracı olan noktaları temizle ve ondalık virgülü noktaya çevir
-    const cleaned = amount.trim().replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
-    num = parseFloat(cleaned);
+    const clean = amount.trim().replace(/[^\d.,]/g, '');
+    if (!clean) return null;
+    let normalized = clean;
+    if (clean.includes('.') && clean.includes(',')) {
+      if (clean.indexOf('.') < clean.indexOf(',')) {
+        normalized = clean.replace(/\./g, '').replace(',', '.');
+      } else {
+        normalized = clean.replace(/,/g, '');
+      }
+    } else if (clean.includes(',')) {
+      normalized = clean.replace(',', '.');
+    }
+    num = parseFloat(normalized);
   } else {
     return null;
   }

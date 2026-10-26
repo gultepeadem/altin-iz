@@ -8,7 +8,8 @@ export type DeleteAccountErrorCode =
   | 'MISSING_PASSWORD'
   | 'INVALID_CREDENTIALS'
   | 'DELETION_FAILED'
-  | 'CONFIG_ERROR';
+  | 'CONFIG_ERROR'
+  | 'AUTH_DELETION_PENDING';
 
 export interface DeleteAccountRequestBody {
   /** Kullanıcının yeniden kimlik doğrulama parolası */

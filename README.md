@@ -14,7 +14,7 @@ Altın İz, kullanıcıların güncel altın alış ve satış fiyatlarını gö
 Proje aşaması: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
 Uygulama kodu: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 58)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (12 migration, RLS, 2 deployed Edge Function, 25 aktif ürün ve canlı piyasa fiyatları)
+Supabase projesi: Aktif (13 migration, RLS, 2 deployed Edge Function, 25 aktif ürün ve canlı piyasa fiyatları)
 Git deposu: Aktif (main dalı)
 GitHub deposu: Aktif ve eşitlendi (https://github.com/gultepeadem/altin-iz.git)
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
@@ -861,9 +861,9 @@ docs/KNOWN_ISSUES.md
 
 ---
 
-## Sıradaki görev
+## Sıradaki öncelikli görevler
 
-Güncel sıradaki tek görev `HANDOFF.md` içindeki **Sıradaki tek ve kesin görev** bölümünde tutulur. Ayrıntılı görev adımları ve tamamlanma koşulları `TODO.md` içindeki ilgili fazdan izlenir.
+Güncel sıradaki öncelikli görevler `HANDOFF.md` içindeki **Sıradaki Öncelikli Görevler** bölümünde tutulur (fiziksel Android cihaz testi ve Apple Developer hesabı sonrası TestFlight/iOS doğrulaması). Ayrıntılı görev adımları ve tamamlanma koşulları `TODO.md` içindeki ilgili fazdan izlenir.
 
 ---
 

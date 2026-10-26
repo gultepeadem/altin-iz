@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.7  
+**Belge sürümü:** 1.8  
 **Son güncelleme:** 26.10.2026 
-**Durum:** 12 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Durum:** 13 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -2723,6 +2723,14 @@ legal_documents
 
 
 ## Sürüm geçmişi
+
+### 1.8 - 26.10.2026
+
+- `20261026000013_account_deletion_model_a_and_retry.sql` migration'ı uygulandı:
+  - `account_deletion_requests` tablosunun `account_deletion_requests_status_check` kısıtına `auth_deletion_pending` durumu eklendi.
+  - `execute_account_deletion` RPC fonksiyonu Model A mimarisine hizalandı; `auth.admin.deleteUser` çağrılmadan önce talebin veritabanı içinde `completed` yapılması engellendi, işlem `processing` olarak sürdürüldü.
+  - Arka plan telafi mekanizması: `process_pending_auth_deletions()` fonksiyonu ve saatlik `retry-pending-auth-deletions-job` `pg_cron` zamanlayıcısı tanımlandı.
+- Canlı Supabase veritabanında Migration 012 ve Migration 013 uygulandı; toplam uygulanan sıralı migration sayısı 13'e ulaştı.
 
 ### 1.7 - 25.10.2026
 
