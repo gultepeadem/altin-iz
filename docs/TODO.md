@@ -2,10 +2,10 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.17 Taslak  
+**Belge sürümü:** 1.18 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. 12 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
+**Kodlama durumu:** Tamamlandı. 15 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED eşzamanlılık kilidi ve retry_count; Migration 015 ile doğrudan auth.users SQL siliminin kaldırılıp resmi GoTrue Admin API retry worker'ına devredilmesi devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
 
 ---
 
@@ -1519,7 +1519,7 @@ Migration görevleri küçük dosyalara ayrılabilir:
 - [x] Destek kanalı ve e-posta adresi (`adem@altiniz.app` - Yapılandırıldı ve doğrulandı).
 - [x] Hesap silme web bağlantısı (`https://altiniz.app/hesap-silme` - Aktif ve yayında).
 - [x] Son production yedeği ve geri dönüş planı hazır (RELEASE_RUNBOOK.md).
-- [x] Production migrationları doğrulandı (12 migration sıralı uygulandı).
+- [x] Production migrationları doğrulandı (15 migration sıralı uygulandı).
 - [x] Son Git etiketi veya sürüm kaydı oluşturuldu (v1.0.0-rc1).
 
 ---
@@ -1716,12 +1716,12 @@ Görev tamamlandı olarak işaretlenirken:
   - `portfolio.tsx` ekranındaki çift kenar boşluğu (double padding) giderildi, liste öğeleri Ana Sayfa ve Fiyatlar sekmeleriyle hizalandı, portföy kartı tıklaması detay sayfasına yönlendirildi, zenginleştirilmiş silme onay modalı uygulandı.
   - `edit.tsx` formundaki birim rozet kontrastı ve binlik ayracı içeren dinamik yeşil tutar önizleme rozeti uygulandı.
   - `formatters.ts` içerisine `normalizeSearchText` eklenerek Fiyatlar, Hesap Makinesi ve Portföy arama alanlarında Türkçe karakter ve Unicode NFD aksan uyumu sağlandı.
-  - `20261025000012_activate_missing_products_and_update_legal.sql` (Migration 012), `20261026000013_account_deletion_model_a_and_retry.sql` (Migration 013) ve `20261026000014_account_deletion_locking_and_retry_limits.sql` (Migration 014) uzak Supabase veritabanına uygulandı; `gold_products` tablosunda 25 ürün tam aktif edildi, Model A şema kısıtı ('auth_deletion_pending'), FOR UPDATE SKIP LOCKED eşzamanlılık kilidi ve tavan sınırlı process_pending_auth_deletions telafi RPC'si canlıya alındı.
+  - `20261025000012_activate_missing_products_and_update_legal.sql` (Migration 012), `20261026000013_account_deletion_model_a_and_retry.sql` (Migration 013), `20261026000014_account_deletion_locking_and_retry_limits.sql` (Migration 014) ve `20261026000015_account_deletion_admin_api_worker.sql` (Migration 015) uzak Supabase veritabanına uygulandı; `gold_products` tablosunda 25 ürün tam aktif edildi, Model A şema kısıtı ('auth_deletion_pending'), FOR UPDATE SKIP LOCKED eşzamanlılık kilidi, tavan sınırlı claim RPC'si ve resmi GoTrue Admin API (`adminClient.auth.admin.deleteUser`) retry Edge Function çalışanı canlıya alındı.
   - Denetçi demo hesap parolaları resmi Supabase Admin API (adminClient.auth.admin.updateUserById) ile rotasyona tabi tutuldu; eski parolaların reddedildiği ve yeni parolaların kabul edildiği canlı doğrulandı; açık parola referansları kaldırıldı.
   - 6 adet gerçek yasal metin hazırlandı, gerçek 64 karakter SHA-256 hash'leri hesaplanarak veritabanına (`v1.0.0`) ve `src/models/legal.ts` dosyasına kaydedildi.
   - Koyu tema geçişlerindeki beyaz parlama (white flash) `contentStyle` ve `sceneStyle` ile önlendi; `index.tsx` içerisinden `👋` emojisi kaldırıldı, son fiyat güncelleme zaman damgası ve `chevron-right` ikonları eklendi.
   - `pg_cron` fiyat çekme zamanlayıcısı hafta sonunu da kapsayacak biçimde `*/15 * * * *` (her 15 dakikada bir) olarak güncellendi.
-  - `test-faz22-p0-checklist.ts` 14 sıralı migration dosyası ile eşitlendi; 20/20 test %100 başarıyla geçti.
+  - `test-faz22-p0-checklist.ts` 15 sıralı migration dosyası ile eşitlendi; 20/20 test %100 başarıyla geçti.
 
 ## 1.16 Taslak - 24.10.2026
 

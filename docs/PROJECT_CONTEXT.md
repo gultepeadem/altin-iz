@@ -2,10 +2,10 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.59 Taslak  
+**Belge sürümü:** 1.60 Taslak  
 **Son güncelleme:** 26.10.2026 
-**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, backend (14 migration + 2 Edge Function), güvenlik, Model A hesap silme mimarisi ve UI/UX düzeltmeleri tamamlandı; Android fiziksel cihaz ve Apple Developer sonrası iOS TestFlight doğrulamaları bekleniyor  
-**Kodlama durumu:** Tamamlandı. 14 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED kilidi, retry_count ve idempotency devrede), denetçi parolaları Supabase Admin API ile rotasyona tabi tutuldu, P0 kontrol listesi 20/20 test ile doğrulandı.
+**Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, backend (15 migration + 3 Edge Function), güvenlik, Model A hesap silme mimarisi ve UI/UX düzeltmeleri tamamlandı; Android fiziksel cihaz ve Apple Developer sonrası iOS TestFlight doğrulamaları bekleniyor  
+**Kodlama durumu:** Tamamlandı. 15 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED kilidi, retry_count ve idempotency devrede; Migration 015 ile doğrudan auth.users SQL silimi kaldırılarak GoTrue Admin API retry worker'ına devredildi), denetçi parolaları Supabase Admin API ile rotasyona tabi tutuldu, P0 kontrol listesi 20/20 test ile doğrulandı.
 
 ---
 
@@ -1088,8 +1088,8 @@ Kodlama: Tamamlandı (Expo SDK 58, React Native 0.88, TypeScript 6, Expo Router 
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
 Git deposu: Aktif (main dalı)
 GitHub deposu: Aktif ve senkronize (https://github.com/gultepeadem/altin-iz.git)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 12 migration, RLS, 25 aktif ürün ve canlı fiyatlar)
-Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, 5 dk cooldown devrede
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 15 migration, RLS, 25 aktif ürün ve canlı fiyatlar)
+Güvenlik: SecureStore donanımsal token saklama, Model A execute_account_deletion RPC'si ve GoTrue Admin API deleteUser çalışanı aktif, 5 dk cooldown devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)
 Android testi: APK derlemesi üretildi; fiziksel cihaz (Redmi Note 8 Pro) doğrulaması sürüyor
 iOS testi: Web/PWA ve Expo Go testine hazır; App Store Connect hesabı bekleniyor

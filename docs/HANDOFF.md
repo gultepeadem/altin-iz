@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.64 Taslak  
+**Belge sürümü:** 1.65 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. 14 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED eşzamanlılık kilidi, retry_count ve idempotency güvencesi devrede). Reviewer parolaları Supabase Admin API ile rotasyona tabi tutuldu ve doğrulandı; açık parola referansları kaldırıldı; ESLint, Deno Lint ve TypeScript 0 hata ile doğrulandı.  
-**Son çalışma durumu:** Dış denetim ve inceleme bulgularının tamamı giderildi: Reviewer demo parolaları resmi Supabase Admin API (adminClient.auth.admin.updateUserById) ile rotasyona tabi tutuldu, eski parolaların reddedildiği (400) ve yeni parolaların kabul edildiği (200) canlı test edildi. Migration 012, 013 ve 014 canlı veritabanına uygulandı (14/14). Model A hesap silme akışı (execute_account_deletion RPC + auth.admin.deleteUser + auth_deletion_pending + FOR UPDATE SKIP LOCKED kilitli ve tavan sınırlı process_pending_auth_deletions telafi RPC'si) hem veritabanında hem Edge Function'da devreye alındı. ESLint, Deno Lint (supabase/functions) ve TypeScript typecheck 0 hata ile çalıştırıldı. Tüm 16 test paketi ve P0 kontrol listesi (20/20) %100 geçti. Otomatik test başarıları ile fiziksel cihaz doğrulama gereksinimleri (Android APK el testi ve Apple Developer Program / TestFlight) açıkça birbirinden ayrıldı.
+**Kodlama durumu:** Tamamlandı. 15 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED eşzamanlılık kilidi ve retry_count; Migration 015 ile doğrudan auth.users SQL siliminin kaldırılıp resmi GoTrue Admin API retry worker'ına devredilmesi). Reviewer parolaları Supabase Admin API ile rotasyona tabi tutuldu ve doğrulandı; açık parola referansları kaldırıldı; ESLint, Deno Lint ve TypeScript 0 hata ile doğrulandı.  
+**Son çalışma durumu:** Dış denetim ve inceleme bulgularının tamamı giderildi: Reviewer demo parolaları resmi Supabase Admin API (adminClient.auth.admin.updateUserById) ile rotasyona tabi tutuldu, eski parolaların reddedildiği (400) ve yeni parolaların kabul edildiği (200) canlı test edildi. Migration 012, 013, 014 ve 015 canlı veritabanına uygulandı (15/15). Model A hesap silme mimarisi Supabase GoTrue Admin API standardına tam kavuşturuldu: SQL fonksiyonlarındaki doğrudan `DELETE FROM auth.users` tamamen kaldırılarak `claim_pending_auth_deletions` RPC (`FOR UPDATE SKIP LOCKED`) ve `retry-account-deletions` Edge Function worker'ı devreye alındı. ESLint, Deno Lint (supabase/functions) ve TypeScript typecheck 0 hata ile çalıştırıldı. Tüm 16 test paketi ve P0 kontrol listesi (20/20) %100 geçti. Otomatik test başarıları ile fiziksel cihaz doğrulama gereksinimleri (Android APK el testi ve Apple Developer Program / TestFlight) açıkça birbirinden ayrıldı.
 
 ---
 
@@ -81,7 +81,7 @@ V1 Kod Tabanı ve Backend Tamamlandı — UI/UX Standardizasyonu ve Fiziksel Tes
 ### Uygulama kodu durumu
 
 ```text
-V1 mobil istemci kodu ve Supabase backend (14 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc, eslint ve deno lint 0 hata ile doğrulandı.
+V1 mobil istemci kodu ve Supabase backend (15 migration + 3 aktif Edge Function) eksiksiz çalışır durumda; tsc, eslint ve deno lint 0 hata ile doğrulandı.
 ```
 
 ### Çalışan uygulama durumu
@@ -402,7 +402,7 @@ main
 ### Migration durumu
 
 ```text
-12 adet sıralı SQL migration dosyası uygulandı (20261025000012_activate_missing_products_and_update_legal.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, 25 aktif ürünün fiyat eşleştirmeleri, atomik hesap silme, Edge Function yetki kilidi, portföy kısıt tetikleyicisi, 30 günlük bayat fiyat temizliği RPC'si, 6 gerçek yasal belge ve 24/7 pg_cron zamanlayıcısı devrede).
+15 adet sıralı SQL migration dosyası uygulandı (20261026000015_account_deletion_admin_api_worker.sql dahil veritabanında çalıştırıldı; tablolar, tetikleyiciler, indeksler, RLS politikaları, 25 aktif ürünün fiyat eşleştirmeleri, Model A hesap silme, Edge Function yetki kilidi, portföy kısıt tetikleyicisi, 30 günlük bayat fiyat temizliği RPC'si, 6 gerçek yasal belge, 24/7 pg_cron zamanlayıcısı ve GoTrue Admin API retry worker devrede).
 ```
 
 ---
@@ -729,9 +729,9 @@ Her oturum sonunda:
 ```text
 Proje: Altın İz
 Aşama: V1 Kod Tabanı Hazır — UI/UX Standardizasyonu ve Fiziksel Test (v1.0.0-rc1)
-Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (12 migration + 2 aktif Edge Function)
+Kod: Expo Router TypeScript mobil istemci ve Supabase backend kodlaması tamamlandı (15 migration + 3 aktif Edge Function)
 Expo projesi: Yapılandırıldı ve EAS Cloud ile bağlandı (@ademgultepe/altin-iz)
-Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 12 migration, RLS, 25 aktif ürün ve canlı fiyatlar)
+Supabase projesi: Aktif (hoqujzhcjeaudmkyqgpc / 15 migration, RLS, 25 aktif ürün ve canlı fiyatlar)
 Git deposu: Aktif (main dalı)
 Güvenlik: SecureStore donanımsal token saklama, Atomik execute_account_deletion RPC'si ve auth.users silimi aktif, sync_gold_price RPC service_role kilitli, 5 dk sunucu tarafı hız sınırı (cooldown) devrede
 Web Sitesi: Aktif ve yayında (https://altiniz.app)

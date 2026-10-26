@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.9  
+**Belge sürümü:** 1.10  
 **Son güncelleme:** 26.10.2026 
-**Durum:** 14 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Durum:** 15 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -2733,6 +2733,14 @@ legal_documents
 
 
 ## Sürüm geçmişi
+
+### 1.10 - 26.10.2026
+
+- `20261026000015_account_deletion_admin_api_worker.sql` migration'ı uygulandı:
+  - Veritabanı fonksiyonlarından doğrudan SQL seviyesinde `DELETE FROM auth.users` komutu tamamen kaldırıldı; Supabase GoTrue Auth şemasının yönetilen yapısını korumak adına tüm kullanıcı silme operasyonları resmi Supabase GoTrue Admin API'sine (`adminClient.auth.admin.deleteUser`) devredildi.
+  - `claim_pending_auth_deletions(p_limit INT, p_max_retries INT)` fonksiyonu tanımlandı: `FOR UPDATE SKIP LOCKED` ile `auth_deletion_pending` durumundaki kayıtları eşzamanlılık çakışmalarını önleyerek kilitler ve işlenmek üzere Edge Function worker'ına rezerve eder.
+  - `trigger_scheduled_account_deletion_retry()` fonksiyonu ve saatlik `retry-pending-auth-deletions-job` `pg_cron` zamanlayıcısı `pg_net` (`extensions.http_post`) üzerinden Edge Function worker'ını tetikleyecek şekilde yapılandırıldı.
+- Canlı Supabase veritabanında toplam uygulanan sıralı migration sayısı 15'e ulaştı.
 
 ### 1.9 - 26.10.2026
 

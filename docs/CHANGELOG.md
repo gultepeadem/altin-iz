@@ -2,7 +2,7 @@
 
 **Belge adı:** `CHANGELOG.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6 Taslak  
+**Belge sürümü:** 1.7 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
 **Uygulama sürümü:** 1.0.0 (v1.0.0-rc1)
@@ -51,6 +51,15 @@ Sürüm henüz yayımlanmamışsa:
 # Değişiklik Kayıtları
 
 ## [Unreleased]
+
+### GoTrue Admin API Retry Worker ve Doğrudan SQL Auth Siliminin Kaldırılması (26.10.2026)
+
+- **Veritabanı Migration 015 ve GoTrue Admin API Retry Worker Dağıtımı:**
+  - `20261026000015_account_deletion_admin_api_worker.sql` uzak Supabase veritabanına uygulandı (toplam 15 migration).
+  - PostgreSQL saklı yordamlarından (`process_pending_auth_deletions`) doğrudan SQL seviyesinde `DELETE FROM auth.users` komutu tamamen kaldırıldı; Supabase GoTrue Auth şemasının yönetilen bütünlüğünü korumak için tüm silme işlemleri resmi GoTrue Admin API'sine (`adminClient.auth.admin.deleteUser`) devredildi.
+  - `claim_pending_auth_deletions(p_limit INT, p_max_retries INT)` fonksiyonu `FOR UPDATE SKIP LOCKED` ile eşzamanlılık çakışmalarını önleyerek kayıtları rezerve eder.
+  - Yeni `retry-account-deletions` Edge Function deploy edildi ve canlı ortamda test edildi; saatlik `pg_cron` zamanlayıcısı `pg_net` (`http_post`) üzerinden bu worker'ı otomatik tetikleyecek şekilde yapılandırıldı.
+  - Testlerde GoTrue kullanıcı siliminin `auth.identities` ve meta veri bağımlılıkları doğrulandı; uçtan uca canlı GoTrue kullanıcısı üzerinde test edilerek idempotency ve tam başarı (`user_exists: 0`, `status: completed`, `user_id: null`) onaylandı.
 
 ### Kapsamlı Dış Denetim Bulgularının Giderilmesi ve Mimari Senkronizasyon (26.10.2026)
 
