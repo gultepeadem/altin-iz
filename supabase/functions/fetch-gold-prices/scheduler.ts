@@ -7,6 +7,7 @@ import type {
   ConcurrencyCheckResult,
   DuplicateCheckResult,
   ManualTriggerOptions,
+  ProductMappingInfo,
   QuotaCheckResult,
   ValidatedPriceRecord,
 } from './types.ts';
@@ -15,10 +16,10 @@ import { fetchGoldPricesFromProvider } from './fetcher.ts';
 import { validateAndTransformPrices } from './validator.ts';
 import { safeError, safeLog, safeWarn, sanitizeLog } from './sanitizer.ts';
 
+import type { SupabaseClient } from '@supabase/supabase-js';
+
 // Supabase istemcisi için genel arayüz
-export interface DatabaseClient {
-  from(table: string): any;
-}
+export type DatabaseClient = SupabaseClient;
 
 /**
  * 1. Eşzamanlı Çalışma Koruması (Concurrency Lock)
@@ -223,7 +224,7 @@ export async function isDuplicatePriceData(
       return { isDuplicate: false };
     }
 
-    const latestMap = new Map<string, any>();
+    const latestMap = new Map<string, { product_id: string; buy_price_minor: number | null; sell_price_minor: number | null }>();
     for (const p of latestPrices) {
       if (!latestMap.has(p.product_id)) {
         latestMap.set(p.product_id, p);
@@ -274,7 +275,7 @@ export async function executePriceFetchRun(
   runId?: string;
   status: string;
   message: string;
-  data?: any;
+  data?: unknown;
 }> {
   const triggerType = options.triggerType ?? 'manual';
   const force = options.force ?? false;
@@ -381,7 +382,7 @@ export async function executePriceFetchRun(
 
   if (runErr || !runData) {
     const msg = 'price_fetch_runs kaydı başlatılamadı.';
-    safeError(msg, runErr);
+    safeError(msg, { message: runErr?.message, code: runErr?.code });
     return { success: false, status: 'failed', message: msg };
   }
 
@@ -405,7 +406,7 @@ export async function executePriceFetchRun(
     const validation = validateAndTransformPrices(
       fetchResult.rawData,
       sourceId,
-      mappingsData,
+      mappingsData as unknown as ProductMappingInfo[],
       fetchResult.fetchedAt,
       runId
     );
@@ -493,8 +494,9 @@ export async function executePriceFetchRun(
       message: `Fiyat işlemi tamamlandı (${validation.status}).`,
       data: validation,
     };
-  } catch (err: any) {
-    const rawMsg = err?.message || 'Bilinmeyen sistem hatası';
+  } catch (err: unknown) {
+    const errObj = err as { message?: string; code?: string };
+    const rawMsg = errObj?.message || 'Bilinmeyen sistem hatası';
     const sanitizedMsg = sanitizeLog(rawMsg, fetchConfig.apiKey);
 
     safeError('Fiyat çalıştırma sürecinde hata oluştu:', { message: sanitizedMsg });
@@ -505,7 +507,7 @@ export async function executePriceFetchRun(
       .update({
         status: 'failed',
         completed_at: new Date().toISOString(),
-        error_code: err?.code || 'EXECUTION_FAILED',
+        error_code: errObj?.code || 'EXECUTION_FAILED',
         error_message: sanitizedMsg,
       })
       .eq('id', runId);

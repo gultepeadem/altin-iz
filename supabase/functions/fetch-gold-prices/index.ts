@@ -104,7 +104,7 @@ export async function handler(req: Request): Promise<Response> {
   const schedulerConfig = getSchedulerConfig();
 
   // İstek gövdesinden tetikleyici seçeneklerini oku (varsa)
-  let body: any = {};
+  let body: Record<string, unknown> = {};
   if (req.method === 'POST') {
     try {
       body = await req.json();
@@ -113,7 +113,7 @@ export async function handler(req: Request): Promise<Response> {
     }
   }
 
-  const triggerType = body.triggerType ?? 'manual';
+  const triggerType: 'manual' | 'scheduled' = body.triggerType === 'scheduled' ? 'scheduled' : 'manual';
   const force = Boolean(body.force);
 
   try {

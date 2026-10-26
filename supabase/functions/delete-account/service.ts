@@ -134,9 +134,10 @@ export async function processAccountDeletion(params: {
     const { error: authDeleteError } = await adminClient.auth.admin.deleteUser(userId);
 
     if (authDeleteError) {
+      const authErr = authDeleteError as { status?: number; message?: string };
       const isAlreadyDeleted =
         authDeleteError.message?.toLowerCase().includes('not found') ||
-        (authDeleteError as any).status === 404;
+        authErr.status === 404;
 
       if (!isAlreadyDeleted) {
         safeError('Auth kullanıcısı silinirken hata oluştu; talep auth_deletion_pending durumuna alınıyor (Model A).', authDeleteError);
@@ -189,7 +190,7 @@ export async function processAccountDeletion(params: {
       success: true,
       deletionRequestId,
     };
-  } catch (err: any) {
+  } catch (err: unknown) {
     safeError('Hesap silme işlemi sırasında kısmi hata oluştu (KI-018 Telafi Stratejisi).', err);
 
     // Kısmi hata durumunda talebi 'failed' olarak işaretle

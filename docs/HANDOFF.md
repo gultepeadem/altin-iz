@@ -2,11 +2,11 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.63 Taslak  
+**Belge sürümü:** 1.64 Taslak  
 **Son güncelleme:** 26.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
-**Kodlama durumu:** Tamamlandı. 13 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı ve process_pending_auth_deletions telafi mekanizması devrede). Reviewer parolaları Supabase Auth'ta rotasyonla güncellendi ve doğrulandı; açık parola referansları kaldırıldı; ESLint ve TypeScript 0 hata ile doğrulandı.  
-**Son çalışma durumu:** Dış denetim ve inceleme bulgularının tamamı giderildi: Reviewer demo parolaları Supabase Auth'ta rotasyona tabi tutuldu, eski parolaların reddedildiği (400) ve yeni parolaların kabul edildiği (200) canlı test edildi. Migration 012 ve Migration 013 canlı veritabanına uygulandı (13/13). Model A hesap silme akışı (execute_account_deletion RPC + auth.admin.deleteUser + auth_deletion_pending + process_pending_auth_deletions telafi RPC'si) hem veritabanında hem Edge Function'da devreye alındı. ESLint ve TypeScript typecheck 0 hata ile çalıştırıldı. Tüm 16 test paketi ve P0 kontrol listesi (20/20) %100 geçti. Öncelikli adımlar hem Android fiziksel testi hem de iOS TestFlight doğrulamasını içerecek şekilde eşitlendi.
+**Kodlama durumu:** Tamamlandı. 14 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED eşzamanlılık kilidi, retry_count ve idempotency güvencesi devrede). Reviewer parolaları Supabase Admin API ile rotasyona tabi tutuldu ve doğrulandı; açık parola referansları kaldırıldı; ESLint, Deno Lint ve TypeScript 0 hata ile doğrulandı.  
+**Son çalışma durumu:** Dış denetim ve inceleme bulgularının tamamı giderildi: Reviewer demo parolaları resmi Supabase Admin API (adminClient.auth.admin.updateUserById) ile rotasyona tabi tutuldu, eski parolaların reddedildiği (400) ve yeni parolaların kabul edildiği (200) canlı test edildi. Migration 012, 013 ve 014 canlı veritabanına uygulandı (14/14). Model A hesap silme akışı (execute_account_deletion RPC + auth.admin.deleteUser + auth_deletion_pending + FOR UPDATE SKIP LOCKED kilitli ve tavan sınırlı process_pending_auth_deletions telafi RPC'si) hem veritabanında hem Edge Function'da devreye alındı. ESLint, Deno Lint (supabase/functions) ve TypeScript typecheck 0 hata ile çalıştırıldı. Tüm 16 test paketi ve P0 kontrol listesi (20/20) %100 geçti. Otomatik test başarıları ile fiziksel cihaz doğrulama gereksinimleri (Android APK el testi ve Apple Developer Program / TestFlight) açıkça birbirinden ayrıldı.
 
 ---
 
@@ -81,7 +81,7 @@ V1 Kod Tabanı ve Backend Tamamlandı — UI/UX Standardizasyonu ve Fiziksel Tes
 ### Uygulama kodu durumu
 
 ```text
-V1 mobil istemci kodu ve Supabase backend (13 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc ve lint 0 hata ile doğrulandı.
+V1 mobil istemci kodu ve Supabase backend (14 migration + 2 aktif Edge Function) eksiksiz çalışır durumda; tsc, eslint ve deno lint 0 hata ile doğrulandı.
 ```
 
 ### Çalışan uygulama durumu

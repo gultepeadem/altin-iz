@@ -180,8 +180,8 @@ export async function fetchGoldPricesFromProvider(
         (rawData['gram-altin'] || rawData['Update_Date'])
       ) {
         // Truncgil kamu formatını standart sembollere dönüştür
-        const d = rawData as Record<string, any>;
-        const parseNum = (v: any): number | null => {
+        const d = rawData as Record<string, Record<string, string | number> | undefined>;
+        const parseNum = (v: unknown): number | null => {
           if (typeof v === 'number') return v;
           if (!v || typeof v !== 'string') return null;
           const clean = v.replace(/[^\d.,]/g, '').replace(/\./g, '').replace(',', '.');
@@ -189,7 +189,7 @@ export async function fetchGoldPricesFromProvider(
           return isNaN(n) ? null : n;
         };
 
-        const parseChange = (v: any): number | null => {
+        const parseChange = (v: unknown): number | null => {
           if (typeof v === 'number') return Math.abs(v) <= 50 ? v : null;
           if (!v || typeof v !== 'string') return null;
           const clean = v.replace('%', '').replace(/[^\d.,+-]/g, '').replace(',', '.').trim();

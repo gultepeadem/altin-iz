@@ -12,7 +12,7 @@ Bu doküman, **Altın İz** uygulamasının canlı üretim (production) ortamın
 
 ## 1. Production Veritabanı ve Migration Doğrulaması
 
-Supabase production veritabanına uygulanması gereken 13 adet sıralı migration dosyası bulunmaktadır:
+Supabase production veritabanına uygulanması gereken 14 adet sıralı migration dosyası bulunmaktadır:
 
 1. `supabase/migrations/20261022000001_extensions_and_helpers.sql` (UUID, pgcrypto ve tetikleyici fonksiyonlar)
 2. `supabase/migrations/20261022000002_user_tables.sql` (Profiller ve kullanıcı tercihleri)
@@ -27,6 +27,7 @@ Supabase production veritabanına uygulanması gereken 13 adet sıralı migratio
 11. `supabase/migrations/20261025000011_portfolio_integrity_and_retention_cleanup.sql` (Portföy ürün/miktar doğrulama tetikleyicisi, 30 günlük bayat fiyat temizliği RPC ve haftalık pg_cron)
 12. `supabase/migrations/20261025000012_activate_missing_products_and_update_legal.sql` (Eksik altın ürünlerinin aktif edilmesi, 6 adet gerçek yasal belgenin SHA-256 özetiyle güncellenmesi ve 24/7 her 15 dk pg_cron zamanlayıcısı)
 13. `supabase/migrations/20261026000013_account_deletion_model_a_and_retry.sql` (Model A hesap silme şema kısıtı 'auth_deletion_pending', execute_account_deletion RPC uyarlaması ve process_pending_auth_deletions telafi mekanizması)
+14. `supabase/migrations/20261026000014_account_deletion_locking_and_retry_limits.sql` (Eşzamanlılık kilitlemesi FOR UPDATE SKIP LOCKED, retry_count sütunu, tavan sınır kontrolü ve idempotency güvencesi)
 
 ### Edge Functions Dağıtımı
 Uzak Supabase projesinde deploy edilmiş ve aktif olan 2 adet Edge Function:

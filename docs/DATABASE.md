@@ -2,9 +2,9 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.8  
+**Belge sürümü:** 1.9  
 **Son güncelleme:** 26.10.2026 
-**Durum:** 13 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
+**Durum:** 14 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
 ---
@@ -1919,6 +1919,16 @@ Zorunlu: Hayır
 
 Bu alanda şifre, oturum belirteci, API anahtarı veya herhangi bir kişisel veri (PII) ASLA tutulmaz. Maksimum 500 karakterle sınırlandırılmış, maskeli hata kodu veya genel sistem hata mesajı kaydedilir.
 
+#### `retry_count`
+
+```text
+Tür: INT
+Zorunlu: Evet
+Varsayılan: 0
+```
+
+`auth_deletion_pending` durumundaki telafi denemelerinin sayısını tutar. Azami deneme sınırına (varsayılan: 5) ulaşıldığında talep `failed` (`RETRY_LIMIT_EXCEEDED`) durumuna alınır.
+
 #### `created_at`
 
 ```text
@@ -2723,6 +2733,14 @@ legal_documents
 
 
 ## Sürüm geçmişi
+
+### 1.9 - 26.10.2026
+
+- `20261026000014_account_deletion_locking_and_retry_limits.sql` migration'ı uygulandı:
+  - `account_deletion_requests` tablosuna `retry_count INT NOT NULL DEFAULT 0` sütunu eklendi.
+  - `process_pending_auth_deletions(p_max_retries INT DEFAULT 5)` RPC fonksiyonu `FOR UPDATE SKIP LOCKED` satır kilitlemesi ve tavan sınır kontrolü (`RETRY_LIMIT_EXCEEDED`) ile güçlendirildi.
+  - Auth kullanıcısının daha önceden silinmiş olması halinde idempotent tamamlama davranışı doğrulandı.
+- Canlı Supabase veritabanında toplam uygulanan sıralı migration sayısı 14'e ulaştı.
 
 ### 1.8 - 26.10.2026
 

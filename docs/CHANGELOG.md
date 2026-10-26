@@ -54,19 +54,19 @@ Sürüm henüz yayımlanmamışsa:
 
 ### Kapsamlı Dış Denetim Bulgularının Giderilmesi ve Mimari Senkronizasyon (26.10.2026)
 
-- **Veritabanı Migration 013 ve Model A Canlı Dağıtımı:**
-  - `20261026000013_account_deletion_model_a_and_retry.sql` oluşturularak uzak Supabase veritabanına uygulandı (toplam 13 migration).
-  - `account_deletion_requests` tablosunun `account_deletion_requests_status_check` kısıtına `auth_deletion_pending` durumu eklendi.
+- **Veritabanı Migration 013 - 014 ve Model A Canlı Dağıtımı:**
+  - `20261026000013_account_deletion_model_a_and_retry.sql` ve `20261026000014_account_deletion_locking_and_retry_limits.sql` uzak Supabase veritabanına uygulandı (toplam 14 migration).
+  - `account_deletion_requests` tablosuna `retry_count` sütunu eklendi; `account_deletion_requests_status_check` kısıtına `auth_deletion_pending` durumu eklendi.
   - `execute_account_deletion` RPC fonksiyonu güncellenerek `auth.admin.deleteUser` öncesinde talebin veritabanı içinde `completed` yapılması engellendi, `processing` durumu korundu.
-  - Arka plan telafi mekanizması olarak `process_pending_auth_deletions()` fonksiyonu ve saatlik `retry-pending-auth-deletions-job` `pg_cron` zamanlayıcısı tanımlandı.
+  - Arka plan telafi mekanizması olarak `process_pending_auth_deletions()` fonksiyonu `FOR UPDATE SKIP LOCKED` satır kilitlemesi, tavan sınır (`RETRY_LIMIT_EXCEEDED`) ve idempotency korumasıyla güçlendirildi; saatlik `retry-pending-auth-deletions-job` `pg_cron` zamanlayıcısına bağlandı.
   - `delete-account` Edge Function güncellenerek auth silme hatası durumunda `auth_deletion_pending` ataması ve başarı durumunda `completed` güncellemesi canlıya alındı.
-- **Canlı Supabase Auth Denetçi Parola Rotasyonu:**
-  - `reviewer-apple@altiniz.app` ve `reviewer-play@altiniz.app` hesaplarının parolaları Supabase Auth (`auth.users`) üzerinde kriptografik hash ile rotasyona tabi tutuldu.
+- **Canlı Supabase Admin API ile Denetçi Parola Rotasyonu:**
+  - `reviewer-apple@altiniz.app` ve `reviewer-play@altiniz.app` hesaplarının parolaları resmi Supabase Admin API (`adminClient.auth.admin.updateUserById`) çağrılarak rotasyona tabi tutuldu.
   - Eski parolaların `400 Invalid login credentials` hatası vererek reddedildiği, yeni parolaların `200 OK` ile oturum açtığı canlı testle doğrulandı.
   - Yeni parolalar kod ve belgelerden tamamen izole edilerek güvenli parola yöneticisine ve geliştirici konsolu inceleme notlarına emanet edildi.
-- **Statik Kod Kalitesi ve Test Bütünlüğü:**
-  - `npm run lint` (ESLint 9) ve `npx tsc --noEmit` 0 hata, 0 uyarı ile tamamlandı.
-  - P0 kontrol listesi (`test-faz22-p0-checklist.ts`) 13 migration ile 20/20 testte %100 doğrulandı.
+- **Statik Kod Kalitesi ve Çoklu Linter Bütünlüğü:**
+  - `npm run lint` (ESLint 9), `npx deno lint supabase/functions` (Deno Linter) ve `npx tsc --noEmit` 0 hata, 0 uyarı ile tamamlandı.
+  - P0 kontrol listesi (`test-faz22-p0-checklist.ts`) 14 migration ile 20/20 testte %100 doğrulandı.
   - Tüm 16 test paketi eksiksiz çalıştırılarak başarıyla tamamlandı.
 
 - **Açık Parolaların Temizlenmesi (Güvenlik Sertleştirmesi):**
