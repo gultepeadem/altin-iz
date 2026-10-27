@@ -2,8 +2,8 @@
 
 **Belge adı:** `ARCHITECTURE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 0.5 Taslak  
-**Son güncelleme:** 26.10.2026
+**Belge sürümü:** 0.6  
+**Son güncelleme:** 27.10.2026
 **Durum:** Expo SDK 58 klasör yapısıyla (`src/app/`) eşitlendi ve doğrulandı  
 **Hedef platformlar:** Android ve iOS
 
@@ -311,7 +311,8 @@ altin-iz/
 │   ├── tests/
 │   └── functions/
 │       ├── fetch-gold-prices/
-│       └── delete-account/
+│       ├── delete-account/
+│       └── retry-account-deletions/
 │
 ├── tests/
 │   ├── unit/
@@ -331,7 +332,12 @@ altin-iz/
 │   ├── HANDOFF.md
 │   ├── SECURITY.md
 │   ├── PRIVACY.md
-│   └── DATA_RETENTION.md
+│   ├── DATA_RETENTION.md
+│   ├── APP_STORE_SETUP.md
+│   ├── GOOGLE_PLAY_SETUP.md
+│   ├── STORE_ASSETS.md
+│   ├── STORE_LISTING.md
+│   └── RELEASE_RUNBOOK.md
 │
 ├── assets/
 │   ├── images/
@@ -602,7 +608,7 @@ Kurallar:
 - `entryId` ile erişilen kayıt kullanıcıya ait olmalıdır.
 - RLS ana güvenlik katmanıdır.
 - Yetkisiz veya bulunmayan kayıt aynı güvenli kullanıcı mesajına dönüştürülebilir.
-- `portfolio/add` rotası opsiyonel olarak `productId`, `quantity` ve `estimatedTotal` parametrelerini kabul eder (hesaplama sayfasından aktarım).
+- `portfolio/add` rotası opsiyonel olarak `productId`, `quantity` ve `estimatedTotal` parametrelerini kabul eder (hesaplama sayfasından aktarım). Kayıt başarıyla kaydedildiğinde kullanıcı doğrudan eklenen kaydın detay ekranına (`/(protected)/portfolio/${newEntry.id}`) yönlendirilir.
 - `portfolio/add` ekranında kullanıcının basamak hatası yapmasını önlemek amacıyla girilen toplam maliyet altında binlik ayracı canlı önizleme rozeti sunulur.
 - `portfolio/[entryId]` ve `portfolio.tsx` ekranlarında kayıt silme işlemleri için yerel OS alert yerine Altın İz marka kimliğine uygun özel onay modalı (`Modal`) kullanılır.
 - `ModalHeader`: Modal sunulan form sayfaları için 24px geri okuna, merkezlenmiş başlığa ve safe-area uyumlu dikey boşluklara sahip özel başlık bileşeni kullanılır.
@@ -1192,54 +1198,38 @@ Bilinmeyen sembol otomatik ürün oluşturmaz.
 
 ---
 
-## 20. Edge Function mimarisi
+## 20. Edge Function ve RPC Mimarisi
 
-### V1 fonksiyonları
+### V1 Edge Functions
 
-```text
-fetch-gold-prices (Edge Function)
-delete-account (Edge Function)
-record_user_legal_event (PostgreSQL RPC)
-```
+1. **`fetch-gold-prices` (Edge Function):**
+   - Truncgil canlı kamu piyasa API'sinden 25 aktif ürün için alış-satış verilerini çeker.
+   - 5 dakikalık sunucu tarafı hız sınırı (cooldown) ile korunur; istemci tetiklemeleri dış servisi boğamaz.
+   - `[-50%, +50%]` aykırı değişim filtresi uygular.
+   - `pg_cron` ve `pg_net` ile 7/24 kesintisiz her 15 dakikada bir otomatik çalışır.
+   - Sonuçları `service_role` yetkisiyle `gold_prices` tablosuna yazar.
 
-### `fetch-gold-prices`
+2. **`delete-account` (Edge Function):**
+   - Model A iki seviyeli hesap silme mimarisini yürütür.
+   - Bearer JWT doğrulaması ve parola yeniden doğrulamasını zorunlu kılar.
+   - `account_deletion_requests` tablosunu işlem dışı (out-of-transaction) yönetir (`status = 'processing'`).
+   - `execute_account_deletion` SQL RPC'sini çağırarak veritabanı verilerini atomik olarak siler ve anonimleştirir.
+   - Supabase GoTrue Admin API (`auth.admin.deleteUser`) ile Auth kullanıcısını siler.
+   - Auth silimi başarısız olursa durumu `auth_deletion_pending` yapar, `user_id`yi korur ve arka plan telafi işçisine devreder.
 
-- Son kullanıcı tarafından kontrolsüz çağrılamaz; 5 dakikalık sunucu tarafı hız sınırı (cooldown) ile korunur
-- `pg_cron` ve `pg_net` zamanlanmış görevi veya yetkili geliştirme çağrısıyla çalışır
-- Fiyat API anahtarını secret store üzerinden alır
-- Fiyat doğrulama işleminden geçirir ve aykırı değişim filtresi uygular ([-50%, +50%])
-- Sonucu `service_role` yetkisiyle veritabanına yazar
+3. **`retry-account-deletions` (Edge Function):**
+   - `auth_deletion_pending` durumunda kalan kullanıcı silimlerini telafi eden arka plan işçisidir.
+   - `claim_pending_auth_deletions` RPC (`FOR UPDATE SKIP LOCKED`) ile kilit alarak çalışır; eşzamanlı worker çakışmalarını önler.
+   - Azami 5 deneme (`retry_count < 5`) sınırına kadar `supabaseAdmin.auth.admin.deleteUser` çağrısını yineler.
+   - Başarılı olunca `account_deletion_requests.status = 'completed'` ve `user_id = NULL` yapar.
 
-### `record_user_legal_event` (PostgreSQL RPC)
+### V1 PostgreSQL RPC Fonksiyonları
 
-Yasal belge görüntüleme, kabul, reddetme veya açık rıza geri çekme olaylarını doğrudan PostgreSQL `SECURITY DEFINER` RPC fonksiyonu üzerinden append-only olarak güvenle oluşturur. Kayıt anında (`handle_new_user`) veya aktif oturumda (`record_user_legal_event`) çalışır.
-
-Akış:
-
-```text
-Mobil uygulama
-    ↓
-Güvenli RPC veya Edge Function
-    ↓
-Oturum doğrulaması
-    ↓
-legal_documents kaydının doğrulanması
-    ↓
-Belge sürümünün sunucudan alınması
-    ↓
-Olay zamanının sunucu tarafından atanması
-    ↓
-user_legal_events append-only kaydı
-```
-
-### `delete-account`
-
-- Kimliği oturum belirtecinden alır
-- Yeniden doğrulama şartını kontrol eder
-- Kullanıcıdan serbest `user_id` kabul etmez
-- Kişisel verileri belirlenen sırayla siler
-- Kısmi başarısızlığı gizlemez
-- Secret veya service role yetkisini istemciye döndürmez
+1. **`execute_account_deletion(p_user_id, p_request_id)`:** `portfolio_entries`, `user_preferences`, `user_profiles` kayıtlarını siler; `user_legal_events` ve `security_events` kayıtlarındaki `user_id`yi `NULL` yapar; `account_deletion_requests.user_id` alanını retry işçisi için korur.
+2. **`claim_pending_auth_deletions(p_limit, p_max_retries)`:** `auth_deletion_pending` taleplerini `FOR UPDATE SKIP LOCKED` ile kilitler ve retry sayısını atomik artırır.
+3. **`cleanup_old_price_records(p_retention_days)`:** 30 günden eski bayat fiyatları (her ürünün son fiyatını koruyarak) ve eski çalıştırma günlüklerini haftalık `pg_cron` ile temizler.
+4. **`record_legal_event_safe(p_document_key, p_event_type)`:** Yasal belge olaylarını append-only ve güvenli biçimde kaydeder.
+5. **`sync_gold_price(...)`:** Fiyat yazma RPC'si (`service_role` kilitli).
 
 ---
 
@@ -2003,19 +1993,28 @@ Bu mimari ancak aşağıdakiler sağlandığında V1 için uygulanmış kabul ed
 
 ## 48. İlgili proje belgeleri
 
+Altın İz projesi toplam 19 adet Markdown (.md) belgesi ile belgelenmiştir (18 ana doküman + 1 Copilot yönergesi):
+
 ```text
+README.md (Kök dizin)
+.github/copilot-instructions.md
 docs/PROJECT_CONTEXT.md
+docs/ARCHITECTURE.md
 docs/DATABASE.md
 docs/API.md
 docs/DECISIONS.md
-docs/SECURITY.md
-docs/PRIVACY.md
-docs/DATA_RETENTION.md
 docs/TODO.md
 docs/CHANGELOG.md
 docs/KNOWN_ISSUES.md
 docs/HANDOFF.md
-.github/copilot-instructions.md
+docs/SECURITY.md
+docs/PRIVACY.md
+docs/DATA_RETENTION.md
+docs/APP_STORE_SETUP.md
+docs/GOOGLE_PLAY_SETUP.md
+docs/STORE_ASSETS.md
+docs/STORE_LISTING.md
+docs/RELEASE_RUNBOOK.md
 ```
 
 Mimaride yapılan önemli değişiklik:
@@ -2031,7 +2030,14 @@ Mimaride yapılan önemli değişiklik:
 
 ## 49. Sürüm geçmişi
 
-### 0.4 Taslak - 26.10.2026
+### 0.6 - 27.10.2026
+
+- 3 Edge Function (`fetch-gold-prices`, `delete-account`, `retry-account-deletions`) ve 5 PostgreSQL RPC (`execute_account_deletion`, `claim_pending_auth_deletions`, `cleanup_old_price_records`, `record_legal_event_safe`, `sync_gold_price`) tam mimari sözleşmesi dokümante edildi.
+- Dizin ağacına `retry-account-deletions` ve mağaza hazırlık belgeleri eklendi; proje dokümantasyonu 19 Markdown dosyası olarak eşitlendi.
+- `portfolio/add` başarı yönlendirmesi (`/(protected)/portfolio/${newEntry.id}`) kaydedildi.
+- Paket sürümleri (`expo@~58.0.19`, `react-native@0.88.0`, `expo-router@~58.0.26`) ve 15 migration güncellendi.
+
+### 0.5 Taslak - 26.10.2026
 
 - `ModalHeader`, `ScreenContainer` padding standartlaştırması (`withPadding={false}`), ve sayfa geçişlerindeki beyaz parlamayı önleyen `sceneStyle` ve `contentStyle: { backgroundColor: theme.colors.background }` mimarisi uygulandı.
 - `src/utils/formatters.ts` içerisine `normalizeSearchText` fonksiyonu eklenerek arama katmanında Türkçe karakter duyarsızlığı ve Unicode NFD aksan temizliği sağlandı.

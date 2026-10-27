@@ -111,7 +111,7 @@ Kullanıcı mesajı: Portföy kaydı oluşturulamadı. Lütfen tekrar deneyin.
 
 ## 4. Her görevden önce okunacak belgeler
 
-Proje ilk açıldığında veya yeni oturum başladığında şu sıra kullanılır:
+Proje ilk açıldığında veya yeni oturum başladığında şu sıra kullanılır (Toplam 19 Markdown belgesi):
 
 ```text
 1. README.md
@@ -127,7 +127,12 @@ Proje ilk açıldığında veya yeni oturum başladığında şu sıra kullanıl
 11. docs/SECURITY.md
 12. docs/PRIVACY.md
 13. docs/DATA_RETENTION.md
-14. docs/CHANGELOG.md
+14. docs/APP_STORE_SETUP.md
+15. docs/GOOGLE_PLAY_SETUP.md
+16. docs/STORE_ASSETS.md
+17. docs/STORE_LISTING.md
+18. docs/RELEASE_RUNBOOK.md
+19. docs/CHANGELOG.md
 ```
 
 Belirli bir görevde, ilk bağlam ve takip belgelerinden sonra yalnızca görevle ilgili ayrıntılı teknik belgeler yeniden okunabilir.
@@ -494,14 +499,18 @@ Bu testler yalnızca mobil arayüzde buton gizleme testi olarak yapılmamalıdı
 
 ---
 
-## 19. Edge Function kuralları
+## 19. Edge Function ve Güvenli RPC Kuralları
 
-Planlanan temel fonksiyonlar (veya güvenli sunucu RPC işlemleri):
+Temel fonksiyonlar ve PostgreSQL RPC işlemleri:
 
 ```text
 fetch-gold-prices (Edge Function)
-record_user_legal_event (PostgreSQL RPC)
 delete-account (Edge Function)
+retry-account-deletions (Edge Function)
+record_legal_event_safe (PostgreSQL RPC)
+execute_account_deletion (PostgreSQL RPC)
+claim_pending_auth_deletions (PostgreSQL RPC)
+cleanup_old_price_records (PostgreSQL RPC)
 ```
 
 Genel kurallar:
@@ -1193,15 +1202,22 @@ Gerçek olmayan test veya commit bilgisi yazma.
 Altın İz projesinin güncel aşaması, çalışan kod tabanı ve tamamlanan işler için tek kaynak olarak `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` belgeleri referans alınmalıdır.
 
 ```text
-Proje aşaması: V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
+Proje aşaması: V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc2)
 Mobil istemci: Expo SDK 58, Expo Router, TypeScript, React Native
-Backend: Supabase (12 migration, RLS, 25 aktif ürün, pg_cron zamanlayıcı)
+Backend: Supabase (15 migration, RLS, 3 Edge Function, 25 aktif ürün, 7/24 15 dk pg_cron zamanlayıcı)
 Güncel bağlam: docs/HANDOFF.md ve docs/PROJECT_CONTEXT.md
 ```
 
 ---
 
 ## 46. Sürüm geçmişi
+
+### 1.3 - 27.10.2026
+
+- Bölüm 45 backend durumu 15 migration, 3 Edge Function ve 7/24 pg_cron zamanlayıcısı ile eşitlendi.
+- Bölüm 4 belge okuma sırası ve listesi 19 Markdown dosyasını kapsayacak şekilde güncellendi.
+- Bölüm 19 Edge Function ve güvenli PostgreSQL RPC kuralları tam mimariye uyarlandı.
+- Model A hesap silme mimarisinde `account_deletion_requests.user_id` alanının SQL RPC'de silinmeyip Auth retry işçisi için korunduğu netleştirildi.
 
 ### 1.2 Taslak - 26.10.2026
 

@@ -283,14 +283,14 @@ async function runTests() {
     const serviceCodePath = path.join(projectRoot, 'supabase/functions/delete-account/service.ts');
     const serviceCode = fs.readFileSync(serviceCodePath, 'utf-8');
 
-    // Gövdedeki sahte user_id'nin göz ardı edilmesi ve parola zorunluluğu
+    // Gövdedeki sahte user_id'nin göz ardı edilmesi, parola zorunluluğu ve gereksiz veri toplamama (KVKK veri minimizasyonu)
     const ignoresBodyUserId = serviceCode.includes('const userId = user.id;');
     const validatesPassword = serviceCode.includes('MISSING_PASSWORD') && serviceCode.includes('!password');
-    const validatesReasonLength = serviceCode.includes('slice(0, 500)');
+    const excludesUnnecessaryReason = !serviceCode.includes('body.reason');
 
     assert(
-      ignoresBodyUserId && validatesPassword && validatesReasonLength,
-      'Backend tarafında kullanıcı girdisi doğrulama ve sahte parametre izolasyonu doğrulandı.'
+      ignoresBodyUserId && validatesPassword && excludesUnnecessaryReason,
+      'Backend tarafında kullanıcı girdisi doğrulama, sahte parametre izolasyonu ve KVKK veri minimizasyonu doğrulandı.'
     );
   } catch (err: any) {
     console.error('Test 9 hatası:', err.message);

@@ -2,9 +2,9 @@
 
 **Belge adı:** `RELEASE_RUNBOOK.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 26.10.2026  
-**Proje aşaması:** Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (v1.0.0-rc1)  
+**Belge sürümü:** 1.2  
+**Son güncelleme:** 27.10.2026  
+**Proje aşaması:** Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (v1.0.0-rc2)  
 
 Bu doküman, **Altın İz** uygulamasının canlı üretim (production) ortamına yayımlanması, veritabanı yedeğinin alınması, olası acil durumlarda geri dönüş (rollback) yapılması ve migration adımlarının doğrulanması için operasyonel referanstır.
 
@@ -127,3 +127,13 @@ Canlı ortamda kritik bir sorun (P0 bloklayıcı veri bozulması, güvenlik aç�
 git tag -a v1.0.0-rc1 -m "release: Altın İz V1 pre-release candidate"
 git push origin v1.0.0-rc1
 ```
+
+---
+
+## 6. Sürüm Geçmişi
+
+| Sürüm | Tarih | Değişiklik Yapan | Açıklama |
+|---|---|---|---|
+| 1.0 | 25.10.2026 | Altın İz Ekibi | İlk taslak canlıya çıkış ve yedekleme kılavuzu oluşturuldu. |
+| 1.1 | 26.10.2026 | Altın İz Ekibi | 15 migration ve GoTrue Admin API retry worker eklendi. |
+| 1.2 | 27.10.2026 | Altın İz Ekibi | Model A user_id korunumu ve 3 Edge Function doğrulaması güncellendi. |

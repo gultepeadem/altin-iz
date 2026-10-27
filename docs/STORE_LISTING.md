@@ -2,8 +2,8 @@
 
 **Belge adı:** `STORE_LISTING.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.2  
+**Son güncelleme:** 27.10.2026  
 **Proje aşaması:** Bölüm 21: Mağaza hazırlığı (Faz 15.2: Mağaza metinleri)  
 **Hedef Platformlar:** Google Play Store & Apple App Store Connect
 
@@ -49,8 +49,8 @@ Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda
 ÖNE ÇIKAN ÖZELLİKLER:
 
 📈 CANLI PİYASA VE KAPALIÇARŞI FİYATLARI
-• Gram Altın, Çeyrek Altın, Yarım Altın, Tam Altın, Ata Altın, Gremse Altın, Reşat Altın, Hamit Altın, 22 Ayar Bilezik, 14 Ayar ve Külçe/Paketli altın türlerinde güncel alış ve satış kurları.
-• Piyasa hareketlerini yaklaşık 15 dakikalık aralıklarla güncellenen serbest piyasa kurlarıyla izleyin; her kartta son güncelleme zamanını şeffafça görün, çekip yenileme (pull-to-refresh) ile dilediğiniz an en son fiyatlara anında ulaşın.
+• Gram Altın, Çeyrek Altın, Yarım Altın, Tam Altın, Ata Altın, Gremse Altın, Reşat Altın, Hamit Altın, 22 Ayar Bilezik, 18 Ayar, 14 Ayar ve Külçe/Paketli altın türlerinde güncel alış ve satış kurları.
+• Piyasa hareketlerini yaklaşık 15 dakikalık aralıklarla güncellenen serbest piyasa kurlarıyla izleyin; her kartta son güncelleme zamanını şeffafça görün, çekip yenileme (pull-to-refresh) ile sunucuda bulunan en güncel doğrulanmış fiyatları anında görüntüleyin.
 • Gün içi en yüksek, en düşük fiyatlar ve yüzdelik değişim trendleri.
 
 ⚖️ ŞEFFAF MAKAS VE FİYAT FARKI ANALİZİ
@@ -65,7 +65,7 @@ Yatırımlarınızı geleneksel yöntemlerle defterde veya karmaşık tablolarda
 💼 KİŞİSEL PORTFÖY VE KÂR / ZARAR YÖNETİMİ
 • Fiziksel altın birikimlerinizi (çeyrek, gram, bilezik vb.) alım tarihi, miktarı ve ödediğiniz toplam maliyetle kaydedin.
 • Toplam portföy değerinizi, toplam maliyetinizi ve tahmini kâr/zarar durumunuzu güncel serbest piyasa kurlarıyla takip edin.
-• Gelişmiş değerleme motoru sayesinde, piyasada fiyatı henüz oluşmamış nadir ürünler kârınızı yapay olarak düşürmez; kısmi değerleme şeffaflığıyla korunur (ADR-013 güvencesi).
+• Gelişmiş değerleme motoru sayesinde, piyasada fiyatı henüz oluşmamış nadir ürünler kârınızı yapay olarak düşürmez; kısmi değerleme şeffaflığıyla korunur (ADR-010 / ADR-032 güvencesi).
 
 🔒 SIFIR İZLEME, MAKSİMUM GİZLİLİK VE GÜVENLİK
 • Finansal verileriniz yalnızca size aittir.
@@ -122,3 +122,13 @@ Google Play anahtar kelimeleri açıklama metni içerisindeki doğal frekanstan 
 - **Sonuç:**
   - Google Play: **PEGI 3** / **Everyone** (Herkes için uygun)
   - Apple App Store: **4+** (Tüm yaşlar için uygun)
+
+---
+
+## 6. Sürüm Geçmişi
+
+| Sürüm | Tarih | Değişiklik Yapan | Açıklama |
+|---|---|---|---|
+| 1.0 | 25.10.2026 | Altın İz Ekibi | İlk taslak mağaza tanıtım ve metin kılavuzu oluşturuldu. |
+| 1.1 | 26.10.2026 | Altın İz Ekibi | Resmi e-posta adresi ve mağaza bağlantıları güncellendi. |
+| 1.2 | 27.10.2026 | Altın İz Ekibi | 18 Ayar açıklamaya eklendi, pull-to-refresh ifadesi teknik gerçekliğe uygun hale getirildi, ADR referansı güncellendi. |

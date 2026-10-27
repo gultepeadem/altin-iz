@@ -7,14 +7,14 @@
  *
  * 1. Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S)
  * 2. Uygulama kaydı oluşturma (com.altiniz.app, tr-TR, ücretsiz uygulama)
- * 3. Kapalı test gereksinimleri (20 tester / 14 gün kuralı)
+ * 3. Kapalı test gereksinimleri (12 tester / 14 gün kuralı ve Production başvuru hakkı)
  * 4. Data Safety formu (TLS 1.3 şifreleme, toplanan veriler, 0 paylaşılan veri)
  * 5. Hesap silme bilgisi (web URL ve uygulama içi silme)
  * 6. Gizlilik politikası bağlantısı (https://altiniz.app/gizlilik)
  * 7. Uygulama erişim talimatları (App Access / Denetçi erişim talimatları)
  * 8. Güvenli test hesabı (reviewer-play@altiniz.app ve şifre)
  * 9. İç test sürümü yükleme (EAS build AAB ve dahili test adımları)
- * 10. Kapalı test sürümü yükleme (20 tester davet bağlantısı)
+ * 10. Kapalı test sürümü yükleme (12 tester davet bağlantısı)
  * 11. Mağaza uyarılarını çözme (Mali hizmetler beyanı, 18+ hedef kitle, reklam kimliği yok)
  */
 
@@ -92,16 +92,16 @@ async function runTests() {
   }
 
   // ==========================================================================
-  // Test 3: Kapalı Test Gereksinimleri (20 Tester / 14 Gün Kuralı)
+  // Test 3: Kapalı Test Gereksinimleri (12 Tester / 14 Gün Kuralı)
   // ==========================================================================
   try {
-    const has20TesterRule =
-      setupContent.includes('20 test kullanıcısı') &&
+    const has12TesterRule =
+      setupContent.includes('12 test kullanıcısı') &&
       setupContent.includes('14 gün');
 
     assert(
-      has20TesterRule,
-      'Test 3: Kapalı test gereksinimleri (en az 20 test kullanıcısı ile 14 gün kuralı) doğrulandı.'
+      has12TesterRule,
+      'Test 3: Kapalı test gereksinimleri (en az 12 test kullanıcısı ile 14 gün kuralı) doğrulandı.'
     );
   } catch (err: any) {
     console.error('Test 3 hatası:', err.message);

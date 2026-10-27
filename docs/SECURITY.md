@@ -2,10 +2,10 @@
 
 **Belge adı:** `SECURITY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.4 Taslak  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.5  
+**Son güncelleme:** 27.10.2026  
 **Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi (Güvenlik İncelemesi ve Sertleştirme TAMAMLANDI)  
-**Kodlama durumu:** `expo-secure-store` chunking (parçalama) adaptörü uygulandı; `execute_account_deletion` atomik RPC kuruldu (Migration 008); `sync_gold_price` RPC yetkisi yalnızca `service_role` rolüne kilitlendi (Migration 009); `src/utils/logger.ts` ile hassas veri maskelemesi sağlandı; RLS politikaları ve Edge Function yetkileri %100 doğrulandı.  
+**Kodlama durumu:** `expo-secure-store` chunking (parçalama) adaptörü uygulandı; `execute_account_deletion` atomik RPC ve `retry-account-deletions` Admin API worker kuruldu (Migration 013-015); `sync_gold_price` RPC yetkisi yalnızca `service_role` rolüne kilitlendi (Migration 009); `src/utils/logger.ts` ile hassas veri maskelemesi sağlandı; RLS politikaları ve Edge Function yetkileri %100 doğrulandı.  
 **Hedef platformlar:** Android ve iOS
 
 ---
@@ -1003,7 +1003,10 @@ Production imzalama anahtarları Git deposuna eklenmemelidir.
 
 ### Çözülen Güvenlik Konusu (KI-018 & ADR-033)
 
-Hesap silme işlemindeki kısmi hata telafisi `KI-018`, Migration 008 ve Migration 010 ile PostgreSQL tarafında atomik transaction yürüten `execute_account_deletion` RPC fonksiyonu kurularak çözülmüştür. İşlem sırasında `portfolio_entries`, `user_preferences`, `user_profiles` ve `auth.users` kayıtları tek bir SQL transaction bloğunda silinir; herhangi bir hata durumunda tüm adımlar otomatik olarak `ROLLBACK` edilir. `delete-account` Edge Function'ı ise `account_deletion_requests` tablosu üzerinden durum takibini yürütür.
+Hesap silme işlemindeki kısmi hata telafisi `KI-018`, Migration 013, 014 ve 015 ile Model A mimarisine göre yapılandırılmıştır:
+1. `execute_account_deletion` PostgreSQL RPC fonksiyonu, uygulama verilerini (`portfolio_entries`, `user_preferences`, `user_profiles`) atomik bir transaction bloğu içinde siler ve `user_legal_events` ile `security_events` kayıtlarındaki `user_id` alanını `NULL` yapar. `account_deletion_requests.user_id` alanı ise olası GoTrue Auth silme hatasında yeniden deneme yapılabilmesi için SQL içinde silinmez, korunur.
+2. Kimlik doğrulama kullanıcısının silinmesi (`auth.admin.deleteUser`), veritabanı transaction'ının dışarısında `delete-account` Edge Function tarafından Supabase GoTrue Admin API aracılığıyla gerçekleştirilir.
+3. Auth silimi sırasında ağ veya servis hatası oluşursa talep `auth_deletion_pending` durumuna alınır; saatlik `retry-account-deletions` Edge Function işçisi `claim_pending_auth_deletions` RPC (`FOR UPDATE SKIP LOCKED`) ile güvenli ve kilitli biçimde işlemi tamamlar. Auth kullanıcısı başarıyla silindikten sonra talep `completed` yapılarak `user_id` alanı `NULL` ile anonimleştirilir.
 
 ---
 
@@ -1194,14 +1197,14 @@ V1 güvenlik açısından tamamlanmış sayılmadan önce:
 
 1. **Supabase Bölgesi:** AB eu-central-1 Frankfurt (Almanya) seçildi (ADR-002).
 2. **Mobil Oturum Saklama:** `expo-secure-store` ile donanımsal şifreli oturum yönetimi sağlandı.
-3. **Şifre Politikası:** En az 6 karakter, büyük/küçük harf ve rakam kontrolü uygulandı (ADR-028).
+3. **Şifre Politikası:** En az 6 karakter kontrolü uygulandı (ADR-040).
 4. **Auth Derin Bağlantı:** `altiniz://` ve `https://altiniz.app` alan adları doğrulandı.
 5. **Sayısal Hassasiyet:** Kuruş bazlı BIGINT ve gram için NUMERIC(18,3) ile taşma koruması uygulandı (ADR-032).
-6. **Aykırı Fiyat Filtresi:** `[-50%, +50%]` aykırı veri sınırlandırması uygulandı (KI-011).
-7. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı yönetim + atomik `execute_account_deletion` RPC + `auth.admin.deleteUser`) uygulandı (ADR-033).
+6. **Aykırı Fiyat Filtresi:** `[-50%, +50%]` aykırı veri sınırlandırması uygulandı (KI-011, ADR-038).
+7. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı yönetim + atomik `execute_account_deletion` RPC + GoTrue Admin API `auth.admin.deleteUser` + `retry-account-deletions` arka plan işçisi) uygulandı (ADR-033).
 8. **Güvenlik Kayıtları Saklama Süresi:** 5651 Sayılı Kanun gereğince 1 yıl saklama kilitlendi (`DATA_RETENTION.md`).
 9. **Yasal Olaylar Saklama Süresi:** 3 yıl saklama ve `user_id = NULL` ile doğrudan kimlik bağlantısının koparılması kilitlendi (ADR-033).
-10. **Üçüncü Taraf SDK'lar:** Sentry, Firebase veya reklam takipçisi barındırmama kararı uygulandı (ADR-026).
+10. **Üçüncü Taraf SDK'lar:** Sentry, Firebase veya reklam takipçisi barındırmama kararı uygulandı (ADR-024).
 11. **Log Güvenliği:** `src/utils/logger.ts` ile parola/token maskelemesi ve canlıda debug susturması uygulandı.
 12. **Secret Taraması:** Mobil kod tabanında (`src/`) 0 `service_role` veya sızdırılmış anahtar güvencesi sağlandı.
 13. **RLS Güvenliği:** 12 veritabanı tablosunda çok kullanıcılı veri izolasyonu %100 testlerle doğrulandı.
@@ -1331,6 +1334,13 @@ Güvenlik açığının sömürü ayrıntısı bu belgeye gereksiz biçimde yaz�
 ---
 
 ## 39. Sürüm geçmişi
+
+### 1.5 - 27.10.2026
+
+- Model A hesap silme mimarisinde GoTrue Admin API dış telafi işçisi (`retry-account-deletions` ve `claim_pending_auth_deletions`) dokümante edildi.
+- `execute_account_deletion` RPC içinde `account_deletion_requests.user_id` alanının silinmediği ve retry için korunduğu netleştirildi.
+- Şifre politikası referansı ADR-040 olarak eşitlendi (en az 6 karakter).
+- Üçüncü taraf takipçi SDK referansı ADR-024 (veri minimizasyonu) olarak düzeltildi.
 
 ### 1.4 Taslak - 26.10.2026
 

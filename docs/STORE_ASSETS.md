@@ -2,10 +2,10 @@
 
 **Belge adı:** `STORE_ASSETS.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.1 Taslak  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.2  
+**Son güncelleme:** 27.10.2026  
 **Proje aşaması:** Bölüm 21: Mağaza hazırlığı (Faz 15.1: Görsel mağaza varlıkları)  
-**İlgili kararlar:** ADR-001 (Marka ve Tasarım), ADR-004 (Tema), ADR-013 (Portföy Hesaplama)
+**İlgili kararlar:** ADR-023 (Marka Varlıkları ve Tasarım Dili), ADR-038 (UI Tasarım Sistemi, Tipografi ve Renk Paleti), ADR-010 / ADR-032 (Portföy Hesaplama ve Değerleme Mantığı)
 
 ---
 
@@ -71,7 +71,7 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
 - **Vurgu:** Gün içi en yüksek/en düşük değerler ve kurumsal makas analizi.
 
 ### Pano 3: Akıllı Altın Hesaplama Aracı
-- **Başlık:** "Anında Alım ve Satım Tutarı Hesaplayın"
+- **Başlık:** "Pratik Alım ve Satım Tutarı Hesaplayın"
 - **Alt Başlık:** "Gram veya adet girin; ödeyeceğiniz veya elinize geçecek tutarı görün."
 - **Gösterilen Ekran:** `(protected)/(tabs)/calculator` ekranı.
 - **Vurgu:** Ondalıklı klavye ile hızlı tahmin ve tek tıkla portföye aktarım.
@@ -80,7 +80,7 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
 - **Başlık:** "Altın Varlıklarınızı Güvenle Takip Edin"
 - **Alt Başlık:** "Toplam değerinizi, toplam maliyetinizi ve tahmini kâr/zarar durumunuzu izleyin."
 - **Gösterilen Ekran:** `(protected)/(tabs)/portfolio` konsolidasyon kartı.
-- **Vurgu:** ADR-013 kısmi değerleme koruması, eksik fiyatlı kayıtlarda maliyet izolasyonu.
+- **Vurgu:** ADR-010 / ADR-032 kısmi değerleme koruması, eksik fiyatlı kayıtlarda maliyet izolasyonu.
 
 ### Pano 5: Gizlilik ve Çift Tema Konforu
 - **Başlık:** "Verileriniz Sadece Sizin; Tam Gizlilik ve Çift Tema"
@@ -99,10 +99,14 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
   - Azami Boyut: Dosya başına 8 MB.
 
 ### Apple App Store
-- **6.7 inç Ekran (iPhone 16 Pro Max / 15 Pro Max):**
+- **6.9 inç Ekran (iPhone 16 Pro Max):**
+  - Çözünürlük: `1320 × 2868 px` (Dikey)
+- **6.7 inç Ekran (iPhone 15 Pro Max / 14 Pro Max):**
   - Çözünürlük: `1290 × 2796 px` (Dikey)
 - **6.5 inç Ekran (iPhone 11 Pro Max / XS Max):**
   - Çözünürlük: `1242 × 2688 px` (Dikey)
+- **13 inç iPad Ekranı (iPad Pro 13 inç M4 / iPad Pro 12.9 inç - İsteğe bağlı / Evrensel):**
+  - Çözünürlük: `2064 × 2752 px` veya `2048 × 2732 px` (Dikey)
 
 ---
 
@@ -117,3 +121,13 @@ Mağaza vitrininde kullanıcıyı karşılayacak 5 ana tanıtım panosu:
   - *"Ayda %50 kazanç garantisi"*, *"Asla kaybetmeyin"*, *"Zengin olun"* gibi spekülatif veya gerçek dışı vaatler kesinlikle YASAKTIR.
   - Varlık ekranlarında her zaman *"Tahmini piyasa değeridir, yatırım tavsiyesi içermez"* dipnotu yer alır.
 - Fiyatlar piyasa gerçekliğine uygun örnek değerlerle gösterilir (örneğin Gram Altın için afaki uçuk rakamlar verilmez).
+
+---
+
+## 8. Sürüm Geçmişi
+
+| Sürüm | Tarih | Değişiklik Yapan | Açıklama |
+|---|---|---|---|
+| 1.0 | 25.10.2026 | Altın İz Ekibi | İlk taslak mağaza görsel varlıkları kılavuzu oluşturuldu. |
+| 1.1 | 26.10.2026 | Altın İz Ekibi | Görsel varlık matrisi ve yasal uyumluluk kuralları detaylandırıldı. |
+| 1.2 | 27.10.2026 | Altın İz Ekibi | ADR referansları düzeltildi (ADR-023, ADR-038, ADR-010/032), iPhone 16 Pro Max (6.9 inç, 1320x2868) ve iPad çözünürlükleri güncellendi, Pano 3 başlığı yumuşatıldı. |

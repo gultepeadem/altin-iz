@@ -2,8 +2,8 @@
 
 **Belge adı:** `DATABASE.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.10  
-**Son güncelleme:** 26.10.2026 
+**Belge sürümü:** 1.11  
+**Son güncelleme:** 27.10.2026 
 **Durum:** 15 migration dosyası ile Supabase PostgreSQL üzerinde uygulanmış ve doğrulanmıştır.  
 **Hedef veritabanı:** Supabase PostgreSQL (eu-central-1 Frankfurt)
 
@@ -1955,13 +1955,13 @@ Otomatik güncelleme: Evet
    - `portfolio_entries` fiziksel olarak silinir (`DELETE`).
    - `user_preferences` fiziksel olarak silinir (`DELETE`).
    - `user_legal_events` ve `security_events` kayıtlarındaki `user_id` alanı `NULL` yapılır (anonimleştirme).
-   - `account_deletion_requests` kaydındaki `user_id` alanı `NULL` yapılır (anonimleştirme).
+   - `account_deletion_requests` tablosundaki `user_id` alanı SQL RPC içinde KESİNLİKLE NULL YAPILMAZ; olası Auth silme hatasında yeniden deneme (retry) işçisinin kullanıcıyı silebilmesi için foreign key korunur.
    - `user_profiles` fiziksel olarak silinir (`DELETE`).
-   - Herhangi bir hata oluşursa SQL transaction'ı tamamen `ROLLBACK` edilir; Edge Function talep kaydını `status = 'failed'` olarak işaretler.
-3. **Kimlik Doğrulama Hesabının Silinmesi (Edge Function):** RPC başarılı olduğunda `auth.admin.deleteUser` çağrılır.
-   - Başarılı ise: `account_deletion_requests.status = 'completed'` ve `completed_at = NOW()`.
-   - Başarısız ise: `account_deletion_requests.status = 'auth_deletion_pending'` (arka plan telafi işi kuyruğuna alınır).
-4. **Oturum Sonlandırma (İstemci):** İstemcideki yerel depolama (`expo-secure-store`) temizlenir ve kullanıcı çıkış ekranına yönlendirilir.
+   - Herhangi bir veritabanı hatası oluşursa SQL transaction'ı tamamen `ROLLBACK` edilir; Edge Function talep kaydını `status = 'failed'` olarak işaretler.
+3. **Kimlik Doğrulama Hesabının Silinmesi (Edge Function):** SQL RPC başarılı olduğunda Supabase GoTrue Admin API (`auth.admin.deleteUser`) çağrılır.
+   - Başarılı ise: `account_deletion_requests.status = 'completed'`, `user_id = NULL` (anonimleştirme) ve `completed_at = NOW()`.
+   - Başarısız ise: `account_deletion_requests.status = 'auth_deletion_pending'` ve `user_id` korunur (`retry-account-deletions` arka plan telafi işçisi kuyruğuna alınır).
+4. **Oturum Sonlandırma (İstemci):** İstemcideki yerel depolama (`expo-secure-store`) temizlenir ve kullanıcı çıkış ekranına yönlendirir.
 
 `account_deletion_requests` tablosundaki kayıt, silme talebinin ve yasal uyumun denetim ispatı olarak `user_id = NULL` durumunda 3 yıl saklanır (`DATA_RETENTION.md`).
 
@@ -2257,7 +2257,9 @@ CREATE OR REPLACE FUNCTION public.execute_account_deletion(
 ) RETURNS JSONB;
 ```
 
-Bu fonksiyon (`Migration 008` ve `Migration 010`), `portfolio_entries`, `user_preferences`, `user_legal_events` (anonimleştirme), `security_events` (anonimleştirme), `user_profiles` ve `auth.users` silme adımlarını tek bir transaction bloğunda (`BEGIN ... EXCEPTION ROLLBACK`) yürüterek yüzde yüz atomiklik sağlar (`ADR-033`). `price_source_product_mappings` tablosundaki genel okuma politikası Migration 010 ile kaldırılarak yalnızca `service_role` erişimine kilitlenmiştir.
+Bu fonksiyon (`Migration 008`, `Migration 010`, `Migration 013` ve `Migration 014`), Model A mimarisine uygun olarak `portfolio_entries`, `user_preferences`, `user_profiles` kayıtlarını siler ve `user_legal_events` ile `security_events` kayıtlarındaki `user_id` alanını `NULL` yapar. `account_deletion_requests.user_id` alanı ise retry işçisinin Auth silimini tamamlayabilmesi için SQL transaction içinde korunur. `auth.users` silimi SQL transaction'ı içinde değil, dışarıda Supabase GoTrue Admin API (`auth.admin.deleteUser`) ile telafi adımı olarak yürütülür. `price_source_product_mappings` tablosundaki genel okuma politikası Migration 010 ile kaldırılarak yalnızca `service_role` erişimine kilitlenmiştir.
+
+Olası Auth silme başarısızlıkları için `claim_pending_auth_deletions(batch_size INT)` RPC fonksiyonu tanımlanmıştır (`Migration 014`). Bu RPC, `auth_deletion_pending` durumundaki kayıtları `FOR UPDATE SKIP LOCKED` ile kilitler ve `retry-account-deletions` Edge Function işçisinin güvenle ve eşzamanlı çakışma olmadan çalışmasını sağlar.
 
 ## 14.10. Tablo Erişim Matrisi (Özet)
 
@@ -2733,6 +2735,12 @@ legal_documents
 
 
 ## Sürüm geçmişi
+
+### 1.11 - 27.10.2026
+
+- `execute_account_deletion` RPC içinde `account_deletion_requests.user_id` alanının null yapılmadığı, retry worker için korunduğu ve `auth.admin.deleteUser` tamamlandığında null yapıldığı doğrulanıp belgelendi.
+- GoTrue Admin API dış telafi mekanizması ile SQL transaction sınırları netleştirildi.
+- OUNCE_GOLD ADR referansı `ADR-009 / ADR-018` olarak eşitlendi.
 
 ### 1.10 - 26.10.2026
 

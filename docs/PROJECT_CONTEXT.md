@@ -2,8 +2,8 @@
 
 **Belge adı:** `PROJECT_CONTEXT.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.60 Taslak  
-**Son güncelleme:** 26.10.2026 
+**Belge sürümü:** 1.61  
+**Son güncelleme:** 27.10.2026 
 **Proje durumu:** Bölüm 22: V1 Kod Tabanı ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1) — Kodlama, backend (15 migration + 3 Edge Function), güvenlik, Model A hesap silme mimarisi ve UI/UX düzeltmeleri tamamlandı; Android fiziksel cihaz ve Apple Developer sonrası iOS TestFlight doğrulamaları bekleniyor  
 **Kodlama durumu:** Tamamlandı. 15 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED kilidi, retry_count ve idempotency devrede; Migration 015 ile doğrudan auth.users SQL silimi kaldırılarak GoTrue Admin API retry worker'ına devredildi), denetçi parolaları Supabase Admin API ile rotasyona tabi tutuldu, P0 kontrol listesi 20/20 test ile doğrulandı.
 
@@ -1054,18 +1054,18 @@ Başlangıç belge setinde eksik belge bulunmamaktadır.
 
 ### 35.1. Mimari olarak kesinleşen ve uygulanan konular
 - [x] Supabase veri merkezi bölgesi (eu-central-1 Frankfurt seçildi - ADR-002)
-- [x] Kesin şifre politikası (En az 6 karakter ve biçim doğrulaması - ADR-028)
-- [x] Veri çekme motoru entegrasyonu (Truncgil JSON API ve Edge Function - ADR-009, ADR-035)
+- [x] Kesin şifre politikası (En az 6 karakter - ADR-040)
+- [x] Veri çekme motoru entegrasyonu (Truncgil JSON API ve Edge Function - ADR-036, ADR-035, ADR-039)
 - [x] Sembol listesi ve eşleştirme tablosu (25 aktif ürün test edildi - Migration 012)
-- [x] Üretim fiyat çekme sıklığı (pg_cron ile 15 dk zamanlayıcı, 5 dk sunucu cooldown - ADR-035)
-- [x] Fiyatın eski sayılacağı kesin süre (15 dk bayatlık eşiği - ADR-014)
-- [x] Olağan dışı fiyat değişim eşiği ([-50%, +50%] outlier filtresi - KI-011)
-- [x] Cumhuriyet Altını ve Ata Altını kesin ürün ayrımı (ADR-017)
-- [x] 18 Ayar, Reşat ve Hamit altın desteği (Migration 012)
+- [x] Üretim fiyat çekme sıklığı (pg_cron ile 7/24 15 dk zamanlayıcı, 5 dk sunucu cooldown - ADR-035, ADR-039)
+- [x] Fiyatın eski sayılacağı kesin süre (15 dk bayatlık eşiği - ADR-014, ADR-038)
+- [x] Olağan dışı fiyat değişim eşiği ([-50%, +50%] outlier filtresi - KI-011, ADR-038)
+- [x] Cumhuriyet Altını ve Ata Altını kesin ürün ayrımı (ADR-039)
+- [x] 18 Ayar, Reşat ve Hamit altın desteği (Migration 012, ADR-039)
 - [x] Güvenlik ve yasal kayıt saklama süreleri (DATA_RETENTION.md)
 - [x] Yasal olayların saklama ve anonimleştirme yöntemi (ADR-033 Model A)
-- [x] Hesap silme atomik telafi yöntemi (execute_account_deletion atomik RPC ve auth.admin silimi - ADR-033)
-- [x] Portföy hesaplamasının istemci saf etki alanı katmanında yapılması (ADR-010)
+- [x] Hesap silme Model A telafi yöntemi (execute_account_deletion atomik RPC + GoTrue Admin API retry işçisi - ADR-033, Migration 013-015)
+- [x] Portföy hesaplamasının istemci saf etki alanı katmanında yapılması (ADR-010, ADR-032)
 - [x] Marka ve alan adı (altiniz.app aktif ve yayında)
 - [x] Android ve iOS paket kimlikleri (com.altiniz.app)
 - [x] Uygulama logosunun kurumsal renkleri (#0B1220 ve #D4A72C)
@@ -1254,6 +1254,14 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 
 ## 44. Sürüm geçmişi
 
+### 1.61 - 27.10.2026
+
+- ADR-040 kullanıcı şifre politikası (en az 6 karakter, Supabase Auth uyumlu) resmileştirildi ve KI-016 çözüldü.
+- Model A hesap silme mimarisinde `account_deletion_requests.user_id` alanının SQL RPC içinde silinmeyip Auth retry işçisi için korunduğu netleştirildi; `retry-account-deletions` Edge Function ve `claim_pending_auth_deletions` RPC mimariye işlendi.
+- KVKK veri minimizasyonu uyarınca `delete-account` akışından gereksiz `reason` parametresi kaldırıldı.
+- Google Play kapalı test gereksinimi (12 test kullanıcısı / 14 gün kapalı test + üretim başvurusu) güncellendi.
+- 19 Markdown dosyasının tamamı kod tabanı ve canlı veritabanı gerçekleriyle %100 senkronize edildi.
+
 ### 1.57 Taslak - 26.10.2026
 
 - Kapsamlı dış denetim raporu (19 belge, testler ve kod mimarisi) gereksinimleri eksiksiz uygulandı:
@@ -1307,7 +1315,7 @@ Ayrıntılı değişiklik ayrıca `CHANGELOG.md` dosyasına yazılmalıdır. Mim
 ### 1.51 Taslak - 22.10.2026
 
 - Bölüm 21: Mağaza hazırlığı — Faz 15.3: Google Play hazırlığı tamamlandı.
-- `docs/GOOGLE_PLAY_SETUP.md` konsol rehberi hazırlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 20 tester / 14 gün kapalı test kuralı, Data Safety formu soru-cevap matrisi, zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi silme akışı, denetçi erişim talimatları ve test hesabı (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mali hizmetler politika uyarıları belgelendi.
+- `docs/GOOGLE_PLAY_SETUP.md` konsol rehberi hazırlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 12 test kullanıcısı / 14 gün kapalı test kuralı, Data Safety formu soru-cevap matrisi, zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi silme akışı, denetçi erişim talimatları ve test hesabı (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mali hizmetler politika uyarıları belgelendi.
 - `supabase/tests/test-faz15-3-google-play-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
 - Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.4 (App Store hazırlığı) olarak güncellendi.
 

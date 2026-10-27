@@ -2,8 +2,8 @@
 
 **Belge adı:** `KNOWN_ISSUES.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.7 Taslak 
-**Son güncelleme:** 26.10.2026 
+**Belge sürümü:** 1.8  
+**Son güncelleme:** 27.10.2026 
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
 **Kodlama durumu:** Tamamlandı. Güvenlik, şema, atomik RPC, zamanlayıcı, gerçek yasal metinler ve mimari düzeltmeleri uygulandı.
 
@@ -782,11 +782,13 @@ Aşağıdaki durumlar iki platformda test edilmelidir:
 
 ## KI-016: Şifre politikası kesinleşmedi
 
-**Durum:** Open  
+**Durum:** Resolved  
 **Önem:** Medium  
 **Kategori:** Kimlik doğrulama  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 27.10.2026  
+**Çözüm tarihi:** 27.10.2026  
+**Çözüm:** ADR-040 kapsamında en az 6 karakter (`password.length >= 6`) kuralı Supabase GoTrue Auth varsayılanıyla tam uyumlu olarak belirlenmiş; `sign-up.tsx` ve `reset-password.tsx` formlarında istemci doğrulama standardı uygulanmıştır.
 
 ### Açıklama
 
@@ -921,23 +923,23 @@ Faz 12 kapsamında ADR-033 karara bağlandı:
 
 ---
 
-## KI-019: Yasal ve güvenlik kayıtlarının saklama süreleri belirlenmedi
+## KI-019: Yasal ve güvenlik kayıtlarının hukuki saklama süreleri nihai onay bekliyor
 
-**Durum:** Open  
+**Durum:** Mitigated  
 **Önem:** Critical  
 **Kategori:** Veri saklama ve KVKK  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 27.10.2026
 
 ### Açıklama
 
-Aşağıdaki kayıtların ne kadar saklanacağı kesinleşmemiştir:
+Aşağıdaki kayıtların teknik saklama süreleri `DATA_RETENTION.md` uyarınca kodlanmış ve doğrulanmıştır:
+- `gold_prices` ve `price_fetch_runs`: 30 gün (`cleanup_old_price_records` RPC)
+- `security_events`: 1 yıl (5651 Sayılı Kanun gereğince, `user_id = NULL`)
+- `user_legal_events`: 3 yıl (ispat ve zamanaşımı, `user_id = NULL`)
+- `account_deletion_requests`: 3 yıl (denetim ispatı, `user_id = NULL`)
 
-- `user_legal_events`
-- `account_deletion_requests`
-- `security_events`
-- `price_fetch_runs`
-- Geçmiş `gold_prices`
+Ancak bu sürelerin nihai hukuki geçerliliği ve şirket içi veri saklama/imha politikası uyumu, üretim dağıtımı öncesinde bir bilişim hukuku uzmanının (avukat) nihai inceleme ve onayını beklemektedir.
 
 ### Etki
 
@@ -945,20 +947,13 @@ Gereğinden uzun saklama veri minimizasyonuna aykırı olabilir. Gereğinden kı
 
 ### Geçici önlem
 
-- `security_events.retention_until` alanı tasarlanmıştır.
-- Production verisi oluşturulmadan önce saklama politikası hazırlanacaktır.
-- Rastgele ve süresiz saklama uygulanmayacaktır.
+- Teknik süreler veritabanı RPC'leri (`cleanup_old_price_records`) ve zamanlayıcılarla kilitlenmiştir.
+- `user_id = NULL` ile anonimleştirme uygulanmıştır.
+- Kişisel veriler doğrudan silinmekte, yalnızca anonimleştirilmiş kayıtlar tutulmaktadır.
 
 ### Çözüm şartı
 
-Her veri grubu için aşağıdakiler belirlenmelidir:
-
-1. İşleme amacı
-2. Hukuki dayanak
-3. Saklama süresi
-4. Silme veya anonimleştirme yöntemi
-5. Yedeklerden silinme davranışı
-6. Sözleşme sona erdiğinde verinin durumu
+- Bilişim hukuku uzmanı tarafından `DATA_RETENTION.md` incelenip onaylandığında durum `Resolved` seviyesine çekilecektir.
 
 ### İlgili belgeler
 
@@ -969,13 +964,13 @@ Her veri grubu için aşağıdakiler belirlenmelidir:
 
 ---
 
-## KI-020: Development, Preview ve Production ortamları henüz oluşturulmadı
+## KI-020: Development, Preview ve Production ortam ayrımı henüz yapılmadı (V1 tek Supabase projesinde)
 
-**Durum:** Open  
+**Durum:** Mitigated (ADR-031)  
 **Önem:** High  
 **Kategori:** Altyapı  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 03.09.2026
+**Son güncelleme:** 27.10.2026
 
 ### Açıklama
 
@@ -1088,17 +1083,17 @@ Yalnızca Android üzerinde geliştirilen uygulamada safe area, klavye, navigasy
 
 ---
 
-## KI-023: Android geliştirme ortamı ve fiziksel cihaz bağlantısı test edilmedi
+## KI-023: Fiziksel Android ve iOS cihaz el testi senaryoları henüz tamamlanmadı
 
 **Durum:** Investigating  
 **Önem:** Medium  
-**Kategori:** Platform ve geliştirme ortamı  
+**Kategori:** Platform ve donanım doğrulama  
 **İlk kayıt:** 03.09.2026  
-**Son güncelleme:** 26.10.2026
+**Son güncelleme:** 27.10.2026
 
 ### Açıklama
 
-Android fiziksel test cihazında (Redmi Note 8 Pro) üretilen APK'nın kullanıcı tarafından test edilip onaylanması, klavye/arama davranışı ve arayüz tutarlılıklarının incelenmesi süreci devam etmektedir.
+Kod tabanındaki tüm otomatik testler (`npx tsx supabase/tests/*.ts`, `npm run lint`, `npx tsc --noEmit`) %100 başarılıdır. Ancak fiziksel Android test cihazında (Redmi Note 8 Pro) ve fiziksel iOS cihazında (TestFlight / Xcode) gerçek dokunma tepkisi, klavye/arama davranışı, kaydırma ve safe-area boşluklarının kullanıcı tarafından bizzat el ile doğrulanması süreci devam etmektedir.
 
 ### Etki
 
@@ -1107,14 +1102,13 @@ Fiziksel cihazdaki donanımsal farklılıklar veya klavye kapanma gibi etkileşi
 ### Geçici önlem
 
 - EAS Build ile dahili/önizleme APK'sı derlenmiş ve cihaza yüklenmiştir.
-- Fiyat arama klavye odağı ve header yükseklikleri düzeltilmiştir; test geri bildirimleri incelenmektedir.
+- Fiyat arama klavye odağı, çift padding ve header yükseklikleri düzeltilmiştir; test geri bildirimleri incelenmektedir.
+- Otomatik regresyon testleri el testlerinden ayrı olarak bağımsız biçimde koşturulmaktadır.
 
 ### Çözüm şartı
 
-- Fiziksel telefon belirlenmeli.
-- Gerekli Expo test uygulaması kurulmalı.
-- Varsayılan Expo projesi telefonda açılmalı.
-- Yerel ağ sorunu için alternatif yöntem belgelenmeli.
+- Fiziksel Android telefonda son APK test edilip kullanıcı onayı alınmalı.
+- Apple Developer Program hesabı açıldığında TestFlight veya fiziksel iOS testi icra edilmelidir.
 
 ### İlgili belgeler
 
@@ -1516,7 +1510,7 @@ Lisans sözleşmesi veya yazılı izin olmaksızın dağıtım yapılması telif
 
 ### İlgili belgeler
 
-- `DECISIONS.md`, ADR-009, ADR-015
+- `DECISIONS.md`, ADR-036 (Sunucu Tarafı Fiyat Çekme ve Truncgil Normalizasyonu), ADR-015
 - `API.md`
 - `DATA_RETENTION.md`
 
@@ -1581,12 +1575,13 @@ KI-032 → Üçüncü çapraz denetimde bulunan kapsam ve özet tutarsızlıklar
 ```text
 KI-013 → Sayısal hassasiyet (BIGINT kuruş ve NUMERIC(18,3) gram ile çözüldü - ADR-032)
 KI-014 → Mobil oturum saklama (expo-secure-store ile donanımsal şifreleme sağlandı)
-KI-018 → Hesap silme atomiklik sorunu (execute_account_deletion SQL RPC rollback ile çözüldü - Migration 008)
+KI-016 → Şifre politikası (ADR-040 ile en az 6 karakter olarak çözüldü)
+KI-018 → Hesap silme atomiklik ve telafi mimarisi (Model A execute_account_deletion SQL RPC + GoTrue Admin API retry işçisi ile çözüldü - ADR-033, Migration 013-015)
 KI-021 → Expo proje ve paket sürümleri (Expo SDK 58 ile kilitlendi)
 KI-024 → Teknik kimlikler (com.altiniz.app ve altiniz.app alan adı yapılandırıldı)
 KI-030 → Git ve GitHub deposu (Bağlandı ve eşitlendi)
 KI-001 → Supabase bölgesi (AB eu-central-1 Frankfurt seçildi)
-KI-012 → Portföy hesaplama motoru (Kısmi portföy özeti ve ADR-013 asla 0 TL dönmeme kuralı)
+KI-012 → Portföy hesaplama motoru (Kısmi portföy özeti ve ADR-010/ADR-032 asla 0 TL dönmeme kuralı)
 KI-026 → Google Play Data Safety ve App Store App Privacy beyanları (Tamamlandı ve doğrulandı)
 ```
 
@@ -1596,8 +1591,9 @@ KI-026 → Google Play Data Safety ve App Store App Privacy beyanları (Tamamlan
 KI-003 → AltinAPI ticari kullanım hakkı ve sözleşmesi (Aday ticari sağlayıcı süreci)
 KI-033 → Truncgil Finance kamu fiyat verisinin ticari yeniden gösterim lisansı (Doğrulama aşamasında)
 KI-022 → iOS fiziksel cihaz testi (Apple Developer Program $99 hesabı ve TestFlight bekleniyor)
-KI-023 → Android fiziksel cihaz testi (APK derlendi; kullanıcı tarafından Redmi Note 8 Pro'da inceleniyor - Investigating)
-KI-025 → Hukuki metinlerin avukat/uzman nihai onayı (Teknik taslaklar hazırlandı ve yüklendi, avukat kontrolü bekleniyor - Mitigated)
+KI-023 → Fiziksel Android ve iOS cihaz el testleri (APK derlendi; fiziksel el doğrulama senaryoları yürütülüyor - Investigating)
+KI-019 → Yasal ve güvenlik kayıtları saklama süreleri (Teknik süreler 30 gün, 1 yıl, 3 yıl uygulandı; avukat nihai onayı bekleniyor - Mitigated)
+KI-025 → Hukuki metinlerin avukat/uzman nihai onayı (Teknik metinler yüklendi ve doğrulandı, avukat kontrolü bekleniyor - Mitigated)
 ```
 
 ---
@@ -1606,13 +1602,13 @@ KI-025 → Hukuki metinlerin avukat/uzman nihai onayı (Teknik taslaklar hazırl
 
 ### Kullanıcı ve Geliştirici Tarafı Doğrulamaları
 
-- [~] KI-023: Android fiziksel cihazda (Redmi Note 8 Pro) üretilen APK'nın kullanıcı tarafından test edilip onaylanması.
+- [~] KI-023: Android fiziksel cihazda (Redmi Note 8 Pro) üretilen APK'nın kullanıcı tarafından el ile test edilip onaylanması.
 - [ ] KI-022: Apple Developer Program hesabı açılarak TestFlight veya fiziksel iOS testi yapılması.
 
 ### Hukuki ve Ticari Dış Onaylar
 
 - [!] KI-003 / KI-033: Fiyat sağlayıcısının ticari kullanım lisansı ve sözleşmesi.
-- [!] KI-025: Teknik yasal metinler yüklendi; hukuk uzmanı (avukat) son incelemesi ve onayı bekleniyor.
+- [!] KI-019 / KI-025: Teknik yasal metinler ve saklama süreleri yüklendi; bilişim hukuku uzmanı (avukat) son incelemesi ve onayı bekleniyor.
 
 ---
 
@@ -1694,7 +1690,16 @@ Sorun çözüldüğünde kayıt silinmemeli, `Resolved` durumuna taşınmalı ve
 
 ## 10. Belge sürüm geçmişi
 
-### 1.6 Taslak - 26.10.2026
+### 1.8 - 27.10.2026
+
+- KI-016 (Şifre politikası) ADR-040 kapsamında en az 6 karakter standardı ile `Resolved` olarak güncellendi.
+- KI-019 (Yasal ve güvenlik kayıtları) teknik sürelerin (30 gün, 1 yıl, 3 yıl) uygulanması ile `Mitigated` olarak güncellendi.
+- KI-020 (Ortam ayrımı) ADR-031 uyarınca tek test projesi paylaşımı ile `Mitigated` olarak netleştirildi.
+- KI-023 başlığı otomatik testlerden ayrı olarak fiziksel cihaz el testi senaryolarını temsil edecek şekilde güncellendi ve `Investigating` olarak korundu.
+- KI-033 ADR referansı ADR-036 ve ADR-015 olarak düzeltildi.
+- Sorun özeti tablosu Model A ve güncel durumlarla senkronize edildi.
+
+### 1.7 Taslak - 26.10.2026
 
 - KI-025 ve KI-026 çözüldü olarak güncellendi:
   - 6 adet gerçek yasal metin ve SHA-256 bütünlük hash'leri canlı Supabase veritabanına ve kod tabanına işlendi (Migration 012).

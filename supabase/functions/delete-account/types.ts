@@ -14,8 +14,6 @@ export type DeleteAccountErrorCode =
 export interface DeleteAccountRequestBody {
   /** Kullanıcının yeniden kimlik doğrulama parolası */
   password?: string;
-  /** İsteğe bağlı hesap silme gerekçesi */
-  reason?: string;
 }
 
 export interface DeleteAccountResponse {

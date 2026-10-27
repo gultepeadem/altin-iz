@@ -413,6 +413,16 @@ docs/PRIVACY.md
 docs/DATA_RETENTION.md
 ```
 
+### Mağaza hazırlığı ve dağıtım
+
+```text
+docs/APP_STORE_SETUP.md
+docs/GOOGLE_PLAY_SETUP.md
+docs/STORE_ASSETS.md
+docs/STORE_LISTING.md
+docs/RELEASE_RUNBOOK.md
+```
+
 ### Yapay zekâ çalışma kuralları
 
 ```text
@@ -439,10 +449,15 @@ Projeyi ilk kez açan geliştirici veya yapay zekâ şu sırayla ilerlemelidir:
 11. docs/SECURITY.md
 12. docs/PRIVACY.md
 13. docs/DATA_RETENTION.md
-14. docs/CHANGELOG.md
+14. docs/APP_STORE_SETUP.md
+15. docs/GOOGLE_PLAY_SETUP.md
+16. docs/STORE_ASSETS.md
+17. docs/STORE_LISTING.md
+18. docs/RELEASE_RUNBOOK.md
+19. docs/CHANGELOG.md
 ```
 
-Başlangıç belge setinde eksik dosya bulunmamaktadır. Kod veya gerçek klasör yapısı belgelerden farklıysa sessizce varsayım yapılmamalı, gerçek durum incelenmeli ve ilgili takip belgeleri birlikte güncellenmelidir.
+Projede toplam 19 adet Markdown (.md) belgesi bulunmaktadır (18 ana doküman + 1 Copilot yönergesi). Kod veya gerçek klasör yapısı belgelerden farklıysa sessizce varsayım yapılmamalı, gerçek durum incelenmeli ve ilgili takip belgeleri birlikte güncellenmelidir.
 
 ---
 
@@ -797,7 +812,7 @@ Planlanan akış:
 11. Kullanıcıyı bilgilendir
 ```
 
-İşlem tamamlanmadan başarı gösterilmez. Kısmi başarısızlık telafi yöntemi production öncesinde kesinleştirilmelidir.
+İşlem tamamlanmadan başarı gösterilmez. Kısmi başarısızlık telafi yöntemi ADR-033 uyarınca Model A iki seviyeli mimarisiyle uygulanmıştır: `execute_account_deletion` SQL RPC atomik veri temizliği yapar; `delete-account` ve `retry-account-deletions` Edge Function çalışanları Supabase GoTrue Admin API üzerinden kullanıcı silimini ve otomatik telafiyi garanti altına alır.
 
 ---
 

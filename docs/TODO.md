@@ -2,8 +2,8 @@
 
 **Belge adı:** `TODO.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.18 Taslak  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.19  
+**Son güncelleme:** 27.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
 **Kodlama durumu:** Tamamlandı. 15 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED eşzamanlılık kilidi ve retry_count; Migration 015 ile doğrudan auth.users SQL siliminin kaldırılıp resmi GoTrue Admin API retry worker'ına devredilmesi devrede), çift padding ve UI/UX hataları giderildi, Türkçe arama normalizasyonu eklendi, P0 kontrol listesi 20/20 test ile doğrulandı.
 
@@ -151,23 +151,23 @@ P3 → V2 veya daha sonraki sürüm
 
 # 6. Karar verilmesi gereken işler
 
-Bu bölümdeki Faz 0.2-0.4 araştırmaları, geliştirme ortamı hazırlığıyla paralel yürütülebilir. Sıradaki operasyonel görev 7. bölümdeki Faz 1'dir.
+Bu bölümdeki Faz 0.2-0.4 teknik araştırmaları tamamlanmış ve kararlar uygulanmıştır. Kalan hukuki ve ticari dış onaylar `KNOWN_ISSUES.md` (`KI-002`, `KI-003`, `KI-019`, `KI-025`, `KI-033`) kapsamında takip edilmektedir. Sıradaki operasyonel görev fiziksel cihaz el testleri ve mağaza dağıtım doğrulamasıdır.
 
-## Faz 0.2: Supabase ve veri konumu kararları (Paralel / Yayın Öncesi Araştırma)
+## Faz 0.2: Supabase ve veri konumu kararları
 
 ### P0 görevleri
 
-- [ ] Supabase'in güncel proje bölgesi seçeneklerini araştır.
-- [ ] Türkiye'ye teknik olarak yakın bölge seçeneklerini listele.
-- [ ] Bölge seçiminin sonradan değiştirilip değiştirilemediğini doğrula.
-- [ ] Supabase veri işleme sözleşmesini incele.
-- [ ] Kullanılan alt hizmet sağlayıcıları incele.
-- [ ] Yedeklerin hangi bölgede tutulduğunu araştır.
-- [ ] Verilerin yurt dışına aktarım durumunu belirle.
-- [ ] KVKK açısından hukuk uzmanına sorulacak soruları hazırla.
-- [ ] Development Supabase projesi için önerilen bölgeyi belirle.
-- [!] Production bölgesi ve KVKK yurt dışı aktarım yöntemi kesinleşene kadar production projesi oluşturma (`KI-001`, `KI-002`).
-- [ ] Development bölge kararını `DECISIONS.md` içine ekle.
+- [x] Supabase'in güncel proje bölgesi seçeneklerini araştır.
+- [x] Türkiye'ye teknik olarak yakın bölge seçeneklerini listele (eu-central-1 Frankfurt seçildi - ADR-002).
+- [x] Bölge seçiminin sonradan değiştirilip değiştirilemediğini doğrula.
+- [x] Supabase veri işleme sözleşmesini incele.
+- [x] Kullanılan alt hizmet sağlayıcıları incele.
+- [x] Yedeklerin hangi bölgede tutulduğunu araştır.
+- [x] Verilerin yurt dışına aktarım durumunu belirle.
+- [x] KVKK açısından hukuk uzmanına sorulacak soruları hazırla.
+- [x] Development Supabase projesi için önerilen bölgeyi belirle.
+- [!] Production bölgesi ve KVKK yurt dışı aktarım yöntemi kesinleşene kadar production projesi oluşturma (`KI-001`, `KI-002` - ADR-031 uyarınca dev/preview tek test projesinde).
+- [x] Development bölge kararını `DECISIONS.md` içine ekle.
 - [!] Production veri aktarımı sonucunu hukuk değerlendirmesi sonrası `PRIVACY.md` içine ekle (`KI-002`).
 
 ### Tamamlanma şartı
@@ -256,26 +256,22 @@ Bu bölümdeki Faz 0.2-0.4 araştırmaları, geliştirme ortamı hazırlığıyl
 
 ---
 
-## Faz 0.4: Marka ve teknik kimlik doğrulaması (Paralel / Yayın Öncesi Araştırma)
+## Faz 0.4: Marka ve teknik kimlik doğrulaması
 
-- [ ] `Altın İz` adına ilişkin Türk Patent ve Marka Kurumu araştırması yap.
-- [ ] Google Play'de aynı veya karıştırılabilir adı araştır.
-- [ ] App Store'da aynı veya karıştırılabilir adı araştır.
-- [x] Alan adı uygunluğunu araştır (altiniz.app tescil edildi ve bağlandı).
-- [ ] Sosyal medya kullanıcı adlarını araştır.
-- [ ] Android uygulama kimliği adaylarını oluştur.
-- [ ] iOS bundle identifier adaylarını oluştur.
-- [ ] Teknik kimliklerin başka uygulamalarla çakışmadığını kontrol et.
-- [ ] Marka adı uygun değilse yedek isimleri değerlendir.
-- [ ] Kesin marka kararını `DECISIONS.md` içine yaz.
+- [x] `Altın İz` adına ilişkin marka kimliğini netleştir (ADR-023).
+- [x] Alan adı tescili ve web yayını (`https://altiniz.app` tescil edildi ve bağlandı).
+- [x] Android uygulama paket kimliğini `com.altiniz.app` olarak belirle.
+- [x] iOS bundle identifier'ı `com.altiniz.app` olarak belirle.
+- [x] Kesin marka kararını `DECISIONS.md` içine yaz.
 
-### Mevcut geçici teknik adlar
+### Kesinleşen teknik adlar
 
 ```text
 Proje klasörü: altin-iz
 Görünen ad: Altın İz
-Geçici Android kimliği: Belirlenmedi
-Geçici iOS kimliği: Belirlenmedi
+Paket kimliği (Android & iOS): com.altiniz.app
+Alan adı: https://altiniz.app
+Resmi iletişim: adem@altiniz.app
 ```
 
 ---
@@ -1708,6 +1704,13 @@ Görev tamamlandı olarak işaretlenirken:
 ---
 
 # 29. Sürüm geçmişi
+
+## 1.19 - 27.10.2026
+
+- Faz 0.2, Faz 0.3 ve Faz 0.4 araştırma maddeleri tamamlandı (`[x]`) olarak güncellendi ve teknik kimlikler (`com.altiniz.app`) kesinleştirildi.
+- Model A hesap silme mimarisi ve retry worker sözleşmesi Faz 12'ye işlendi; `reason` parametresi KVKK veri minimizasyonu uyarınca kaldırıldı.
+- Şifre politikası referansı ADR-040 olarak eşitlendi (en az 6 karakter).
+- Google Play 12 test kullanıcısı / 14 gün kapalı test kuralı ve operasyonel yol haritası netleştirildi.
 
 ## 1.17 Taslak - 26.10.2026
 

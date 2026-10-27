@@ -200,13 +200,14 @@ async function runTests() {
     failed++;
   }
 
-  // Test 7: AccountDeletionStatus durumlarının eksiksizliği
+  // Test 7: AccountDeletionStatus durumlarının eksiksizliği (Model A uyarınca 7 durum)
   try {
     const allStatusesValid =
-      ACCOUNT_DELETION_STATUSES.length === 6 &&
+      ACCOUNT_DELETION_STATUSES.length === 7 &&
       isValidDeletionStatus('requested') &&
       isValidDeletionStatus('identity_verification_required') &&
       isValidDeletionStatus('processing') &&
+      isValidDeletionStatus('auth_deletion_pending') &&
       isValidDeletionStatus('completed') &&
       isValidDeletionStatus('failed') &&
       isValidDeletionStatus('cancelled');
@@ -214,7 +215,7 @@ async function runTests() {
     const invalidStatusRejected = !isValidDeletionStatus('unknown_status');
 
     if (allStatusesValid && invalidStatusRejected) {
-      console.log('✅ Test 7: 6 adet hesap silme durumu (requested, identity_verification_required, processing, completed, failed, cancelled) doğrulandı.');
+      console.log('✅ Test 7: 7 adet hesap silme durumu (requested, identity_verification_required, processing, auth_deletion_pending, completed, failed, cancelled) doğrulandı.');
       passed++;
     } else {
       console.error('❌ Test 7: Durum doğrulama hatası.');

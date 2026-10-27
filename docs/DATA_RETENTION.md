@@ -2,8 +2,8 @@
 
 **Belge adı:** `DATA_RETENTION.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2 Taslak  
-**Son güncelleme:** 26.10.2026 
+**Belge sürümü:** 1.3  
+**Son güncelleme:** 27.10.2026 
 **Proje aşaması:** Bölüm 18: Hesap ve veri silme (Faz 12)  
 **Kodlama durumu:** Teknik tasarım ve veri modelleri hazırlandı  
 **Hedef platformlar:** Android ve iOS
@@ -392,8 +392,9 @@ Belge içerikleri kendi başına kullanıcı kişisel verisi değildir. Ancak s�
 ### Süre durumu
 
 ```text
-Durum: Karar bekliyor
-Öneri: Yürürlükten kalkan sürümler, kullanıcı olaylarının anlamını koruyacak yeterli süre saklanır
+Uygulanan teknik saklama süresi: Yürürlükten kalkan yasal belge sürümleri kullanıcı onaylarının ispatı için en az 3 yıl saklanır.
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019 ve KI-025.
 ```
 
 ### İmha veya arşiv yöntemi
@@ -420,9 +421,9 @@ Kesin süre hukuk uzmanı tarafından belirlenmelidir.
 ### Süre durumu
 
 ```text
-Durum: Karar bekliyor
-Başlangıç: Olay zamanı
-Bitiş: Hukuki ispat ihtiyacı, ilgili yükümlülük ve zamanaşımı değerlendirmesine göre
+Uygulanan teknik saklama süresi: 3 yıl (hukuki ispat ve zamanaşımı gereğince, user_id = NULL yapılarak doğrudan anonimleştirilir).
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019 ve KI-025.
 ```
 
 ### Hesap silme davranışı
@@ -491,9 +492,9 @@ Kısmi başarısızlık telafisi `KI-018` ve `ADR-033` kapsamında atomik Postgr
 ### Süre durumu
 
 ```text
-Durum: Karar bekliyor
-Başlangıç: Olay zamanı veya olayın kapanma zamanı
-Bitiş: Güvenlik incelemesi, hak tesisi ve hukuki yükümlülük ihtiyacının sona ermesi
+Uygulanan teknik saklama süresi: 1 yıl (5651 Sayılı Kanun ve bilgi güvenliği denetimleri, user_id = NULL yapılarak doğrudan anonimleştirilir).
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019 ve KI-025.
 ```
 
 ### Kurallar
@@ -527,9 +528,9 @@ Normal tasarımda son kullanıcı kişisel verisi içermemelidir.
 ### Süre durumu
 
 ```text
-Durum: Koşullu
-Teknik başlangıç hedefi: Kısa operasyonel izleme süresi
-Kesin süre: Sağlayıcı, hata inceleme ihtiyacı ve maliyet ölçümü sonrası belirlenecek
+Uygulanan teknik saklama süresi: 30 gün (cleanup_old_price_records RPC ile periyodik temizlenir).
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019 ve KI-025.
 ```
 
 ### Kurallar
@@ -559,7 +560,9 @@ Ortak piyasa verisidir, tek başına kullanıcı kişisel verisi değildir.
 ### Süre durumu
 
 ```text
-Durum: Karar bekliyor
+Uygulanan teknik saklama süresi: 30 gün (cleanup_old_price_records RPC ile her ürünün en son geçerli fiyatı korunarak periyodik temizlenir).
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019, KI-025 ve KI-033.
 ```
 
 ### Belirleyici etkenler
@@ -834,10 +837,12 @@ soruları cevaplanmalıdır.
 
 ## 30. Periyodik imha planı
 
-### Durum
+### Durum ve Süre Bilgisi
 
 ```text
-Karar bekliyor
+Uygulanan teknik saklama süresi: Haftalık pg_cron zamanlayıcısı (cleanup_old_price_records) ve saatlik telafi işçisi (retry-account-deletions).
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019 ve KI-025.
 ```
 
 ### Taslak yaklaşım
@@ -1077,6 +1082,12 @@ Tek kişi birden fazla rolü üstlense bile görevler belgede ayrı tutulmalıd�
 
 ## 40. Teknik otomasyon gereksinimleri
 
+```text
+Uygulanan teknik saklama süresi: cleanup_old_price_records RPC (30 gün) ve retry-account-deletions Edge Function (5 tekrar sınırı).
+Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor.
+İlgili kayıtlar: KI-019 ve KI-025.
+```
+
 Production için değerlendirilecek otomasyonlar:
 
 - `retention_until` tarihi dolan güvenlik kayıtlarını bulma
@@ -1163,6 +1174,11 @@ Otomasyon:
 ---
 
 ## 43. Açık kararlar
+
+> **Uygulanan Standart Durum:**
+> - **Uygulanan teknik saklama süresi:** Veritabanı ve Edge Function seviyesinde teknik süreler (30 gün piyasa kayıtları, 1 yıl güvenlik logları, 3 yıl anonimleştirilmiş yasal olaylar ve silme talepleri) kodlanmış ve doğrulanmıştır.
+> - **Hukuki durum:** Hukuk uzmanı nihai onayı bekleniyor.
+> - **İlgili kayıtlar:** KI-019 ve KI-025.
 
 1. Kişisel veri saklama ve imha politikası hazırlama yükümlülüğünün kesin kapsamı
 2. Periyodik imha aralığı
@@ -1271,13 +1287,19 @@ Değişiklik `CHANGELOG.md` içinde kaydedilmeli, önemli karar değişikliği `
 
 ## 48. Sürüm geçmişi
 
+### 1.3 - 27.10.2026
+
+- `cleanup_old_data` ifadesi gerçek RPC adı olan `cleanup_old_price_records` ile eşitlendi.
+- 14, 15, 17, 18, 19, 30, 40, 43 numaralı bölümlerde standart hukuki ve teknik bildirim ("Uygulanan teknik saklama süresi: X. Hukuki durum: Hukuk uzmanı nihai onayı bekleniyor. İlgili kayıtlar: KI-019 ve KI-025.") işlendi.
+- Model A hesap silme durum makinesinde `auth_deletion_pending` durumu ve `account_deletion_requests.user_id` alanının retry işçisi için korunması kuralı netleştirildi.
+
 ### 1.2 Taslak - 26.10.2026
 
 - Dış denetim bulguları doğrultusunda saklama süreleri ve Model A silme mimarisi kilitlendi:
   - `security_events`: 1 yıl (5651 Sayılı Kanun gereğince; `user_id = NULL`).
   - `user_legal_events`: 3 yıl (zamanaşımı ve ispat yükümlülüğü; `user_id = NULL`).
   - `account_deletion_requests`: 3 yıl (denetim ispatı; `user_id = NULL`).
-  - `gold_prices` ve `price_fetch_runs`: 30 gün (`cleanup_old_data` RPC ile periyodik temizlik).
+  - `gold_prices` ve `price_fetch_runs`: 30 gün (`cleanup_old_price_records` RPC ile periyodik temizlik).
   - Model A silme mimarisi (Edge Function işlem dışı yönetim + atomik execute_account_deletion RPC) eşitlendi.
 
 ### 1.1 Taslak - 22.10.2026

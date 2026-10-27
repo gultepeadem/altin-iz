@@ -2,8 +2,8 @@
 
 **Belge adı:** `HANDOFF.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.65 Taslak  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.66  
+**Son güncelleme:** 27.10.2026  
 **Proje aşaması:** Bölüm 22: V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)  
 **Kodlama durumu:** Tamamlandı. 15 adet sıralı migration uygulandı (Migration 012 ile 25 aktif ürün, 6 gerçek yasal belge ve 24/7 zamanlayıcı; Migration 013 ile Model A şema kısıtı; Migration 014 ile FOR UPDATE SKIP LOCKED eşzamanlılık kilidi ve retry_count; Migration 015 ile doğrudan auth.users SQL siliminin kaldırılıp resmi GoTrue Admin API retry worker'ına devredilmesi). Reviewer parolaları Supabase Admin API ile rotasyona tabi tutuldu ve doğrulandı; açık parola referansları kaldırıldı; ESLint, Deno Lint ve TypeScript 0 hata ile doğrulandı.  
 **Son çalışma durumu:** Dış denetim ve inceleme bulgularının tamamı giderildi: Reviewer demo parolaları resmi Supabase Admin API (adminClient.auth.admin.updateUserById) ile rotasyona tabi tutuldu, eski parolaların reddedildiği (400) ve yeni parolaların kabul edildiği (200) canlı test edildi. Migration 012, 013, 014 ve 015 canlı veritabanına uygulandı (15/15). Model A hesap silme mimarisi Supabase GoTrue Admin API standardına tam kavuşturuldu: SQL fonksiyonlarındaki doğrudan `DELETE FROM auth.users` tamamen kaldırılarak `claim_pending_auth_deletions` RPC (`FOR UPDATE SKIP LOCKED`) ve `retry-account-deletions` Edge Function worker'ı devreye alındı. ESLint, Deno Lint (supabase/functions) ve TypeScript typecheck 0 hata ile çalıştırıldı. Tüm 16 test paketi ve P0 kontrol listesi (20/20) %100 geçti. Otomatik test başarıları ile fiziksel cihaz doğrulama gereksinimleri (Android APK el testi ve Apple Developer Program / TestFlight) açıkça birbirinden ayrıldı.
@@ -458,42 +458,35 @@ Dört aşamalı belge çapraz denetimi ve P0 test paketi (20/20 test) başarıyl
 
 ---
 
-## 14. Açık Critical sorunlar
+## 14. Açık ve Takip Edilen Critical / Yasal Konular
 
-Aşağıdaki sorunlar production yayımdan önce mutlaka çözülmelidir:
+Aşağıdaki konular production yayını öncesinde hukuk ve ticari onay aşamasındadır:
 
 ```text
-KI-002 → Yurt dışına kişisel veri aktarım yöntemi
-KI-003 → Fiyat sağlayıcısı ticari kullanım hakkı
-KI-019 → Yasal ve güvenlik kayıtlarının saklama süreleri
-KI-025 → Hukuk uzmanı tarafından doğrulanmış yasal metinler
+KI-002 → Yurt dışına kişisel veri aktarım yöntemi (Hukuk uzmanı nihai değerlendirmesi)
+KI-003 / KI-033 → Fiyat sağlayıcısı ticari kullanım hakkı ve lisans sözleşmesi
+KI-019 → Yasal ve güvenlik kayıtlarının saklama süreleri (Teknik süreler 30 gün, 1 yıl, 3 yıl uygulandı; avukat nihai onayı bekleniyor - Mitigated)
+KI-025 → Hukuk uzmanı tarafından doğrulanmış yasal metinler (Teknik metinler SHA-256 ile yüklendi; avukat nihai incelemesi bekleniyor - Mitigated)
 ```
 
 > [!NOTE]
-> `KI-018` (Hesap silme kısmi hata telafisi), Migration 008 ve 010 ile PostgreSQL tarafında atomik transaction (`execute_account_deletion` RPC) uygulanarak `Resolved` durumuna alınmıştır.
+> `KI-018` (Hesap silme kısmi hata telafisi), Model A iki seviyeli mimari (`execute_account_deletion` SQL RPC + GoTrue Admin API `delete-account` ve `retry-account-deletions` worker - Migration 013-015) ile `Resolved` olarak tamamlanmıştır.
 
 Ayrıntılar `KNOWN_ISSUES.md` içinde bulunur.
 
 ---
 
-## 15. Önemli High sorunlar
+## 15. Açık ve Takip Edilen High Konular
 
 ```text
-KI-001 → Supabase production bölgesi
-KI-010 → Fiyatın eski sayılacağı süre
-KI-013 → JavaScript sayısal hassasiyet yöntemi
-KI-014 → Mobil Supabase oturum saklama yöntemi (SecureStore chunking ile çözüldü)
-KI-015 → Auth derin bağlantıları
-KI-017 → Production e-posta hizmeti
-KI-020 → Development, Preview ve Production ortam ayrımı
-KI-021 → Expo projesi ve gerçek paket sürümleri
-KI-022 → iOS test yöntemi
-KI-026 → Google Play ve App Store gizlilik beyanları
-KI-030 → Git deposu ve geri dönüş noktaları
+KI-017 → Production e-posta / SMTP hizmeti (Resend / Sendgrid entegrasyonu)
+KI-020 → Development, Preview ve Production ortam ayrımı (ADR-031 uyarınca V1 tek Supabase projesinde - Mitigated)
+KI-022 → iOS test yöntemi (Apple Developer Program 99$ hesabı ve TestFlight bekleniyor)
+KI-023 → Fiziksel Android ve iOS cihaz el testleri (APK derlendi; fiziksel el doğrulama senaryoları yürütülüyor - Investigating)
 ```
 
 > [!NOTE]
-> `KI-004` (Sembol listesi doğrulaması), `KI-005` (Cumhuriyet/Ata eşleştirmesi), `KI-006` (18 Ayar), `KI-007` (Reşat/Hamit), `KI-008` (1g ve 2.5g paketli altınlar) ve `KI-011` (Olağan dışı fiyat dalgalanması) bu oturumda çözülmüştür (`KNOWN_ISSUES.md`).
+> `KI-001` (Supabase bölgesi), `KI-004` (Sembol listesi doğrulaması), `KI-005` (Cumhuriyet/Ata eşleştirmesi), `KI-006` (18 Ayar), `KI-007` (Reşat/Hamit), `KI-008` (Paketli altınlar), `KI-010` (Bayatlık süresi), `KI-011` (Aykırı fiyat filtresi), `KI-012` (Portföy hesaplama motoru), `KI-013` (Sayısal hassasiyet), `KI-014` (Mobil oturum parçalama), `KI-016` (Şifre politikası - ADR-040), `KI-021` (Expo SDK 58 paketleri), `KI-024` (Teknik kimlikler), `KI-026` (Mağaza gizlilik beyanları) ve `KI-030` (Git deposu) çözülmüştür (`KNOWN_ISSUES.md`).
 
 ---
 
@@ -578,7 +571,7 @@ Fiziksel Cihaz Doğrulamaları ve Mağaza Dağıtım Hazırlığı
 Bu aşamada:
 1. **Android Fiziksel Cihaz Testi:** Üretilen bağımsız Android APK'sının fiziksel telefonda (Redmi Note 8 Pro) testi ve kullanıcı onayı gerçekleştirilecektir.
 2. **iOS & TestFlight Doğrulaması:** Apple Developer Program (99$/yıl) hesabı açılarak TestFlight dahili test sürümü yüklenecek ve fiziksel iOS cihazında doğrulanacaktır.
-3. **Google Play Konsol Başvurusu:** Google Play (25$) geliştirici hesabı açılarak kapalı test süreci başlatılacaktır.
+3. **Google Play Konsol Başvurusu:** Google Play (25$) geliştirici hesabı açılarak 12 test kullanıcısı ile 14 günlük kapalı test süreci başlatılacak ve ardından üretim erişimi başvurusu yapılacaktır.
 
 ---
 
@@ -745,6 +738,13 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 ---
 
 ## 27. Sürüm geçmişi
+
+### 1.66 - 27.10.2026
+- Model A hesap silme mimarisinde `account_deletion_requests.user_id` alanının SQL RPC'de silinmeyip Auth retry işçisi için korunduğu netleştirildi; `claim_pending_auth_deletions` ve `retry-account-deletions` sözleşmesi dokümante edildi.
+- `reason` parametresi KVKK veri minimizasyonu uyarınca kod tabanından ve silme akışından kaldırıldı.
+- Şifre politikası referansı ADR-040 olarak eşitlendi (en az 6 karakter).
+- Bölüm 14 ve 15 açık sorun listeleri temizlendi; çözülen sorunlar ile kalan açık/mitigated yasal ve ticari onaylar ayrıştırıldı.
+- Google Play kapalı test gereksinimi 12 test kullanıcısı / 14 gün olarak güncellendi.
 
 ### 1.62 Taslak - 26.10.2026
 - Kapsamlı dış denetim raporu (19 belge, testler ve kod mimarisi) gereksinimleri eksiksiz uygulandı:

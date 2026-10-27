@@ -2,8 +2,8 @@
 
 **Belge adı:** `DECISIONS.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.6  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.7  
+**Son güncelleme:** 27.10.2026  
 **Durum:** Aktif
 
 ---
@@ -647,7 +647,9 @@ Gremse Altın, Eski Tarihli
 # ADR-017: Cumhuriyet Altını ve Ata Altını eşleştirmesi
 
 **Tarih:** 03.09.2026  
-**Durum:** Koşullu Aktif
+**Durum:** Değiştirildi (ADR-039 ile güncellendi)
+
+> **Not:** ADR-039 ve Migration 012 ile Cumhuriyet ve Ata ayrımı katalogda netleştirilmiş, sağlayıcı eşleştirmeleri doğrulanarak aktif edilmiştir.
 
 ## Karar
 
@@ -669,7 +671,9 @@ Doğrulama yapılana kadar belirsiz ürün portföy ve hesaplama için etkinleş
 # ADR-018: 14, 18 ve 22 ayar ürünler
 
 **Tarih:** 03.09.2026  
-**Durum:** Aktif
+**Durum:** Kısmen Değiştirildi (ADR-039 ile 18 Ayar aktifleştirildi; OUNCE_GOLD portföy kısıtı korunmaktadır)
+
+> **Not:** 18 ayar ürün, Truncgil sağlayıcısından doğrudan alış ve satış fiyatı alınmasıyla ADR-039 kapsamında aktifleştirilmiştir. Ancak Madde 6 uyarınca `OUNCE_GOLD` (Ons Altın) portföy eklemeye kapalı (`portfolio_enabled = false`), USD para birimli ve yalnızca piyasa takip amaçlı olarak kalmaya devam etmektedir.
 
 ## Karar
 
@@ -679,16 +683,19 @@ Ayar bazlı ürün yalnızca sağlayıcıdan doğrudan güvenilir alış ve sat�
 
 - 14 ayar doğrudan fiyat doğrulanırsa etkinleştirilir.
 - 22 ayar doğrudan fiyat doğrulanırsa etkinleştirilir.
-- 18 ayar doğrudan fiyat doğrulanmadan etkinleştirilmez.
+- 18 ayar doğrudan fiyat doğrulanmadan etkinleştirilmez (ADR-039 ile doğrulanıp aktifleştirildi).
 - 24 ayar gram fiyatına saflık yüzdesi uygulanarak gerçek kuyumcu fiyatı gibi gösterilmez.
 - İşçilik ve kuyumcu kesintisi otomatik tahmin edilmez.
+- Ons Altın (`OUNCE_GOLD`) USD para birimli uluslararası gösterge ürünüdür; V1 portföy ekleme ve yerel TRY değerleme kapsamı dışındadır.
 
 ---
 
 # ADR-019: Paketli gram altınlar
 
 **Tarih:** 03.09.2026  
-**Durum:** Aktif
+**Durum:** Değiştirildi (ADR-039 ile güncellendi)
+
+> **Not:** Paketli gram altın ürünleri (1g, 2.5g vb.) ADR-039 ve Migration 012 kapsamında doğrudan fiyat eşleştirmeleriyle sistemleştirilmiş ve katalogda aktif edilmiştir.
 
 ## Karar
 
@@ -805,7 +812,9 @@ V1'in temel amacını güvenli ve test edilebilir biçimde tamamlamak, gereksiz 
 # ADR-023: Tasarım ve marka kimliği
 
 **Tarih:** 03.09.2026  
-**Durum:** Koşullu Aktif
+**Durum:** Aktif (Kısmen ADR-038 ile detaylandırıldı)
+
+> **Not:** Tipografi, renk paletleri, StatusBar, Header standartları ve UI belirteçleri ADR-038 ile tam olarak sistemleştirilmiş ve aktifleştirilmiştir.
 
 ## Çalışma adı
 
@@ -1144,16 +1153,17 @@ Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme 
            a) portfolio_entries tablosundaki tüm portföy kayıtlarını fiziksel siler (DELETE)
            b) user_preferences tablosundaki kullanıcı tercihlerini fiziksel siler (DELETE)
            c) user_legal_events ve security_events kayıtlarındaki user_id alanını NULL yapar (ANONİMLEŞTİRME)
-           d) account_deletion_requests kaydındaki user_id alanını NULL yapar (ANONİMLEŞTİRME)
+           d) account_deletion_requests kaydındaki user_id KESİNLİKLE NULL YAPILMAZ;
+              Auth silimi başarısız olursa retry işçisinin kullanıcıyı silebilmesi için foreign key korunur.
            e) user_profiles tablosundaki kullanıcı profil kaydını fiziksel siler (DELETE)
            ↓
-   Adım 3: RPC Başarılı İse → Edge Function: Supabase Auth (auth.admin.deleteUser) ile hesabı siler
+   Adım 3: RPC Başarılı İse → Edge Function: Supabase Auth (auth.admin.deleteUser) ile hesabı siler (Telafi Adımı)
            RPC Başarısız İse → SQL ROLLBACK uygulanır; Edge Function talep kaydını status = 'failed' yapar;
                                sanitised failure_message (max 500 karakter, PII içermez) kaydeder.
            ↓
-   Adım 4: Auth Silimi Başarılı İse → account_deletion_requests tamamlandı (status = 'completed', completed_at = NOW())
+   Adım 4: Auth Silimi Başarılı İse → account_deletion_requests tamamlandı (status = 'completed', user_id = NULL, completed_at = NOW())
            Auth Silimi Başarısız İse → account_deletion_requests (status = 'auth_deletion_pending') durumuna alınır;
-                                       arka plan telafi kuyruğuna (compensating retry) bırakılır.
+                                       user_id korunur; retry-account-deletions arka plan işçisi ile telafi edilir.
            ↓
    Adım 5: Mobil İstemci: Cihazdaki oturumu (SecureStore token'ları) temizler ve giriş/karşılama ekranına yönlendirir.
    ```
@@ -1162,12 +1172,12 @@ Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme 
    - `public.portfolio_entries`: Kullanıcının sahip olduğu altın varlıkları, alım fiyatları, tarihleri ve adetleri tamamen silinir.
    - `public.user_preferences`: Kullanıcının tema, bildirim ve arayüz tercihleri tamamen silinir.
    - `public.user_profiles`: Görünen ad, avatar baş harfleri ve profil kaydı tamamen silinir.
-   - `auth.users`: Supabase kimlik doğrulama hesabı, şifre karması ve oturumları tamamen silinir.
+   - `auth.users`: Supabase kimlik doğrulama hesabı, şifre karması ve oturumları GoTrue Admin API ile tamamen silinir.
 
 4. **Anonimleştirilerek Saklanan Tablolar ve Saklama Süreleri (DATA_RETENTION.md Tek Kaynak):**
    - `public.user_legal_events`: Hukuki ispat ve zamanaşımı (KVKK md. 5, 10, 11) gereğince 3 yıl saklanır; `user_id` alanı `NULL` yapılarak doğrudan kimlik bağlantısı koparılır (anonimleştirilir).
    - `public.security_events`: Bilgi güvenliği denetimleri (KVKK md. 12 ve 5651 Sayılı Kanun) gereğince 1 yıl saklanır; `user_id` alanı `NULL` yapılır.
-   - `public.account_deletion_requests`: Silme talebinin kanıtı ve denetim güvencesi olarak 3 yıl saklanır; `user_id` alanı `NULL` yapılır; kesinlikle e-posta, isim veya portföy verisi barındırmaz.
+   - `public.account_deletion_requests`: Silme talebinin kanıtı ve denetim güvencesi olarak 3 yıl saklanır; `user_id` alanı Auth silimi başarılı olduktan sonra `NULL` yapılır; kesinlikle e-posta, isim veya portföy verisi barındırmaz.
    - `public.gold_prices` ve `public.price_fetch_runs`: Geçmiş piyasa kayıtları 30 gün saklanır; 30 günden eski satırlar periyodik olarak temizlenir.
 
 5. **Kısmi Başarısızlık ve Telafi Stratejisi (KI-018 Çözümü):**
@@ -1175,7 +1185,7 @@ Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme 
    - Veritabanı tablolarının silinmesinde bir hata oluşursa veritabanı işlemi anında `ROLLBACK` edilir; profil ve auth kullanıcısı silinmez.
    - Edge Function dışarıdaki `account_deletion_requests.status` alanını `'failed'` olarak işaretler; `failure_code` ('DELETION_EXECUTION_ERROR') ve kesinlikle kişisel veri/secret içermeyen, en fazla 500 karakterlik genel hata mesajını kaydeder.
    - Kullanıcıya işlemin tamamlanamadığı dürüstçe bildirilir; hesap silinmiş gibi yanıltıcı başarı mesajı verilmez.
-   - Auth silme adımında üçüncü taraf bağlantı hatası oluşursa, talep durumu `'auth_deletion_pending'` olarak işaretlenir; arka plan telafi işi (`retry / compensating job`) ile auth silme işlemi tamamlanır.
+   - Auth silme adımında (`auth.admin.deleteUser`) ağ veya GoTrue hatası oluşursa, talep durumu `'auth_deletion_pending'` olarak işaretlenir ve `user_id` korunur. `retry-account-deletions` Edge Function zamanlayıcı işi `claim_pending_auth_deletions` RPC ile kilit alarak (`FOR UPDATE SKIP LOCKED`) Auth kullanıcısını siler, ardından `user_id`yi `NULL` yapar ve durumu `'completed'` olarak sonlandırır.
 
 6. **Tamamlanma Kaydının Kişisel Veri İçermemesi:**
    - Tamamlanan `account_deletion_requests` kaydı yalnızca talep kimliğini (UUID), talep zamanını, tamamlanma zamanını ve durumunu içerir.
@@ -1183,32 +1193,23 @@ Kullanıcının hesabını ve kişisel verilerini mobil uygulama içinden silme 
 
 ---
 
-# Açık kararlar
+# Karar Durumu Özeti ve Açık Konular
 
-Aşağıdaki konular henüz tam kesinleşmemiştir:
+### Kesinleşen ve Karara Bağlanan Konular:
+1. **Veri Merkezi:** Frankfurt (`eu-central-1`) AB veri merkezi kesinleştirildi (ADR-002, ARCHITECTURE.md).
+2. **Kullanıcı Şifre Politikası:** En az 6 karakter (`password.length >= 6`) ve istemci doğrulama standardı kesinleştirildi (ADR-040).
+3. **Fiyat Çekme ve Zamanlayıcı:** 7/24 kesintisiz 15 dakikada bir otomatik çekme ve 5 dakikalık hız sınırı (cooldown) kesinleştirildi (ADR-035, ADR-039).
+4. **Bayatlık ve Fiyat Filtreleri:** 15 dakikalık tazelik eşiği ve `[-50%, +50%]` aykırı değişim filtresi uygulandı (ADR-014, ADR-038).
+5. **Ürün Kataloğu:** Cumhuriyet, Ata, 14, 18, 22 Ayar, Reşat, Hamit ve paketli altınlar katalogda doğrulanıp aktifleştirildi; Ons Altın portföy dışı bırakıldı (ADR-039).
+6. **Veri Saklama Süreleri (Teknik Düzey):** Fiyatlar 30 gün, güvenlik olayları 1 yıl, yasal olaylar ve silme talepleri 3 yıl olarak kodlandı (ADR-033, DATA_RETENTION.md).
+7. **Hesap Silme Mimarisi (Model A):** Atomik SQL temizliği, GoTrue Admin API ile silme ve arka plan telafi işçisi (`retry-account-deletions`) kesinleştirildi (ADR-033).
+8. **Portföy Hesaplama Motoru:** Kuruş ve minor unit bazlı tam sayı modeli ile istemci domain katmanında hesaplama kilitlendi (ADR-010, ADR-032).
+9. **Teknik Uygulama Kimlikleri:** `app.altiniz` paket/bundle kimliği ve mağaza varlıkları kesinleştirildi (ADR-021, STORE_ASSETS.md).
 
-1. Supabase veri merkezi bölgesi
-2. Veri aktarımı için kesin hukuki yöntem
-3. Üretim e-posta gönderim hizmeti
-4. Kesin şifre politikası
-5. AltinAPI ticari paket seçimi
-6. Ticari yeniden gösterim ve fiyat saklama hakkı
-7. Fiyatların üretimde çekilme sıklığı
-8. Fiyatın ne zaman eski sayılacağı
-9. Olağan dışı fiyat değişim eşiği
-10. Cumhuriyet Altını ile Ata ürünlerinin kesin katalog yapısı
-11. 18 Ayar ürün desteği
-12. Reşat ve Hamit ürün desteği
-13. Fiyat geçmişinin saklama süresi
-14. Güvenlik olaylarının saklama süresi
-15. Yasal olay kayıtlarının saklama ve anonimleştirme yöntemi (ADR-033 uyarınca user_id = NULL yapılarak anonimleştirme kararlaştırıldı)
-16. Hesap silme işlemindeki telafi yöntemi (ADR-033 uyarınca atomik transaction, ROLLBACK ve failed durumu kararlaştırıldı)
-17. Portföy hesaplamasının SQL görünümü, RPC veya servis katmanında yapılması
-18. Altın İz marka adının kesin kullanılabilirliği
-19. Android ve iOS teknik uygulama kimlikleri
-20. Uygulama simgesinin son tasarımı
-
-Bu kararlar kesinleştiğinde yeni ADR bölümleri eklenir veya ilgili koşullu kararların durumu `Aktif` yapılır.
+### Kalan Açık Hukuki ve Ticari Konular (Yayın Öncesi Doğrulama):
+1. **Yurtdışı Veri Aktarımı Hukuki İncelemesi (KI-019 & KI-025):** Frankfurt veri merkezi için standart sözleşme veya açık rıza metninin bilişim hukuku uzmanı tarafından nihai teyidi beklenmektedir (Teknik altyapı hazırdır).
+2. **Piyasa Verisi Ticari Lisansı (KI-033):** Geliştirme sürecinde Truncgil API kullanılmaktadır; kurumsal üretim sürümü için ticari veri lisansı veya ücretli sağlayıcı anlaşması netleştirilecektir.
+3. **Üretim SMTP / E-posta Gönderim Servisi (KI-021):** Supabase dahili e-posta limitleri yerine özel Resend / Sendgrid SMTP entegrasyonu canlıya geçiş öncesinde yapılandırılacaktır.
 
 ---
 
@@ -1253,7 +1254,7 @@ Mobil istemcinin (`anon` veya `authenticated` belirteçleriyle) doğrudan verita
 3. Mobil istemci (`goldPriceService.ts`) salt-okunur (read-only) kılındı.
 4. Manuel veya bayatlık sonrası fiyat yenileme ihtiyacında istemci yalnızca sunucu tarafındaki `fetch-gold-prices` Edge Function'ını tetikler; fiyat doğrulaması ve veritabanı kaydı sunucu üzerinde gerçekleşir.
 5. Sunucu tarafında 5 dakikalık hız sınırı (cooldown) uygulanarak istemci tetiklemelerinin dış API'yi gereksiz yere boğması engellenir; son 5 dakika içinde başarılı güncelleme yapılmışsa yeni dış istek atılmadan mevcut durum döndürülür.
-6. Fiyat güncellemeleri kullanıcı tetiklemesine bağımlı kalmaksızın `pg_cron` ve `pg_net` ile hafta içi piyasa saatlerinde 15 dakikada bir otomatik icra edilir (Migration 010).
+6. Fiyat güncellemeleri kullanıcı tetiklemesine bağımlı kalmaksızın `pg_cron` ve `pg_net` ile 15 dakikada bir otomatik icra edilir (Migration 010 ile hafta içi başlatılmış, ADR-039 ve Migration 012 ile 7/24 kesintisiz hale getirilmiştir).
 
 ---
 
@@ -1359,7 +1360,35 @@ Fiziksel cihaz testlerinde tespit edilen kullanıcı deneyimi, tema uyumu ve ver
 
 ---
 
+# ADR-040: Kullanıcı Şifre Politikası ve Doğrulama Standartları
+
+**Tarih:** 27.10.2026  
+**Durum:** Aktif  
+**İlgili Belgeler:** `src/app/(auth)/sign-up.tsx`, `src/app/(auth)/reset-password.tsx`, `docs/SECURITY.md`, `docs/API.md`  
+**Çözülen Açık Sorun:** `KI-016: Kesin şifre politikası ve ADR referansı belirsizliği`
+
+## Bağlam
+
+Uygulamanın kayıt (`sign-up.tsx`) ve şifre sıfırlama (`reset-password.tsx`) adımlarında kullanıcı şifrelerinin asgari güvenlik düzeyini belirleyen kural ile Supabase GoTrue Auth varsayılan gereksinimleri arasında çelişki bulunmamalıdır. Proje belgelerinde daha önce sehven yapay zekâ çalışma kuralları olan ADR-028'e atıf yapıldığı tespit edilmiştir.
+
+## Karar
+
+1. **Asgari Uzunluk Kuralı:** Kullanıcı şifresi en az 6 karakter uzunluğunda olmalıdır (`password.length >= 6`). Bu kural Supabase GoTrue Auth servisinin varsayılan asgari şifre kuralı ile birebir uyumludur.
+2. **İstemci Tarafı Doğrulama:** Kayıt ve şifre yenileme formlarında şifre 6 karakterden kısa ise kullanıcıya açık Türkçe hata mesajı ("Şifre en az 6 karakter olmalıdır") gösterilir ve istek sunucuya iletilmeden engellenir.
+3. **Karmaşıklık Gereksinimi (V1 Kapsamı):** V1 sürümünde kullanıcı giriş/kayıt sürtünmesini azaltmak amacıyla büyük harf, özel karakter veya rakam zorunluluğu katı bir kural olarak dayatılmamış; ancak arayüzde güçlü şifre kullanımı tavsiye edilmiştir.
+4. **Belge Standardizasyonu:** Belgelerdeki hatalı şifre ADR atıfları (ADR-028 vb.) iptal edilerek tüm teknik referanslar ADR-040 olarak kilitlenmiştir.
+
+---
+
 # Sürüm geçmişi
+
+## 1.7 - 27.10.2026
+
+- ADR-040 ile kullanıcı şifre politikası (en az 6 karakter, Supabase Auth uyumlu) resmileştirildi ve KI-016 çözüldü.
+- ADR-033'te Model A hesap silme mimarisinde `account_deletion_requests.user_id` alanının SQL RPC içinde silinmeyip Auth retry işçisi için korunduğu teknik olarak netleştirildi.
+- ADR-017, ADR-018 ve ADR-019 kararları ADR-039 ve 18 Ayar canlı desteğine göre güncellendi.
+- ADR-023 marka/tasarım kararı ADR-038 UI tasarım sistemiyle uyumlu hale getirildi.
+- Açık kararlar bölümü kesinleşen maddeler ve kalan hukuki incelemeler olarak yapılandırıldı.
 
 ## 1.6 - 26.10.2026
 

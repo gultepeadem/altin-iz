@@ -2,10 +2,10 @@
 
 **Belge adı:** `CHANGELOG.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.7 Taslak  
-**Son güncelleme:** 26.10.2026  
+**Belge sürümü:** 1.8  
+**Son güncelleme:** 27.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
-**Uygulama sürümü:** 1.0.0 (v1.0.0-rc1)
+**Uygulama sürümü:** 1.0.0 (v1.0.0-rc2)
 
 ---
 
@@ -52,6 +52,22 @@ Sürüm henüz yayımlanmamışsa:
 
 ## [Unreleased]
 
+### Model A user_id Korunumu, KVKK Veri Minimizasyonu ve ADR-040 Standardizasyonu (27.10.2026)
+
+- **Hesap Silme Model A user_id Korunumu ve RPC Doğrulaması:**
+  - `execute_account_deletion` SQL RPC fonksiyonunun `account_deletion_requests.user_id` alanını bilerek null yapmadığı, bu alanın GoTrue Auth silme işlemi tamamlanana kadar foreign key olarak korunduğu doğrulandı ve belgelendi.
+  - Olası Auth silme başarısızlığında `auth_deletion_pending` durumuna geçildiğinde `user_id` değerinin korunduğu, `claim_pending_auth_deletions` ve `retry-account-deletions` işçisinin bu sayede kullanıcıyı silebildiği test paketleriyle (`test-faz12-1-delete-account-edge-function.ts` Test 11 simülasyonu) %100 kanıtlandı.
+  - `src/models/accountDeletion.ts` içerisindeki `AccountDeletionStatus` ve `ACCOUNT_DELETION_STATUSES` listesine eksik olan `'auth_deletion_pending'` durumu eklendi (7 durum).
+- **KVKK Veri Minimizasyonu (Gereksiz Veri Toplama Yasağı):**
+  - `delete-account` Edge Function istek gövdesinden, türlerinden (`types.ts`) ve istemci servisinden (`authService.ts`) kullanılmayan `reason` parametresi tamamen kaldırıldı; gereksiz kişisel veri toplanması engellendi.
+  - Güncellenen `delete-account` Edge Function canlı Supabase ortamına başarıyla dağıtıldı (`supabase functions deploy delete-account`).
+- **Kullanıcı Şifre Politikası ve ADR-040 Resmileştirilmesi:**
+  - Supabase Auth varsayılan kuralı ve istemci formlarıyla (`sign-up.tsx`, `reset-password.tsx`) uyumlu olarak en az 6 karakter (`password.length >= 6`) kuralı `ADR-040` olarak karara bağlandı ve `KI-016` çözüldü.
+  - Belgelerdeki hatalı ADR referansları (`ADR-028` vb.) düzeltildi.
+- **19 Proje Belgesinin Tam Senkronizasyonu:**
+  - Tüm 19 Markdown dosyasında 15 migration, 3 Edge Function, 5 PostgreSQL RPC, 7/24 15 dakikalık fiyat zamanlayıcısı, Google Play 12 test kullanıcısı / 14 gün kapalı test kuralı ve iPhone 16 Pro Max ekran çözünürlükleri eşitlendi.
+  - Duplicate RC sürüm başlığı düzeltildi (25.10.2026 -> `[1.0.0-rc2]`).
+
 ### GoTrue Admin API Retry Worker ve Doğrudan SQL Auth Siliminin Kaldırılması (26.10.2026)
 
 - **Veritabanı Migration 015 ve GoTrue Admin API Retry Worker Dağıtımı:**
@@ -93,7 +109,7 @@ Sürüm henüz yayımlanmamışsa:
   - Truncgil Finance aktif kamu beslemesi olarak, AltinAPI/Altinapps ise aday ticari sağlayıcılar olarak netleştirildi.
   - `STORE_LISTING.md` ve `STORE_ASSETS.md` içerisindeki anlık iddiaları yaklaşık 15 dakikalık periyotla uyumlu hale getirildi; kesin hukuki iddialar dengelendi.
 
-## [1.0.0-rc1] - 25.10.2026
+## [1.0.0-rc2] - 25.10.2026
 
 ### 19 Belge Çapraz Denetimi, UI/UX Yenilemesi ve Gerçek Yasal Belge Dağıtımı (25.10.2026)
 

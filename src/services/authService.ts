@@ -271,12 +271,11 @@ export const authService = {
    * PostgreSQL atomik execute_account_deletion RPC'si üzerinden yürütülür.
    * Silme başarılı olduğunda yerel oturum ve önbellekler temizlenir.
    */
-  async deleteAccount(params: { password: string; reason?: string }): Promise<void> {
+  async deleteAccount(params: { password: string }): Promise<void> {
     try {
       const { data, error } = await supabase.functions.invoke('delete-account', {
         body: {
           password: params.password,
-          reason: params.reason,
         },
       });
 

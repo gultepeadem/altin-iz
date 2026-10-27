@@ -17,8 +17,9 @@
    - 25$ tek seferlik kayıt ücreti.
    - Kurumsal hesaplar için geçerli D-U-N-S numarası ve şirket tescil belgesi zorunludur.
    - Bireysel hesaplar için resmi kimlik ve adres doğrulaması zorunludur.
-2. **2024/2026 Bireysel Hesap Kapalı Test Zorunluluğu (20 Tester / 14 Gün Kuralı):**
-   - 13 Kasım 2023'ten sonra açılan tüm kişisel hesaplarda, uygulamanın genel kullanıma (Production) sunulabilmesi için **en az 20 test kullanıcısının en az 14 gün boyunca kesintisiz olarak kapalı teste katılmış olması** zorunludur.
+2. **2024/2026 Bireysel Hesap Kapalı Test Zorunluluğu (12 Tester / 14 Gün Kuralı):**
+   - 13 Kasım 2023'ten sonra açılan tüm kişisel hesaplarda, uygulamanın genel kullanıma (Production) sunulabilmesi için **en az 12 test kullanıcısının en az 14 gün boyunca kesintisiz olarak kapalı teste katılmış olması** zorunludur.
+   - 14 günlük sürenin tamamlanması doğrudan otomatik yayın anlamına gelmez; geliştirici Google Play Console üzerinden Üretime Başvur (Apply for Production) formunu doldurur ve Google inceleme süreci tamamlandıktan sonra genel dağıtıma geçilir.
    - 14 günün ardından Google Play Console üzerinden "Üretime Başvur" (Apply for Production) adımı açılır.
 
 ---
@@ -34,7 +35,7 @@
    - Geliştirici Program Politikaları kabul edilir.
    - ABD ihracat kanunları kabul edilir.
 3. **Mağaza Girişi İletişim Bilgileri:**
-   - E-posta adresi: dem@altiniz.app
+   - E-posta adresi: adem@altiniz.app
    - Web sitesi: https://altiniz.app
    - Gizlilik politikası URL: https://altiniz.app/gizlilik
 
@@ -118,10 +119,24 @@ npx eas-cli@latest build --platform android --profile production
    ```
 6. **Kaydet** ve **Sürümü İncele** diyerek dahili test grubuna dağıtın.
 
-### 5.3. Kapalı Test (Closed Testing - 20 Tester / 14 Gün)
+### 5.3. Kapalı Test (Closed Testing - 12 Tester / 14 Gün)
 1. Sol Menü -> **Kapalı test** -> **Kanalı Yönet**.
-2. Bir e-posta listesi (Google Grubu veya e-posta listesi) oluşturup en az 20 gönüllü test kullanıcısını ekleyin.
+2. Bir e-posta listesi (Google Grubu veya e-posta listesi) oluşturup en az 12 gönüllü test kullanıcısını ekleyin.
 3. Dahili testte doğrulanan AAB sürümünü Kapalı Test kanalına yükseltin.
 4. Kullanıcılara web katılım linkini (`https://play.google.com/apps/testing/com.altiniz.app`) gönderin.
 5. Kullanıcıların uygulamayı indirip 14 gün boyunca cihazlarında tutmalarını sağlayın.
-6. 14 günün sonunda Google Play Console'da beliren **Üretim için başvur** formunu doldurun.
+6. 14 günün sonunda Google Play Console'da beliren **Üretim için başvur** (Apply for Production) formunu doldurun (onay süreci Google ekibince yürütülür).
+
+
+---
+
+## Sürüm geçmişi
+
+### 1.1 - 27.10.2026
+
+- Destek e-postası yazım hatası giderildi (dem@altiniz.app).
+- Güncel Google Play kapalı test kuralı (12 test kullanıcısı / 14 gün ve üretim erişim başvuru süreci) güncellendi.
+
+### 1.0 - 24.10.2026
+
+- Google Play Konsol Kurulum ve Dağıtım Rehberi oluşturuldu.

@@ -2,8 +2,8 @@
 
 **Belge adı:** `PRIVACY.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.3 Taslak  
-**Son güncelleme:** 26.10.2026 
+**Belge sürümü:** 1.4  
+**Son güncelleme:** 27.10.2026 
 **Proje aşaması:** Bölüm 19: Güvenlik ve gizlilik sertleştirmesi - Faz 13.1 (Gizlilik incelemesi) TAMAMLANDI  
 **Kodlama durumu:** Veri envanteri, Supabase Frankfurt akışı, fiyat sağlayıcı izolasyonu, adem@altiniz.app resmi başvuru kanalı, Google Play Data Safety ve Apple App Privacy beyan tabloları kesinleştirildi  
 **Hedef platformlar:** Android ve iOS
@@ -278,6 +278,14 @@ Serbest metin: Evet, azami 500 karakter (VARCHAR(500))
 Özel nitelikli veri girmemesi kullanıcıya hatırlatılabilir
 ```
 
+#### İşçilik dâhil bilgisi
+
+```text
+Kaynak: Kullanıcı
+Amaç: Girilen toplam maliyetin açıklanmasına yardımcı olmak
+Otomatik işçilik hesabı: Hayır
+```
+
 ### 7.5. Hukuki ve Güvenlik Denetim Verileri
 
 #### Yasal Olay Kayıtları (`user_legal_events`)
@@ -296,17 +304,9 @@ Saklama: 3 yıl (hesap silinirken user_id = null yapılarak anonimleştirilir)
 Kaynak: Kullanıcı / delete-account Edge Function
 Veritabanı tablosu: public.account_deletion_requests
 Alanlar: requested_at, status, identity_verified_at, processing_started_at, completed_at, failure_code, failure_message
-Not: ADR-033 uyarınca PII oluşmasını önlemek amacıyla bu tabloda serbest metin gerekçe (reason) alanı kalıcı olarak saklanmaz.
+Not: ADR-033 ve KVKK veri minimizasyonu uyarınca PII oluşmasını önlemek amacıyla API isteğinde ve bu tabloda gerekçe (reason) alanı yer almaz ve saklanmaz.
 Amaç: Hesap silme taleplerinin takibi, mağaza denetimi ve ispatı
-Saklama: 3 yıl (PII içermez, işlem tamamlandığında user_id = null yapılır)
-```
-
-#### İşçilik dâhil bilgisi
-
-```text
-Kaynak: Kullanıcı
-Amaç: Girilen toplam maliyetin açıklanmasına yardımcı olmak
-Otomatik işçilik hesabı: Hayır
+Saklama: 3 yıl (PII içermez, auth silimi tamamlandığında user_id = null yapılır)
 ```
 
 ### 7.6. Hesaplanan finansal sonuçlar
@@ -329,18 +329,18 @@ Bu değerler kullanıcının portföy verisi ile ortak fiyat verilerinden türet
 
 Aydınlatma metninin gösterilmesi ile açık rıza birbirine dönüştürülmez.
 
-### 7.7. Hesap silme verileri
+### 7.8. Hesap silme verileri
 
 - Silme talebi kimliği
 - Kullanıcı kimliği
 - Talep zamanı
-- Durum
+- Durum (`processing`, `completed`, `failed`, `auth_deletion_pending`)
 - Tamamlanma zamanı
 - Güvenli ve sınırlı hata kodu
 
 Tam hata metni veya hassas sistem ayrıntıları kullanıcı kaydında tutulmamalıdır.
 
-### 7.8. Güvenlik ve teknik olay verileri
+### 7.9. Güvenlik ve teknik olay verileri
 
 Planlanan sınırlı alanlar:
 
@@ -353,7 +353,7 @@ Planlanan sınırlı alanlar:
 
 Şifre, token, secret, tam portföy veya kullanıcı notu teknik olay içinde tutulmaz.
 
-### 7.9. Destek verileri
+### 7.10. Destek verileri
 
 Destek kanalı kesinleştiğinde aşağıdakiler işlenebilir:
 
@@ -539,7 +539,7 @@ Kullanım:
 - Kimlik doğrulama (Supabase Auth)
 - PostgreSQL veritabanı
 - Data API & Row Level Security (RLS)
-- Edge Functions (`delete-account`)
+- Edge Functions (`delete-account`, `retry-account-deletions`, `fetch-gold-prices`)
 - Sunucu secret yönetimi
 
 Kesinleşen Durum:
@@ -1068,6 +1068,12 @@ Değişiklik ayrıca `CHANGELOG.md` içine kaydedilmeli, karar değişiyorsa `DE
 ---
 
 ## 35. Sürüm geçmişi
+
+### 1.4 - 27.10.2026
+
+- Bölüm 7 mükerrer 7.7 başlığı giderildi, "İşçilik dâhil bilgisi" portföy verileri (7.4) altına taşındı ve alt başlıklar (7.4 - 7.10) ardışık olarak numaralandırıldı.
+- KVKK veri minimizasyonu uyarınca `delete-account` istek gövdesinden ve tablodan `reason` parametresi kaldırıldı.
+- Edge Functions listesine `retry-account-deletions` ve `fetch-gold-prices` eklendi.
 
 ### 1.3 Taslak - 26.10.2026
 

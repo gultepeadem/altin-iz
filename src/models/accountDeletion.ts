@@ -12,6 +12,7 @@ export type AccountDeletionStatus =
   | 'requested'
   | 'identity_verification_required'
   | 'processing'
+  | 'auth_deletion_pending'
   | 'completed'
   | 'failed'
   | 'cancelled';
@@ -20,6 +21,7 @@ export const ACCOUNT_DELETION_STATUSES: readonly AccountDeletionStatus[] = [
   'requested',
   'identity_verification_required',
   'processing',
+  'auth_deletion_pending',
   'completed',
   'failed',
   'cancelled',

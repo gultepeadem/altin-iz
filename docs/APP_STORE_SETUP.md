@@ -153,3 +153,17 @@ Should you need any additional information, please contact us at: adem@altiniz.a
 1. **Guideline 3.1.1 (In-App Purchase):** Uygulama tamamen ücretsizdir; dijital içerik, kilitli özellik veya abonelik satışı yoktur.
 2. **Guideline 3.1.5 (Cryptocurrencies):** Altın İz yalnızca geleneksel fiziksel altın türlerini (Gram, Çeyrek, Cumhuriyet vb.) takip eder; kripto para, token veya borsa alım-satımı içermez.
 3. **Guideline 5.1.2 (Data Use and Sharing):** Fiyat sağlayıcılara hiçbir kullanıcı verisi aktarılmaz (Tamamen anonim sunucu arka plan sorgusu).
+
+
+---
+
+## Sürüm geçmişi
+
+### 1.1 - 27.10.2026
+
+- App Store ekran görüntüsü sınıflandırması güncellendi (iPhone 16 Pro Max 6.9 inç 1320x2868 px; 6.7 inç iPhone 15/14 Pro Max; 13 inç iPad Pro yönergesi).
+- Resmi şartname doğrulama notu eklendi.
+
+### 1.0 - 24.10.2026
+
+- App Store Connect Kurulum ve Yayın Rehberi oluşturuldu.

@@ -2,9 +2,9 @@
 
 **Belge adı:** `API.md`  
 **Proje:** Altın İz  
-**Belge sürümü:** 1.2  
-**Son güncelleme:** 26.10.2026
-**Durum:** V1 Supabase REST, Model A execute_account_deletion RPC ve delete-account Edge Function sözleşmeleriyle eşitlendi ve doğrulandı  
+**Belge sürümü:** 1.3  
+**Son güncelleme:** 27.10.2026  
+**Durum:** V1 Supabase REST, Model A execute_account_deletion RPC, delete-account ve retry-account-deletions Edge Function sözleşmeleriyle eşitlendi ve doğrulandı  
 **Mobil istemci:** React Native + Expo + TypeScript  
 **Backend:** Supabase  
 **Aktif fiyat veri beslemesi:** Truncgil Finance (JSON API - fetch-gold-prices Edge Function)  
@@ -1538,10 +1538,10 @@ Content-Type: application/json
 İstek gövdesi:
 ```json
 {
-  "password": "KullanicininMevcutSifresi",
-  "reason": "İsteğe bağlı ayrılma gerekçesi (azami 500 karakter)"
+  "password": "KullanicininMevcutSifresi"
 }
 ```
+*(Not: KVKK veri minimizasyonu uyarınca gereksiz veri toplanmaması için `reason` parametresi kaldırılmıştır).*
 
 ## 20.3. Silme işlem akışı (Model A İki Seviyeli Mimari)
 
@@ -1554,17 +1554,19 @@ Adım 3: Atomik SQL RPC (execute_account_deletion - Bağımsız Transaction):
         a) portfolio_entries kayıtları silinir (DELETE)
         b) user_preferences kayıtları silinir (DELETE)
         c) user_legal_events ve security_events kayıtlarındaki user_id alanı NULL yapılır (anonimleştirme)
-        d) account_deletion_requests kaydındaki user_id alanı NULL yapılır (anonimleştirme)
+        d) account_deletion_requests tablosundaki user_id alanı SQL içinde KESİNLİKLE NULL YAPILMAZ;
+           GoTrue Auth silme hatasında retry işçisinin kullanıcıyı silebilmesi için foreign key korunur.
         e) user_profiles kaydı silinir (DELETE)
         ↓
 Adım 4: SQL RPC Sonucu Değerlendirilir:
         - RPC Başarısız İse: SQL işlemi ROLLBACK edilir; Edge Function talep kaydını status = 'failed' yapar;
                              PII içermeyen, azami 500 karakterlik genel hata mesajı kaydeder (HTTP 500).
-        - RPC Başarılı İse: Edge Function, Supabase Admin API ile hesabı siler (auth.admin.deleteUser).
+        - RPC Başarılı İse: Edge Function, Supabase GoTrue Admin API ile hesabı siler (auth.admin.deleteUser).
         ↓
 Adım 5: Auth Silim Sonucu:
-        - Başarılı İse: account_deletion_requests status = 'completed', completed_at = NOW() (HTTP 200).
-        - Başarısız İse: account_deletion_requests status = 'auth_deletion_pending' (arka plan telafi kuyruğu).
+        - Başarılı İse: account_deletion_requests status = 'completed', user_id = NULL, completed_at = NOW() (HTTP 200).
+        - Başarısız İse: account_deletion_requests status = 'auth_deletion_pending' ve user_id korunur (HTTP 200).
+                         Arka plandaki retry-account-deletions işçisi işlemi telafi eder.
         ↓
 Adım 6: Mobil İstemci: Yerel SecureStore oturum verilerini temizler ve giriş/karşılama ekranına yönlendirir.
 ```
@@ -1598,6 +1600,21 @@ Adım 6: Mobil İstemci: Yerel SecureStore oturum verilerini temizler ve giriş/
 - Hata kaydına şifre veya erişim belirteci yazılmaz.
 - Tekrar giriş durumu ve silme talebi durumu açıkça yönetilir.
 - Kesin saklama ve anonimleştirme davranışı `DATA_RETENTION.md` ile uyumlu olmalıdır.
+
+## 20.6. Arka Plan Telafi İşçisi (`retry-account-deletions` ve `claim_pending_auth_deletions`)
+
+Supabase GoTrue Admin API çağrısının (`auth.admin.deleteUser`) ağ kesintisi veya geçici hizmet hatası sebebiyle başarısız olması durumunda:
+1. `delete-account` Edge Function'ı silme talebini `status = 'auth_deletion_pending'` durumuna alır ve `user_id` alanını korur.
+2. `retry-account-deletions` Edge Function'ı zamanlanmış olarak (veya cron ile) tetiklenir (`service_role` yetkisiyle).
+3. Fonksiyon, `claim_pending_auth_deletions(batch_size := 10)` PostgreSQL RPC'sini çağırır. Bu RPC:
+   - `status = 'auth_deletion_pending'` olan ve `retry_count < 5` şartını sağlayan kayıtları `FOR UPDATE SKIP LOCKED` ile kilitler.
+   - Eşzamanlı worker çakışmalarını önler ve `retry_count` değerini atomik olarak 1 artırır.
+   - Kilitlenen kayıtların `request_id`, `user_id` ve `retry_count` bilgilerini döndürür.
+4. `retry-account-deletions` işçisi her kayıt için Supabase Admin API (`supabaseAdmin.auth.admin.deleteUser(user_id)`) çağrısı yapar.
+5. Kullanıcı başarıyla silindiğinde:
+   - `account_deletion_requests` tablosundaki ilgili satır `status = 'completed'`, `user_id = NULL` (anonimleştirme) ve `completed_at = NOW()` olarak güncellenir.
+6. 5 yeniden deneme sonucunda Auth kullanıcısı silinemezse:
+   - Talep durumu `failed`, hata kodu `AUTH_DELETE_RETRY_EXHAUSTED` olarak işaretlenir ve manuel incelemeye bırakılır.
 
 ---
 
@@ -1907,16 +1924,16 @@ Teknik kayıtların saklama süresi `DATA_RETENTION.md` içinde tanımlanacaktı
 1. **Supabase Veri Merkezi:** AB eu-central-1 Frankfurt (ADR-002).
 2. **Mobil Oturum Saklama:** `expo-secure-store` ile şifreli oturum yönetimi.
 3. **Derin Bağlantı (Deep Linking):** `altiniz://` ve `https://altiniz.app` alan adları yapılandırıldı.
-4. **Şifre Politikası:** En az 6 karakter, büyük/küçük harf ve rakam kontrolü (ADR-028).
+4. **Şifre Politikası:** En az 6 karakter kontrolü (ADR-040).
 5. **Ürün ve Sembol Listesi:** 25 aktif ürün ve Truncgil beslemesi eşleştirildi (Migration 012).
-6. **Cumhuriyet ve Ata Altını Ayrımı:** Bağımsız iki ürün olarak eşleştirildi (ADR-017).
-7. **Bayatlık Eşiği:** 15 dakikalık tazelik süresi kilitlendi (ADR-014).
+6. **Cumhuriyet ve Ata Altını Ayrımı:** Bağımsız iki ürün olarak eşleştirildi (ADR-039).
+7. **Bayatlık Eşiği:** 15 dakikalık tazelik süresi kilitlendi (ADR-014, ADR-038).
 8. **Fiyat Çekme Zamanlayıcısı:** `pg_cron` ile 24/7 her 15 dakikada bir, 5 dk sunucu cooldown'ı ile kilitlendi (ADR-035, ADR-039).
-9. **Olağan Dışı Değişim Filtresi:** `[-50%, +50%]` filtresi kilitlendi (KI-011).
+9. **Olağan Dışı Değişim Filtresi:** `[-50%, +50%]` filtresi kilitlendi (KI-011, ADR-038).
 10. **Fiyat Saklama Süresi:** 30 gün saklama, aylık temizlik RPC'si kilitlendi (DATA_RETENTION.md).
 11. **Güvenlik Kayıtları Saklama Süresi:** 5651 Sayılı Kanun gereğince 1 yıl saklama kilitlendi (DATA_RETENTION.md).
 12. **Yasal Olay Saklama:** Append-only yapı ve `user_id = NULL` ile 3 yıl saklama kilitlendi (ADR-033).
-13. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı yönetim + atomik `execute_account_deletion` RPC + `auth.admin.deleteUser`) kilitlendi (ADR-033).
+13. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı yönetim + atomik `execute_account_deletion` RPC + `auth.admin.deleteUser` + `retry-account-deletions` arka plan işçisi) kilitlendi (ADR-033).
 14. **Portföy Hesaplama Katmanı:** İstemci tarafı saf etki alanı (`portfolioDomain.ts`) kilitlendi (ADR-010).
 
 ## 30.2. Açık ve dış bağımlılığı olan konular
@@ -2024,7 +2041,14 @@ Değişiklikler ayrıca `CHANGELOG.md` dosyasına kaydedilmeli ve gerekiyorsa `D
 
 ## Sürüm geçmişi
 
-### 1.1 - 26.10.2026
+### 1.3 - 27.10.2026
+
+- Model A hesap silme akışında `account_deletion_requests.user_id` alanının SQL RPC içinde silinmeyip Auth retry işçisi için korunduğu netleştirildi.
+- `retry-account-deletions` Edge Function ve `claim_pending_auth_deletions` RPC API sözleşmesi dokümante edildi.
+- `delete-account` isteğinden `reason` parametresi KVKK veri minimizasyonu uyarınca çıkarıldı.
+- Şifre politikası referansı ADR-040 olarak eşitlendi (en az 6 karakter).
+
+### 1.2 - 26.10.2026
 
 - 25 aktif ürünün canlı fiyat senkronizasyon sözleşmesi ve `price_source_product_mappings` eşleştirmeleri tamamlandı (Migration 012).
 - `fetch-gold-prices` Edge Function'ı için 24/7 her 15 dakikada bir pg_cron ve pg_net otomatik tetikleme sözleşmesi tanımlandı.
