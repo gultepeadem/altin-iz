@@ -5,7 +5,7 @@
 **Belge sürümü:** 1.8  
 **Son güncelleme:** 27.10.2026  
 **Proje aşaması:** V1 Kod Tabanı Hazır — Fiziksel Test ve Dağıtım Doğrulama Aşaması  
-**Uygulama sürümü:** 1.0.0 (v1.0.0-rc2)
+**Uygulama sürümü:** 1.0.0 (v1.0.0-rc1)
 
 ---
 
@@ -66,7 +66,7 @@ Sürüm henüz yayımlanmamışsa:
   - Belgelerdeki hatalı ADR referansları (`ADR-028` vb.) düzeltildi.
 - **19 Proje Belgesinin Tam Senkronizasyonu:**
   - Tüm 19 Markdown dosyasında 15 migration, 3 Edge Function, 5 PostgreSQL RPC, 7/24 15 dakikalık fiyat zamanlayıcısı, Google Play 12 test kullanıcısı / 14 gün kapalı test kuralı ve iPhone 16 Pro Max ekran çözünürlükleri eşitlendi.
-  - Duplicate RC sürüm başlığı düzeltildi (25.10.2026 -> `[1.0.0-rc2]`).
+  - CHANGELOG'daki mükerrer [1.0.0-rc1] başlıkları tek bir [1.0.0-rc1] (22.10.2026 – 25.10.2026) altında birleştirildi; `git tag -l` (yalnızca `v1.0.0-rc1`), `package.json` ve `app.json` ile tam uyum sağlandı.
 
 ### GoTrue Admin API Retry Worker ve Doğrudan SQL Auth Siliminin Kaldırılması (26.10.2026)
 
@@ -80,7 +80,7 @@ Sürüm henüz yayımlanmamışsa:
 ### Kapsamlı Dış Denetim Bulgularının Giderilmesi ve Mimari Senkronizasyon (26.10.2026)
 
 - **Veritabanı Migration 013 - 014 ve Model A Canlı Dağıtımı:**
-  - `20261026000013_account_deletion_model_a_and_retry.sql` ve `20261026000014_account_deletion_locking_and_retry_limits.sql` uzak Supabase veritabanına uygulandı (toplam 14 migration).
+  - `20261026000013_account_deletion_model_a_and_retry.sql` ve `20261026000014_account_deletion_locking_and_retry_limits.sql` uzak Supabase veritabanına uygulandı (o aşamada 14 migration; ardından 015 ile toplam 15 migration'a ulaştı).
   - `account_deletion_requests` tablosuna `retry_count` sütunu eklendi; `account_deletion_requests_status_check` kısıtına `auth_deletion_pending` durumu eklendi.
   - `execute_account_deletion` RPC fonksiyonu güncellenerek `auth.admin.deleteUser` öncesinde talebin veritabanı içinde `completed` yapılması engellendi, `processing` durumu korundu.
   - Arka plan telafi mekanizması olarak `process_pending_auth_deletions()` fonksiyonu `FOR UPDATE SKIP LOCKED` satır kilitlemesi, tavan sınır (`RETRY_LIMIT_EXCEEDED`) ve idempotency korumasıyla güçlendirildi; saatlik `retry-pending-auth-deletions-job` `pg_cron` zamanlayıcısına bağlandı.
@@ -109,7 +109,7 @@ Sürüm henüz yayımlanmamışsa:
   - Truncgil Finance aktif kamu beslemesi olarak, AltinAPI/Altinapps ise aday ticari sağlayıcılar olarak netleştirildi.
   - `STORE_LISTING.md` ve `STORE_ASSETS.md` içerisindeki anlık iddiaları yaklaşık 15 dakikalık periyotla uyumlu hale getirildi; kesin hukuki iddialar dengelendi.
 
-## [1.0.0-rc2] - 25.10.2026
+## [1.0.0-rc1] - 22.10.2026 – 25.10.2026
 
 ### 19 Belge Çapraz Denetimi, UI/UX Yenilemesi ve Gerçek Yasal Belge Dağıtımı (25.10.2026)
 
@@ -202,9 +202,7 @@ Sürüm henüz yayımlanmamışsa:
 - **Tarih Maskelemesi:** Portföy alış tarihi alanına `applyDateMask` ile otomatik `GG.AA.YYYY` nokta koyma desteği eklendi.
 - **Marka Kimliği:** `icon.png`, `android-icon-foreground.png`, `android-icon-background.png`, `android-icon-monochrome.png` (Material You uyumlu), `splash-icon.png` ve 1024×500 Google Play `feature-graphic.png` üretildi.
 
----
-
-## [1.0.0-rc1] - 22.10.2026
+### Altın İz V1 Sürüm Adayı Kapsamı (22.10.2026)
 
 - **Altın İz V1 Sürüm Adayı (Release Candidate 1):**
   - **Git Etiketi:** `v1.0.0-rc1` oluşturuldu ve GitHub uzak deposuna (`origin`) aktarıldı.
@@ -262,7 +260,7 @@ Sürüm henüz yayımlanmamışsa:
     - Google Play denetçileri için uygulama erişim (App Access) talimatları ve güvenli test hesabı kimlik bilgileri (`reviewer-play@altiniz.app` - parola güvenli parola yöneticisinde saklanmaktadır).
     - EAS Build ile AAB paketi üretimi ve dahili test (Internal Testing) / kapalı test (Closed Testing) parça dağıtım adımları.
     - Mali hizmetler (kişisel varlık takip aracı, SPK lisansı gerektirmez), 18+ hedef kitle ve sıfır reklam beyanları.
-  - `supabase/tests/test-faz15-3-google-play-readiness.ts`: Geliştirici hesabı, paket parametreleri, 20 tester kuralı, Data Safety, hesap silme, test hesabı ve mağaza politikalarını denetleyen 11 testlik paket yazıldı ve 11/11 başarıyla doğrulandı.
+  - `supabase/tests/test-faz15-3-google-play-readiness.ts`: Geliştirici hesabı, paket parametreleri, 12 test kullanıcısı / 14 gün kuralı, Data Safety, hesap silme, test hesabı ve mağaza politikalarını denetleyen 11 testlik paket yazıldı ve 11/11 başarıyla doğrulandı.
 
 ### Changed
 
@@ -394,17 +392,17 @@ Sürüm henüz yayımlanmamışsa:
 - Bölüm 20: Test aşaması — Faz 14.2: Android cihaz testleri tamamlandı:
   - `supabase/tests/test-faz14-2-android-tests.ts`: Android platformuna özgü 20 cihaz ve ekran davranışını doğrulayan test paketi yazıldı ve 20/20 başarıyla doğrulandı:
     1. Android uygulama açılışı (`app/_layout.tsx` Splash screen gizleme, oturum dinleme ve kök yönlendirme).
-    2. Android kayıt formu (`app/(auth)/register.tsx` form alanları, `keyboardType`, `signUp` çağrısı ve `push('/verify-email')`).
-    3. Android e-posta doğrulama ekranı (`app/(auth)/verify-email.tsx` resend butonu, geri dönüş ve oturum kontrolü).
-    4. Android giriş formu (`app/(auth)/login.tsx` şifre alanı, `secureTextEntry`, `signInWithPassword` ve şifremi unuttum bağlantısı).
+    2. Android kayıt formu (`app/(public)/sign-up.tsx` form alanları, `keyboardType`, `signUp` çağrısı ve yönlendirme).
+    3. Android e-posta doğrulama ekranı (`app/(public)/verify-email.tsx` resend butonu, geri dönüş ve oturum kontrolü).
+    4. Android giriş formu (`app/(public)/sign-in.tsx` şifre alanı, `secureTextEntry`, `signInWithPassword` ve şifremi unuttum bağlantısı).
     5. Android şifre sıfırlama bağlantısı (`forgot-password.tsx` e-posta talep ve `reset-password.tsx` yeni şifre belirleme).
     6. Android alt menü (`app/(protected)/(tabs)/_layout.tsx` 5 sekme: Ana Sayfa, Fiyatlar, Hesapla, Portföy, Ayarlar).
     7. Android fiyat listesi (`app/(protected)/(tabs)/prices.tsx` `RefreshControl` pull-to-refresh ve fiyat listeleme).
     8. Android altın detay ekranı (`app/(protected)/gold/[productId].tsx` dinamik parametre, alış/satış görünümü ve hesapla yönlendirmesi).
-    9. Android hesaplama klavyesi (`app/(protected)/(tabs)/calculate.tsx` `decimal-pad` klavye türü ve satın alma/bozdurma tahminleri).
-    10. Android tarih seçici (`components/portfolio/PortfolioEntryForm.tsx` tarih ayrıştırması ve gelecek tarih engeli).
+    9. Android hesaplama klavyesi (`app/(protected)/(tabs)/calculator.tsx` `decimal-pad` klavye türü ve satın alma/bozdurma tahminleri).
+    10. Android tarih seçici (`app/(protected)/portfolio/add.tsx` tarih ayrıştırması ve gelecek tarih engeli).
     11. Android portföy ekleme (`app/(protected)/portfolio/add.tsx` form alanları, `KeyboardAvoidingView` ve `createEntry`).
-    12. Android portföy düzenleme (`app/(protected)/portfolio/[id].tsx` mevcut veriyi yükleme ve `updateEntry`).
+    12. Android portföy düzenleme (`app/(protected)/portfolio/[entryId]/edit.tsx` mevcut veriyi yükleme ve `updateEntry`).
     13. Android portföy silme (`PortfolioEntryForm.tsx` iki aşamalı `Alert.alert` onayı ve `deleteEntry`).
     14. Android tema değiştirme (`settings.tsx` ve `ThemeProvider.tsx` light/dark/system seçimi ve `safeStorage`/`AsyncStorage` kalıcılığı).
     15. Android çıkış işlemi (`settings.tsx` `handleSignOut` ve `authService.signOut` ile oturum sonlandırma).

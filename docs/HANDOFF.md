@@ -799,7 +799,7 @@ En büyük production engelleri KVKK aktarım yöntemi, fiyat sağlayıcı ticar
 
 ### 1.56 Taslak - 22.10.2026
 - Bölüm 21: Mağaza hazırlığı — Faz 15.3: Google Play hazırlığı tamamlandı.
-- `docs/GOOGLE_PLAY_SETUP.md` konsol rehberi hazırlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 20 tester / 14 gün kapalı test kuralı, Data Safety formu soru-cevap matrisi, zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi silme akışı, denetçi erişim talimatları ve test hesabı (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mali hizmetler politika uyarıları belgelendi.
+- `docs/GOOGLE_PLAY_SETUP.md` konsol rehberi hazırlandı; Google Play geliştirici hesabı gereksinimleri (25$, bireysel/kurumsal, D-U-N-S), paket kaydı (`com.altiniz.app`, tr-TR, ücretsiz), 12 test kullanıcısı / 14 gün kapalı test kuralı, Data Safety formu soru-cevap matrisi, zorunlu hesap silme web URL bağlantısı (`https://altiniz.app/hesap-silme`) ve uygulama içi silme akışı, denetçi erişim talimatları ve test hesabı (`reviewer-play@altiniz.app`), EAS production AAB derleme adımları ve mali hizmetler politika uyarıları belgelendi.
 - `supabase/tests/test-faz15-3-google-play-readiness.ts` test paketi yazılarak 11/11 iddia ile başarıyla doğrulandı.
 - Sıradaki görev Bölüm 21: Mağaza hazırlığı — Faz 15.4 (App Store hazırlığı) olarak güncellendi.
 

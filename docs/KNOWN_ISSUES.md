@@ -475,7 +475,7 @@ Normal gram altın fiyatının paketli ürün için kullanılması ambalaj, ür�
 **İlk kayıt:** 03.09.2026  
 **Son güncelleme:** 24.10.2026  
 **Çözüm tarihi:** 24.10.2026  
-**Çözüm:** Migration 010 ile `pg_cron` ve `pg_net` uzantıları kurularak hafta içi piyasa saatlerinde her 15 dakikada bir otomatik `fetch-gold-prices` Edge Function tetiklemesi bağlandı. `fetch-gold-prices` içinde 5 dakikalık sunucu tarafı hız sınırı (cooldown) ve yinelenen kayıt koruması (`skipIdenticalPrices`) devreye alındı.
+**Çözüm:** Migration 010 ile `pg_cron` ve `pg_net` uzantıları kuruldu; ardından Migration 012 ile hafta sonu dahil 7/24 her 15 dakikada bir (`*/15 * * * *`) otomatik `fetch-gold-prices` Edge Function tetiklemesi bağlandı. `fetch-gold-prices` içinde 5 dakikalık sunucu tarafı hız sınırı (cooldown) ve yinelenen kayıt koruması (`skipIdenticalPrices`) devreye alındı.
 
 ### Açıklama
 

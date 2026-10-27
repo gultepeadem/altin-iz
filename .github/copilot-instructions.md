@@ -1202,7 +1202,7 @@ Gerçek olmayan test veya commit bilgisi yazma.
 Altın İz projesinin güncel aşaması, çalışan kod tabanı ve tamamlanan işler için tek kaynak olarak `docs/HANDOFF.md` ve `docs/PROJECT_CONTEXT.md` belgeleri referans alınmalıdır.
 
 ```text
-Proje aşaması: V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc2)
+Proje aşaması: V1 Kod Tabanı ve Backend Tamamlandı — Fiziksel Test ve Dağıtım Doğrulama Aşaması (v1.0.0-rc1)
 Mobil istemci: Expo SDK 58, Expo Router, TypeScript, React Native
 Backend: Supabase (15 migration, RLS, 3 Edge Function, 25 aktif ürün, 7/24 15 dk pg_cron zamanlayıcı)
 Güncel bağlam: docs/HANDOFF.md ve docs/PROJECT_CONTEXT.md

@@ -1364,7 +1364,7 @@ Fiziksel cihaz testlerinde tespit edilen kullanıcı deneyimi, tema uyumu ve ver
 
 **Tarih:** 27.10.2026  
 **Durum:** Aktif  
-**İlgili Belgeler:** `src/app/(auth)/sign-up.tsx`, `src/app/(auth)/reset-password.tsx`, `docs/SECURITY.md`, `docs/API.md`  
+**İlgili Belgeler:** `src/app/(public)/sign-up.tsx`, `src/app/(public)/reset-password.tsx`, `docs/SECURITY.md`, `docs/API.md`  
 **Çözülen Açık Sorun:** `KI-016: Kesin şifre politikası ve ADR referansı belirsizliği`
 
 ## Bağlam

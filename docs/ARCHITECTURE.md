@@ -1914,7 +1914,7 @@ Gelişmiş yönetici paneli
 13. **Olağan Dışı Değişim Filtresi:** `[-50%, +50%]` aykırı veri sınırlandırması uygulandı (KI-011).
 14. **Hesap Silme Mimarisi:** Model A (Edge Function işlem dışı talep yönetimi + atomik `execute_account_deletion` SQL RPC + `auth.admin.deleteUser`) kilitlendi (ADR-033).
 15. **Yasal Olay Saklama:** Append-only yapı ve `user_id = NULL` ile doğrudan kimlik bağlantısının koparılması kilitlendi (ADR-033).
-16. **Üçüncü Taraf SDK'lar:** Sentry, Firebase veya reklam SDK'sı kullanılmaz; sıfır izleme kuralı kilitlendi (ADR-026).
+16. **Üçüncü Taraf SDK'lar:** Sentry, Firebase veya reklam SDK'sı kullanılmaz; sıfır izleme kuralı kilitlendi (ADR-022, ADR-024).
 17. **Production Loglama:** `logger.ts` ile şifre/token maskelemesi ve canlıda debug loglarının susturulması kilitlendi (Faz 13).
 
 ### 44.2. Dış bağımlılığı olan açık konular

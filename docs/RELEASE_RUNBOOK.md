@@ -4,7 +4,7 @@
 **Proje:** Altın İz  
 **Belge sürümü:** 1.2  
 **Son güncelleme:** 27.10.2026  
-**Proje aşaması:** Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (v1.0.0-rc2)  
+**Proje aşaması:** Bölüm 22: V1 Yayımlama Öncesi Son Kontrol (v1.0.0-rc1)  
 
 Bu doküman, **Altın İz** uygulamasının canlı üretim (production) ortamına yayımlanması, veritabanı yedeğinin alınması, olası acil durumlarda geri dönüş (rollback) yapılması ve migration adımlarının doğrulanması için operasyonel referanstır.
 
